@@ -1,0 +1,203 @@
+<div id="injected-content">
+<link id="normalize" rel="stylesheet" type="text/css" />
+<style>
+
+	p {
+		text-align: left;
+		margin: 0px;
+	}
+
+
+	#injected-wrapper {
+		background-color: rgba(255,100,100, 0.5);
+		width: 300px;
+		height: 100%;
+		z-index: 1000;
+		position: fixed;
+		top: 0px;
+		box-shadow:  
+	}
+
+
+	.show-sidebar {
+		right: 0px;
+	}
+
+	.tuck-sidebar {
+		right: -260px;
+	}
+
+	#injected-tab {
+		background-color: rgba(0,255,100, 0.8);
+		width: 40px;
+		height: 100px;
+		position: relative;
+		float: left;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+		box-shadow: 1px 4px 20px black;
+		z-index: 1;
+	}
+
+	#arrow-icon {
+		display: block;
+		height: 40px;
+		width: 40px;
+		margin: auto;
+		margin-top: 10px;
+		margin-bottom: 10px;
+
+	}
+
+	#profile-icon {
+		display: block;
+		height: 25px;
+		width: 25px;
+		margin: auto;
+
+	}
+
+	#injected-sidebar {
+		padding-top: 10px;
+		padding-left: 10px;
+		padding-right: 10px;
+		background-color: rgba(0,100,255, 0.8);
+		position: relative;
+		float: right;
+		width: 240px;
+		height: inherit;
+		box-shadow: 1px 4px 20px black;
+		z-index: 1;
+	}
+
+	.profile {
+		width: 100%;
+		height: 80px;
+		overflow: hidden;
+		margin-bottom: 10px;
+	}
+
+	.profile img {
+		width: 80px;
+		height: 80px;
+		position: relative;
+		float: left;
+		margin-right: 10px;
+
+	}
+
+	#dance-card-preview, .meetingspace {
+		width: 100%;
+		overflow: hidden;
+		margin-bottom: 10px;
+	}
+
+	#dance-card-preview div {
+		position: relative;
+		float: left;
+		height: 40px;
+		width: 40px;
+		margin-right: 10px;
+		background-color: rgb(0,0,0);
+	}
+
+	#dance-card-preview div:last-of-type {
+		margin-right: 0px;
+	}
+
+	.vertical-line {
+		width: 100%;
+		height: 1px;
+		background-color: rgb(70,70,70);
+	}
+
+
+</style>
+
+<div id="injected-wrapper" class="show-sidebar">
+
+	<div id="injected-tab">
+		<img id="arrow-icon" />
+		<img id="profile-icon" />
+	</div>
+
+	<div id="injected-sidebar">
+
+		<div id="dance-card-preview">
+			<h3>Your Dance Card</h3>
+			<div>
+			</div>
+			<div>
+			</div>
+			<div>
+			</div>
+			<div>
+			</div>
+			<div>
+			</div>
+		</div>
+
+		<div class="vertical-line">
+		</div>
+
+		<div class="meeting-space">
+
+			<h3>People also interested in ....</h3>
+			<div class="profile">
+				<img src="http://lorempixel.com/80/80/people/9/"/> 
+				<p>
+					<span class="name">Jane</span>,
+					<span class="age">28</span><br>
+					<span class="location-city">Oakland<span>, <span class="location-state">CA</span><br><br>
+					<span class-"personal-blurb">I love eating and traveling. Also I like my men perfect...</span>
+				</p>
+
+			</div>
+
+			<div class="profile">
+				<img src="http://lorempixel.com/80/80/people/9/"/> 
+				<p>
+					<span class="name">Jane</span>,
+					<span class="age">28</span><br>
+					<span class="location-city">Oakland</span>, <span class="location-state">CA</span><br><br>
+					<span class-"personal-blurb">I love eating and traveling. Also I like my men perfect...</span>
+				</p>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var normalizeCSS = chrome.extension.getURL("css/normalize.css");
+		$("#normalize").attr("href", normalizeCSS);
+
+		arrowLeftIconURL = chrome.extension.getURL("icon_22996/icon_22996.png");
+		arrowRightIconURL = chrome.extension.getURL("icon_22997/icon_22997.png");
+		$("#arrow-icon").attr("src", arrowRightIconURL);
+
+		var profileIconURL = chrome.extension.getURL("icon_15724/icon_15724.png");
+		$("#profile-icon").attr("src", profileIconURL);
+
+
+	});
+
+	$("#arrow-icon").click(function(){
+		console.log("clicked tab");
+		$("#injected-wrapper").toggleClass("show-sidebar");
+		$("#injected-wrapper").toggleClass("tuck-sidebar");
+
+		if($("#injected-wrapper").hasClass("show-sidebar")){
+			$("#arrow-icon").attr("src", arrowRightIconURL);
+		}
+		else {
+			$("#arrow-icon").attr("src", arrowLeftIconURL);
+		}
+		
+
+	});
+
+</script>
+</div>
