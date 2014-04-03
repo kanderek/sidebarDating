@@ -15,7 +15,7 @@
   },
 
   "background": {
-    "scripts": ["browseraction/jquery-1.11.0.min.js", "background.js"],
+    "scripts": ["lib/jquery-1.11.0.min.js", "background.js"],
     "persistent": false
   },
 
@@ -27,7 +27,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["browseraction/jquery-1.11.0.min.js","content.js"]
+      "js": ["lib/jquery-1.11.0.min.js","content.js"]
     }
   ],
 
@@ -35,9 +35,11 @@
 
   "web_accessible_resources": [
       "content.html",
-      "icon_22997/icon_22997.png",
-      "icon_22996/icon_22996.png",
-      "icon_15724/icon_15724.png",
-      "css/normalize.css"
+      "icons/*",
+      // "icon_22997/icon_22997.png",
+      // "icon_22996/icon_22996.png",
+      // "icon_15724/icon_15724.png",
+      // "icon_25798/icon_25798.png",
+      "css/*"
   ]
 }

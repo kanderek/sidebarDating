@@ -1,124 +1,145 @@
 
 var tabStatus = [/*{tabID: 0, status: false}*/];
-var previousTabId;
 
-var getTabClickCount = function(tabID){
-  for(var i=0; i < clickCount.length; i++){
-    if(clickCount[i].tabID == tabID){
-      return {index: i, clickCount: clickCount[i].clickCount};
+
+var initializeTabStatus = function(tabID){
+  return tabStatus.push({tabID: tabID, status: false}) - 1;
+
+}
+
+var removeTabStatus = function(tabID){
+  var index = getTabStatusIndex(tabID);
+  tabStatus.splice(index,1);
+}
+
+var getTabStatusIndex = function(tabID){
+  for(var i=0; i<tabStatus.length; i++){
+    if(tabID == tabStatus[i].tabID){
+      return i;
     }
   }
   return -1;
 }
 
-var isInClickCount = function(tabID){
-  for(var i=0; i<clickCount.length; i++){
-    if(clickCount[i].tabID == tabID){
-     return true;
-    }
+var resetTabStatus = function(tabID){
+  var index = getTabStatusIndex(tabID);
+  tabStatus[index].status = false;
+  return index;
+}
+
+var toggleTabStatus = function(tabID){
+  var index = getTabStatusIndex(tabID);
+  if(tabStatus[index].status){
+    tabStatus[index].status = false;
+    chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
   }
-  return false;
+  else{
+    tabStatus[index].status = true;
+  }
+  setBrowserActionIcon(tabStatus[index].status);
+  callBrowserAction(tabID, tabStatus[index].status);
 }
 
-var addTabToClickCount = function(tabID){
-  clickCount.push({tabID: tabID, clickCount: 0});
+var setBrowserActionIcon = function(status){
+  if(status){
+    chrome.browserAction.setIcon({path: "./icons/19x19_heart.png"});
+  }
+  else{
+    chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
+  }
 }
 
-var removeTabFromClickCount = function(tabID){
+var callBrowserAction = function(tabID, status){
+  if(status){
+    openSidebar(tabID);
+  }
+  else{
+    closeSidebar(tabID);
+  }
 
-}
-
-var resetTabClickCount = function(tabID){
-    var countObj = getTabClickCount(tabID);
-    if(countObj == -1){
-    }
-    else{
-      clickCount[countObj.index].clickCount = 0;
-    }
-}
-
-var incrementClickCountForTab = function(tabID){
-  var countObj = getTabClickCount(tabID);
-    if(countObj == -1){
-      addTabToClickCount(tabID);
-      clickCount[clickCount.length-1].clickCount++;
-    }
-    else{
-      clickCount[countObj.index].clickCount++;
-    }
 }
 
 var isBrowserActionActive = function(tabID){
-    var countObj = getTabClickCount(tabID);
-    
-    if(countObj == -1){
-      return false;
-    }
-    else{
-      count = clickCount[countObj.index].clickCount;
-    }
-
-    if(count%2){
-      return true;
-    }
-    else
-    {
-      return false;
-    }
+  var index = getTabStatusIndex(tabID);
+  if(index == -1){
+    return false;
+  }
+  else{
+    return true;
+  }
 }
 
-var setBrowserActionStateForTab = function(tabID){    
-    
-    if(isBrowserActionActive(tabID)){
-      chrome.browserAction.setIcon({path: "./icons/19x19_heart.png"});
-      openSidebar();
-    }
-    else
-    {
-      chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
-      closeSidebar(tabID);
-    }
-}
 
 chrome.browserAction.onClicked.addListener(function (tab) {
   console.log('browserAction clicked');
-  incrementClickCountForTab(tab.id);
-  setBrowserActionStateForTab(tab.id);    
+  toggleTabStatus(tab.id);    
 });
+
 
 chrome.tabs.onCreated.addListener(function (tab){
 	console.log("tab created:");
-	console.log(tab);
-  addTabToClickCount(tab.id);
-
+	//console.log(tab);
+  initializeTabStatus(tab.id);
 });
 
+
 chrome.tabs.onActivated.addListener(function (activeInfo){
-    if(previousTabId){
-      //cleanup(remove) injected content.html from page being left
-      if(isBrowserActionActive(previousTabId)){
-        closeSidebar(previousTabId);
-      }
-    }
+  console.log('tab activated');
+  var index = getTabStatusIndex(activeInfo.tabId);
+  if(index == -1){
+    index = initializeTabStatus(activeInfo.tabId);
+  }
+  setBrowserActionIcon(tabStatus[index].status);
+});
 
-    previousTabId = activeInfo.tabId;
-    console.log('tab activated');
-    if(!isInClickCount(activeInfo.tabId)){
-      addTabToClickCount(activeInfo.tabId);
-    }
-    setBrowserActionStateForTab(activeInfo.tabId);
 
+chrome.tabs.onRemoved.addListener(function (tabID, removeInfo){
+  console.log('tab removed');
+  removeTabStatus(tabID);
 });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 	
+  console.log('tab updated');
+  console.log(changeInfo);
 
-
+  var index = getTabStatusIndex(tabId);
 	if(changeInfo.status == "complete"){
-    console.log("tab " + tabId + " updated: complete");
-    resetTabClickCount(tabId);
-    setBrowserActionStateForTab(tabId);
-		//colorDivs();
+    callBrowserAction(tabId, tabStatus[index].status);
+	}
+  else if(changeInfo.status == "loading" && changeInfo.url){
+    resetTabStatus(tabId);
+    setBrowserActionIcon(tabStatus[index].status);
+  }
+  else if(changeInfo.status == "loading"){
+    setBrowserActionIcon(tabStatus[index].status);
+  }
+});
+
+var openSidebar = function(tabID){
+  console.log('open Sidebar');
+  chrome.tabs.sendMessage(tabID, {type: "open-sidebar", data: "data"});
+  // setting a badge
+  //chrome.browserAction.setBadgeText({text: "red!"});
+}
+
+var closeSidebar = function(tabID){
+  chrome.tabs.sendMessage(tabID, {type: "close-sidebar", data: "data"});
+  // setting a badge
+  //chrome.browserAction.setBadgeText({text: "red!"});
+}
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    console.log(sender.tab ? "from a content script:" + sender.tab.url :"from the extension");
+    if (request.type == "close-sidebar"){
+      closeSidebar(sender.tab.id);
+      var index = resetTabStatus(sender.tab.id);
+      setBrowserActionIcon(tabStatus[index].status);
+      sendResponse({sidebar: "closed"});
+    }
+});
+
+var sampleNotification = function(){
     //  var opt = {
     //     type: "basic",
     //     title: "Primary Title",
@@ -133,95 +154,12 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
     // chrome.notifications.create('', opt, function (id){
     //   console.log("notification create with id: " + id);
     // });
-
-	}
-  else if(changeInfo.url){
-    console.log(changeInfo.url);
-  }
-  else if(changeInfo.status == "loading"){
-    console.log("tab " + tabId + " updated: loading");
-  }
-  else {
-    console.log("other tab update event");
-    console.log(tabId);
-    console.log(tab);
-  }
-});
+}
 
 chrome.history.onVisited.addListener(function (result){
 	console.log("from history api call");
 	//console.log(result);
 });
-
-
-// listening for an event / one-time requests
-// coming from the popup
-chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
-	console.log("message received from popup at background.js");
-	// console.log(request);
-	// console.log(sender);
-	// console.log(sendResponse);
-    switch(request.type) {
-        case "color-divs":
-            //colorDivs();
-            break;
-        case "popup-in":
-        	popupIn();
-            break;
-        case "history":
-        	logHistory();
-        	//sendHistory();
-            break;
-        case "open-sidebar":
-          openSidebar();
-          break;
-    }
-    return true;
-});
-
-
-var openSidebar = function(){
-  console.log('in openSidebar');
-    chrome.tabs.getSelected(null, function (tab){
-      console.log(tab.id);
-      chrome.tabs.sendMessage(tab.id, {type: "open-sidebar", data: "data"});
-      // setting a badge
-    //chrome.browserAction.setBadgeText({text: "red!"});
-  });
-}
-
-var closeSidebar = function(tabID){
-    //hrome.tabs.getSelected(null, function (tab){
-      chrome.tabs.sendMessage(tabID, {type: "close-sidebar", data: "data"});
-      // setting a badge
-    //chrome.browserAction.setBadgeText({text: "red!"});
-  //});
-}
-
-// listening for an event / long-lived connections
-// coming from devtools
-// chrome.extension.onConnect.addListener(function (port) {
-//     port.onMessage.addListener(function (message) {
-//        	switch(port.name) {
-// 			case "color-divs-port":
-// 				colorDivs();
-// 			break;
-// 		}
-//     });
-// });
-
-var popupIn = function() {
-	chrome.tabs.create({url: chrome.extension.getURL("./browserAction/popup.html")})
-}
-
-// send a message to the content script
-var colorDivs = function() {
-	chrome.tabs.getSelected(null, function(tab){
-	    chrome.tabs.sendMessage(tab.id, {type: "colors-div", color: "#F00"});
-	    // setting a badge
-		chrome.browserAction.setBadgeText({text: "red!"});
-	});
-}
 
 var logHistory = function() {
 
@@ -259,6 +197,12 @@ function sendHistory(historyItems) {
   // req.send("derek j kan");//JSON.stringify({url: "someUrl", visits: 2}));
   // console.log(req);
 }
+
+
+/******************************************************************
+//
+// TAKEN FROM SAMPLE EXTENSION USING CHROME HISTORY API 
+//
 
 // Copyright (c) 2012 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
@@ -384,3 +328,5 @@ function buildTypedUrlList(divName) {
     buildPopupDom(divName, urlArray.slice(0, 10));
   };
 }
+
+*/

@@ -3,19 +3,19 @@
 <style>
 
 	p {
-		text-align: left;
 		margin: 0px;
 	}
-
 
 	#injected-wrapper {
 		background-color: rgba(255,100,100, 0.5);
 		width: 300px;
 		height: 100%;
-		z-index: 1000;
+		z-index: 100000;
 		position: fixed;
 		top: 0px;
-		box-shadow:  
+		color: black;
+		text-align: left;
+		margin: 0px;
 	}
 
 
@@ -55,6 +55,19 @@
 		width: 25px;
 		margin: auto;
 
+	}
+
+	#close-action {
+		z-index: 10;
+		position: absolute;
+		right: 0px;
+		top: 0px;
+		margin: 5px;
+	}
+
+	#close-icon {
+		height: 25px;
+		width: 25px;
 	}
 
 	#injected-sidebar {
@@ -107,14 +120,18 @@
 
 	.vertical-line {
 		width: 100%;
-		height: 1px;
-		background-color: rgb(70,70,70);
+		height: 0.5px;
+		background-color: rgb(50,50, 50);
 	}
 
 
 </style>
 
 <div id="injected-wrapper" class="show-sidebar">
+
+	<div id="close-action">
+		<img id="close-icon" />
+	</div>
 
 	<div id="injected-tab">
 		<img id="arrow-icon" />
@@ -174,13 +191,15 @@
 		var normalizeCSS = chrome.extension.getURL("css/normalize.css");
 		$("#normalize").attr("href", normalizeCSS);
 
-		arrowLeftIconURL = chrome.extension.getURL("icon_22996/icon_22996.png");
-		arrowRightIconURL = chrome.extension.getURL("icon_22997/icon_22997.png");
+		arrowLeftIconURL = chrome.extension.getURL("icons/icon_22996/icon_22996.png");
+		arrowRightIconURL = chrome.extension.getURL("icons/icon_22997/icon_22997.png");
 		$("#arrow-icon").attr("src", arrowRightIconURL);
 
-		var profileIconURL = chrome.extension.getURL("icon_15724/icon_15724.png");
+		var profileIconURL = chrome.extension.getURL("icons/icon_15724/icon_15724.png");
 		$("#profile-icon").attr("src", profileIconURL);
 
+		var closeIcon = chrome.extension.getURL("icons/icon_25798/icon_25798.png");
+		$("#close-icon").attr("src", closeIcon);
 
 	});
 
@@ -195,8 +214,12 @@
 		else {
 			$("#arrow-icon").attr("src", arrowLeftIconURL);
 		}
-		
+	});
 
+	$("#close-icon").click(function(){
+		chrome.runtime.sendMessage({type: "close-sidebar"}, function(response) {
+		  console.log(response.sidebar);
+		});
 	});
 
 </script>

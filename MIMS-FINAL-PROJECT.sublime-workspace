@@ -1,0 +1,694 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"bro",
+				"broswerActionClickCount"
+			],
+			[
+				"pro",
+				"profile-icon"
+			],
+			[
+				"injected-",
+				"injected-wrapper"
+			],
+			[
+				"pop",
+				"popup-wrapper"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"backgr",
+				"background-size"
+			],
+			[
+				"erro",
+				"error-num"
+			],
+			[
+				"error",
+				"error-word"
+			],
+			[
+				"left",
+				"left-align"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"backgro",
+				"background-color"
+			],
+			[
+				"f",
+				"font-variant"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"li",
+				"list-style"
+			],
+			[
+				"list",
+				"list-style"
+			],
+			[
+				"margin",
+				"margin-left"
+			],
+			[
+				"add-",
+				"add-button"
+			],
+			[
+				"fetch_array",
+				"fetch_array"
+			],
+			[
+				"can",
+				"cancel_apt"
+			],
+			[
+				"render_ad",
+				"render_addApt_form"
+			],
+			[
+				"ren",
+				"render_avail_apt"
+			],
+			[
+				"render",
+				"render_client_info"
+			],
+			[
+				"suc",
+				"success-section"
+			],
+			[
+				"sty",
+				"stylist_id"
+			],
+			[
+				"stylist",
+				"stylist_id"
+			],
+			[
+				"validat",
+				"validate_existing"
+			],
+			[
+				"render_",
+				"render_cancelApt_form"
+			],
+			[
+				"validate",
+				"validate_client_name"
+			],
+			[
+				"num",
+				"num_rows"
+			],
+			[
+				"get_ap",
+				"get_apt_edit"
+			],
+			[
+				"vali",
+				"validate_date_after"
+			],
+			[
+				"hr-out",
+				"hr-out"
+			],
+			[
+				"row",
+				"row-result"
+			],
+			[
+				"clien",
+				"client-info"
+			],
+			[
+				"get_st",
+				"get_stylist_name"
+			],
+			[
+				"am_pm",
+				"am_pm_in"
+			],
+			[
+				"db",
+				"db"
+			],
+			[
+				"php",
+				"php"
+			],
+			[
+				"preg",
+				"preg_match"
+			],
+			[
+				"file",
+				"file_name"
+			],
+			[
+				"str",
+				"strftime"
+			],
+			[
+				"st",
+				"strftime"
+			],
+			[
+				"mk",
+				"mktime"
+			],
+			[
+				"sor",
+				"sort_arr_of_obj"
+			],
+			[
+				"utf",
+				"utf8_encode"
+			],
+			[
+				"data",
+				"data"
+			],
+			[
+				"json",
+				"json_decode"
+			],
+			[
+				"str_re",
+				"str_replace"
+			],
+			[
+				"str_",
+				"str_replace"
+			],
+			[
+				"i",
+				"i"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"pre",
+				"preg_match"
+			],
+			[
+				"OPER",
+				"OPERATION_id"
+			],
+			[
+				"APPOIN",
+				"APPOINTMENT_id"
+			],
+			[
+				"Herbivore",
+				"Herbivore"
+			],
+			[
+				"Bird",
+				"Bird"
+			],
+			[
+				"pag",
+				"pagenum"
+			],
+			[
+				"mar",
+				"margin-left"
+			],
+			[
+				"ca",
+				"carousel"
+			],
+			[
+				"css",
+				"cssTransitionsSupport"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "content.html",
+			"settings":
+			{
+				"buffer_size": 3833,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/derekkan/Dev/node-dating/template/apple-spinner.tpl.js",
+		"/Users/derekkan/Dev/node-dating/template/apple.tpl.js",
+		"/Users/derekkan/Dev/node-dating/view/apple.view.js",
+		"/Users/derekkan/Dev/node-dating/view/apple-item.view.js",
+		"/Users/derekkan/Dev/node-dating/view/apple-home.view.js",
+		"/Users/derekkan/Dev/node-dating/collection/apples.js",
+		"/Users/derekkan/Dev/node-dating/appleData.js",
+		"/Users/derekkan/Dev/node-dating/apple-app.js",
+		"/Users/derekkan/Dev/node-dating/index.html",
+		"/Users/derekkan/Dev/appleApp/app.build.js",
+		"/Users/derekkan/Dev/node-dating/template/apple-home.tpl.js",
+		"/Users/derekkan/Dev/node-dating/template/apple-item.tpl.js",
+		"/Users/derekkan/Dev/chrome-ext-tutorial/browseraction/popup.html",
+		"/Users/derekkan/Dev/chrome-ext-tutorial/content.js",
+		"/Users/derekkan/Dev/chrome-ext-tutorial/background.js",
+		"/Users/derekkan/Dev/node-dating/app.js",
+		"/Users/derekkan/Dev/chrome-ext-tutorial/manifest.json",
+		"/Users/derekkan/Dev/chrome-ext-tutorial/browseraction/popup.js",
+		"/Users/derekkan/Dev/node-dating/view/apple-list.view.js",
+		"/Users/derekkan/Dev/test-chrome-extension/browseraction/popup.js",
+		"/Users/derekkan/Dev/showHistory/typedUrls.html",
+		"/Users/derekkan/Dev/showHistory/manifest.json",
+		"/Users/derekkan/Dev/color-picker-chrome-ext/inject.js",
+		"/Users/derekkan/Dev/test-chrome-extension/manifest.json",
+		"/Users/derekkan/Dev/test-chrome-extension/normalize.css",
+		"/Users/derekkan/Dev/test-chrome-extension/browseraction/popup.html",
+		"/Users/derekkan/Dev/color-picker-chrome-ext/event.js",
+		"/Users/derekkan/Dev/color-picker-chrome-ext/manifest.json",
+		"/Users/derekkan/Dev/javacode/django-skillshare.sublime-project",
+		"/Users/derekkan/Dev/EE/tests/Crop_tests.py",
+		"/Users/derekkan/Dev/EE/NAME/Crop.py",
+		"/Users/derekkan/Dev/EE/tests/NAME_tests.py",
+		"/Users/derekkan/Dev/EE/tests/Resistor_tests.py",
+		"/Users/derekkan/Dev/EE/NAME/Node.py",
+		"/Users/derekkan/Dev/EE/NAME/Rectangle.py",
+		"/Users/derekkan/Dev/EE/Test/Rectangle.py",
+		"/Users/derekkan/Dev/facebook-api/fbLogin.html",
+		"/Users/derekkan/Dev/EE/tests/__init__.py",
+		"/Users/derekkan/Dev/EE/__init__.py",
+		"/Users/derekkan/Dev/EE/Source/Rectangle.py",
+		"/Users/derekkan/Dev/EE/Test/RectangleTest.py",
+		"/Users/derekkan/Dev/EE/setup.py",
+		"/Users/derekkan/Dev/coin-tap-game/coin-tap-game.css",
+		"/Users/derekkan/Dev/coin-tap-game/coin-tap-game.html",
+		"/Users/derekkan/Dev/coin-tap-game/coin-tap-game.js",
+		"/Users/derekkan/Dev/mdevcon-workshop/Frank/features/step_definitions/basic_steps.rb",
+		"/Applications/Google Chrome.app/Contents/Info.plist",
+		"/Users/derekkan/Dev/django-skillshare/appsuite/notes/settings.py",
+		"/Users/derekkan/Dev/django-skillshare/appsuite/appsuite/urls.py",
+		"/Users/derekkan/Dev/django-skillshare/appsuite/appsuite/settings.py",
+		"/Users/derekkan/Dev/javacode/FirstProg.java",
+		"/Users/derekkan/Dev/javacode/PrintingChoices.java",
+		"/Users/derekkan/Dev/javacode/LetterToYourself.java",
+		"/Applications/MAMP/htdocs/website/styles.css",
+		"/Applications/MAMP/htdocs/website/about.html",
+		"/Applications/MAMP/htdocs/website/index.html",
+		"/Applications/MAMP/htdocs/website/woodcraft.html",
+		"/Users/derekkan/Documents/Arduino/libraries/SimpleSDAudio/SimpleSDAudioDefs.h",
+		"/Users/derekkan/Documents/Arduino/libraries/Adafruit_CC3000/Adafruit_CC3000.cpp",
+		"/Users/derekkan/Documents/Arduino/libraries/SimpleSDAudio/SimpleSDAudio.cpp",
+		"/Users/derekkan/Documents/Arduino/hardware/arduino/cores/arduino/wiring.c",
+		"/Users/derekkan/Documents/Arduino/libraries/SD/utility/Sd2Card.h",
+		"/Users/derekkan/Documents/Arduino/libraries/Adafruit_CC3000/ccspi.cpp",
+		"/Users/derekkan/Documents/Arduino/libraries/Adafruit_CC3000/utility/wlan.cpp",
+		"/Users/derekkan/Documents/Dev/IDD-final-project/webClientRFID/webClientRFID.txt",
+		"/Users/derekkan/Documents/Dev/IDD-final-project/webClientRFID/server/app-rfid.py",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/cc3000Server/node/package.json",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/testing_socket/server.js",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodeServerSerialSocket/views/index.jade",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodeServerSerialSocket/server.js",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/testing_socket/package.json",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodejs-websockets-chat-service/server.js",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodejs-websockets-chat-service/public/script.js",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodeServerSerialSocket/node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/lib/WebSocket.js",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/cc3000Server/node/server.js",
+		"/Users/derekkan/Documents/Arduino/libraries/socketIOClient/SocketIOClient.h",
+		"/Users/derekkan/Documents/Arduino/libraries/Adafruit_CC3000/Adafruit_CC3000_Server.h",
+		"/Users/derekkan/Documents/Arduino/libraries/Adafruit_CC3000/utility/socket.h",
+		"/Users/derekkan/Documents/Arduino/libraries/Adafruit_CC3000/utility/socket.cpp",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodeServerSerial/server.js",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodeServerSerial/views/index.jade",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodeServerSerial/package.json",
+		"/Users/derekkan/Documents/Dev/IDD-final-project/testsamples",
+		"/Users/derekkan/Documents/Dev/okcupidApi/okc_login.py",
+		"/Users/derekkan/Documents/Dev/IDD-final-project/rh-audio-test.py",
+		"/Users/derekkan/Documents/Dev/IDD-final-project",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/INFO 253 - Web Arch/HW6/DerekKan-HW6",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/INFO 253 - Web Arch/project/js/untitled.js",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/INFO 253 - Web Arch/DerekKan-HW4",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/INFO 253 - Web Arch/DerekKan-HW5",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/INFO 253 - Web Arch/HW3/madlib.html",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/INFO 213 - UID/personas exercise/Jane",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/INFO 253 - Web Arch/HW2/style2.css",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/INFO 253 - Web Arch/HW2/style1.css",
+		"/Users/derekkan/Documents/MIMS 2014/Fall 2013/INFO 253 - Web Arch/HW2/index.html",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/templates/profile.html",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/templates/contacts.html",
+		"/Users/derekkan/Documents/Dev/social_node/express_sample.node.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/js/views/profile.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/models/statusCollection.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/js/views/statusCollection.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/js/views/status.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/templates/status.html",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/templates/contact.html",
+		"/Users/derekkan/Documents/Dev/node_tutorial1/server.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/views/index.jade",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/styles/styles.css",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/templates/index.html",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/js/views/index.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/package.json",
+		"/Users/derekkan/Documents/Dev/webGL/webgl-lessons/lesson03/index.html",
+		"/Users/derekkan/Documents/Dev/socialNetApp/views/resetPasswordSuccess.jade",
+		"/Users/derekkan/Documents/Dev/socialNetApp/views/resetPassword.jade",
+		"/Users/derekkan/Documents/Dev/socialNetApp/models/Account.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/js/views/login.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/templates/login.html",
+		"/Users/derekkan/Documents/Dev/socialNetApp/views/register.jade",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/js/views/register.html",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/js/views/forgotpassword.js",
+		"/Users/derekkan/Documents/Dev/socialNetApp/public/templates/forgotpassword.html",
+		"/Users/derekkan/Documents/Dev/webGL/webgl-lessons/lesson02/index.html",
+		"/Users/derekkan/Documents/Dev/webGL/webgl-lessons/lesson01/index.html",
+		"/Users/derekkan/Documents/Dev/social_node/express+jade_sample.node.js",
+		"/Users/derekkan/Documents/Dev/social_node/views/index.jade",
+		"/Users/derekkan/Documents/Dev/social_node/views/stooges.jade",
+		"/Users/derekkan/Documents/Dev/social_node/views/layout.jade",
+		"/Users/derekkan/Documents/Dev/social_node/events_sample.node.js",
+		"/Users/derekkan/Documents/Dev/social_node/socket-io_sample.node.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"/Users/derekkan/Documents/Arduino/libraries/Adafruit_CC3000",
+			"/Users/derekkan/Documents/Arduino/libraries/SD",
+			"/Users/derekkan/Documents/Arduino/libraries/SimpleSDAudio",
+			"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodeServerSerialSocket",
+			"selection",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"openSide",
+			"spi",
+			"SpiPauseSpi",
+			"spiclose",
+			"wlan_stop",
+			"wlanstop",
+			"_initialised",
+			"Connection Error",
+			"wlan_stop",
+			"stop",
+			"SD_CHIP_SELECT_PIN",
+			"stop",
+			"FREE_TIMER0",
+			"SSDA_PWM1_PIN",
+			"SSDA_MODE_STEREO",
+			"SSDA_PWM1_PIN",
+			"pinMode",
+			"cc3000",
+			"read(",
+			"websocket writing",
+			"\"Couldn't resolve\"",
+			"recv(",
+			"socket",
+			"&",
+			"config.",
+			"tick",
+			"iter",
+			"inlin",
+			"work",
+			"300",
+			".jpg",
+			"inli",
+			".jpg",
+			"300",
+			"font",
+			"+",
+			"getData",
+			"infow",
+			"layer2",
+			"drawChart",
+			"layer2011",
+			"layer2",
+			"console.log",
+			"confirm",
+			"$day",
+			"day",
+			"1400px",
+			"checkb",
+			"sear",
+			"searh-button",
+			"search",
+			"cancel",
+			"delet",
+			"render_se",
+			"z_store.append([item[n][5] , z_count])",
+			"item[n][5]",
+			"successful",
+			"echo $query",
+			"srender_editApt_",
+			"check_stylist_apt",
+			"get_ava",
+			"edit-find",
+			"render_time",
+			"render_select_time",
+			"render_editApt_form",
+			"{$_POST['fname']}",
+			"lname' value = '{$_POST['fname']}",
+			"render_editApt_form",
+			"search-feedback",
+			"validate_client_name",
+			"Incor",
+			"No res",
+			"book",
+			"dur",
+			"client_info",
+			"client-id",
+			"stylist-id",
+			"op-i",
+			"create",
+			"$default = 'checked';",
+			"_hr_in",
+			"_in",
+			"hr",
+			"remove_stylist",
+			"\"",
+			"</a>",
+			"\"",
+			"GET",
+			"Stylist",
+			".json",
+			".txt",
+			".json",
+			"\",",
+			"%23",
+			"bored",
+			"50",
+			"#",
+			"--",
+			";\n",
+			"console",
+			"to",
+			"page"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"%26",
+			"itter",
+			"450",
+			"450xY.gif",
+			"450x450.gif",
+			"450",
+			".",
+			"$week[$i]",
+			"week[$i]",
+			"1600px",
+			"1500px",
+			"z_store.append([item [n][1], item[n][5] , z_count])",
+			"item[n][1] , item[n][5]",
+			"render_findApt_form",
+			"\"\"",
+			"_min_out",
+			"_out",
+			"min",
+			"'",
+			"POST",
+			"Operation",
+			"_cleaned.json",
+			"",
+			".txt",
+			".json\",",
+			"#"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "content.html",
+					"settings":
+					{
+						"buffer_size": 3833,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 29.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"websocket",
+				"node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/lib/WebSocket.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 271.0,
+	"status_bar_visible": true
+}
