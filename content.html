@@ -1,4 +1,4 @@
-<div id="injected-content">
+<div id="injected-content" >
 <link id="normalize" rel="stylesheet" type="text/css" />
 <style>
 
@@ -137,11 +137,16 @@
 		<img id="arrow-icon" />
 		<img id="profile-icon" />
 	</div>
-
-	<div id="injected-sidebar">
-
+<!-- 	
+	<div id="injected-sidebar" ng-controller="cs_myCtrl">
+		Angular says: {{data.demo}}
+	</div>
+ -->
+	<!--ng-view class="view-frame"-->
+	<div id="injected-sidebar"  ng-controller="ProfileListCtrl">
 		<div id="dance-card-preview">
 			<h3>Your Dance Card</h3>
+
 			<div>
 			</div>
 			<div>
@@ -160,30 +165,22 @@
 		<div class="meeting-space">
 
 			<h3>People also interested in ....</h3>
-			<div class="profile">
-				<img src="http://lorempixel.com/80/80/people/9/"/> 
+
+			<div class="profile" ng-repeat="profile in profiles | orderBy:orderProp">
+				<img ng-src="{{profile.imageUrl}}" />
 				<p>
-					<span class="name">Jane</span>,
-					<span class="age">28</span><br>
-					<span class="location-city">Oakland<span>, <span class="location-state">CA</span><br><br>
-					<span class-"personal-blurb">I love eating and traveling. Also I like my men perfect...</span>
+					<!-- {{profile | json}} -->
+					<span class="name">{{profile.name}}</span>,
+					<span class="age">{{profile.age}}</span><br>
+					<span class="location-city">{{profile.location_city}}<span>, 
+					<span class="location-state">{{profile.location_state}}</span><br><br>
+					<span class-"personal-blurb">{{profile.personal_blurb}}</span>
 				</p>
-
-			</div>
-
-			<div class="profile">
-				<img src="http://lorempixel.com/80/80/people/9/"/> 
-				<p>
-					<span class="name">Jane</span>,
-					<span class="age">28</span><br>
-					<span class="location-city">Oakland</span>, <span class="location-state">CA</span><br><br>
-					<span class-"personal-blurb">I love eating and traveling. Also I like my men perfect...</span>
-				</p>
-
 			</div>
 		</div>
 
 	</div>
+
 </div>
 
 <script type="text/javascript">

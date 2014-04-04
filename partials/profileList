@@ -1,0 +1,33 @@
+<div id="dance-card-preview">
+	<h3>Your Dance Card</h3>
+
+	<div>
+	</div>
+	<div>
+	</div>
+	<div>
+	</div>
+	<div>
+	</div>
+	<div>
+	</div>
+</div>
+
+<div class="vertical-line">
+</div>
+
+<div class="meeting-space">
+
+	<h3>People also interested in ....</h3>
+
+	<div class="profile" ng-repeat="profile in profiles | orderBy:orderProp">
+		<img ng-src="{{profile.imgUrl}}"/> 
+		<p>
+			<span class="name">{{profile.name}}</span>,
+			<span class="age">{{profile.age}}</span><br>
+			<span class="location-city">{{profile.location-city}}<span>, <span class="location-state">{{profile.location-state}}</span><br><br>
+			<span class-"personal-blurb">{{profile.personal-blurb}}</span>
+		</p>
+	</div>
+</div>
+

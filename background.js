@@ -72,6 +72,7 @@ var isBrowserActionActive = function(tabID){
 
 chrome.browserAction.onClicked.addListener(function (tab) {
   console.log('browserAction clicked');
+  //injectAngular(tab.id);
   toggleTabStatus(tab.id);    
 });
 
@@ -138,6 +139,28 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       sendResponse({sidebar: "closed"});
     }
 });
+
+/* Inject our Angular app, taking care
+ * not to interfere with page's Angular (if any) */
+function injectAngular(tabId) {
+
+    /* Prevent immediate automatic bootstrapping */
+    chrome.tabs.executeScript(tabId, {
+        code: 'window.name = "NG_DEFER_BOOTSTRAP!";'
+    }, function () {
+
+        /* Inject AngularJS */
+        chrome.tabs.executeScript(tabId, {
+            file: 'lib/angular.min.js'
+        }, function () {
+
+            /* Inject our app's script */
+            chrome.tabs.executeScript(tabId, {
+                file: 'content.js'
+            });
+        });
+    });
+}
 
 var sampleNotification = function(){
     //  var opt = {
