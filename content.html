@@ -162,14 +162,15 @@
 		<div class="vertical-line">
 		</div>
 
-		<div class="meeting-space">
+		<div ng-view>
+		</div>
+		<!-- <div class="meeting-space">
 
 			<h3>People also interested in ....</h3>
 
 			<div class="profile" ng-repeat="profile in profiles | orderBy:orderProp">
 				<img ng-src="{{profile.imageUrl}}" />
 				<p>
-					<!-- {{profile | json}} -->
 					<span class="name">{{profile.name}}</span>,
 					<span class="age">{{profile.age}}</span><br>
 					<span class="location-city">{{profile.location_city}}<span>, 
@@ -177,7 +178,8 @@
 					<span class-"personal-blurb">{{profile.personal_blurb}}</span>
 				</p>
 			</div>
-		</div>
+		</div> 
+		-->
 
 	</div>
 

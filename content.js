@@ -39,27 +39,41 @@ app.controller('cs_myCtrl', function ($scope) {
 
 
 var sidebarApp = angular.module('sidebarDatingExt', [
-	//'ngRoute',
+	'ngRoute',
 	'profileControllers',
 	'profileServices'
 ]);
 
 
-// sidebarApp.config(['$routeProvider',
-//   function($routeProvider) {
-//     $routeProvider.
-//       when('/profiles', {
-//         templateUrl: 'partials/profileList.html',
-//         controller: 'ProfileListCtrl'
-//       }).
-//       when('/profiles/:profileId', {
-//         templateUrl: 'partials/profileDetails.html',
-//         controller: 'ProfileDetailCtrl'
-//       }).
-//       otherwise({
-//         redirectTo: '/profiles'
-//       });
-//   }]);
+sidebarApp.config(['$routeProvider', '$sceDelegateProvider',
+  function($routeProvider, $sceDelegateProvider) {
+  	 $sceDelegateProvider.resourceUrlWhitelist([
+	    // Allow same origin resource loads.
+	    'self',
+	    // Allow loading from outer templates domain.
+	    'chrome-extension://*/partials/**'
+	  ]); 
+
+    $routeProvider.
+      when('/profiles', {
+        templateUrl: chrome.extension.getURL('partials/profileList.html'),
+        controller: 'ProfileListCtrl',
+        reloadOnSearch: false
+      }).
+      when('/profiles/:profileId', {
+        templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
+        controller: 'ProfileDetailCtrl',
+        reloadOnSearch: false
+      }).
+      when('/profiles/self', {
+      	templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
+      	controller: 'UserProfileCtrl',
+      	reloadOnSearch: false
+      }).
+      otherwise({
+        redirectTo: '/profiles'
+      });
+  }]);
 
 /* Services */
 
@@ -72,15 +86,19 @@ profileServices.factory('Profile', ['$resource',
     });
   }]);
 
-
 /* Controllers */
 
 var profileControllers = angular.module('profileControllers', []);
 
+profileControllers.controller('UserProfileCtrl', ['$scope', 
+	function($scope) {
+
+	}]);
+
 profileControllers.controller('ProfileListCtrl', ['$scope', 'Profile',
   function($scope, Profile) {
     $scope.profiles = Profile.query();
-    console.log($scope.profiles);
+    //console.log($scope.profiles);
     $scope.orderProp = 'relevance';
   }]);
 

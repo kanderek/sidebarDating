@@ -1,0 +1,16 @@
+
+<div class="meeting-space">
+
+	<h3>People also interested in ....</h3>
+
+	<div class="profile" ng-repeat="profile in profiles | orderBy:orderProp">
+		<a href="#/profiles/self"><img ng-src="{{profile.imageUrl}}"/></a>
+		<p>
+			<span class="name">{{profile.name}}</span>,
+			<span class="age">{{profile.age}}</span><br>
+			<span class="location-city">{{profile.location_city}}<span>, <span class="location-state">{{profile.location_state}}</span><br><br>
+			<span class-"personal-blurb">{{profile.personal_blurb}}</span>
+		</p>
+	</div>
+</div>
+
