@@ -4,7 +4,7 @@
 	<h3>People also interested in ....</h3>
 
 	<div class="profile" ng-repeat="profile in profiles | orderBy:orderProp">
-		<a href="#/profiles/self"><img ng-src="{{profile.imageUrl}}"/></a>
+		<a ui-sref="detail"><img ng-src="{{profile.imageUrl}}"/></a>
 		<p>
 			<span class="name">{{profile.name}}</span>,
 			<span class="age">{{profile.age}}</span><br>

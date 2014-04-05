@@ -135,7 +135,7 @@
 
 	<div id="injected-tab">
 		<img id="arrow-icon" />
-		<img id="profile-icon" />
+		<a ui-sref="self"><img id="profile-icon" /></a>
 	</div>
 <!-- 	
 	<div id="injected-sidebar" ng-controller="cs_myCtrl">
@@ -143,7 +143,7 @@
 	</div>
  -->
 	<!--ng-view class="view-frame"-->
-	<div id="injected-sidebar"  ng-controller="ProfileListCtrl">
+	<div id="injected-sidebar">
 		<div id="dance-card-preview">
 			<h3>Your Dance Card</h3>
 
@@ -162,9 +162,16 @@
 		<div class="vertical-line">
 		</div>
 
+		<div ui-view>
+		</div>
+		<!--
+		Used for routes
 		<div ng-view>
 		</div>
-		<!-- <div class="meeting-space">
+		-->
+		<!-- 
+		Moved to partial/profileList.html 
+		<div class="meeting-space">
 
 			<h3>People also interested in ....</h3>
 

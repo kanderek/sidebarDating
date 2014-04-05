@@ -30,23 +30,17 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
 /* Angular-specific code goes here (i.e. defining and configuring
  * modules, directives, services, filters, etc.) */
-var app = angular.module('cs_myApp', []);
-app.controller('cs_myCtrl', function ($scope) {
-    $scope.data = {
-        demo: 'Hello, isolated world !'
-    };
-});
 
-
-var sidebarApp = angular.module('sidebarDatingExt', [
+var sidebarApp = angular.module('sidebarDatingExt',[
+    'ui.router',
 	'ngRoute',
 	'profileControllers',
 	'profileServices'
 ]);
 
 
-sidebarApp.config(['$routeProvider', '$sceDelegateProvider',
-  function($routeProvider, $sceDelegateProvider) {
+sidebarApp.config(['$urlRouterProvider', '$sceDelegateProvider', '$stateProvider',
+  function($urlRouterProvider, $sceDelegateProvider, $stateProvider) {
   	 $sceDelegateProvider.resourceUrlWhitelist([
 	    // Allow same origin resource loads.
 	    'self',
@@ -54,26 +48,106 @@ sidebarApp.config(['$routeProvider', '$sceDelegateProvider',
 	    'chrome-extension://*/partials/**'
 	  ]); 
 
-    $routeProvider.
-      when('/profiles', {
-        templateUrl: chrome.extension.getURL('partials/profileList.html'),
-        controller: 'ProfileListCtrl',
-        reloadOnSearch: false
-      }).
-      when('/profiles/:profileId', {
-        templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
-        controller: 'ProfileDetailCtrl',
-        reloadOnSearch: false
-      }).
-      when('/profiles/self', {
-      	templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
-      	controller: 'UserProfileCtrl',
-      	reloadOnSearch: false
-      }).
-      otherwise({
-        redirectTo: '/profiles'
-      });
+    $urlRouterProvider.
+      // when('/profiles', {
+      //   // templateUrl: chrome.extension.getURL('partials/profileList.html'),
+      //   // controller: 'ProfileListCtrl',
+      //   // reloadOnSearch: false
+      // }).
+      // when('/profiles/:profileId', {
+      //   // templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
+      //   // controller: 'ProfileDetailCtrl',
+      //   // reloadOnSearch: false
+      // }).
+      // when('/profiles/self', {
+      // 	// templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
+      // 	// controller: 'UserProfileCtrl',
+      // 	// reloadOnSearch: false
+      // }).
+      otherwise('/main');
+
+    $stateProvider
+        
+        // HOME STATES AND NESTED VIEWS ========================================
+        .state('profiles', {
+            url: '/main',
+            templateUrl: chrome.extension.getURL('partials/profileList.html'),
+            controller: 'ProfileListCtrl'
+        })
+        
+        // nested list with custom controller
+        // .state('home.list', {
+        //     url: '/list',
+        //     templateUrl: 'partial-home-list.html',
+        //     controller: function($scope) {
+        //         $scope.dogs = ['Bernese', 'Husky', 'Goldendoodle'];
+        //     }
+        // })
+        
+        // // nested list with just some random string data
+        // .state('home.paragraph', {
+        //     url: '/paragraph',
+        //     template: 'I could sure use a drink right now.'
+        // })
+        
+        // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
+        .state('detail', {
+            url: '/main',
+            controller: 'UserProfileCtrl',
+            templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
+        })
+
+	 	.state('self', {
+            url: '/main',
+            controller: 'UserProfileCtrl',
+            templateUrl: chrome.extension.getURL('partials/profileSelf.html'),
+        });
   }]);
+
+// var routerApp = angular.module('routerApp', ['ui.router']);
+
+// routerApp.config(function($stateProvider, $urlRouterProvider) {
+    
+//     $urlRouterProvider.otherwise('/home');
+    
+//     $stateProvider
+        
+//         // HOME STATES AND NESTED VIEWS ========================================
+//         .state('home', {
+//             url: '/home',
+//             templateUrl: 'partial-home.html'
+//         })
+        
+//         // nested list with custom controller
+//         .state('home.list', {
+//             url: '/list',
+//             templateUrl: 'partial-home-list.html',
+//             controller: function($scope) {
+//                 $scope.dogs = ['Bernese', 'Husky', 'Goldendoodle'];
+//             }
+//         })
+        
+//         // nested list with just some random string data
+//         .state('home.paragraph', {
+//             url: '/paragraph',
+//             template: 'I could sure use a drink right now.'
+//         })
+        
+//         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
+//         .state('about', {
+//             url: '/about',
+//             views: {
+//                 '': { templateUrl: 'partial-about.html' },
+//                 'columnOne@about': { template: 'Look I am a column!' },
+//                 'columnTwo@about': { 
+//                     templateUrl: 'table-data.html',
+//                     controller: 'scotchController'
+//                 }
+//             }
+            
+//         });
+        
+// });
 
 /* Services */
 
