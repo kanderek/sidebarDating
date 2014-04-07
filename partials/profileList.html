@@ -1,10 +1,15 @@
 
 <div class="meeting-space">
 
-	<h3>People also interested in ....</h3>
+	<!--<h3>People also interested in ....</h3>-->
+	<h5>People who also visited this page</h5>
 
-	<div class="profile" ng-repeat="profile in profiles | orderBy:orderProp">
-		<a ui-sref="detail"><img ng-src="{{profile.imageUrl}}"/></a>
+	<div class="profile" 
+		ng-repeat="profile in profiles | orderBy:orderProp" 
+		ng-click="selectOnly($index)"
+		ng-class="{'isSelected': uiState.isSelected == $index} ">
+
+		<a><img ng-src="{{profile.imageUrl}}"/></a>
 		<p>
 			<span class="name">{{profile.name}}</span>,
 			<span class="age">{{profile.age}}</span><br>

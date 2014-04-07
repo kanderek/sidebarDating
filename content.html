@@ -1,5 +1,6 @@
 <div id="injected-content" >
 <link id="normalize" rel="stylesheet" type="text/css" />
+<link id="bootstrap" rel="stylesheet" type="text/css" />
 <style>
 
 	p {
@@ -8,7 +9,7 @@
 
 	#injected-wrapper {
 		background-color: rgba(255,100,100, 0.5);
-		width: 300px;
+		/*width: 300px;*/
 		height: 100%;
 		z-index: 100000;
 		position: fixed;
@@ -24,25 +25,25 @@
 	}
 
 	.tuck-sidebar {
-		right: -260px;
+		right: -240px;
 	}
 
 	#injected-tab {
 		background-color: rgba(0,255,100, 0.8);
-		width: 40px;
-		height: 100px;
+		width: 20px;
+		height: 40px;
 		position: relative;
 		float: left;
+		top: 65px;
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
 		box-shadow: 1px 4px 20px black;
-		z-index: 1;
 	}
 
 	#arrow-icon {
 		display: block;
-		height: 40px;
-		width: 40px;
+		height: 20px;
+		width: 20px;
 		margin: auto;
 		margin-top: 10px;
 		margin-bottom: 10px;
@@ -66,8 +67,8 @@
 	}
 
 	#close-icon {
-		height: 25px;
-		width: 25px;
+		height: 16px;
+		width: 16px;
 	}
 
 	#injected-sidebar {
@@ -80,19 +81,22 @@
 		width: 240px;
 		height: inherit;
 		box-shadow: 1px 4px 20px black;
-		z-index: 1;
 	}
 
 	.profile {
 		width: 100%;
-		height: 80px;
+		height: 48px;
 		overflow: hidden;
 		margin-bottom: 10px;
 	}
 
+	.isSelected {
+		background-color: gray;
+	}
+
 	.profile img {
-		width: 80px;
-		height: 80px;
+		width: 48px;
+		height: 48px;
 		position: relative;
 		float: left;
 		margin-right: 10px;
@@ -105,88 +109,81 @@
 		margin-bottom: 10px;
 	}
 
-	#dance-card-preview div {
+	#dance-card-owner {
+		width: inherit;
+		text-align: center;
+		color: black;
+		margin-bottom: 10px;
+	}
+
+	#dance-card-owner a {
+		color: black;
+	}
+
+	.dance-card-preview-img {
 		position: relative;
 		float: left;
-		height: 40px;
-		width: 40px;
+		height: 36px;
+		width: 36px;
 		margin-right: 10px;
 		background-color: rgb(0,0,0);
 	}
 
-	#dance-card-preview div:last-of-type {
+	.dance-card-preview-img:last-of-type {
 		margin-right: 0px;
 	}
 
 	.vertical-line {
 		width: 100%;
-		height: 0.5px;
+		height: 1px;
 		background-color: rgb(50,50, 50);
 	}
 
+	#full-profile {
+		width: 400px;
+		height: inherit;
+		background-color: rgba(255,255,255,0.9);
+		position: relative;
+		float: left;
+	}
+
+	.hide {
+		display: none;
+	}
+
+	.carousel-indicators {
+		bottom: -5px;
+	}
 
 </style>
 
-<div id="injected-wrapper" class="show-sidebar">
+<div id="injected-wrapper" ng-class="{'show-sidebar': uiState.showSidebar, 'tuck-sidebar': !uiState.showSidebar}" ng-controller="uiCtrl">
 
 	<div id="close-action">
 		<img id="close-icon" />
 	</div>
 
-	<div id="injected-tab">
-		<img id="arrow-icon" />
-		<a ui-sref="self"><img id="profile-icon" /></a>
+	<div id="injected-tab" ng-click="tabAction()">
+		<img id="arrow-icon" src="" />
+		<!--<a ui-sref="self"><img id="profile-icon" /></a>-->
 	</div>
-<!-- 	
-	<div id="injected-sidebar" ng-controller="cs_myCtrl">
-		Angular says: {{data.demo}}
+
+	<div id="full-profile" ng-class="{'hide': uiState.isSelected == -1}">
+	 	<div ui-view="profileDetail">
+		</div>
 	</div>
- -->
+
 	<!--ng-view class="view-frame"-->
 	<div id="injected-sidebar">
-		<div id="dance-card-preview">
-			<h3>Your Dance Card</h3>
-
-			<div>
-			</div>
-			<div>
-			</div>
-			<div>
-			</div>
-			<div>
-			</div>
-			<div>
-			</div>
+		
+		<div ui-view="danceCardMenu">
 		</div>
 
 		<div class="vertical-line">
 		</div>
 
-		<div ui-view>
+		<div ui-view="profileList">
 		</div>
-		<!--
-		Used for routes
-		<div ng-view>
-		</div>
-		-->
-		<!-- 
-		Moved to partial/profileList.html 
-		<div class="meeting-space">
-
-			<h3>People also interested in ....</h3>
-
-			<div class="profile" ng-repeat="profile in profiles | orderBy:orderProp">
-				<img ng-src="{{profile.imageUrl}}" />
-				<p>
-					<span class="name">{{profile.name}}</span>,
-					<span class="age">{{profile.age}}</span><br>
-					<span class="location-city">{{profile.location_city}}<span>, 
-					<span class="location-state">{{profile.location_state}}</span><br><br>
-					<span class-"personal-blurb">{{profile.personal_blurb}}</span>
-				</p>
-			</div>
-		</div> 
-		-->
 
 	</div>
 
@@ -197,9 +194,12 @@
 		var normalizeCSS = chrome.extension.getURL("css/normalize.css");
 		$("#normalize").attr("href", normalizeCSS);
 
-		arrowLeftIconURL = chrome.extension.getURL("icons/icon_22996/icon_22996.png");
-		arrowRightIconURL = chrome.extension.getURL("icons/icon_22997/icon_22997.png");
-		$("#arrow-icon").attr("src", arrowRightIconURL);
+		var bootstrapCSS = chrome.extension.getURL("lib/bootstrap-3.1.1-dist/css/bootstrap.min.css");
+		$("#bootstrap").attr("href", bootstrapCSS);
+
+		// arrowLeftIconURL = chrome.extension.getURL("icons/icon_22996/icon_22996.png");
+		var arrowRightIconURL = chrome.extension.getURL("icons/icon_22997/icon_22997.png");
+		 $("#arrow-icon").attr("src", arrowRightIconURL);
 
 		var profileIconURL = chrome.extension.getURL("icons/icon_15724/icon_15724.png");
 		$("#profile-icon").attr("src", profileIconURL);
@@ -209,18 +209,22 @@
 
 	});
 
-	$("#arrow-icon").click(function(){
-		console.log("clicked tab");
-		$("#injected-wrapper").toggleClass("show-sidebar");
-		$("#injected-wrapper").toggleClass("tuck-sidebar");
-
-		if($("#injected-wrapper").hasClass("show-sidebar")){
-			$("#arrow-icon").attr("src", arrowRightIconURL);
-		}
-		else {
-			$("#arrow-icon").attr("src", arrowLeftIconURL);
-		}
-	});
+	//handles icon changes on tab (can't get angular to handle this)
+	// $("#arrow-icon").click(function(){
+	// 	console.log("clicked tab");
+	// 	if($("#injected-wrapper").hasClass("show-sidebar")){
+			
+	// 		if($("#full-profile").hasClass("show")){
+	// 			$("#arrow-icon").attr("src", arrowRightIconURL);
+	// 		}
+	// 		else{
+	// 			$("#arrow-icon").attr("src", arrowLeftIconURL);
+	// 		}
+	// 	}
+	// 	else {
+	// 		$("#arrow-icon").attr("src", arrowRightIconURL);
+	// 	}
+	// });
 
 	$("#close-icon").click(function(){
 		chrome.runtime.sendMessage({type: "close-sidebar"}, function(response) {

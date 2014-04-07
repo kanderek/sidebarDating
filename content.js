@@ -39,40 +39,39 @@ var sidebarApp = angular.module('sidebarDatingExt',[
 ]);
 
 
-sidebarApp.config(['$urlRouterProvider', '$sceDelegateProvider', '$stateProvider',
-  function($urlRouterProvider, $sceDelegateProvider, $stateProvider) {
-  	 $sceDelegateProvider.resourceUrlWhitelist([
+sidebarApp.config(['$urlRouterProvider', '$sceDelegateProvider', '$stateProvider', '$sceProvider',
+  function($urlRouterProvider, $sceDelegateProvider, $stateProvider, $sceProvider) {
+
+  	$sceProvider.enabled(false);
+
+  	$sceDelegateProvider.resourceUrlWhitelist([
 	    // Allow same origin resource loads.
 	    'self',
 	    // Allow loading from outer templates domain.
 	    'chrome-extension://*/partials/**'
 	  ]); 
 
-    $urlRouterProvider.
-      // when('/profiles', {
-      //   // templateUrl: chrome.extension.getURL('partials/profileList.html'),
-      //   // controller: 'ProfileListCtrl',
-      //   // reloadOnSearch: false
-      // }).
-      // when('/profiles/:profileId', {
-      //   // templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
-      //   // controller: 'ProfileDetailCtrl',
-      //   // reloadOnSearch: false
-      // }).
-      // when('/profiles/self', {
-      // 	// templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
-      // 	// controller: 'UserProfileCtrl',
-      // 	// reloadOnSearch: false
-      // }).
-      otherwise('/main');
+    $urlRouterProvider.otherwise('/');
 
     $stateProvider
         
         // HOME STATES AND NESTED VIEWS ========================================
-        .state('profiles', {
-            url: '/main',
-            templateUrl: chrome.extension.getURL('partials/profileList.html'),
-            controller: 'ProfileListCtrl'
+        .state('home', {
+            url: '/',
+            views: {
+	            'profileList': {
+	            	templateUrl: chrome.extension.getURL('partials/profileList.html'),
+	            	controller: 'ProfileListCtrl'
+	            },
+	            'profileDetail': {
+	            	templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
+	            	controller: 'ProfileListCtrl'
+	            },
+	            'danceCardMenu': {
+	            	templateUrl: chrome.extension.getURL('partials/danceCardMenu.html'),
+	            	controller: ''
+	            }
+	        }
         })
         
         // nested list with custom controller
@@ -92,13 +91,13 @@ sidebarApp.config(['$urlRouterProvider', '$sceDelegateProvider', '$stateProvider
         
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
         .state('detail', {
-            url: '/main',
+            url: '/',
             controller: 'UserProfileCtrl',
             templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
         })
 
 	 	.state('self', {
-            url: '/main',
+            url: '/',
             controller: 'UserProfileCtrl',
             templateUrl: chrome.extension.getURL('partials/profileSelf.html'),
         });
@@ -153,11 +152,22 @@ sidebarApp.config(['$urlRouterProvider', '$sceDelegateProvider', '$stateProvider
 
 var profileServices = angular.module('profileServices', ['ngResource']);
 
+profileServices.factory('UiState', function(){
+	return {};
+});
+
+
 profileServices.factory('Profile', ['$resource',
   function($resource){
-    return $resource(chrome.extension.getURL("profiles/:profileId.json"), {}, {
-      query: {method:'GET', params:{profileId:'profiles'}, isArray:true}
-    });
+
+  	var profileFactory = {}
+
+	profileFactory.resource =  $resource(chrome.extension.getURL("profiles/:profileId.json"), {}, {
+	      query: {method:'GET', params:{profileId:'profiles'}, isArray:true}
+	    });
+	return profileFactory.resource;
+
+	//return profileFactory;
   }]);
 
 /* Controllers */
@@ -169,22 +179,75 @@ profileControllers.controller('UserProfileCtrl', ['$scope',
 
 	}]);
 
-profileControllers.controller('ProfileListCtrl', ['$scope', 'Profile',
-  function($scope, Profile) {
+profileControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
+  function($scope, Profile, UiState) {
+
     $scope.profiles = Profile.query();
     //console.log($scope.profiles);
+
+    $scope.doSomething = function(i){
+    	console.log('click happened: ' );
+    	console.log(i);
+    }
+
+    $scope.selectOnly = function(i){
+    	console.log('click happened: ' );
+    	console.log(i);
+    	console.log($scope.uiState.isSelected);
+    	$scope.uiState.isSelected = i;
+    	$scope.uiState.selectedProfile = $scope.profiles[i];
+    }
+
+
     $scope.orderProp = 'relevance';
+
+    $scope.uiState = UiState;
+    $scope.uiState.isSelected = -1;
   }]);
 
-profileControllers.controller('ProfileDetailCtrl', ['$scope', '$routeParams', 'Profile',
-  function($scope, $routeParams, Profile) {
-    $scope.profile = Profile.get({profileId: $routeParams.profileId}, function(profile) {
-      $scope.mainImageUrl = profile.images[0];
-    });
+profileControllers.controller('uiCtrl', ['$scope', '$sce', 'UiState', 
+	function($scope, $sce, UiState){
+		var arrowLeftIconURL = chrome.extension.getURL("icons/icon_22996/icon_22996.png");
+		var arrowRightIconURL = chrome.extension.getURL("icons/icon_22997/icon_22997.png");
 
-    $scope.setImage = function(imageUrl) {
-      $scope.mainImageUrl = imageUrl;
-    }
+		$scope.uiState = UiState;
+		$scope.uiState.showSidebar = true;
+		$scope.uiState.tabIconUrl = arrowRightIconURL;
+
+
+		$scope.tabAction = function(){
+			console.log($scope.uiState.tabIconUrl);
+			if($scope.uiState.showSidebar){
+				if($scope.uiState.isSelected != -1){
+					$scope.uiState.isSelected = -1;
+				}
+				else{
+					$scope.uiState.showSidebar = false;
+					//$scope.uiState.tabIconUrl = arrowLeftIconURL;
+					$("#arrow-icon").attr("src", arrowLeftIconURL);
+				}
+			}
+			else{
+				$scope.uiState.showSidebar = true;
+				$("#arrow-icon").attr("src", arrowRightIconURL);
+
+			}
+		}
+	}]);
+
+profileControllers.controller('ProfileDetailCtrl', ['$scope', '$stateParams', 'Profile',
+  function($scope, $stateParams, Profile) {
+    // $scope.profile = Profile.get({profileId: $routeParams.profileId}, function(profile) {
+    //   $scope.mainImageUrl = profile.images[0];
+    // });
+
+    // $scope.setImage = function(imageUrl) {
+    //   $scope.mainImageUrl = imageUrl;
+    // }
+
+
+    //$scope.profile =Profile.query()[index];
+
   }]);
 
 var bootstrapApp = function(){
