@@ -1,4 +1,4 @@
-<div>	
+<div id="messageWrapper">	
 	<div id='messages'>
 		<div ng-repeat='message in conversation'>
 			<div class='message' ng-class="{'sent': ifSentByUser($index), 'received': !ifSentByUser($index)}"> 
@@ -8,8 +8,7 @@
 				{{message.timeStamp}}
 			</div>
 		</div>
-		<a id="bottom"></a>
-	<div>
+	</div>
 	<form id='createMessage'>
 		<input type='text' ng-model='newMessage' placeholder='type something...'>
 		<input type='submit' value='send' ng-click="sendMessage()">

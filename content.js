@@ -236,8 +236,8 @@ appServices.factory('Profile', ['$resource',
 
 var appControllers = angular.module('appControllers', []);
 
-appControllers.controller('MessageCtrl', ['$scope', 'UiState', 'MessageService', '$location', '$anchorScroll',
-	function($scope, UiState, MessageService, $location, $anchorScroll) {
+appControllers.controller('MessageCtrl', ['$scope', 'UiState', 'MessageService',
+	function($scope, UiState, MessageService) {
 
 		$scope.messageThreads = MessageService.messageData;
 		//$scope.messageThread = MessageService.selectedConversation;//MessageService.getMessageByUserId(UiState.selectedProfile.userId);
@@ -266,18 +266,31 @@ appControllers.controller('MessageCtrl', ['$scope', 'UiState', 'MessageService',
 
 	        	$scope.conversation.push(message);
 	        	$scope.newMessage = "";
-	        	//$scope.gotoBottom(); reloads and causes extension to close
 	        }
         }
 
-        $scope.gotoBottom = function (){
-		    // set the location.hash to the id of
-		    // the element you wish to scroll to.
-		    $location.hash('bottom');
-		 
-		    // call $anchorScroll()
-		    $anchorScroll();
-		};
+        $scope.$watch(function () {
+		   return document.getElementById("messages").innerHTML;
+		}, function(val) {
+			scrollToBottom();
+		   //TODO: write code here, slit wrists, etc. etc.
+		});
+
+        var scrollToBottom = function(){
+        	var element = $('#messages')[0];
+	        console.log(element.scrollHeight);
+	        	
+	        if( (element.offsetHeight < element.scrollHeight)){
+			   // your element have overflow
+			  //element.style.background = "yellow";
+			var valueToScroll = element.scrollHeight;//element.scrollHeight - element.offsetHeight;
+			$("#messages").scrollTop(valueToScroll);
+			//$("messages").animate({ scrollTop: valueToScroll }, { duration: 200 } );
+			}
+			else{
+			  //your element don't have overflow
+			}
+        }
 
 	}]);
 
