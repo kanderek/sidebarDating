@@ -1,0 +1,101 @@
+<!-- <div>
+
+	Placeholder for a full profile!
+	<a ui-sref="profiles">Back to profiles</a>
+
+</div> -->
+
+ 		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+		  <!-- Indicators -->
+		  <ol class="carousel-indicators">
+		    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+		    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+		    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+		  </ol>
+
+		  <!-- Wrapper for slides -->
+		  <div class="carousel-inner">
+		    <div class="item active">
+		      <img src="http://lorempixel.com/400/200/people/1" alt="...">
+		      <div class="carousel-caption">
+		      </div>
+		    </div>
+		    <div class="item">
+		      <img src="http://lorempixel.com/400/200/people/2" alt="...">
+		      <div class="carousel-caption">
+		      </div>
+		    </div>
+		    <div class="item">
+		      <img src="http://lorempixel.com/400/200/people/3" alt="...">
+		      <div class="carousel-caption">
+		      </div>
+		    </div>
+		  </div>
+
+		  <!-- Controls href="#carousel-example-generic"-->
+		  <a class="left carousel-control" data-target="#carousel-example-generic" data-slide="prev">
+		    <span class="glyphicon glyphicon-chevron-left"></span>
+		  </a>
+		  <a class="right carousel-control" data-target="#carousel-example-generic" data-slide="next">
+		    <span class="glyphicon glyphicon-chevron-right"></span>
+		  </a>
+		</div>
+ 		
+ 		 <div id="profile-details">
+	 		<p>Detailed profile information goes here</p>
+	 		<p>{{uiState.selectedProfile | json}}</p>
+	 	</div>
+
+ 		<div id="badges-wrapper">
+ 			<h5>Top Interests</h5>
+ 			<div class="badge-item">
+ 			</div>
+ 			<div class="badge-item">
+ 			</div>
+ 			<div class="badge-item">
+ 			</div>
+ 		</div>
+
+ 		<div id="profile-interests-viz">
+ 			<h5>Interested In</h5>
+ 			<script>
+				var color = d3.scale.category10();
+				console.log(color());
+
+				var w = 400, h = 300;
+				var canvas = d3.select("#profile-interests-viz").append("svg")
+					.attr("width", w)
+					.attr("height", h);
+
+				d3.json(chrome.extension.getURL("mydata.json"), function (data) {
+					console.log(data);
+					var treemap = d3.layout.treemap()
+						.size([w,h])
+						.nodes(data);
+
+					console.log(treemap);
+					var cells = canvas.selectAll(".cell")
+						.data(treemap)
+						.enter()
+						.append("g")
+						.attr("class", "cell");
+
+					cells.append("rect")
+						.attr("x", function (d) {return d.x; })
+						.attr("y", function (d) {return d.y; })
+						.attr("width", function (d) {return d.dx; })
+						.attr("height", function (d) {return d.dy; })
+						.attr("fill", function (d) {return d.children ? null : color(d.parent.name); })
+						.attr("stroke", "#fff")
+
+					cells.append("text")
+						.attr("x", function (d) {return d.x + d.dx / 2 })
+						.attr("y", function (d) {return d.y + d.dy / 2 })
+						.attr("text-anchor", "middle")
+						.text(function (d) {return d.children ? null : d.name; })
+
+				})
+			</script>
+ 		</div>
+
+ 	
