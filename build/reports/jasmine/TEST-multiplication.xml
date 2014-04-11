@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-<testsuite name="multiplication" errors="0" tests="2" failures="0" time="0.002" timestamp="2014-04-10T21:27:49">
+<testsuite name="multiplication" errors="0" tests="2" failures="0" time="0.002" timestamp="2014-04-10T21:48:31">
   <testcase classname="multiplication" name="should multiply 2 and 3" time="0.001"></testcase>
   <testcase classname="multiplication" name="should multiply 3 and 3" time="0"></testcase>
 </testsuite>
