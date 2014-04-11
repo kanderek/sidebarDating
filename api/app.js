@@ -6,6 +6,10 @@ var conString = "postgres://derekkan:5432@localhost/sidebar";
 var client = new pg.Client(conString);
 
 app.configure(function(){
+  // app.use(express.static(__dirname + '/public'));
+  // app.use(express.static(__dirname + '/files'));
+  app.use(express.logger());
+  app.use(express.static(__dirname + '/static/images'));
   app.use(express.json());
   app.use(express.urlencoded());
   app.use(app.router);

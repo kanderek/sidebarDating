@@ -1,0 +1,42 @@
+{
+  "name": "sidebar-api",
+  "preferGlobal": true,
+  "version": "0.0.1",
+  "author": "Derek Kan <derek@ischool.berkeley.edu>",
+  "description": "a prototype api for the sidebar dating chrome extension/mobile app prototype",
+  "contributors": [ 
+    {
+      "name": "Derek Kan",
+      "email": "derek@ischool.berkeley.edu"
+    } 
+  ],
+  "bin": {
+  },
+  "scripts": {
+  },
+  // "main": "./app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kanderek/sidebarDating"
+  },
+  "keywords": [
+    "online dating",
+    "postgresql",
+    "express"
+  ],
+  "dependencies" : {
+    "express"   :  "3.1.x",
+    "pg" :  "3.0.x",
+  },
+  // "analyze": false,
+  "devDependencies": {
+    "jasmine-node"    :  "1.14.x",
+    "grunt" :  "0.4.x"
+  },
+  "bundledDependencies": [
+  ],  
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.6"
+  }
+}
