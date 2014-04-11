@@ -25,14 +25,20 @@
   "private": true,
   "dependencies": {
     "express": "3.1.x",
-    "pg": "3.0.x"
-  },
-  "devDependencies": {
+    "pg": "3.0.x",
+    "grunt-cli": "~0.1.13",
     "jasmine-node": "1.14.x",
     "grunt": "~0.4.4",
     "nodemon": "1.0.x",
-    "grunt-jasmine-node": "~0.2.1",
-    "grunt-cli": "~0.1.13"
+    "grunt-jasmine-node": "~0.2.1"
+  },
+  "devDependencies": {
+    "grunt-cli": "~0.1.13",
+    "jasmine-node": "1.14.x",
+    "grunt": "~0.4.4",
+    "nodemon": "1.0.x",
+    "grunt-jasmine-node": "~0.2.1"
+
   },
   "bundledDependencies": [],
   "license": "MIT",
