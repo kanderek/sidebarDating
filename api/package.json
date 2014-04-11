@@ -31,7 +31,8 @@
   // "analyze": false,
   "devDependencies": {
     "jasmine-node"    :  "1.14.x",
-    "grunt" :  "0.4.x"
+    "grunt" :  "0.4.x",
+    "nodemon" : "1.0.x"
   },
   "bundledDependencies": [
   ],  
