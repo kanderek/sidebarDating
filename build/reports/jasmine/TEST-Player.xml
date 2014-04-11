@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Player" errors="0" tests="2" failures="2" time="0.007" timestamp="2014-04-10T21:12:05">
+  <testcase classname="Player" name="should be able to play a Song" time="0.003"><failure type="expect" message="ReferenceError: Player is not defined">ReferenceError: Player is not defined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:6:18)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at onComplete (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2092:18)</failure><failure type="expect" message="TypeError: Cannot call method &amp;apos;play&amp;apos; of undefined">TypeError: Cannot call method &amp;apos;play&amp;apos; of undefined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:11:12)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at onComplete (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2092:18)</failure></testcase>
+  <testcase classname="Player" name="tells the current song if the user has made it a favorite" time="0"><failure type="expect" message="ReferenceError: Player is not defined">ReferenceError: Player is not defined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:6:18)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at onComplete (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2092:18)</failure><failure type="expect" message="spyOn could not find an object to spy upon for persistFavoriteStatus()">spyOn could not find an object to spy upon for persistFavoriteStatus()</failure></testcase>
+</testsuite>
+<testsuite name="Player.when song has been paused" errors="0" tests="2" failures="2" time="0.003" timestamp="2014-04-10T21:12:05">
+  <testcase classname="Player.when song has been paused" name="should indicate that the song is currently paused" time="0.001"><failure type="expect" message="ReferenceError: Player is not defined">ReferenceError: Player is not defined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:6:18)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)</failure><failure type="expect" message="TypeError: Cannot call method &amp;apos;play&amp;apos; of undefined">TypeError: Cannot call method &amp;apos;play&amp;apos; of undefined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:20:14)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)</failure><failure type="expect" message="TypeError: Cannot read property &amp;apos;isPlaying&amp;apos; of undefined">TypeError: Cannot read property &amp;apos;isPlaying&amp;apos; of undefined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:25:20)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)</failure></testcase>
+  <testcase classname="Player.when song has been paused" name="should be possible to resume" time="0.001"><failure type="expect" message="ReferenceError: Player is not defined">ReferenceError: Player is not defined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:6:18)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)</failure><failure type="expect" message="TypeError: Cannot call method &amp;apos;play&amp;apos; of undefined">TypeError: Cannot call method &amp;apos;play&amp;apos; of undefined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:20:14)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)</failure><failure type="expect" message="TypeError: Cannot call method &amp;apos;resume&amp;apos; of undefined">TypeError: Cannot call method &amp;apos;resume&amp;apos; of undefined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:32:14)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)</failure></testcase>
+</testsuite>
+<testsuite name="Player.#resume" errors="0" tests="1" failures="1" time="0.001" timestamp="2014-04-10T21:12:05">
+  <testcase classname="Player.#resume" name="should throw an exception if song is already playing" time="0.001"><failure type="expect" message="ReferenceError: Player is not defined">ReferenceError: Player is not defined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:6:18)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)</failure><failure type="expect" message="TypeError: Cannot call method &amp;apos;play&amp;apos; of undefined">TypeError: Cannot call method &amp;apos;play&amp;apos; of undefined
+    at null.&amp;lt;anonymous&amp;gt; (/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/spec/PlayerSpec.js:51:14)
+    at jasmine.Block.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1064:17)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Spec.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2376:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)
+    at jasmine.Suite.execute (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2521:14)
+    at jasmine.Queue.next_ (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2096:31)
+    at jasmine.Queue.start (/Users/derekkan/Dev/sidebarDating/node_modules/grunt-jasmine-node/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2049:8)</failure></testcase>
+</testsuite>
+</testsuites>
