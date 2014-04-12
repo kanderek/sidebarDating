@@ -12,8 +12,8 @@
   ],
   "bin": {},
   "scripts": {
-    "test": "grunt test"
-    },
+    "test": "grunt"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kanderek/sidebarDating"
@@ -39,8 +39,10 @@
     "jasmine-node": "1.14.x",
     "grunt": "~0.4.4",
     "nodemon": "1.0.x",
-    "grunt-jasmine-node": "~0.2.1"
-
+    "grunt-jasmine-node": "~0.2.1",
+    "karma": "~0.12.6",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-karma": "~0.8.2"
   },
   "bundledDependencies": [],
   "license": "MIT",
