@@ -41,9 +41,9 @@ grunt.loadNpmTasks('grunt-jasmine-node');
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-karma');
 
-grunt.registerTask('test-angular', ['karma:travis'])
-grunt.registerTask('test-node', ['jasmine_node']);
-grunt.registerTask('default', ['test-angular', 'test-node']);
+grunt.registerTask('test_angular', ['karma:travis']);
+grunt.registerTask('test_node', ['jasmine_node']);
+grunt.registerTask('default', ['test_angular', 'test_node']);
 
 grunt.registerTask('devmode', ['karma:unit', 'watch']);
 
