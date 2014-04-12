@@ -22,6 +22,6 @@ grunt.initConfig({
 
 grunt.loadNpmTasks('grunt-jasmine-node');
 
-grunt.registerTask('default', ['jasmine_node']);
+grunt.registerTask('test', ['jasmine_node']);
 
 };
