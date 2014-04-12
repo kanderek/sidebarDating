@@ -3,11 +3,10 @@ module.exports = function(config){
     basePath : '../',
 
     files : [
-      'app/lib/angular/angular.js',
+      'app/lib/angular/angular.*.js',
       'app/lib/angular/angular-*.js',
       'app/test/lib/angular/angular-*.js',
-      'app/**/*.js',
-      'test/**/*.js'
+      'app/**/*.js'
     ],
 
     exclude : [
