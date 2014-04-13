@@ -1,0 +1,52 @@
+[
+      {
+        "userid": 15,
+        "username": "Jane",
+        "age": 27,
+        "location_city": "Oakland",
+        "location_state": "CA",
+        "personal_blurb": "I love eating and traveling. Also I like my men perfect...",
+        "relevance": 1,
+        "imageUrl": "http://lorempixel.com/36/36/people/9/"
+      },
+      {
+        "userid": 25,
+        "username": "Sarah",
+        "age": 27,
+        "imageUrl": "http://lorempixel.com/36/36/people/9/",
+        "location_city": "Oakland",
+        "location_state": "CA",
+        "personal_blurb": "Perhaps I'm unlovable, but maybe not!...",
+        "relevance": 1
+      },
+      {
+        "userid": 35,
+        "username": "Phillis",
+        "age": 27,
+        "imageUrl": "http://lorempixel.com/36/36/people/9/",
+        "location_city": "Oakland",
+        "location_state": "CA",
+        "personal_blurb": "I make ice cream every night, do you want some?..",
+        "relevance": 1
+      },
+      {
+        "userid": 45,
+        "username": "Patty",
+        "age": 27,
+        "imageUrl": "http://lorempixel.com/36/36/people/9/",
+        "location_city": "Oakland",
+        "location_state": "CA",
+        "personal_blurb": "I'm interested in web design :/...",
+        "relevance": 1
+      },
+      {
+        "userid": 55,
+        "username": "Tilly",
+        "age": 27,
+        "imageUrl": "http://lorempixel.com/36/36/people/9/",
+        "location_city": "Oakland",
+        "location_state": "CA",
+        "personal_blurb": "I love to tap dance on stage where everyone can see my moves...",
+        "relevance": 1
+      }
+    ]

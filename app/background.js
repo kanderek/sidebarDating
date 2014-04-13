@@ -29,6 +29,7 @@ var resetTabStatus = function(tabID){
 
 var toggleTabStatus = function(tabID){
   var index = getTabStatusIndex(tabID);
+  console.log(index);
   if(tabStatus[index].status){
     tabStatus[index].status = false;
     chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});

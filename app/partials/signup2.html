@@ -1,0 +1,28 @@
+<div>
+
+	<div>
+		<h4>Tell us about yourself</h4>
+	</div>
+
+	<div id="uploadImage">
+		<img />
+	</div>
+
+	<button type="button">Upload Photo</button>
+
+	<form ng-controller="signupCtrl">
+		<label for="dob">Birth Date"</label>
+		<input id="dob" type="date" ng-model="dob" required />
+		<select ng-model="gender" required>
+			<option value = "m">Male</option>
+			<option value = "f">Female</option>
+		</select>
+		<input type="number" min="10000" max="99999" ng-model="zipcode" required />
+		<label for="personal_blurb">What are your interests?</label>
+		<textarea maxlength="140" minlength="1" required ng-model="personal_blurb" >
+		</textarea>
+		<p>{{personal_blurb.length}} Characters</p>
+		<input type="submit" value="continue"/>
+	</form>
+
+</div>

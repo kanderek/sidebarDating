@@ -1,0 +1,12 @@
+[
+{
+	"senderId": 0,
+	"message": "hello! Sarah",
+	"timeStamp": "2 days ago"
+},
+{
+	"senderId": 25,
+	"message": "hi",
+	"timeStamp": "2 days ago"
+}
+]

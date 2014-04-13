@@ -60,7 +60,7 @@
  			<h5>Interested In</h5>
  			<script>
 				var color = d3.scale.category10();
-				console.log(color());
+				//console.log(color());
 
 				var w = 400, h = 300;
 				var canvas = d3.select("#profile-interests-viz").append("svg")
@@ -68,12 +68,12 @@
 					.attr("height", h);
 
 				d3.json(chrome.extension.getURL("mydata.json"), function (data) {
-					console.log(data);
+					//console.log(data);
 					var treemap = d3.layout.treemap()
 						.size([w,h])
 						.nodes(data);
 
-					console.log(treemap);
+					//console.log(treemap);
 					var cells = canvas.selectAll(".cell")
 						.data(treemap)
 						.enter()

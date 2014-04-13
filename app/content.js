@@ -47,33 +47,21 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
 var sidebarApp = angular.module('sidebarDatingExt',[
   'ui.router',
-  'ngRoute',
   'appControllers',
   'appServices'
 ]);
 
 
-sidebarApp.config(['$routeProvider', '$urlRouterProvider', '$sceDelegateProvider', '$stateProvider', '$sceProvider',
-  function($routeProvider, $urlRouterProvider, $sceDelegateProvider, $stateProvider, $sceProvider) {
+sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
+  function($sceDelegateProvider, $stateProvider, $sceProvider) {
 
     $sceProvider.enabled(false);
-
     $sceDelegateProvider.resourceUrlWhitelist([
       // Allow same origin resource loads.
       'self',
       // Allow loading from outer templates domain.
       'chrome-extension://*/partials/**'
     ]); 
-
-    $routeProvider.
-      when('/start', {
-        templateUrl: 'content.html'
-      }).
-      otherwise({
-        redirectTo: '/start'
-      });
-
-    //$urlRouterProvider.otherwise('/');
 
     $stateProvider
         
@@ -124,135 +112,101 @@ appServices.factory('UiState', function(){
   return uiStateService;
 });
 
-appServices.factory('MessageService', function(){
+appServices.factory('MessageService', ['$http', 
+  function($http){
   
   var messageService = {};
 
-  messageService.messageData = [
-      {
-        "userid": 15,
-        "conversation": [
-              {
-                "senderId": 0,
-                "message": "hello!",
-                "timeStamp": "2 days ago"
-              },
-              {
-                "senderId": 15,
-                "message": "hi",
-                "timeStamp": "2 days ago"
-              },
-              {
-                "senderId": 15,
-                "message": "how are you? Did you have a good day?",
-                "timeStamp": "2 days ago"
-              },
-              {
-                "senderId": 0,
-                "message": "Yeah it was great. Do you want to get some coffee?",
-                "timeStamp": "2 days ago"
-              },
-              {
-                "senderId": 15,
-                "message": "sure, Philz on 18th street?",
-                "timeStamp": "2 days ago"
-              },
-              {
-                "senderId": 0,
-                "message": "sounds good, see you then",
-                "timeStamp": "2 days ago"
-              }
-            ]
-        },
-        {
-          "userid": 25,
-            "conversation": [
-              {
-                "senderId": 0,
-                "message": "hello! Sarah",
-                "timeStamp": "2 days ago"
-              },
-              {
-                "senderId": 25,
-                "message": "hi",
-                "timeStamp": "2 days ago"
-              }
-            ]
-        },
-        {
-          "userid": 35,
-          "conversation": [
-              {
-                "senderId": 0,
-                "message": "hello! Phillis",
-                "timeStamp": "2 days ago"
-              },
-              {
-                "senderId": 35,
-                "message": "hi",
-                "timeStamp": "2 days ago"
-              }
-            ]
-        },
-        {
-          "userid": 45,
-          "conversation": [
-              {
-                "senderId": 0,
-                "message": "hello! Patty",
-                "timeStamp": "2 days ago"
-              },
-              {
-                "senderId": 45,
-                "message": "hi",
-                "timeStamp": "2 days ago"
-              }
-            ]
-        },
-        {
-          "userid": 55,
-            "conversation": [
-              {
-                "senderId": 0,
-                "message": "hello! Tilly",
-                "timeStamp": "2 days ago"
-              },
-              {
-                "senderId": 55,
-                "message": "hi",
-                "timeStamp": "2 days ago"
-              }
-            ]
-        }
-      ];
+      messageService.getStaticMessages = function(callback){
+        $http({
+          method: 'GET',
+          url: chrome.extension.getURL("staticData/messages.json")
+        }).
+        success(function(data, status, headers, config){
+          callback(data);
+        }).
+        error(function(data, status, headers, config){
+          console.log('error getting static json file');
+        }); 
+      }
 
-      messageService.getMessageByuserid = function(userid){
-        console.log('in Message service');
-        console.log(userid);
-        for(var i=0; i<this.messageData.length; i++){
-          if(userid == this.messageData[i].userid){
-            return this.messageData[i].conversation;
-          }
-        }
-        return -1;
+      messageService.getStaticMessageByuserid = function(userid, callback){
+        $http({
+          method: 'GET',
+          url: chrome.extension.getURL("staticData/message_user" + userid + ".json")
+        }).
+        success(function(data, status, headers, config){
+          callback(data);
+        }).
+        error(function(data, status, headers, config){
+          console.log('error getting static json file');
+        }); 
       }
 
   return messageService;
-});
+}]);
+
+appServices.factory('DancecardService', ['$http', 
+  function($http){
+  
+  var dancecardService = {};
+
+      dancecardService.getStaticDancecard = function(callback){
+        $http({
+          method: 'GET',
+          url: chrome.extension.getURL("staticData/dancecard.json")
+        }).
+        success(function(data, status, headers, config){
+          callback(data);
+        }).
+        error(function(data, status, headers, config){
+          console.log('error getting static json file');
+        }); 
+      }
+
+  return dancecardService;
+}]);
 
 
-appServices.factory('Profile', ['$resource',
-  function($resource){
+appServices.factory('Profile', ['$resource', '$http',
+  function($resource, $http){
 
     var profileFactory = {}
 
-  //profileFactory.resource =  $resource(chrome.extension.getURL("profiles/:profileId.json"), {}, {
-  profileFactory.resource =  $resource('http://localhost:3000/crowd/:profileId', {}, {
-        query: {method:'GET', params:{profileId:'profiles'}, isArray:true}
-      });
-  return profileFactory.resource;
+    profileFactory.getStaticProfileList = function(callback){
+      $http({
+        method: 'GET',
+        url: chrome.extension.getURL("staticData/profiles.json")
+      }).
+      success(function(data, status, headers, config){
+        callback(data);
+      }).
+      error(function(data, status, headers, config){
+        console.log('error getting static json file');
+      }); 
+    }
 
-  //return profileFactory;
+    profileFactory.getProfileById = function(userid, callback){
+    }
+
+    profileFactory.getPeopleByInterest = function(userid, callback){
+    }
+
+    profileFactory.getPeopleOnPage = function(url, callback){
+       $http({
+          method: 'GET', 
+          url: 'http://localhost:3000/crowd/?url=' + url
+        }).
+      success(function(data, status, headers, config) {
+        callback(data);   // this callback will be called asynchronously when the response is available
+      }).
+      error(function(data, status, headers, config) {
+        console.log('get people failure');
+      });
+    }
+
+    return profileFactory;
+
   }]);
 
 /* Controllers */
@@ -262,49 +216,47 @@ var appControllers = angular.module('appControllers', []);
 appControllers.controller('MessageCtrl', ['$scope', 'UiState', 'MessageService',
   function($scope, UiState, MessageService) {
 
-    $scope.messageThreads = MessageService.messageData;
-    //$scope.messageThread = MessageService.selectedConversation;//MessageService.getMessageByuserid(UiState.selectedProfile.userid);
     $scope.messageThread = $scope.conversation;//inherited from DanceCardCtrl
 
     $scope.newMessage;
 
-        $scope.ifSentByUser = function(i){
-          if($scope.conversation[i].senderId == 0){
+    $scope.ifSentByUser = function(i){
+      if($scope.conversation[i].senderId == 0){
 
-            return true;
-          }
-          else{
-            return false;
-          }
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+
+    $scope.sendMessage = function(){
+
+      if($scope.newMessage){
+        var message = {
+          senderId: 0,
+          message: $scope.newMessage,
+          timeStamp: "just now"
         }
 
-        $scope.sendMessage = function(){
+        $scope.conversation.push(message);
+        $scope.newMessage = "";
+      }
+    }
 
-          if($scope.newMessage){
-            var message = {
-              senderId: 0,
-              message: $scope.newMessage,
-              timeStamp: "just now"
-            }
-
-            $scope.conversation.push(message);
-            $scope.newMessage = "";
-          }
-        }
-
-        $scope.$watch(function () {
+    $scope.$watch(function () {
        return document.getElementById("messages").innerHTML;
     }, function(val) {
       scrollToBottom();
        //TODO: write code here, slit wrists, etc. etc.
     });
 
-        var scrollToBottom = function(){
-          var element = $('#messages')[0];
-          console.log(element.scrollHeight);
-            
-          if( (element.offsetHeight < element.scrollHeight)){
-         // your element have overflow
+    var scrollToBottom = function(){
+      var element = $('#messages')[0];
+      console.log(element.scrollHeight);
+        
+      if( (element.offsetHeight < element.scrollHeight)){
+     // your element have overflow
         //element.style.background = "yellow";
       var valueToScroll = element.scrollHeight;//element.scrollHeight - element.offsetHeight;
       $("#messages").scrollTop(valueToScroll);
@@ -313,64 +265,16 @@ appControllers.controller('MessageCtrl', ['$scope', 'UiState', 'MessageService',
       else{
         //your element don't have overflow
       }
-        }
+    }
 
   }]);
 
-appControllers.controller('DanceCardCtrl', ['$scope', '$state', 'UiState', 'MessageService',
-  function($scope, $state, UiState, MessageService) {
-    $scope.danceCard = [
-      {
-        "userid": 15,
-        "username": "Jane",
-        "age": 27,
-        "location_city": "Oakland",
-        "location_state": "CA",
-        "personal_blurb": "I love eating and traveling. Also I like my men perfect...",
-        "relevance": 1,
-        "imageUrl": "http://lorempixel.com/36/36/people/9/"
-      },
-      {
-        "userid": 25,
-        "username": "Sarah",
-        "age": 27,
-        "imageUrl": "http://lorempixel.com/36/36/people/9/",
-        "location_city": "Oakland",
-        "location_state": "CA",
-        "personal_blurb": "Perhaps I'm unlovable, but maybe not!...",
-        "relevance": 1
-      },
-      {
-        "userid": 35,
-        "username": "Phillis",
-        "age": 27,
-        "imageUrl": "http://lorempixel.com/36/36/people/9/",
-        "location_city": "Oakland",
-        "location_state": "CA",
-        "personal_blurb": "I make ice cream every night, do you want some?..",
-        "relevance": 1
-      },
-      {
-        "userid": 45,
-        "username": "Patty",
-        "age": 27,
-        "imageUrl": "http://lorempixel.com/36/36/people/9/",
-        "location_city": "Oakland",
-        "location_state": "CA",
-        "personal_blurb": "I'm interested in web design :/...",
-        "relevance": 1
-      },
-      {
-        "userid": 55,
-        "username": "Tilly",
-        "age": 27,
-        "imageUrl": "http://lorempixel.com/36/36/people/9/",
-        "location_city": "Oakland",
-        "location_state": "CA",
-        "personal_blurb": "I love to tap dance on stage where everyone can see my moves...",
-        "relevance": 1
-      }
-    ];
+appControllers.controller('DanceCardCtrl', ['$scope', '$state', 'UiState', 'MessageService', 'DancecardService',
+  function($scope, $state, UiState, MessageService, DancecardService) {
+    
+    DancecardService.getStaticDancecard(function(data){
+        $scope.danceCard = data;
+    });
 
     $scope.selectOnly = function(i){
         UiState.selectedProfile = $scope.danceCard[i];
@@ -382,7 +286,10 @@ appControllers.controller('DanceCardCtrl', ['$scope', '$state', 'UiState', 'Mess
       }
 
       var getConversation = function(userid){
-        $scope.conversation = MessageService.getMessageByuserid(UiState.selectedProfile.userid);
+
+        MessageService.getStaticMessageByuserid(userid, function(data){
+          $scope.conversation = data;
+        });
         console.log($scope.conversation);
       }
 
@@ -409,7 +316,11 @@ appControllers.controller('DanceCardCtrl', ['$scope', '$state', 'UiState', 'Mess
 appControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
   function($scope, Profile, UiState) {
 
-    $scope.profiles = Profile.query();
+    //$scope.profiles = Profile.query();
+    Profile.getStaticProfileList(function(data){
+    //Profile.getPeopleOnPage("someUrl", function(data){
+      $scope.profiles = data;
+    });
     console.log($scope.profiles);
 
     $scope.selectOnly = function(i){

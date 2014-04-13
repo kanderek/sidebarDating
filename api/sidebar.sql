@@ -11,7 +11,7 @@ DROP TABLE users;
 -- Every table should have at least one primary key! (best practice)
 CREATE TABLE users (
 	userId			int PRIMARY KEY, /*NOT NULL UNIQUE (constraint is same as primary key*/
-	name		varchar(20) NOT NULL,
+	username		varchar(20) NOT NULL,
 	gender			varchar(1) NOT NULL,
 	dateOfBirth		date CHECK (dateOfBirth < CURRENT_DATE) NOT NULL,
 	age				int CHECK (age > 0 AND age < 100),
@@ -63,6 +63,7 @@ CREATE TABLE messages (
 -- );
 
 COPY users FROM '/Users/derekkan/Dev/sidebarDating/api/users.txt' DELIMITER ',' CSV;
+COPY danceCard FROM '/Users/derekkan/Dev/sidebarDating/api/dancecard.txt' DELIMITER ',' CSV;
 -- can use COPY command to insert large amounts of data residing in a flat text file 
 -- COPY user FROM '/where/the/file/exists/user.txt'
 
