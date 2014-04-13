@@ -1,4 +1,5 @@
 var express = require('express');
+var moment = require('moment');
 var app = express();
 var pg = require('pg');
 var pgclient = require('connect-pgclient');
@@ -31,9 +32,56 @@ app.get('/', function(req, res){
 });
 
 
-app.get('/messages/:userId', function(request, response){
+app.get('/message',
+	connectToDb,
+	function(req, res, next){
+		var userId = req.query.userId;
+		var partnerId = req.query.partnerId;
 
-});
+		var queryString = "SELECT senderId, receiverId, message, sendTime " +
+							"FROM messages " + 
+							"WHERE (senderId=" + userId + " AND receiverId=" + partnerId + ") OR "+
+								"(receiverId=" + userId + " AND senderId=" + partnerId + ")" +
+							"ORDER BY sendTime ASC";
+
+		//console.log(queryString);
+
+		req.db.client.query(queryString, function(err, result){
+			req.queryResult = result;
+			next();
+		});
+	},
+	function(req, res){
+		//console.log(req.queryResult.rows);
+		res.json(req.queryResult.rows);
+
+	});
+
+app.post('/message', 
+	connectToDb,
+	function(req, res, next){
+		var senderId = req.body.senderId;
+		var receiverId = req.body.receiverId;
+		var message = req.body.message;
+		var sendTime = moment().format('YYYY-MM-DD HH:mm:ss');
+
+		var queryString = "INSERT INTO messages " + 
+								"(senderId, receiverId, message, sendTime) " +
+						   "VALUES (" + senderId + "," + receiverId + ",'" + message + "','" + sendTime + "')";
+		//console.log(queryString);
+		
+		req.db.client.query(queryString, function(err, result){
+			// console.log('result: ');
+			// console.log(result);
+			// console.log('err: ');
+			// console.log(err);
+			next();
+		});
+	},
+	function(req, res){
+		res.send(200);
+	});
+
 
 app.get('/dancecard/:userId',
 	connectToDb,
@@ -62,7 +110,7 @@ app.get('/dancecard/:userId',
 		res.json(req.queryResult.rows);
 	});
 
-app.get('/dancecard/',
+app.get('/dancecard',
 	connectToDb,
 	function(req, res, next){
 		req.dancecard = req.query;
@@ -76,11 +124,13 @@ app.get('/dancecard/',
 		//if entry.status == mutual -> ??
 
 	},
-	checkForDanceCardParameters(),
+	verifyDanceCardParameters(),
+	addToDanceCard(),
 	updateDanceCardStatus(),
 	function(req, res){
 		res.send(200);
 	});
+
 
 app.post('/dancecard', 
 	connectToDb, 
@@ -95,28 +145,53 @@ app.post('/dancecard',
 		//if entry.status == mutual -> ??
 
 	},
-	checkForDanceCardParameters(),
+	verifyDanceCardParameters(),
+	addToDanceCard(),
 	updateDanceCardStatus(),
 	function(req, res){
 		res.send(200);
 	});
 
-function updateDanceCardStatus() {
+    
+function addToDanceCard() {
 
 	return  function(req,res,next) {
-	var queryString = "UPDATE danceCard "+
-						  "SET status = "+ req.dancecard.status +
-						  " WHERE userid = " + req.dancecard.userid + 
-						  " AND partnerid = " + req.dancecard.partnerid;
+	var queryString = "INSERT INTO danceCard "+
+						  "(userId, partnerId, status)" + 
+					   "VALUES (" + req.dancecard.userid + "," + 
+					   				req.dancecard.partnerid  + "," + 
+					   				req.dancecard.status + ")";
+
 		//console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error 
+			req.update = err ? true : false;
 			next();
 		});
 	}
 };
 
-function checkForDanceCardParameters() {
+function updateDanceCardStatus() {
+
+	return  function(req,res,next) {
+		if(req.update){
+			var queryString = "UPDATE danceCard "+
+								  "SET status = "+ req.dancecard.status +
+								  " WHERE userid = " + req.dancecard.userid + 
+								  " AND partnerid = " + req.dancecard.partnerid;
+				//console.log(queryString);
+				req.db.client.query(queryString, function(err, result){
+					//deal with error 
+					next();
+				});
+		}
+		else{
+			next();
+		}
+	}
+};
+
+function verifyDanceCardParameters() {
 
 	return function(req,res,next) {
 		//console.log(req.dancecard);

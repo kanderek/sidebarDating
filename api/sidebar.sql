@@ -64,6 +64,7 @@ CREATE TABLE messages (
 
 COPY users FROM '/Users/derekkan/Dev/sidebarDating/api/users.txt' DELIMITER ',' CSV;
 COPY danceCard FROM '/Users/derekkan/Dev/sidebarDating/api/dancecard.txt' DELIMITER ',' CSV;
+COPY messages FROM '/Users/derekkan/Dev/sidebarDating/api/messages.txt' DELIMITER ',' CSV;
 -- can use COPY command to insert large amounts of data residing in a flat text file 
 -- COPY user FROM '/where/the/file/exists/user.txt'
 
