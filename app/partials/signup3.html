@@ -4,7 +4,7 @@
 		<h4>What are you looking for?</h4>
 	</div>
 
-	<form ng-controller="signupCtrl">
+	<form>
 		<input id="male_pref" type="checkbox" ng-model="male_pref" />
 		<label for="male_pref">Male</label>
 		<input id="female_pref" type="checkbox" ng-model="male_pref" />
@@ -16,7 +16,7 @@
 		<div class="slider" ng-model="distance_pref">
 		</div>
 
-		<input type="submit" value="Ready?" ng-click=""/>
+		<input type="submit" value="Ready?" ng-click="createAccount()"/>
 	</form>
 	<p>Based on this criteria and your browsing behavior, we'll show you like-minded people for you to connect with.</p>
 

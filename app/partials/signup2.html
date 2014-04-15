@@ -10,7 +10,7 @@
 
 	<button type="button">Upload Photo</button>
 
-	<form ng-controller="signupCtrl">
+	<form>
 		<label for="dob">Birth Date"</label>
 		<input id="dob" type="date" ng-model="dob" required />
 		<select ng-model="gender" required>
@@ -22,7 +22,7 @@
 		<textarea maxlength="140" minlength="1" required ng-model="personal_blurb" >
 		</textarea>
 		<p>{{personal_blurb.length}} Characters</p>
-		<input type="submit" value="continue"/>
+		<input type="submit" value="continue" ng-click="goToSignupStep3()"/>
 	</form>
 
 </div>

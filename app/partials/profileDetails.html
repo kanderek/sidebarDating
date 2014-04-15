@@ -43,14 +43,14 @@
  		
  		<button type="button" 
  				ng-show="showAddButton()"
- 				ng-click="addToCard(uiState.selectedProfile.userid)">Add to Card</button>
+ 				ng-click="updateDancecard(uiState.selectedProfile.userid, 'added')">Add to Card</button>
 
  		<button type="button" 
  				ng-show="showRemoveButton()" 
- 				ng-click="removeFromCard(uiState.selectedProfile.userid)">Remove From Card</button>
+ 				ng-click="updateDancecard(uiState.selectedProfile.userid, 'removed')">Remove From Card</button>
 
  		<a ng-show="isSelf()" 
- 			ui-sref='main.sidebar'>Edit</a>
+ 			ui-sref='main.detailsPanel'>Edit</a>
 
  		 <div id="profile-details">
 	 		<p>Detailed profile information goes here</p>

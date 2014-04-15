@@ -5,11 +5,11 @@
 	<h4>Sidebar</h4>
 	<p>Designed Serendipity for Meeting People </p>
 
-	<form ng-controller="signupCtrl">
+	<form>
 		<input type="text" placeholder="First Name" ng-model="username" required/>
 		<input type="email" placeholder="Email Address" ng-model="email" required/>
 		<input type="text" placeholder="Password" ng-model="password" required/>
-		<input type="submit" value="continue"/>
+		<input type="submit" value="continue" ng-click="goToSignupStep2()"/>
 	</form>
 
 </div>
