@@ -30,7 +30,11 @@
     "pg": "3.0.x",
     "nodemon": "1.0.x",
     "connect-pgclient": "~0.3.0",
-    "moment": "~2.6.0"
+    "moment": "~2.6.0",
+    "passport": "~0.2.0",
+    "passport-local": "~1.0.0",
+    "connect-flash": "~0.1.1",
+    "sequelize": "~1.7.0"
   },
   "devDependencies": {
     "grunt-cli": "~0.1.13",

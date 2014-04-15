@@ -40,8 +40,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 /***************************************************************************/
 
 
-'use strict';
-
 /* Angular-specific code goes here (i.e. defining and configuring
  * modules, directives, services, filters, etc.) */
 
@@ -74,7 +72,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
               },
               'detailsPanel': {
                 templateUrl: chrome.extension.getURL('partials/profileDetails.html'),
-                controller: 'ProfileListCtrl'
+                controller: 'ProfileDetailCtrl'
               }
           }
         })
@@ -84,7 +82,8 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
           templateUrl: chrome.extension.getURL('partials/profileList.html'),
             controller: 'ProfileListCtrl'
             })
-            .state('main.messages', {
+        
+        .state('main.messages', {
               url: '',
           templateUrl: chrome.extension.getURL('partials/messages.html') ,
             controller: 'MessageCtrl'
@@ -104,16 +103,19 @@ var appServices = angular.module('appServices', ['ngResource']);
 appServices.factory('UiState', function(){
   var uiStateService = {};
 
+  uiStateService.pageProfiles = {};
   uiStateService.isSelected = -1;
   uiStateService.selectedProfile = false;
   uiStateService.showSidebar = true;
   uiStateService.showDetailsPanel = false;
+  uiStateService.selfUserId = 1;//0 for static data 
+  uiStateService.dancecard = {};
 
   return uiStateService;
 });
 
-appServices.factory('MessageService', ['$http', 
-  function($http){
+appServices.factory('MessageService', ['$http', 'UiState',
+  function($http, UiState){
   
   var messageService = {};
 
@@ -143,11 +145,38 @@ appServices.factory('MessageService', ['$http',
         }); 
       }
 
+      messageService.getMessageByuserid = function(userid, callback){
+        $http({
+          method: 'GET',
+          url: "http://localhost:3000/message/" + userid + "/?userId=" + UiState.selfUserId
+        }).
+        success(function(data, status, headers, config){
+          callback(data);
+        }).
+        error(function(data, status, headers, config){
+          console.log('error getting static json file');
+        }); 
+      }
+
+      messageService.sendMessageTouserid = function(message, callback){
+        $http({
+          method: 'POST',
+          url: "http://localhost:3000/message/",
+          data: message
+        }).
+        success(function(data, status, headers, config){
+          callback(data);
+        }).
+        error(function(data, status, headers, config){
+          console.log('error posting message');
+        }); 
+      }
+
   return messageService;
 }]);
 
-appServices.factory('DancecardService', ['$http', 
-  function($http){
+appServices.factory('DancecardService', ['$rootScope', '$http', 'UiState',
+  function($rootScope, $http, UiState){
   
   var dancecardService = {};
 
@@ -157,10 +186,39 @@ appServices.factory('DancecardService', ['$http',
           url: chrome.extension.getURL("staticData/dancecard.json")
         }).
         success(function(data, status, headers, config){
+          angular.copy(data, dancecardService.dancecard);
           callback(data);
         }).
         error(function(data, status, headers, config){
           console.log('error getting static json file');
+        }); 
+      }
+
+      dancecardService.getDancecard = function(callback){
+        $http({
+          method: 'GET',
+          url: "http://localhost:3000/dancecard/"+UiState.selfUserId
+        })
+        .success(function(data, status, headers, config){
+            angular.copy(data, dancecardService.dancecard);
+            callback(data);
+        }).
+        error(function(data, status, headers, config){
+          console.log('error getting dancecard');
+        }); 
+      }
+
+      dancecardService.updateDancecard = function(data, callback){
+        $http({
+          method: 'POST',
+          url: "http://localhost:3000/dancecard",
+          data: data
+        }).
+        success(function(data, status, headers, config){
+            callback(data);
+        }).
+        error(function(data, status, headers, config){
+          console.log('error posting data: add dancecard failed');
         }); 
       }
 
@@ -171,7 +229,7 @@ appServices.factory('DancecardService', ['$http',
 appServices.factory('Profile', ['$resource', '$http',
   function($resource, $http){
 
-    var profileFactory = {}
+    var profileFactory = {};
 
     profileFactory.getStaticProfileList = function(callback){
       $http({
@@ -187,15 +245,25 @@ appServices.factory('Profile', ['$resource', '$http',
     }
 
     profileFactory.getProfileById = function(userid, callback){
+      $http({
+        method: 'GET',
+        url: 'http://localhost:3000/profile/'+userid
+      }).
+      success(function(data, status, headers, config){
+        callback(data);
+      }).
+      error(function(data, status, headers, config){
+        console.log('error getting user profile ' + userid);
+      }); 
     }
 
-    profileFactory.getPeopleByInterest = function(userid, callback){
+    profileFactory.getProfilesByInterest = function(userid, callback){
     }
 
-    profileFactory.getPeopleOnPage = function(url, callback){
+    profileFactory.getProfilesByPage = function(url, userid, callback){
        $http({
           method: 'GET', 
-          url: 'http://localhost:3000/crowd/?url=' + url
+          url: 'http://localhost:3000/crowd/?url=' + url + "&userid=" + userid
         }).
       success(function(data, status, headers, config) {
         callback(data);   // this callback will be called asynchronously when the response is available
@@ -217,12 +285,11 @@ appControllers.controller('MessageCtrl', ['$scope', 'UiState', 'MessageService',
   function($scope, UiState, MessageService) {
 
     $scope.messageThread = $scope.conversation;//inherited from DanceCardCtrl
-
     $scope.newMessage;
 
+    console.log($scope.conversation);
     $scope.ifSentByUser = function(i){
-      if($scope.conversation[i].senderId == 0){
-
+      if($scope.conversation[i].senderid ==  UiState.selfUserId){
         return true;
       }
       else{
@@ -234,51 +301,63 @@ appControllers.controller('MessageCtrl', ['$scope', 'UiState', 'MessageService',
 
       if($scope.newMessage){
         var message = {
-          senderId: 0,
+          senderid: UiState.selfUserId,
+          receiverid: UiState.selectedProfile.userid,
           message: $scope.newMessage,
-          timeStamp: "just now"
         }
-
         $scope.conversation.push(message);
+        MessageService.sendMessageTouserid(message, function(data){
+          //post response data?
+          console.log('post of message a success');
+        });
         $scope.newMessage = "";
       }
     }
 
     $scope.$watch(function () {
        return document.getElementById("messages").innerHTML;
-    }, function(val) {
-      scrollToBottom();
-       //TODO: write code here, slit wrists, etc. etc.
-    });
+    }, function(val) {});
 
-    var scrollToBottom = function(){
-      var element = $('#messages')[0];
-      console.log(element.scrollHeight);
-        
-      if( (element.offsetHeight < element.scrollHeight)){
-     // your element have overflow
-        //element.style.background = "yellow";
-      var valueToScroll = element.scrollHeight;//element.scrollHeight - element.offsetHeight;
-      $("#messages").scrollTop(valueToScroll);
-      //$("messages").animate({ scrollTop: valueToScroll }, { duration: 200 } );
-      }
-      else{
-        //your element don't have overflow
-      }
-    }
 
   }]);
 
-appControllers.controller('DanceCardCtrl', ['$scope', '$state', 'UiState', 'MessageService', 'DancecardService',
-  function($scope, $state, UiState, MessageService, DancecardService) {
+appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'UiState', 'MessageService', 'DancecardService',
+  function($rootScope, $scope, $state, UiState, MessageService, DancecardService) {
     
-    DancecardService.getStaticDancecard(function(data){
-        $scope.danceCard = data;
+    // DancecardService.getStaticDancecard(function(data){
+    //     $scope.danceCard = data;
+    // });
+    
+    $scope.dancecard = UiState.dancecard;
+
+    DancecardService.getDancecard(function(data){
+        //DancecardService.dancecard = data;
+        $scope.dancecard = data;
+        console.log($scope.dancecard);
+        console.log('dc controller - dancard service dancecard: ');
+        console.log(DancecardService.dancecard);
+        UiState.dancecard = $scope.dancecard;
+        console.log(UiState.dancecard);
+        // $scope.dancecard = UiState.dancecard;
+    });
+
+    $scope.$watch($scope.dancecard, function(){
+        console.log('scope.dancecard isi being watched!');
+    });
+
+    $scope.$on('dancecard-update', function(event){
+      console.log('Dancecard was updated! ');
+      console.log(event);
+      $scope.dancecard = UiState.dancecard;
+      console.log($scope.dancecard);
+              console.log('dc controller - dancard service dancecard: ');
+        console.log(DancecardService.dancecard);
+
     });
 
     $scope.selectOnly = function(i){
-        UiState.selectedProfile = $scope.danceCard[i];
-        $scope.selectedProfile = $scope.danceCard[i];
+        UiState.selectedProfile = $scope.dancecard[i];
+        $scope.selectedProfile = $scope.dancecard[i];
         $scope.showShortProfile = true;
         $state.go('main.messages');
         //MessageService.getMessageByuserid(UiState.selectedProfile.userid);
@@ -286,11 +365,13 @@ appControllers.controller('DanceCardCtrl', ['$scope', '$state', 'UiState', 'Mess
       }
 
       var getConversation = function(userid){
-
-        MessageService.getStaticMessageByuserid(userid, function(data){
+        // MessageService.getStaticMessageByuserid(userid, function(data){
+        //   $scope.conversation = data;
+        // });
+        MessageService.getMessageByuserid(userid, function(data){
           $scope.conversation = data;
         });
-        console.log($scope.conversation);
+        //console.log($scope.conversation);
       }
 
       $scope.showDetailedProfile = function(){
@@ -308,7 +389,7 @@ appControllers.controller('DanceCardCtrl', ['$scope', '$state', 'UiState', 'Mess
         }
       }
 
-      $scope.conversation = false;
+    $scope.conversation = false;
     $scope.showShortProfile = false;
     $scope.selectedProfile = -1;
   }]);
@@ -317,11 +398,11 @@ appControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
   function($scope, Profile, UiState) {
 
     //$scope.profiles = Profile.query();
-    Profile.getStaticProfileList(function(data){
-    //Profile.getPeopleOnPage("someUrl", function(data){
+    //Profile.getStaticProfileList(function(data){
+    Profile.getProfilesByPage("someUrl", UiState.selfUserId, function(data){
       $scope.profiles = data;
     });
-    console.log($scope.profiles);
+    //console.log($scope.profiles);
 
     $scope.selectOnly = function(i){
       UiState.showDetailsPanel = true;
@@ -342,13 +423,93 @@ appControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
 
   }]);
 
-appControllers.controller('uiCtrl', ['$scope', 'UiState', 
-  function($scope, UiState){
+
+appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', 'Profile', 'UiState','DancecardService',
+  function($rootScope, $scope, Profile, UiState, DancecardService) {
+    
+
+    $scope.showAddButton = function(){
+      return (!$scope.isInDanceCard(UiState.selectedProfile.userid) && !$scope.isSelf());
+    }
+
+    $scope.showRemoveButton = function(){
+      return ($scope.isInDanceCard(UiState.selectedProfile.userid) && !$scope.isSelf());
+    }
+
+    $scope.isInDanceCard = function(userid){
+      console.log("isInDanceCard?  ");
+      console.log(UiState.dancecard);
+      console.log(userid);
+      for(var i=0; i<UiState.dancecard.length; i++) {
+        if(UiState.dancecard[i].userid == userid){
+          return true;
+        }
+      };
+      return false; 
+    };
+
+    $scope.isSelf = function(){
+      return (UiState.selectedProfile.userid == UiState.selfUserId);
+    }
+
+    $scope.addToCard = function(userid){
+      var data = {
+        userid: UiState.selfUserId,
+        partnerid: userid,
+        status: "added"
+      }
+      DancecardService.updateDancecard(data, function(result){
+          console.log('addtocard result: ');
+          console.log(result);
+          UiState.dancecard = result;
+          $rootScope.$broadcast('dancecard-update');
+    
+          //console.log(DancecardService.dancecard);
+          //DancecardService.dancecard = result;
+      });
+    };
+
+    $scope.removeFromCard = function(userid){
+      var data = {
+        userid: UiState.selfUserId,
+        partnerid: userid,
+        status: "removed"
+      }
+      DancecardService.updateDancecard(data, function(result){
+            console.log('removefromcard result: ');
+            console.log(result);
+              UiState.dancecard = result;
+              $rootScope.$broadcast('dancecard-update');
+            //console.log(DancecardService.dancecard);
+            //DancecardService.dancecard = result;
+      });
+    };
+
+  }]);
+
+appControllers.controller('uiCtrl', ['$scope', 'UiState', 'Profile', 'DancecardService',
+  function($scope, UiState, Profile, DancecardService){
     var arrowLeftIconURL = chrome.extension.getURL("icons/icon_22996/icon_22996.png");
     var arrowRightIconURL = chrome.extension.getURL("icons/icon_22997/icon_22997.png");
 
     $scope.uiState = UiState;
     $scope.uiState.showSidebar = true;
+
+    Profile.getProfilesByPage("someUrl", function(data){
+      console.log('in uicontroler: pageProfiles');
+      console.log(data);
+      $scope.uiState.pageProfiles = data;
+    });
+
+    Profile.getProfileById(UiState.selfUserId, function(data){
+      $scope.uiState.selectedProfile = data;
+    });
+
+    DancecardService.getDancecard(function(data){
+      console.log('in uicontroler: dancecard');
+      console.log(data);
+      $scope.uiState.dancecard = data;
+    });
 
     $scope.tabAction = function(){
       console.log($scope.uiState.tabIconUrl);
@@ -368,21 +529,6 @@ appControllers.controller('uiCtrl', ['$scope', 'UiState',
 
       }
     }
-  }]);
-
-appControllers.controller('ProfileDetailCtrl', ['$scope', '$stateParams', 'Profile',
-  function($scope, $stateParams, Profile) {
-    // $scope.profile = Profile.get({profileId: $routeParams.profileId}, function(profile) {
-    //   $scope.mainImageUrl = profile.images[0];
-    // });
-
-    // $scope.setImage = function(imageUrl) {
-    //   $scope.mainImageUrl = imageUrl;
-    // }
-
-
-    //$scope.profile =Profile.query()[index];
-
   }]);
 
 

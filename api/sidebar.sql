@@ -10,14 +10,14 @@ DROP TABLE users;
 
 -- Every table should have at least one primary key! (best practice)
 CREATE TABLE users (
-	userId			int PRIMARY KEY, /*NOT NULL UNIQUE (constraint is same as primary key*/
+	userId			int SERIAL PRIMARY KEY, /*NOT NULL UNIQUE (constraint is same as primary key*/
 	username		varchar(20) NOT NULL,
-	gender			varchar(1) NOT NULL,
-	dateOfBirth		date CHECK (dateOfBirth < CURRENT_DATE) NOT NULL,
+	gender			varchar(1),
+	dateOfBirth		date CHECK (dateOfBirth < CURRENT_DATE),
 	age				int CHECK (age > 0 AND age < 100),
-	location_city	varchar(30) NOT NULL,
-	location_state	varchar(30) NOT NULL,
-	zipCode			int CHECK (zipCode > 0 AND zipCode < 100000) NOT NULL,
+	location_city	varchar(30),
+	location_state	varchar(30),
+	zipCode			int CHECK (zipCode > 0 AND zipCode < 100000),
 	personal_blurb	varchar(300) DEFAULT 'I''m a blank essay',
 	imageUrls		varchar(100)[] 
 
