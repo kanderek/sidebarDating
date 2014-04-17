@@ -624,7 +624,7 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
     $scope.username = UiState.selfProfile.username;
 
     $scope.$on('username-available', function(event){
-      console.log('Dancecard was updated! ');
+      console.log('username is ready to render! ');
       console.log(event);
       $scope.username = UiState.selfProfile.username;
     });

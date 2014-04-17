@@ -176,6 +176,15 @@ app.get('/logout', function(req, res){
   res.send(200);
 });
 
+app.get('/authentication_status', function(req, res){
+	if(req.user){
+		res.json(req.user);
+	}
+	else{
+		res.send('not authenticated');
+	}
+});
+
 //use this middleware for routes that require a user to be logged in/authenticated
 
 function ensureAuthenticated(req, res, next) {
@@ -184,7 +193,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.get('/message/:partnerId',
-	//connectToDb,
+	ensureAuthenticated,
 	function(req, res, next){
 		var userId = req.query.userId; //Can probably get from session req.user.userId;
 		var partnerId = req.params.partnerId;
@@ -247,27 +256,6 @@ app.get('/dancecard/:userId',
 	getDancecardById,
 	function(req, res){
 		res.json(req.queryResult.rows);
-	});
-
-app.get('/dancecard',
-	//connectToDb,
-	function(req, res, next){
-		req.dancecard = req.query;
-		//console.log(req.dancecard);
-		next();
-
-		//if entry.status == remove -> send notification to removed user;
-		//if entry.status == add
-			//if responding to add -> 
-			//else -> send notification to added user;
-		//if entry.status == mutual -> ??
-
-	},
-	verifyDanceCardParameters,
-	addToDanceCard,
-	updateDanceCardStatus,
-	function(req, res){
-		res.send(200);
 	});
 
 function getDancecardById(req, res, next){
@@ -405,13 +393,31 @@ app.get('/crowd/',
 		next();
 		// console.log('get request /crowd/' + url);
 	}, 
-	getDancecardById,
+	getDancecardRecord,
 	getPeopleOnPage,
 	function (req, res) {
 		//console.log(req.queryResult);
 		res.json(req.queryResult.rows);
 
 	});
+
+function getDancecardRecord(req, res, next){
+		
+		//gets entire dancecard record for signed in user
+		var queryString = "SELECT users.userId " +
+							"FROM users,"+ 
+								 "dancecard "+ 
+							"WHERE dancecard.userId =" + req.userid + " AND "+
+								  "users.userId=dancecard.partnerId";
+		console.log('get entire dancecard record: ');
+		console.log(queryString);
+
+		req.db.client.query(queryString, function(err, result){
+				  	req.queryResult = result;
+				  	console.log(req.queryResult);
+				  	next();
+				  });
+	}
 
 function getPeopleOnPage(req,res,next) {
 
