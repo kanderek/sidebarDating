@@ -44,6 +44,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
  * modules, directives, services, filters, etc.) */
 
 var sidebarApp = angular.module('sidebarDatingExt',[
+  'vr.directives.slider',
   'ui.router',
   'appControllers',
   'appServices'
@@ -100,6 +101,16 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
             'sidebar': {
                 templateUrl: chrome.extension.getURL('partials/signup3.html'),
                 controller: 'SignupCtrl'
+              }
+          }
+        })
+
+        .state('login', {
+          url: '',
+          views: {   
+            'sidebar': {
+                templateUrl: chrome.extension.getURL('partials/login.html'),
+                controller: 'LoginCtrl'
               }
           }
         })
@@ -218,17 +229,22 @@ appServices.factory('MessageService', ['$http', 'UiState',
       }
 
       messageService.sendMessageTouserid = function(message, callback){
-        $http({
-          method: 'POST',
-          url: "http://localhost:3000/message/",
-          data: message
-        }).
-        success(function(data, status, headers, config){
-          callback(data);
-        }).
-        error(function(data, status, headers, config){
-          console.log('error posting message');
-        }); 
+        if(message.senderid != message.receiverid){
+          $http({
+            method: 'POST',
+            url: "http://localhost:3000/message/",
+            data: message
+          }).
+          success(function(data, status, headers, config){
+            callback(data);
+          }).
+          error(function(data, status, headers, config){
+            console.log('error posting message');
+          }); 
+        }
+        else{
+          console.log('Cannot send message to yourself');
+        }
       }
 
   return messageService;
@@ -341,6 +357,61 @@ appServices.factory('Profile', ['$resource', '$http',
 
   }]);
 
+/*******************************************************************************************************
+Signup Service  */
+
+appServices.factory('SignupService', ['$http',
+  function($http){
+
+    var signupService = {};
+
+    signupService.user = {};
+    signupService.pref = {};
+
+    signupService.signupUser = function(callback){
+      $http({
+        method: 'POST',
+        url: "http://localhost:3000/signup",
+        data: {user: this.user, pref: this.pref}
+      }).
+      success(function(data, status, headers, config){
+        callback(data);
+      }).
+      error(function(data, status, headers, config){
+        console.log('error signing up user: sending data to server failed');
+      }); 
+    }
+
+    return signupService;
+
+  }]);
+
+/*******************************************************************************************************
+Login Service  */
+
+appServices.factory('LoginService', ['$http',
+  function($http){
+
+    var loginService = {};
+
+    loginService.loginUser = function(credentials, callback){
+      $http({
+        method: 'POST',
+        url: "http://localhost:3000/login",
+        data: credentials
+      }).
+      success(function(data, status, headers, config){
+        callback(data);
+      }).
+      error(function(data, status, headers, config){
+        console.log('error logging in user');
+      }); 
+    }
+
+    return loginService;
+
+  }]);
+
 /********************************************************************************************************
 //  
 //    ccccc     ooooo    nnnnnn       tt      rrrrrr     ooooo    ll   ll     eeeee    rrrrrr    ssssss
@@ -357,8 +428,64 @@ var appControllers = angular.module('appControllers', []);
 /*******************************************************************************************************
 Sign-up Controller  */
 
-appControllers.controller('SignupCtrl', ['$scope', '$state', 'UiState',
-  function($scope, $state, UiState) {
+appControllers.controller('SignupCtrl', ['$scope', '$state', 'UiState', 'SignupService',
+  function($scope, $state, UiState, SignupService) {
+
+    $scope.age_floor = 18;
+    $scope.age_ceil = 80;
+    $scope.distance_floor = 0;
+    $scope.distance_ceil = 100;
+
+    var current_year = new Date().getFullYear();
+    var createOptions = function(start, finish, increment){
+      var options = [];
+          if(increment > 0){
+            for(var i=start; i<= finish; i+= increment){ 
+              options.push(i);
+            }
+          }
+          else {
+            for(var i=start; i>= finish; i+= increment){ 
+              options.push(i);
+            }
+          }
+          return options;
+    };
+
+    var ruleOfSeven = function(){
+      var now = new Date();
+      var then = new Date($scope.user.dob_year || 1980, $scope.user.dob_month-1 || 11, $scope.user.dob_day || 11);
+      var diff = now - then;
+      var age = Math.floor(diff/1000/60/60/8765.81)
+      $scope.pref.age_min = (age/2 + 7) >= 18 ? age/2 + 7 : 18;
+      $scope.pref.age_max = age + 7;
+    }
+
+    $scope.gender_options = [{name: 'Female', value: 'f'},{name: 'Male', value: 'm'}];
+    $scope.day_options = createOptions(1,31,1);
+    $scope.month_options = createOptions(1,12,1);
+    $scope.year_options = createOptions(current_year-$scope.age_floor, current_year-$scope.age_ceil, -1);
+
+    $scope.user = SignupService.user;
+    $scope.user.username;
+    $scope.user.password;
+    $scope.user.email;
+    //$scope.user.dob ={};
+    $scope.user.dob_day;
+    $scope.user.dob_month;
+    $scope.user.dob_year;
+    $scope.user.gender;
+    $scope.user.zipcode;
+    $scope.user.personal_blurb;
+
+
+    $scope.pref = SignupService.pref;
+    $scope.pref.male = false;
+    $scope.pref.female = false;
+    $scope.pref.age_max;
+    $scope.pref.age_min;
+    $scope.pref.distance_max = 25;
+
 
     $scope.beginSignup = function(){
         $state.go('sign-up-1');
@@ -368,16 +495,67 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', 'UiState',
         $state.go('sign-up-2');
     }
 
-    $scope.goToSignupStep2 = function(){
+    $scope.goToSignupStep3 = function(){
+        ruleOfSeven();
         $state.go('sign-up-3');
     }
 
     $scope.createAccount = function(){
        // $state.go('main.profileList');
+       SignupService.signupUser(function(data){
+          console.log('Signing up user...');
+       });
        $state.go('main.profileList', { reload: true, inherit: false, notify: false});
     }
 
 }]);
+
+/*******************************************************************************************************
+Login Controller  */
+
+appControllers.controller('LoginCtrl', ['$scope', '$rootScope', '$state','UiState', 'LoginService', 'Profile', 'DancecardService',
+  function($scope, $rootScope, $state, UiState, LoginService, Profile, DancecardService) {
+
+    $scope.email;
+    $scope.password;
+    $scope.uiState = UiState;
+
+    $scope.login = function(){
+         LoginService.loginUser({email: $scope.email, password: $scope.password}, function(data){
+          if(data){ 
+            console.log('data returned from login process');
+            console.log(data);
+            console.log('User should be logged in...');
+            $scope.uiState.selfUserId = data.userid;
+
+            Profile.getProfileById(UiState.selfUserId, function(data){
+
+              $scope.uiState.selfProfile = data[0];
+              $scope.uiState.selectedProfile = data[0];
+              $rootScope.$broadcast('username-available');
+              // console.log('in uicontroler: self profile');
+              // console.log($scope.uiState.selectedProfile);
+            });
+
+            Profile.getProfilesByPage("someUrl", UiState.selfUserId, function(data){
+              // console.log('in uicontroler: pageProfiles');
+              // console.log(data);
+              $scope.uiState.pageProfiles = data;
+            });
+
+            DancecardService.getDancecard(function(data){
+              // console.log('in uicontroler: dancecard');
+              // console.log(data);
+              $scope.uiState.dancecard = data;
+            });
+
+            $state.go('main.profileList', {reload: true, inherit: false, notify: false});
+          }
+        });
+    }
+
+  }]);
+
 
 /*******************************************************************************************************
 Message Controller  */
@@ -509,6 +687,7 @@ Profile List Controller  */
 appControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
   function($scope, Profile, UiState) {
 
+    console.log(UiState);
     //Profile.getStaticProfileList(function(data){
     Profile.getProfilesByPage("someUrl", UiState.selfUserId, function(data){
       $scope.profiles = data;
@@ -530,8 +709,8 @@ appControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
 /*******************************************************************************************************
 Profile Detail Controller  */
 
-appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', 'Profile', 'UiState','DancecardService',
-  function($rootScope, $scope, Profile, UiState, DancecardService) {
+appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state', 'Profile', 'UiState','DancecardService',
+  function($rootScope, $scope, $state, Profile, UiState, DancecardService) {
 
 
     $scope.showAddButton = function(){
@@ -564,17 +743,26 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', 'Profile
         partnerid: userid,
         status: status
       }
-      if(status == 'added' && UiState.dancecard.length < 5){
-        DancecardService.updateDancecard(data, function(result){
-            UiState.dancecard = result;
-            if(status == 'removed'){
-              UiState.selectedProfile = UiState.selfProfile;
-            }
-            $rootScope.$broadcast('dancecard-update');
-        });
+      if(status == 'added'){
+        if(UiState.dancecard.length < 5){
+          DancecardService.updateDancecard(data, function(result){
+              UiState.dancecard = result;
+              $rootScope.$broadcast('dancecard-update');
+          });
+        }
+        else {
+          console.log('You dancecard is filled! You must remove someone to add again');
+        }
       }
-      else{
-        console.log('You dancecard is filled! You must remove someone to add again');
+
+      if(status == 'removed'){
+          DancecardService.updateDancecard(data, function(result){
+            UiState.dancecard = result;
+            UiState.selectedProfile = UiState.selfProfile;
+            UiState.showDetailsPanel = false;
+            $rootScope.$broadcast('dancecard-update');
+            $state.go('main.profileList');
+          });
       }
 
     };
@@ -590,27 +778,6 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', 'UiState', 'Profile
 
     $scope.uiState = UiState;
     $scope.uiState.showSidebar = true;
-
-    Profile.getProfilesByPage("someUrl", UiState.selfUserId, function(data){
-      // console.log('in uicontroler: pageProfiles');
-      // console.log(data);
-      $scope.uiState.pageProfiles = data;
-    });
-
-    Profile.getProfileById(UiState.selfUserId, function(data){
-
-      $scope.uiState.selfProfile = data[0];
-      $scope.uiState.selectedProfile = data[0];
-      $rootScope.$broadcast('username-available');
-      // console.log('in uicontroler: self profile');
-      // console.log($scope.uiState.selectedProfile);
-    });
-
-    DancecardService.getDancecard(function(data){
-      // console.log('in uicontroler: dancecard');
-      // console.log(data);
-      $scope.uiState.dancecard = data;
-    });
 
     $scope.tabAction = function(){
       console.log($scope.uiState.tabIconUrl);

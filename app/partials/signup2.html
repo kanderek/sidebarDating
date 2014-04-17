@@ -1,28 +1,39 @@
-<div>
-
-	<div>
+<div class="signup-wrapper">
+	<a ui-sref="sign-up-1">Back</a>
+	<div class="signup-heading">
 		<h4>Tell us about yourself</h4>
 	</div>
 
-	<div id="uploadImage">
+	<div id="signup-photo-preview">
 		<img />
 	</div>
-
-	<button type="button">Upload Photo</button>
-
-	<form>
-		<label for="dob">Birth Date"</label>
-		<input id="dob" type="date" ng-model="dob" required />
-		<select ng-model="gender" required>
-			<option value = "m">Male</option>
-			<option value = "f">Female</option>
+			<h4 id="username-header" >{{user.username}}</h4>
+	<form class="signup-info">
+		<label for="dob">Birth Date</label>
+		<div id="select-dob">
+			<select id="dob-month" name="dob" ng-model="user.dob_month" ng-options="month for month in month_options">
+				<option value="">MM</option>
+			</select>
+			<select id="dob-day" name="dob" ng-model="user.dob_day" ng-options="day for day in day_options">
+				      <option value="">DD</option>
+			</select>
+			<select id="dob-year" name="dob" ng-model="user.dob_year" ng-options="year for year in year_options">
+				<option value="">YYYY</option>
+			</select>
+		</div>
+		<select ng-model="user.gender" ng-options="gender.value as gender.name for gender in gender_options">
+			<option value="">Gender</option>
 		</select>
-		<input type="number" min="10000" max="99999" ng-model="zipcode" required />
+		<input type="text" placeholder="Zipcode" ng-model="user.zipcode" required />
 		<label for="personal_blurb">What are your interests?</label>
-		<textarea maxlength="140" minlength="1" required ng-model="personal_blurb" >
+		<textarea id="personal_blurb" placeholder="I'm interested in..." maxlength="140" minlength="1" required ng-model="user.personal_blurb" >
 		</textarea>
-		<p>{{personal_blurb.length}} Characters</p>
+		<label for="personal_blurb">{{user.personal_blurb.length}}/140 Characters</label>
 		<input type="submit" value="continue" ng-click="goToSignupStep3()"/>
 	</form>
+
+	{{user | json}}
+
+	{{pref | json}}
 
 </div>

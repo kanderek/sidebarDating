@@ -33,6 +33,9 @@
         "lib/angular-resource.min.js", 
         "lib/angular-route.min.js",
         "lib/angular-ui-router.min.js",
+        "lib/angular-touch.js",
+        "lib/rangeInputSupported.js",
+        "lib/angular-slider.js",
         "lib/bootstrap-3.1.1-dist/js/bootstrap.min.js",
         "lib/d3.v3.min.js",
         "content.js"

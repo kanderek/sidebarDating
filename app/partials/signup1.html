@@ -1,15 +1,23 @@
-<div>
-
-	<div id="logo-signup">
+<div class="signup-wrapper">
+	<a ui-sref="sign-up-0">Back</a>
+	<div class="signup-heading">
+		<h4>Introduce Yourself</h4>
 	</div>
-	<h4>Sidebar</h4>
-	<p>Designed Serendipity for Meeting People </p>
 
-	<form>
-		<input type="text" placeholder="First Name" ng-model="username" required/>
-		<input type="email" placeholder="Email Address" ng-model="email" required/>
-		<input type="text" placeholder="Password" ng-model="password" required/>
+	<div id="signup-photo-preview">
+		<img />
+	</div>
+
+	<button type="button" ng-click="">Upload Photo</button>
+	
+	<form class="signup-info">
+		<input type="text" placeholder="First Name" ng-model="user.username" required/>
+		<input type="email" placeholder="Email Address" ng-model="user.email" required/>
+		<input type="text" placeholder="Password" ng-model="user.password" required/>
 		<input type="submit" value="continue" ng-click="goToSignupStep2()"/>
 	</form>
 
-</div>
+	{{user | json}}
+
+	{{pref | json}}
+</div> 

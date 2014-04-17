@@ -21,16 +21,21 @@ var connectToDb = pgclient({
 });
 
 passport.use(new LocalStrategy({
-		usernameField: 'username',//can be anything including email
-	    passwordField: 'password'
+		usernameField: 'email',//can be anything including email
+	    passwordField: 'password',
+	    passReqToCallback: true
    },
-  function(username, password, done) {
-  	var queryString = "SELECT userid, username, password FROM users WHERE username=" + username;
-  	r
-  	eq.db.client.query(queryString, function(err, result){ 
+  function(req, email, password, done) {
+  	// console.log(req.body);
+  	var queryString = "SELECT userid, username, email, password FROM users WHERE email='" + email + "'";
+  	
+  	// console.log(queryString);
+  	req.db.client.query(queryString, function(err, result){ 
+  		// console.log(err);
+  		// console.log(result);
       if (err) { return done(err); }
       if (result.rows.length == 0) {
-        return done(null, false, { message: 'Incorrect username.' });
+        return done(null, false, { message: 'Incorrect email.' });
       }
       if (result.rows[0].password !== password) {
         return done(null, false, { message: 'Incorrect password.' });
@@ -41,11 +46,11 @@ passport.use(new LocalStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user.userid);
 });
 
-passport.deserializeUser(function(id, done) {
-  var queryString = "SELECT (userid, username, password) FROM users WHERE userid=" + id;
+passport.deserializeUser(function(req, userid, done) {
+  var queryString = "SELECT (userid, username, email, password) FROM users WHERE userid=" + userid;
  
   req.db.client.query(queryString, function(err, result){
   	done(err, result.rows[0]);
@@ -74,17 +79,96 @@ app.get('/', function(req, res){
   res.send('hello world');
 });
 
-app.post('/signup', function(req, res){
+app.post('/signup', 
+	createNewUser,
+	createNewUserPref,
+	function(req, res){
+	console.log('posted signup form data');
+	console.log(req.body);
+	res.send(200);
+});
 
 
-	}
-	);
+function createNewUser(req, res, next){
+	var user = req.body.user;
+	user.dateofbirth = moment([user.dob_year, user.dob_month, user.dob_day]).format('YYYY-MM-DD');//'1982-11-27'
+
+	var queryString = "INSERT INTO users " + 
+								"(username," + 
+								  "email," + 
+								  "password," + 
+								  "gender," + 
+								  "dateofbirth," +
+								  "zipcode," + 
+								  "personal_blurb) " +
+						   "VALUES ('" + user.username  + "','" + 
+						   				 user.email + "','" + 
+						   				 user.password + "','" + 
+						   				 user.gender + "','" + 
+						   				 user.dateofbirth + "','" +
+						   				 user.zipcode + "','" + 
+						   				 replaceAll("'", "''", user.personal_blurb) + "') " + 
+							"RETURNING *";
+	//console.log(queryString);
+
+	req.db.client.query(queryString, function(err, result){
+		req.queryResult = result;
+		 console.log("result of inserting user...");
+		console.log(result.rows[0].userid);
+		req.userid = result.rows[0].userid;
+		// console.log("Errors?...");
+		// console.log(err);
+		// console.log
+		next();
+	});
+}
+
+function escapeRegExp(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
+function replaceAll(find,replace,str){ 
+	return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+function createNewUserPref(req, res, next){
+	var pref = req.body.pref;
+	var queryString = "INSERT INTO userprefs " + 
+								"(userid," + 
+								  "male," + 
+								  "female," + 
+								  "age_min," + 
+								  "age_max," +
+								  "distance_max) " +
+						   "VALUES (" + req.userid  + "," + 
+						   				 pref.male + "," + 
+						   				 pref.female + "," + 
+						   				 pref.age_min + "," + 
+						   				 pref.age_max + "," +
+						   				 pref.distance_max + ")";
+	// console.log(queryString);
+
+	req.db.client.query(queryString, function(err, result){
+		req.queryResult = result;
+		// console.log("result of inserting user preferences...");
+		// console.log(result);
+		// console.log("Errors?...");
+		// console.log(err);
+		// console.log
+		next();
+	});
+}
+
+
 
 app.post('/login', 
 	//connectToDb, 
 	passport.authenticate('local'),
 	function(req, res){
-
+		// console.log(req.body);
+		// console.log("user authenticated!...");
+		// console.log(req.user);
+		res.json({userid: req.user.userid});
 	});
 
 app.get('/logout', function(req, res){
@@ -127,15 +211,16 @@ app.get('/message/:partnerId',
 app.post('/message', 
 	//connectToDb,
 	function(req, res, next){
+		console.log(req.user);
 		var senderId = req.body.senderid;
 		var receiverId = req.body.receiverid;
 		var message = req.body.message;
 		var sendTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
-		console.log(req.body);
+		//console.log(req.body);
 		var queryString = "INSERT INTO messages " + 
 								"(senderId, receiverId, message, sendTime) " +
-						   "VALUES (" + senderId + "," + receiverId + ",'" + message + "','" + sendTime + "')";
+						   "VALUES (" + senderId + "," + receiverId + ",'" + replaceAll("'", "''", message) + "','" + sendTime + "')";
 		//console.log(queryString);
 		
 		req.db.client.query(queryString, function(err, result){
@@ -155,8 +240,8 @@ app.get('/dancecard/:userId',
 	//connectToDb,
 	function(req, res, next){
 		req.userid = req.params.userId;
-		console.log('getting dancecard for ... ');
-		console.log(req.userid);
+		// console.log('getting dancecard for ... ');
+		// console.log(req.userid);
 		next();
 	},
 	getDancecardById,
@@ -178,9 +263,9 @@ app.get('/dancecard',
 		//if entry.status == mutual -> ??
 
 	},
-	verifyDanceCardParameters(),
-	addToDanceCard(),
-	updateDanceCardStatus(),
+	verifyDanceCardParameters,
+	addToDanceCard,
+	updateDanceCardStatus,
 	function(req, res){
 		res.send(200);
 	});
@@ -208,12 +293,12 @@ function getDancecardById(req, res, next){
 		// 					"WHERE userid =" + userId + " AND "+
 		// 						  "status != 'removed'";
 
-		console.log('get dancecard peeps: ');
-		console.log(queryString);
+		// console.log('get dancecard peeps: ');
+		// console.log(queryString);
 
 		req.db.client.query(queryString, function(err, result){
 				  	req.queryResult = result;
-				  	console.log(req.queryResult);
+				  	//console.log(req.queryResult);
 				  	next();
 				  });
 	}
@@ -232,8 +317,8 @@ app.post('/dancecard',
 
 	},
 	// verifyDanceCardParameters(),
-	addToDanceCard(),
-	updateDanceCardStatus(),
+	addToDanceCard,
+	updateDanceCardStatus,
 	function(req, res){
 		res.redirect('/dancecard/'+req.dancecard.userid);
 	});
@@ -244,27 +329,22 @@ app.post('/dancecard',
 //   res.send(401);
 // }
     
-function addToDanceCard() {
-
-	return  function(req,res,next) {
+function addToDanceCard(req,res,next) {
 	var queryString = "INSERT INTO danceCard "+
 						  "(userId, partnerId, status) " + 
 					   "VALUES (" + req.dancecard.userid + "," + 
 					   				req.dancecard.partnerid  + ",'" + 
 					   				req.dancecard.status + "')";
 
-		console.log(queryString);
+		//console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error 
 			req.update = err ? true : false;
 			next();
 		});
-	}
 };
 
-function updateDanceCardStatus() {
-
-	return  function(req,res,next) {
+function updateDanceCardStatus(req,res,next) {
 		if(req.update){
 			var queryString = "UPDATE danceCard "+
 								  "SET status = '"+ req.dancecard.status +
@@ -279,12 +359,9 @@ function updateDanceCardStatus() {
 		else{
 			next();
 		}
-	}
 };
 
-function verifyDanceCardParameters() {
-
-	return function(req,res,next) {
+function verifyDanceCardParameters(req,res,next) {
 		console.log(req.dancecard);
 		if(req.dancecard.status && req.dancecard.userid && req.dancecard.partnerid){
 			req.dancecard.status = "'" + req.dancecard.status + "'";
@@ -297,7 +374,6 @@ function verifyDanceCardParameters() {
 			console.log('what happened?');
 			res.send(500);
 		}
-	}
 };
 
 app.get('/profile/:userid', 
@@ -341,8 +417,8 @@ function getPeopleOnPage(req,res,next) {
 
 	var whereClause = "WHERE userid != " + req.userid;
 
-	console.log(req.userid);
-	console.log(req.queryResult);
+	// console.log(req.userid);
+	// console.log(req.queryResult);
 	for(var i=0; i<req.queryResult.rows.length; i++){
 		whereClause += " AND userid !=" + req.queryResult.rows[i].userid;
 	}
@@ -350,7 +426,7 @@ function getPeopleOnPage(req,res,next) {
 	var queryString = "SELECT  userid, username, age, location_city, location_state, personal_blurb "+
 						  "FROM users " + whereClause;
 
-		console.log(queryString);
+		//console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error 
 			req.queryResult = result;

@@ -4,40 +4,53 @@
 -- CREATE DATABASE sidebar
 
 DROP TABLE messages;
-DROP TABLE danceCard;
+DROP TABLE userprefs;
+DROP TABLE dancecard;
 DROP TABLE users;
 
 
 -- Every table should have at least one primary key! (best practice)
 CREATE TABLE users (
-	userId			int SERIAL PRIMARY KEY, /*NOT NULL UNIQUE (constraint is same as primary key*/
-	username		varchar(20) NOT NULL,
-	gender			varchar(1),
-	dateOfBirth		date CHECK (dateOfBirth < CURRENT_DATE),
+	userid			SERIAL PRIMARY KEY, /*NOT NULL UNIQUE (constraint is same as primary key*/
+	username		varchar(30) NOT NULL,
+	password		varchar(30) NOT NULL,
+	email			varchar(30) NOT NULL,
+	gender			char(1),
+	dateofbirth		date CHECK (dateofbirth < CURRENT_DATE),
 	age				int CHECK (age > 0 AND age < 100),
 	location_city	varchar(30),
 	location_state	varchar(30),
-	zipCode			int CHECK (zipCode > 0 AND zipCode < 100000),
+	zipCode			char(5),
 	personal_blurb	varchar(300) DEFAULT 'I''m a blank essay',
-	imageUrls		varchar(100)[] 
+	imageurls		varchar(100)[] 
 
 	--PRIMMARY KEY (a, b) for multiple primary keys in a table
 );
 
-CREATE TABLE danceCard (
-	userId			int REFERENCES users (userId) ON DELETE CASCADE, -- Foreign key constraint
-	partnerId		int REFERENCES users (userId) ON DELETE CASCADE, 
+CREATE TABLE userprefs (
+	userid 			int REFERENCES users (userid) ON DELETE CASCADE,
+	male			boolean,
+	female			boolean,
+	age_min			int,
+	age_max			int CHECK (age_max > age_min),
+	distance_max	int,
+	PRIMARY KEY (userid)
+);
+
+CREATE TABLE dancecard (
+	userid			int REFERENCES users (userid) ON DELETE CASCADE, -- Foreign key constraint
+	partnerid		int REFERENCES users (userid) ON DELETE CASCADE, 
 	status			varchar(10),
 	--FOREIGN KEY (userId, partnerId) REFERENCES user (userId, userId)
 	PRIMARY KEY (userId, partnerId)
 ); 
 
 CREATE TABLE messages (
-	senderId		int REFERENCES users (userId),
-	receiverId		int REFERENCES users (userId),
+	senderid		int REFERENCES users (userid),
+	receiverid		int REFERENCES users (userid),
 	message 		text NOT NULL,
-	sendTime		timestamp,
-	PRIMARY KEY (senderId, receiverId, sendTime)		 
+	sendtime		timestamp,
+	PRIMARY KEY (senderid, receiverid, sendtime)		 
 );
 
 
@@ -62,9 +75,10 @@ CREATE TABLE messages (
 -- 	(1, 'andkw', 'm', '1989-01-29', 94123, 'I''m interested in all things art and design. Working in the bay area doing UX work.'
 -- );
 
-COPY users FROM '/Users/derekkan/Dev/sidebarDating/api/users.txt' DELIMITER ',' CSV;
-COPY danceCard FROM '/Users/derekkan/Dev/sidebarDating/api/dancecard.txt' DELIMITER ',' CSV;
-COPY messages FROM '/Users/derekkan/Dev/sidebarDating/api/messages.txt' DELIMITER ',' CSV;
+-- COPY users FROM '/Users/derekkan/Dev/sidebarDating/api/users.txt' DELIMITER ',' CSV;
+-- COPY danceCard FROM '/Users/derekkan/Dev/sidebarDating/api/dancecard.txt' DELIMITER ',' CSV;
+-- COPY messages FROM '/Users/derekkan/Dev/sidebarDating/api/messages.txt' DELIMITER ',' CSV;
+-- COPY userprefs FROM '/Users/derekkan/Dev/sidebarDating/api/userprefs.txt' DELIMITER ',' CSV;
 -- can use COPY command to insert large amounts of data residing in a flat text file 
 -- COPY user FROM '/where/the/file/exists/user.txt'
 

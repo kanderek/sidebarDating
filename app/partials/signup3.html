@@ -1,23 +1,115 @@
-<div>
+<style>
+	slider {
+		display:     block;
+		position:    relative;
+		height:      15px;
+		width:       100%;
+	}
 
-	<div>
+	slider span.bar {
+		height:     50%;
+		z-index:    0;
+		background: #eee;
+		left:       0;
+		top:        25%;
+		cursor:     pointer;
+		border-radius: 3px;
+	}
+
+	slider span.bar.selection, slider span.bar.unselected {
+	}
+
+	slider span.bar.selection {/* area between selection markers*/
+		background: #0a0;
+		opacity:    0.5;
+	}
+
+	slider span.bar.unselected {
+		width:      auto;
+		background: #a00;
+		opacity:    0.5;
+	}
+
+	slider span.pointer { /*selection markers */
+		cursor:           pointer;
+		width:            15px;
+		height: 15px;
+		top:              0;
+		bottom:           0;
+		background-color: #fff;
+		border: solid 1px black;
+		border-radius: 50%;
+	}
+
+	slider span.pointer:hover {
+	}
+
+	slider span.pointer.active {
+	}
+
+	slider span.bubble {
+		font-size:   0.7em;
+		line-height: 1.4em;
+		font-family: sans-serif;
+		text-align:  center;
+		text-shadow: none;
+		top:         -1.3em;
+		cursor:      pointer;
+	}
+
+	slider span.bubble.selection, slider span.bubble.limit {
+		top: 25%;
+	}
+
+	slider span.bubble.selection {
+	}
+
+	slider span.bubble.selection.ng-binding {
+		display: none;
+	}
+
+	slider span.bubble.limit {
+	}
+
+	slider span.bubble.low, slider span.bubble.high {
+	}
+	
+	::-ms-tooltip {
+		display: none;
+	}
+</style>
+
+<div class="signup-wrapper">
+	<a ui-sref="sign-up-2">Back</a>
+	<div class="signup-heading">
 		<h4>What are you looking for?</h4>
 	</div>
 
-	<form>
-		<input id="male_pref" type="checkbox" ng-model="male_pref" />
-		<label for="male_pref">Male</label>
-		<input id="female_pref" type="checkbox" ng-model="male_pref" />
-		<label for="femaile_pref">Female</label>
-
-		<div class="slider" ng-model="age_pref">
+	<form class="signup-info">
+		<div class="checkbox-row">
+			<input id="male_pref" type="checkbox" ng-model="pref.male" />
+			<label for="male_pref">Male</label>
+		</div>
+		<div class="checkbox-row">
+			<input id="female_pref" type="checkbox" ng-model="pref.female" />
+			<label for="female_pref">Female</label>	
 		</div>
 
-		<div class="slider" ng-model="distance_pref">
+		<div class="slider">
+			<slider floor='{{age_floor}}' ceiling='{{age_ceil}}' step='1' precision='0' buffer=''
+	            stickiness='0.5' ng-model-low='pref.age_min' ng-model-high='pref.age_max'></slider>
+		</div>
+
+		<div class="slider" ng-model="pref.distance_max">
+			<slider floor='{{distance_floor}}' ceiling='{{distance_ceil}}' step='1' precision='0' stickiness='0.5'
+	            ng-model='pref.distance_max'></slider>
 		</div>
 
 		<input type="submit" value="Ready?" ng-click="createAccount()"/>
 	</form>
-	<p>Based on this criteria and your browsing behavior, we'll show you like-minded people for you to connect with.</p>
+	<p class="explain-signup">Based on this criteria and your browsing behavior, we'll show you like-minded people for you to connect with.</p>
 
+		{{user | json}}
+
+	{{pref | json}}
 </div>

@@ -1,8 +1,8 @@
-0,Frank,m, '1982-11-27', 31,San Francisco,CA,94102,I love trying new restaurants and exploring the bay., {}
-1,Sid,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work.,{}
-2,James,m, '1989-01-29', 31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work.,{}
-3,Dylan,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
-4,Joe,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
-5,Freddy,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
-6,Daniel,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
-7,Charlie,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
+0,Frank,1234,Frank@gmail.com,m, '1982-11-27', 31,San Francisco,CA,94102,I love trying new restaurants and exploring the bay., {}
+1,Sid,1234,Sid@gmail.com,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work.,{}
+2,James,1234,James@gmail.com,m, '1989-01-29', 31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work.,{}
+3,Dylan,1234,Dylan@gmail.com,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
+4,Joe,1234,Joe@gmail.com,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
+5,Freddy,1234,Freddy@gmail.com,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
+6,Daniel,1234,Daniel@gmail.com,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
+7,Charlie,1234,Charlie@gmail.com,m, '1989-01-29',31,San Francisco,CA,94102,I'm interested in all things art and design. Working in the bay area doing UX work., {}
