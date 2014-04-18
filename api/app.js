@@ -1,18 +1,22 @@
 var express = require('express');
-var moment = require('moment');
 var app = express();
+
+var fs = require('fs');
+var moment = require('moment');
+var im = require('imagemagick')
+
+//Database modules for working with postgresql
 var pg = require('pg');
 var pgclient = require('connect-pgclient');
-var events = require("events");
 
+//Modules for using node events
+var events = require("events");
 var EventEmitter = require("events").EventEmitter;
- 
 var ee = new EventEmitter();
 
-
+//For Socket.io 
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-
 
 // app.listen(3000);
 server.listen(3000);
@@ -84,6 +88,7 @@ app.configure(function(){
   app.use(express.logger());
   app.use(express.static(__dirname + '/static/images'));
   app.use(express.cookieParser());
+  app.use(express.bodyParser());
   app.use(express.json());
   app.use(express.urlencoded());
   // app.use(flash());
@@ -178,6 +183,60 @@ function createNewUserPref(req, res, next){
 	});
 }
 
+app.post('/upload', 
+	//connectToDb, 
+	// passport.authenticate('local'),
+	function(req, res, next){
+		console.log('this is the body of the file uploads');
+		console.log(req.files);
+		console.log("file uploaded to temp folder!...");
+		// console.log(req.user);
+
+		fs.readFile(req.files.file.path, function (err, data) {
+		  if(!err){
+			  var newPath = __dirname + '/static/images/' + req.files.file.name;
+			  var thumbPath = __dirname + '/static/images/thumb_' + req.files.file.name;
+			  // var newPath = __dirname + "/uploads";
+			  console.log('begin writing to folder ' + newPath );
+			  fs.writeFile(newPath, data, function (err) {
+			    //res.redirect("back");
+			    if(err){
+				    console.log(err);
+				  	console.log('error writing file to directory');
+				  	res.send(501);
+				 }
+				 else{
+				 	// im.resize({
+				 	im.crop({
+					  srcPath: newPath,
+					  dstPath: thumbPath,
+					  width:   200,
+					  height: 200,
+					  quality: 1,
+					  gravity: "Center"//default gravity is Center
+					}, function(err, stdout, stderr){
+					  if (err){
+					  	console.log(err);
+					  }
+					  else{
+					  	console.log('cropped image to fit within 200x200px');
+					  	next();
+					  	// console.log('resizeed image to fit within 200x200px');
+					  }
+					});
+				 }
+			  });
+			}
+			else{
+				console.log(err);
+				console.log('error: could not read file form path ');
+				res.send(501);
+			}
+		});
+	},
+	function(req,res){
+		res.send(200);
+	});
 
 
 app.post('/login', 

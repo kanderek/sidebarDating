@@ -39,6 +39,7 @@
         //"lib/bootstrap-3.1.1-dist/js/bootstrap.min.js",
         "lib/jquery.flexslider.js",
         "lib/angular-carousel.js",
+        "lib/angular-file-upload.js",
         "lib/d3.v3.min.js",
         "lib/socket.io.js",
         "content.js"

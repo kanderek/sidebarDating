@@ -50,6 +50,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 var sidebarApp = angular.module('sidebarDatingExt',[
   'vr.directives.slider',
   'angular-carousel',
+  'angularFileUpload',
   'ui.router',
   'appControllers',
   'appServices'
@@ -70,7 +71,16 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
     $stateProvider
         
         // HOME STATES AND NESTED VIEWS ========================================
-        
+        .state('file-upload-teset', {
+          url: '',
+          views: {
+            'sidebar': {
+              templateUrl: chrome.extension.getURL('partials/fileUploadTest.html'),
+              controller: 'UploadTestCtrl'
+            }
+          }
+        })
+
         .state('check-status', {
           url: '',
           views: {
@@ -560,6 +570,52 @@ appServices.factory('InitService', ['$rootScope', 'UiState','Profile','Dancecard
 var appControllers = angular.module('appControllers', []);
 
 /*******************************************************************************************************
+Upload Test Controller  */
+
+appControllers.controller('UploadTestCtrl', ['$scope', '$upload', '$rootScope', '$state',
+    function($scope, $upload, $rootScope, $state) {
+
+        $scope.largeImage = "http://localhost:3000/userId_1.jpg";
+        $scope.mediumImage = "http://localhost:3000/thumb_okc_profile2.jpg"; 
+
+$scope.onFileSelect = function($files) {
+    //$files: an array of files selected, each file has name, size, and type.
+    for (var i = 0; i < $files.length; i++) {
+      var file = $files[i];
+      console.log(file);
+      $scope.upload = $upload.upload({
+        url: 'http://localhost:3000/upload', //upload.php script, node.js route, or servlet url
+        // method: POST or PUT,
+        // headers: {'header-key': 'header-value'},
+        // withCredentials: true,
+        data: {myObj: $scope.myModelObj},
+        file: file, // or list of files: $files for html5 only
+        /* set the file formData name ('Content-Desposition'). Default is 'file' */
+        //fileFormDataName: myFile, //or a list of names for multiple files (html5).
+        /* customize how data is added to formData. See #40#issuecomment-28612000 for sample code */
+        //formDataAppender: function(formData, key, val){}
+      }).progress(function(evt) {
+        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+      }).success(function(data, status, headers, config) {
+        // file is uploaded successfully
+        $scope.largeImage = "http://localhost:3000/" + file.name;
+        $scope.mediumImage = "http://localhost:3000/thumb_"+ file.name; 
+        // $scope.mediumImage = "http://lorempixel.com/200/200/sports/";
+        console.log(data);
+      });
+      //.error(...)
+      //.then(success, error, progress); 
+      //.xhr(function(xhr){xhr.upload.addEventListener(...)})// access and attach any event listener to XMLHttpRequest.
+    }
+    /* alternative way of uploading, send the file binary with the file's content-type.
+       Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed. 
+       It could also be used to monitor the progress of a normal http post/put request with large data*/
+    // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
+  };
+
+  }]);
+
+/*******************************************************************************************************
 Check Status Controller  */
 
 appControllers.controller('CheckStatusCtrl', ['$scope', '$rootScope', '$state','UiState', 'AuthService', 'Profile', 'DancecardService', 'InitService',
@@ -673,6 +729,7 @@ appControllers.controller('LoginCtrl', ['$scope', '$rootScope', '$state','UiStat
     $scope.password;
     $scope.uiState = UiState;
 
+    console.log(url_info);
     $scope.login = function(){
             LoginService.loginUser({email: $scope.email, password: $scope.password}, function(data){
             if(data){ 
@@ -784,7 +841,6 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$timeout', '
       $scope.conversation.push(data);
     });
 
-    //$timeout($state.go('main.messages'), 1000);
 
     $scope.username = UiState.selfProfile.username;
 
@@ -796,6 +852,9 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$timeout', '
 
     DancecardService.getDancecard(function(data){
         $scope.dancecard = data;
+        for(var i=0; i < (5 - data.length); i++){
+          $scope.dancecard_open 
+        }
         UiState.dancecard = $scope.dancecard;
     });
 

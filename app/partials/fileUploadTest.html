@@ -1,0 +1,61 @@
+<style>
+	#file-upload-test-wrapper {
+		position: relative;
+		top: 150px;
+		width: 100%;
+		background-color: gray;
+	}
+
+	#file-upload-test-wrapper input {
+		width: 90%;
+	}
+
+	#file-upload-test-wrapper button {
+		width: 90%;
+	}
+
+	#file-drop-zone {
+		width: 200px;
+		height: 200px;
+		border: dashed 2px white;
+		border-radius: 50%;
+		text-align: center;
+	}
+
+	#file-drop-zone .v_center {
+		position: relative;
+		top: 85px;
+	}
+
+	#medium-img-preview img {
+		width: 200px;
+		/*height: 200px;*/
+	}
+
+	.optional-css-class {
+		background-color: rgba(100,100,100,0.5);
+	}
+
+</style>
+
+<div id="file-upload-test-wrapper">
+  <input name="myModel" type="text" ng-model="myModelObj">
+  <input name="singleFile" type="file" ng-file-select="onFileSelect($files)" >
+  <input naem="multiFile" type="file" ng-file-select="onFileSelect($files)" multiple>
+  <div id="file-drop-zone" 
+  	   ng-file-drop="onFileSelect($files)" 
+  	   ng-file-drag-over-class="optional-css-class"
+       ng-show="dropSupported">
+  	   
+        	<p class="v_center"> drop files here</p>
+  </div>
+  <div ng-file-drop-available="dropSupported=true" 
+        ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+  <button ng-click="upload.abort()">Cancel Upload</button>
+
+  <a href="{{largeImage}}" target="_blank">Your large image lives here {{largeImage}}<a>
+  <div id="medium-img-preview">
+  <a href="{{mediumImage}}" target="_blank">Your medium image lives here {{mediumImage}}<a>
+  		<img ng-src="{{ mediumImage }}" />
+  </div>
+</div>
