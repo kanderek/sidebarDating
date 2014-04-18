@@ -27,9 +27,10 @@ var resetTabStatus = function(tabID){
   return index;
 }
 
-var toggleTabStatus = function(tabID){
-  var index = getTabStatusIndex(tabID);
+var toggleTabStatus = function(tab){
+  var index = getTabStatusIndex(tab.id);
   console.log(index);
+
   if(tabStatus[index].status){
     tabStatus[index].status = false;
     chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
@@ -38,7 +39,7 @@ var toggleTabStatus = function(tabID){
     tabStatus[index].status = true;
   }
   setBrowserActionIcon(tabStatus[index].status);
-  callBrowserAction(tabID, tabStatus[index].status);
+  callBrowserAction(tab, tabStatus[index].status);
 }
 
 var setBrowserActionIcon = function(status){
@@ -50,12 +51,12 @@ var setBrowserActionIcon = function(status){
   }
 }
 
-var callBrowserAction = function(tabID, status){
+var callBrowserAction = function(tab, status){
   if(status){
-    openSidebar(tabID);
+    openSidebar(tab);
   }
   else{
-    closeSidebar(tabID);
+    closeSidebar(tab);
   }
 
 }
@@ -74,7 +75,8 @@ var isBrowserActionActive = function(tabID){
 chrome.browserAction.onClicked.addListener(function (tab) {
   console.log('browserAction clicked');
   //injectAngular(tab.id);
-  toggleTabStatus(tab.id);    
+  console.log(tab);
+  toggleTabStatus(tab);    
 });
 
 
@@ -107,7 +109,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 
   var index = getTabStatusIndex(tabId);
 	if(changeInfo.status == "complete"){
-    callBrowserAction(tabId, tabStatus[index].status);
+    callBrowserAction(tab, tabStatus[index].status);
 	}
   else if(changeInfo.status == "loading" && changeInfo.url){
     resetTabStatus(tabId);
@@ -118,15 +120,15 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
   }
 });
 
-var openSidebar = function(tabID){
+var openSidebar = function(tab){
   console.log('open Sidebar');
-  chrome.tabs.sendMessage(tabID, {type: "open-sidebar", data: "data"});
+  chrome.tabs.sendMessage(tab.id, {type: "open-sidebar", data: {url: tab.url, page_title: tab.title}});
   // setting a badge
   //chrome.browserAction.setBadgeText({text: "red!"});
 }
 
-var closeSidebar = function(tabID){
-  chrome.tabs.sendMessage(tabID, {type: "close-sidebar", data: "data"});
+var closeSidebar = function(tab){
+  chrome.tabs.sendMessage(tab.id, {type: "close-sidebar", data: {url: tab.url, page_title: tab.title}});
   // setting a badge
   //chrome.browserAction.setBadgeText({text: "red!"});
 }

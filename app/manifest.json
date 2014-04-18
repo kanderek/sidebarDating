@@ -16,7 +16,7 @@
 
   "background": {
     "scripts": ["lib/jquery-1.11.0.min.js", "background.js"],
-    "persistent": false
+    "persistent": false// should be used 
   },
 
   // Allows you to use an html page of your creation instead of the default google tabs page
@@ -36,14 +36,15 @@
         "lib/angular-touch.js",
         "lib/rangeInputSupported.js",
         "lib/angular-slider.js",
-        "lib/bootstrap-3.1.1-dist/js/bootstrap.min.js",
+        //"lib/bootstrap-3.1.1-dist/js/bootstrap.min.js",
+        "lib/jquery.flexslider.js",
+        "lib/angular-carousel.js",
         "lib/d3.v3.min.js",
+        "lib/socket.io.js",
         "content.js"
       ]
     }
   ],
-
-  "permissions": ["tabs", "history", "notifications"],
 
   "web_accessible_resources": [
       "content.html",
@@ -62,5 +63,8 @@
       // "icon_15724/icon_15724.png",
       // "icon_25798/icon_25798.png",
       "css/*"
-  ]
+  ],
+  "permissions": ["tabs", "history", "notifications","http://*/*", "https://*/*"]
+
+  // "content_security_policy": "script-src 'self' http://localhost:3000 ; object-src 'self' "
 }

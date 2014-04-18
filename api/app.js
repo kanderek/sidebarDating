@@ -3,6 +3,21 @@ var moment = require('moment');
 var app = express();
 var pg = require('pg');
 var pgclient = require('connect-pgclient');
+var events = require("events");
+
+var EventEmitter = require("events").EventEmitter;
+ 
+var ee = new EventEmitter();
+
+
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+
+
+// app.listen(3000);
+server.listen(3000);
+console.log("listening at port 3000");
+
 // var conString = "postgres://derekkan:5432@localhost/sidebar";
 
 // var client = new pg.Client(conString);
@@ -27,7 +42,7 @@ passport.use(new LocalStrategy({
    },
   function(req, email, password, done) {
   	// console.log(req.body);
-  	var queryString = "SELECT userid, username, email, password FROM users WHERE email='" + email + "'";
+  	var queryString = "SELECT userid, password FROM users WHERE email='" + email + "'";
   	
   	// console.log(queryString);
   	req.db.client.query(queryString, function(err, result){ 
@@ -46,13 +61,17 @@ passport.use(new LocalStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
+	// console.log('serialize user...')
+	// console.log(user);
   done(null, user.userid);
 });
 
 passport.deserializeUser(function(req, userid, done) {
-  var queryString = "SELECT (userid, username, email, password) FROM users WHERE userid=" + userid;
+  var queryString = "SELECT (userid) FROM users WHERE userid=" + userid;
  
   req.db.client.query(queryString, function(err, result){
+  	// console.log('deserialize user..');
+  	// console.log(result);
   	done(err, result.rows[0]);
   });
 });
@@ -165,9 +184,9 @@ app.post('/login',
 	//connectToDb, 
 	passport.authenticate('local'),
 	function(req, res){
-		// console.log(req.body);
-		// console.log("user authenticated!...");
-		// console.log(req.user);
+		console.log(req.body);
+		console.log("user authenticated!...");
+		console.log(req.user);
 		res.json({userid: req.user.userid});
 	});
 
@@ -177,11 +196,13 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/authentication_status', function(req, res){
+	console.log(req.user);
+	// console.log(req.user.userid);
 	if(req.user){
-		res.json(req.user);
+		res.json({status: "logged_in", userid: req.user.userid});
 	}
 	else{
-		res.send('not authenticated');
+		res.json({status: 'logged_out'});
 	}
 });
 
@@ -189,7 +210,7 @@ app.get('/authentication_status', function(req, res){
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.send(401);
+  res.json({status: "logged_out"});
 }
 
 app.get('/message/:partnerId',
@@ -229,14 +250,16 @@ app.post('/message',
 		//console.log(req.body);
 		var queryString = "INSERT INTO messages " + 
 								"(senderId, receiverId, message, sendTime) " +
-						   "VALUES (" + senderId + "," + receiverId + ",'" + replaceAll("'", "''", message) + "','" + sendTime + "')";
+						   "VALUES (" + senderId + "," + receiverId + ",'" + replaceAll("'", "''", message) + "','" + sendTime + "') " +
+						   "RETURNING *";
 		//console.log(queryString);
 		
 		req.db.client.query(queryString, function(err, result){
 			// console.log('result: ');
 			// console.log(result);
-			console.log('err: ');
-			console.log(err);
+			// console.log('err: ');
+			// console.log(err);
+			ee.emit('someEvent', result.rows[0]);
 			next();
 		});
 	},
@@ -338,7 +361,7 @@ function updateDanceCardStatus(req,res,next) {
 								  "SET status = '"+ req.dancecard.status +
 								  "' WHERE userid = " + req.dancecard.userid + 
 								  " AND partnerid = " + req.dancecard.partnerid;
-				console.log(queryString);
+				// console.log(queryString);
 				req.db.client.query(queryString, function(err, result){
 					//deal with error 
 					next();
@@ -355,11 +378,11 @@ function verifyDanceCardParameters(req,res,next) {
 			req.dancecard.status = "'" + req.dancecard.status + "'";
 			req.dancecard.userid = parseInt(req.dancecard.userid);
 			req.dancecard.partnerid = parseInt(req.dancecard.partnerid);
-			console.log('all checked out, error is elsewhere');
+			// console.log('all checked out, error is elsewhere');
 			next();
 		}
 		else{
-			console.log('what happened?');
+			// console.log('what happened?');
 			res.send(500);
 		}
 };
@@ -409,12 +432,12 @@ function getDancecardRecord(req, res, next){
 								 "dancecard "+ 
 							"WHERE dancecard.userId =" + req.userid + " AND "+
 								  "users.userId=dancecard.partnerId";
-		console.log('get entire dancecard record: ');
-		console.log(queryString);
+		// console.log('get entire dancecard record: ');
+		// console.log(queryString);
 
 		req.db.client.query(queryString, function(err, result){
 				  	req.queryResult = result;
-				  	console.log(req.queryResult);
+				  	// console.log(req.queryResult);
 				  	next();
 				  });
 	}
@@ -447,5 +470,35 @@ app.post('/processHistory', function(req, res){
 });
 
 
-app.listen(3000);
-console.log("listening at port 3000");
+var users = {};
+
+io.sockets.on('connection', function(socket){
+
+	socket.emit('init', {socketid: socket.id});//
+
+	socket.on('register-user', function(data){
+		// users[data.userid] = {socket: socket.id};
+		users[data.userid] = { socket: socket.id };
+		console.log('registered user: ' + data.userid);
+		console.log(users);
+	});
+
+	ee.on("someEvent", function (data) {
+    	console.log("event has occured: ");
+    	console.log(data);
+    	if(users[data.receiverid]){
+			io.sockets.socket(users[data.receiverid].socket).emit('new-message', data);
+		}
+	});
+
+	// io.sockets.socket(users.userid.socket).emit()
+
+	socket.on('disconnect', function(){
+		
+
+	});
+
+});
+
+
+

@@ -6,6 +6,15 @@
 		},
 		{
 			"path": "/Users/derekkan/Dev/playTestNode"
+		},
+		{
+			"path": "/Users/derekkan/Dev/socket.io-chat-demo"
+		},
+		{
+			"path": "/Users/derekkan/Dev/my-project"
+		},
+		{
+			"path": "/Users/derekkan/Dev/angular-socket-io-im"
 		}
 	]
 }

@@ -3,6 +3,7 @@
 -- Syntax to create new database "CREATE DATABASE [mydb (db name)]"
 -- CREATE DATABASE sidebar
 
+DROP TABLE notifications;
 DROP TABLE messages;
 DROP TABLE userprefs;
 DROP TABLE dancecard;
@@ -42,7 +43,7 @@ CREATE TABLE dancecard (
 	partnerid		int REFERENCES users (userid) ON DELETE CASCADE, 
 	status			varchar(10),
 	--FOREIGN KEY (userId, partnerId) REFERENCES user (userId, userId)
-	PRIMARY KEY (userId, partnerId)
+	PRIMARY KEY (userid, partnerid)
 ); 
 
 CREATE TABLE messages (
@@ -51,6 +52,13 @@ CREATE TABLE messages (
 	message 		text NOT NULL,
 	sendtime		timestamp,
 	PRIMARY KEY (senderid, receiverid, sendtime)		 
+);
+
+CREATE TABLE notifications (
+	userid 			int REFERENCES users (userid) ON DELETE CASCADE,
+	message 		varchar(140) NOT NULL,	
+	action_time		timestamp,
+	PRIMARY KEY (userid)
 );
 
 
