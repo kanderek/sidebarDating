@@ -336,10 +336,10 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'UiState',
       }
 
       dancecardService.getDancecardById = function(userid, callback){
-        console.log('in dancecard service...');
-        console.log(UiState);
-        console.log(UiState.selfProfile.userid);
-        console.log(UiState.selfProfile.userid);
+        // console.log('in dancecard service...');
+        // console.log(UiState);
+        // console.log(UiState.selfProfile.userid);
+        // console.log(UiState.selfProfile.userid);
         $http({
           method: 'GET',
           url: "http://localhost:3000/dancecard/"+userid
@@ -748,8 +748,12 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState
         if(!$scope.user.mediumImageUrl){
           $scope.user.mediumImageUrl = [];
         }
+        if(!$scope.user.smallImageUrl){
+          $scope.user.smallImageUrl = [];
+        }
         $scope.user.originalImageUrl.push(data.origImageUrl);
         $scope.user.mediumImageUrl.push(data.medImageUrl); 
+        $scope.user.smallImageUrl.push(data.smallImageUrl);
         // $scope.mediumImage = "http://lorempixel.com/200/200/sports/";
         console.log(data);
       });
@@ -896,8 +900,8 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$timeout', '
     //     $scope.danceCard = data;
     // });
   
-    console.log("Uistate in dancecard controller...");
-    console.log(UiState);
+    // console.log("Uistate in dancecard controller...");
+    // console.log(UiState);
     Socket.on('init', function(data){
       console.log('connection started...');
       console.log('socket id: ');
@@ -991,8 +995,8 @@ Profile List Controller  */
 appControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
   function($scope, Profile, UiState) {
 
-    console.log("Uistate in profile List controller...");
-    console.log(UiState);
+    // console.log("Uistate in profile List controller...");
+    // console.log(UiState);
     //Profile.getStaticProfileList(function(data){
     // Profile.getProfilesByPage("someUrl", UiState.selfProfile.userid, function(data){
     //   $scope.profiles = data;
@@ -1039,9 +1043,17 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
     //           }
     //         ];
 
-    console.log('in profileDetails controller....');
+    // console.log('in profileDetails controller....');
+    // console.log(UiState);
+    // console.log($scope.uiState);
+
+    $scope.uiState = UiState;
+    $scope.profileImages = UiState.selectedProfile.imageurls;
+    console.log('in profile details controller...');
     console.log(UiState);
-    console.log($scope.uiState);
+    console.log(UiState.selectedProfile);
+    console.log($scope.profileImages);
+    console.log(UiState.selectedProfile.imageurls);
 
     $scope.showAddButton = function(){
       return (!$scope.isInDanceCard(UiState.selectedProfile.userid) && !$scope.isSelf());

@@ -112,6 +112,8 @@ app.post('/signup',
 	//console.log(req.body);
 	console.log(req.signupResult);
 	console.log(req.prefResult);
+	var age = calculateAge(req.signupResult.rows[0].dateofbirth);
+	req.signupResult.rows[0].age = age;
 	res.json({user: req.signupResult.rows[0], pref: req.prefResult.rows[0]});
 });
 
@@ -120,16 +122,26 @@ function createNewUser(req, res, next){
 	var user = req.body.user;
 	user.dateofbirth = moment([user.dob_year, user.dob_month, user.dob_day]).format('YYYY-MM-DD');//'1982-11-27'
 
+	console.log(user);
+
 	var urls = "'{";
-	if(user.mediumImageUrl){
-		for(var i=0; i<user.mediumImageUrl.length; i++){
-			urls += '"' + user.mediumImageUrl[i] + '"';
-			if(i != user.mediumImageUrl.length - 1){
+	var medurls = urls;
+	var smallurls = urls;
+	if(user.originalImageUrl){
+		for(var i=0; i<user.originalImageUrl.length; i++){
+			urls += '"' + user.originalImageUrl[i] + '"';
+			medurls += '"' + user.mediumImageUrl[i] + '"';
+			smallurls += '"' + user.smallImageUrl[i] + '"';
+			if(i != user.originalImageUrl.length - 1){
 				urls += ",";
+				medurls += ",";
+				smallurls += ",";
 			}
 		}
 	}
 	urls += "}'";
+	medurls += "}'";
+	smallurls += "}'";
 
 	getCityStateFromZipcode(user.zipcode, function(location){
 
@@ -143,7 +155,9 @@ function createNewUser(req, res, next){
 									  "location_city," +
 									  "location_state," + 
 									  "personal_blurb," +
-									  "imageurls) " +
+									  "imageurls," + 
+									  "medimageurls," + 
+									  "smallimageurls) " +
 							   "VALUES ('" + user.username  + "','" + 
 							   				 user.email + "','" + 
 							   				 user.password + "','" + 
@@ -153,7 +167,9 @@ function createNewUser(req, res, next){
 							   				 location.city + "','" +
 							   				 location.state + "','" + 
 							   				 replaceAll("'", "''", user.personal_blurb) + "'," + 
-							   				 urls + ") " + 
+							   				 urls + "," + 
+							   				 medurls + "," + 
+							   				 smallurls + ") " + 
 								"RETURNING *";
 		console.log(queryString);
 
@@ -219,7 +235,9 @@ app.post('/upload',
 		fs.readFile(req.files.file.path, function (err, data) {
 		  if(!err){
 			  var newPath = __dirname + '/static/images/orig_' + req.files.file.name;
-			  var thumbPath = __dirname + '/static/images/med_' + req.files.file.name;
+			  var medPath = __dirname + '/static/images/med_' + req.files.file.name;
+			  var smallPath = __dirname + '/static/images/small_' + req.files.file.name;
+			  var scaledPath = __dirname + '/static/images/scaled_' + req.files.file.name;
 			  // var newPath = __dirname + "/uploads";
 			  console.log('begin writing to folder ' + newPath );
 			  fs.writeFile(newPath, data, function (err) {
@@ -230,24 +248,57 @@ app.post('/upload',
 				  	res.send(501);
 				 }
 				 else{
-				 	// im.resize({
-				 	im.crop({
-					  srcPath: newPath,
-					  dstPath: thumbPath,
-					  width:   150,
-					  height: 150,
-					  quality: 1,
-					  gravity: "Center"//default gravity is Center
-					}, function(err, stdout, stderr){
-					  if (err){
-					  	console.log(err);
-					  }
-					  else{
-					  	console.log('cropped image to fit within 200x200px');
-					  	next();
-					  	// console.log('resizeed image to fit within 200x200px');
-					  }
+
+				 	im.resize({
+				 		srcPath: newPath,
+				 		dstPath: scaledPath,
+				 		height: 300
+				 	},function(err,stdout,stderr){
+				 		if(err){
+				 			console.log(err);
+				 		}
+				 		else{
+				 			console.log("resized image to be 300 px tall");
+
+		 					// im.resize({
+						 	im.crop({
+							  srcPath: newPath,
+							  dstPath: medPath,
+							  width:   150,
+							  height: 150,
+							  quality: 1,
+							  gravity: "Center"//default gravity is Center
+							}, function(err, stdout, stderr){
+							  if (err){
+							  	console.log(err);
+							  }
+							  else{
+							  	console.log('cropped image to fit within 200x200px');
+							  	// console.log('resizeed image to fit within 200x200px');
+
+								im.crop({
+								  srcPath: newPath,
+								  dstPath: smallPath,
+								  width:   36,
+								  height: 36,
+								  quality: 1,
+								  gravity: "Center"//default gravity is Center
+								}, function(err, stdout, stderr){
+								  if (err){
+								  	console.log(err);
+								  }
+								  else{
+								  	console.log('cropped image to fit within 36x36px');
+								  	next();
+								  	// console.log('resizeed image to fit within 200x200px');
+								  }
+								});
+						}
 					});
+
+				 		}
+				 	});
+
 				 }
 			  });
 			}
@@ -259,7 +310,11 @@ app.post('/upload',
 		});
 	},
 	function(req,res){
-		res.json({origImageUrl: 'http://localhost:3000/orig_' + req.files.file.name, medImageUrl: "http://localhost:3000/med_" + req.files.file.name});
+		res.json({origImageUrl: 'http://localhost:3000/scaled_' + req.files.file.name, 
+				  medImageUrl: "http://localhost:3000/med_" + req.files.file.name,
+				  smallImageUrl: "http://localhost:3000/small_" + req.files.file.name
+
+		});
 	});
 
 
@@ -361,6 +416,10 @@ app.get('/dancecard/:userId',
 	},
 	getDancecardById,
 	function(req, res){
+		for(var i=0; i<req.queryResult.rows.length; i++){
+			var age = calculateAge(req.queryResult.rows[i].dateofbirth);
+			req.queryResult.rows[i].age = age;
+		}
 		res.json(req.queryResult.rows);
 	});
 
@@ -368,11 +427,14 @@ function getDancecardById(req, res, next){
 		
 		//gets full profile of all memebers in dancecard
 		var queryString = "SELECT users.userId," +
-									"users.age,"+ 
+									"users.dateofbirth,"+ 
 									"users.username,"+
 									"users.location_city,"+ 
 									"users.location_state,"+ 
-									"users.personal_blurb,"+ 
+									"users.personal_blurb,"+
+									"users.imageurls,"+
+									"users.medimageurls,"+
+									"users.smallimageurls,"+ 
 									"danceCard.status "+  
 							"FROM users,"+ 
 								 "danceCard "+ 
@@ -476,7 +538,9 @@ app.get('/profile/:userid',
 
 		var userid = req.params.userid;
 
-		var queryString = "SELECT userid, username, dateofbirth, location_city, location_state, personal_blurb, imageurls "+ 
+		var queryString = "SELECT userid, username, dateofbirth," +
+							"location_city, location_state, personal_blurb, "+
+							"imageurls, medimageurls, smallimageurls "+ 
 							"FROM users "+
 							"WHERE userid=" + userid;
 		req.db.client.query(queryString, function(err, result){
@@ -487,8 +551,8 @@ app.get('/profile/:userid',
 	},
 	function (req, res) {
 		//console.log(req.queryResult);
-		var age = calculateAge(req.queryResult.rows.dateofbirth);
-		req.queryResult.rows.age = age;
+		var age = calculateAge(req.queryResult.rows[0].dateofbirth);
+		req.queryResult.rows[0].age = age;
 		res.json(req.queryResult.rows);
 
 	});
@@ -542,7 +606,9 @@ function getPeopleOnPage(req,res,next) {
 		whereClause += " AND userid !=" + req.queryResult.rows[i].userid;
 	}
 
-	var queryString = "SELECT  userid, username, dateofbirth, location_city, location_state, zipcode, personal_blurb, imageurls "+
+	var queryString = "SELECT  userid, username, dateofbirth, " +
+						"location_city, location_state, zipcode, personal_blurb, "+
+						"imageurls, medimageurls, smallimageurls "+
 						  "FROM users " + whereClause + 
 						  " LIMIT 10";
 

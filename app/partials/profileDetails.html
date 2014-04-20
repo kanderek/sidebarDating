@@ -121,9 +121,9 @@
         </ul> -->
 
         <ul rn-carousel  rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
-            <li ng-repeat="image in profileImages" ng-style="{'background-image': 'url(' + image.imageurl  + ')'}">
+            <li ng-repeat="image in uiState.selectedProfile.imageurls" ng-style="{'background-image': 'url(' + image + ')'}">
                 <div class="debug">
-                    {{ image.label }} / {{ profileImages.length }}
+                    {{ image}} / {{ uiState.selectedProfile.imageurls.length }}
                 </div>
             </li>
         </ul>
