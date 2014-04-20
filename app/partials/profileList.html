@@ -6,7 +6,7 @@
 	<h5>People who also visited this page</h5>
 
 	<div id="profileList" 
-		ng-repeat="profile in profiles | orderBy:orderProp" 
+		ng-repeat="profile in profiles" 
 		ng-click="selectOnly($index)"
 		ng-class="{'isSelected': ifSelected($index)}">
 

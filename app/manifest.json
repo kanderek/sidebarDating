@@ -28,7 +28,8 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": [
-        "lib/jquery-1.11.0.min.js", 
+        "lib/jquery-1.11.0.min.js",
+        "lib/jquery.ziptastic.js", 
         "lib/angular.min.js", 
         "lib/angular-resource.min.js", 
         "lib/angular-route.min.js",

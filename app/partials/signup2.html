@@ -24,11 +24,12 @@
 		<select ng-model="user.gender" ng-options="gender.value as gender.name for gender in gender_options">
 			<option value="">Gender</option>
 		</select>
-		<input type="text" placeholder="Zipcode" ng-model="user.zipcode" required />
+		<input id="sbd-zipcode" type="text" placeholder="Zipcode" ng-model="user.zipcode" required />
+		<span id="sbd-location-preview"></span><br>
 		<label for="personal_blurb">What are your interests?</label>
 		<textarea id="personal_blurb" placeholder="I'm interested in..." maxlength="140" minlength="1" required ng-model="user.personal_blurb" >
 		</textarea>
-		<label for="personal_blurb">{{user.personal_blurb.length}}/140 Characters</label>
+		<label for="personal_blurb">{{ user.personal_blurb.length || '0' }}/140 Characters</label>
 		<input type="submit" value="continue" ng-click="goToSignupStep3()"/>
 	</form>
 
@@ -37,3 +38,13 @@
 	{{pref | json}}
 
 </div>
+<script>
+
+	$('#sbd-zipcode')
+    .ziptastic()
+    .on('zipChange', function(event, country, state, city, zip) {
+        // Use the data...
+        $('#sbd-location-preview').html(city + ", " + state + ', ' + country);
+    });
+	
+</script>

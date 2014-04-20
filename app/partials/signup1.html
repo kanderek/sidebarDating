@@ -1,3 +1,30 @@
+
+<style>
+/*	.fileUpload {
+	position: relative;
+	overflow: hidden;
+	width: 88%;
+	height: 20px;
+	border-radius: 5px;
+	background-color: white;
+	border: 1px solid gray;
+	margin: 10px auto 10px auto;
+	text-align: center;
+	}
+
+	.fileUpload input.upload {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		cursor: pointer;
+		opacity: 0;
+		filter: alpha(opacity=0);
+	}*/
+
+</style>
 <div class="signup-wrapper">
 	<a ui-sref="sign-up-0">Back</a>
 	<div class="signup-heading">
@@ -5,10 +32,12 @@
 	</div>
 
 	<div id="signup-photo-preview">
-		<img />
+		<img ng-src="{{ user.mediumImageUrl[0] }}" />
 	</div>
-
-	<button type="button" ng-click="">Upload Photo</button>
+	<div class="fileUpload">
+		<span>Upload a Photo</span>
+		<input type="file" ng-file-select="onFileSelect($files)" class="upload" multiple />
+	</div>
 	
 	<form class="signup-info">
 		<input type="text" placeholder="First Name" ng-model="user.username" required/>

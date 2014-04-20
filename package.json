@@ -36,7 +36,8 @@
     "connect-flash": "~0.1.1",
     "sequelize": "~1.7.0",
     "socket.io": "~0.9.16",
-    "imagemagick": "~0.1.3"
+    "imagemagick": "~0.1.3",
+    "ziptastic": "~0.1.0"
   },
   "devDependencies": {
     "grunt-cli": "~0.1.13",

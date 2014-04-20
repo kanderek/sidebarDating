@@ -3,6 +3,7 @@ var app = express();
 
 var fs = require('fs');
 var moment = require('moment');
+var ziptastic = require('ziptastic');
 var im = require('imagemagick')
 
 //Database modules for working with postgresql
@@ -108,8 +109,10 @@ app.post('/signup',
 	createNewUserPref,
 	function(req, res){
 	console.log('posted signup form data');
-	console.log(req.body);
-	res.send(200);
+	//console.log(req.body);
+	console.log(req.signupResult);
+	console.log(req.prefResult);
+	res.json({user: req.signupResult.rows[0], pref: req.prefResult.rows[0]});
 });
 
 
@@ -117,33 +120,53 @@ function createNewUser(req, res, next){
 	var user = req.body.user;
 	user.dateofbirth = moment([user.dob_year, user.dob_month, user.dob_day]).format('YYYY-MM-DD');//'1982-11-27'
 
-	var queryString = "INSERT INTO users " + 
-								"(username," + 
-								  "email," + 
-								  "password," + 
-								  "gender," + 
-								  "dateofbirth," +
-								  "zipcode," + 
-								  "personal_blurb) " +
-						   "VALUES ('" + user.username  + "','" + 
-						   				 user.email + "','" + 
-						   				 user.password + "','" + 
-						   				 user.gender + "','" + 
-						   				 user.dateofbirth + "','" +
-						   				 user.zipcode + "','" + 
-						   				 replaceAll("'", "''", user.personal_blurb) + "') " + 
-							"RETURNING *";
-	//console.log(queryString);
+	var urls = "'{";
+	if(user.mediumImageUrl){
+		for(var i=0; i<user.mediumImageUrl.length; i++){
+			urls += '"' + user.mediumImageUrl[i] + '"';
+			if(i != user.mediumImageUrl.length - 1){
+				urls += ",";
+			}
+		}
+	}
+	urls += "}'";
 
-	req.db.client.query(queryString, function(err, result){
-		req.queryResult = result;
-		 console.log("result of inserting user...");
-		console.log(result.rows[0].userid);
-		req.userid = result.rows[0].userid;
-		// console.log("Errors?...");
-		// console.log(err);
-		// console.log
-		next();
+	getCityStateFromZipcode(user.zipcode, function(location){
+
+		var queryString = "INSERT INTO users " + 
+									"(username," + 
+									  "email," + 
+									  "password," + 
+									  "gender," + 
+									  "dateofbirth," +
+									  "zipcode," +
+									  "location_city," +
+									  "location_state," + 
+									  "personal_blurb," +
+									  "imageurls) " +
+							   "VALUES ('" + user.username  + "','" + 
+							   				 user.email + "','" + 
+							   				 user.password + "','" + 
+							   				 user.gender + "','" + 
+							   				 user.dateofbirth + "','" +
+							   				 user.zipcode + "','" + 
+							   				 location.city + "','" +
+							   				 location.state + "','" + 
+							   				 replaceAll("'", "''", user.personal_blurb) + "'," + 
+							   				 urls + ") " + 
+								"RETURNING *";
+		console.log(queryString);
+
+		req.db.client.query(queryString, function(err, result){
+			req.signupResult = result;
+			 console.log("result of inserting user...");
+			console.log(result.rows[0].userid);
+			req.userid = result.rows[0].userid;
+			// console.log("Errors?...");
+			// console.log(err);
+			// console.log
+			next();
+		});
 	});
 }
 
@@ -169,11 +192,12 @@ function createNewUserPref(req, res, next){
 						   				 pref.female + "," + 
 						   				 pref.age_min + "," + 
 						   				 pref.age_max + "," +
-						   				 pref.distance_max + ")";
+						   				 pref.distance_max + ") " + 
+						 "RETURNING *";
 	// console.log(queryString);
 
 	req.db.client.query(queryString, function(err, result){
-		req.queryResult = result;
+		req.prefResult = result;
 		// console.log("result of inserting user preferences...");
 		// console.log(result);
 		// console.log("Errors?...");
@@ -194,8 +218,8 @@ app.post('/upload',
 
 		fs.readFile(req.files.file.path, function (err, data) {
 		  if(!err){
-			  var newPath = __dirname + '/static/images/' + req.files.file.name;
-			  var thumbPath = __dirname + '/static/images/thumb_' + req.files.file.name;
+			  var newPath = __dirname + '/static/images/orig_' + req.files.file.name;
+			  var thumbPath = __dirname + '/static/images/med_' + req.files.file.name;
 			  // var newPath = __dirname + "/uploads";
 			  console.log('begin writing to folder ' + newPath );
 			  fs.writeFile(newPath, data, function (err) {
@@ -210,8 +234,8 @@ app.post('/upload',
 				 	im.crop({
 					  srcPath: newPath,
 					  dstPath: thumbPath,
-					  width:   200,
-					  height: 200,
+					  width:   150,
+					  height: 150,
 					  quality: 1,
 					  gravity: "Center"//default gravity is Center
 					}, function(err, stdout, stderr){
@@ -235,7 +259,7 @@ app.post('/upload',
 		});
 	},
 	function(req,res){
-		res.send(200);
+		res.json({origImageUrl: 'http://localhost:3000/orig_' + req.files.file.name, medImageUrl: "http://localhost:3000/med_" + req.files.file.name});
 	});
 
 
@@ -511,8 +535,9 @@ function getPeopleOnPage(req,res,next) {
 		whereClause += " AND userid !=" + req.queryResult.rows[i].userid;
 	}
 
-	var queryString = "SELECT  userid, username, age, location_city, location_state, personal_blurb "+
-						  "FROM users " + whereClause;
+	var queryString = "SELECT  userid, username, dateofbirth, zipcode, personal_blurb, imageurls "+
+						  "FROM users " + whereClause + 
+						  " LIMIT 10";
 
 		//console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
@@ -522,6 +547,23 @@ function getPeopleOnPage(req,res,next) {
 		});
 	};
 	
+function calculateAge(dob){
+	var today = moment();
+	var birthdate = moment(dob);
+
+	return today.diff(birthdate, 'years');
+}
+
+function getCityStateFromZipcode(zipcode, callback){
+	var query = {
+			zip: zipcode, 
+			country: 'US'
+		};
+	ziptastic(query).then(function(location){
+		console.log(location);
+		callback(location);
+	});
+}
 
 app.post('/processHistory', function(req, res){
   console.log(req.body);      // your JSON
