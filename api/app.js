@@ -476,16 +476,19 @@ app.get('/profile/:userid',
 
 		var userid = req.params.userid;
 
-		var queryString = "SELECT userid, username, age, location_city, location_state, personal_blurb "+ 
+		var queryString = "SELECT userid, username, dateofbirth, location_city, location_state, personal_blurb, imageurls "+ 
 							"FROM users "+
 							"WHERE userid=" + userid;
 		req.db.client.query(queryString, function(err, result){
+			
 			req.queryResult = result;
 			next();
 		}) 
 	},
 	function (req, res) {
 		//console.log(req.queryResult);
+		var age = calculateAge(req.queryResult.rows.dateofbirth);
+		req.queryResult.rows.age = age;
 		res.json(req.queryResult.rows);
 
 	});
@@ -503,6 +506,10 @@ app.get('/crowd/',
 	getPeopleOnPage,
 	function (req, res) {
 		//console.log(req.queryResult);
+		for(var i=0; i<req.queryResult.rows.length; i++){
+			var age = calculateAge(req.queryResult.rows[i].dateofbirth);
+			req.queryResult.rows[i].age = age;
+		}
 		res.json(req.queryResult.rows);
 
 	});
@@ -535,7 +542,7 @@ function getPeopleOnPage(req,res,next) {
 		whereClause += " AND userid !=" + req.queryResult.rows[i].userid;
 	}
 
-	var queryString = "SELECT  userid, username, dateofbirth, zipcode, personal_blurb, imageurls "+
+	var queryString = "SELECT  userid, username, dateofbirth, location_city, location_state, zipcode, personal_blurb, imageurls "+
 						  "FROM users " + whereClause + 
 						  " LIMIT 10";
 

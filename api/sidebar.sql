@@ -23,7 +23,9 @@ CREATE TABLE users (
 	location_state	varchar(30),
 	zipCode			char(5),
 	personal_blurb	varchar(300) DEFAULT 'I''m a blank essay',
-	imageurls		varchar(100) ARRAY
+	imageurls		varchar(100) ARRAY,
+	medimageurls	varchar(100) ARRAY,
+	smallimageurls	varchar(100) ARRAY
 
 	--PRIMMARY KEY (a, b) for multiple primary keys in a table
 );
