@@ -34,7 +34,7 @@ var passport = require('passport')
 var connectToDb = pgclient({
     config : {
         database : 'sidebar',
-        user     : 'derekkan',
+        user     : 'Christina',
         host     : 'localhost',
         port     : 5432
     }

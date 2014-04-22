@@ -13,21 +13,22 @@
 		left:       0;
 		top:        25%;
 		cursor:     pointer;
-		border-radius: 3px;
+		border-radius: 0px;
 	}
 
 	slider span.bar.selection, slider span.bar.unselected {
 	}
 
 	slider span.bar.selection {/* area between selection markers*/
-		background: #0a0;
-		opacity:    0.5;
+		/*background: #0a0;*/
+		background: #E39F00;
+		/*opacity:    0.5;*/
 	}
 
 	slider span.bar.unselected {
 		width:      auto;
-		background: #a00;
-		opacity:    0.5;
+		background: #eee;
+		/*opacity:    0.5;*/
 	}
 
 	slider span.pointer { /*selection markers */
@@ -77,14 +78,27 @@
 	::-ms-tooltip {
 		display: none;
 	}
+
+	#sidebar input[type='submit'] {
+		width: 100%;
+		background-color: #008C9E;
+		color: #DBDBDB;
+		border: none;
+		border-bottom: 4px solid #005F6B;
+		padding: 10px 5px;
+	}
+
+	#sidebar input[type='submit']:hover {
+		background-color: #00AABF;
+		border-bottom: 4px solid #007786;
+	}
 </style>
 
+<div class="signup-heading">
+	<a class="back" ui-sref="sign-up-2">Back</a>
+	<h4>What are you looking for?</h4>
+</div>
 <div class="signup-wrapper">
-	<a ui-sref="sign-up-2">Back</a>
-	<div class="signup-heading">
-		<h4>What are you looking for?</h4>
-	</div>
-
 	<form class="signup-info">
 		<div class="checkbox-row">
 			<input id="male_pref" type="checkbox" ng-model="pref.male" />
@@ -95,11 +109,13 @@
 			<label for="female_pref">Female</label>	
 		</div>
 
+		<label for="age_pref">Age Range</label>
 		<div class="slider">
 			<slider floor='{{age_floor}}' ceiling='{{age_ceil}}' step='1' precision='0' buffer=''
 	            stickiness='0.5' ng-model-low='pref.age_min' ng-model-high='pref.age_max'></slider>
 		</div>
 
+		<label for="location_pref">Within:</label>
 		<div class="slider" ng-model="pref.distance_max">
 			<slider floor='{{distance_floor}}' ceiling='{{distance_ceil}}' step='1' precision='0' stickiness='0.5'
 	            ng-model='pref.distance_max'></slider>
