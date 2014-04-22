@@ -601,8 +601,8 @@ appServices.factory('SignupService', ['$http', 'Profile',
 /*******************************************************************************************************
 Login Service  */
 
-appServices.factory('LoginService', ['$http',
-  function($http){
+appServices.factory('LoginService', ['$http', 'Socket',
+  function($http, Socket){
 
     var loginService = {};
 
@@ -614,6 +614,7 @@ appServices.factory('LoginService', ['$http',
       }).
       success(function(data, status, headers, config){
         callback(data);
+        
       }).
       error(function(data, status, headers, config){
         console.log('error logging in user');
@@ -652,8 +653,8 @@ appServices.factory('AuthService', ['$http',
 /*******************************************************************************************************
 Init Service  */
 
-appServices.factory('InitService', ['$rootScope', 'UiState','Profile','DancecardService',
-  function($rootScope, UiState, Profile, DancecardService){
+appServices.factory('InitService', ['$rootScope', 'UiState','Profile','DancecardService', 'Socket',
+  function($rootScope, UiState, Profile, DancecardService, Socket){
 
          var initService = {};
 
@@ -661,6 +662,15 @@ appServices.factory('InitService', ['$rootScope', 'UiState','Profile','Dancecard
 
             Profile.initializeProfile(user, "someurl");
             DancecardService.initializeDancecard(user);
+
+              // Socket.on('init', function(socketData){
+              //   console.log('connection started...');
+              //   console.log('socket id: ');
+              //   console.log(socketData.socketid);
+
+                var userid = typeof(user) == 'object' ? user.userid : user;
+                Socket.emit('register-user', {userid: userid}, function(){});
+              
             
           };
 
@@ -883,8 +893,8 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState
 /*******************************************************************************************************
 Login Controller  */
 
-appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'InitService',
-  function($scope, $state, LoginService, InitService) {
+appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'InitService', 'Socket',
+  function($scope, $state, LoginService, InitService, Socket) {
 
     $scope.email;
     $scope.password;
@@ -910,23 +920,23 @@ appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'Ini
 /*******************************************************************************************************
 Message Controller  */
 
-appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiState', 'MessageService', 'Socket',
-  function($scope, $timeout, $state, UiState, MessageService, Socket) {
+appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiState', 'Profile', 'MessageService', 'Socket',
+  function($scope, $timeout, $state, UiState, Profile, MessageService, Socket) {
 
     $scope.messageThread = $scope.conversation;//inherited from DanceCardCtrl
     $scope.newMessage;
 
     console.log($scope.conversation);
     $scope.ifSentByUser = function(i){
-      return ($scope.conversation[i].senderid ==  UiState.selfProfile.userid)
+      return ($scope.conversation[i].senderid ==  Profile.selfProfile.userid)
     }
 
     $scope.sendMessage = function(){
 
       if($scope.newMessage){
         var message = {
-          senderid: UiState.selfProfile.userid,
-          receiverid: UiState.selectedProfile.userid,
+          senderid: Profile.selfProfile.userid,
+          receiverid: Profile.selectedProfile.userid,
           message: $scope.newMessage,
         }
         $scope.conversation.push(message);
@@ -968,13 +978,7 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
   
     // console.log("Uistate in dancecard controller...");
     // console.log(UiState);
-    Socket.on('init', function(data){
-      console.log('connection started...');
-      console.log('socket id: ');
-      console.log(data.socketid);
-
-      Socket.emit('register-user', {userid: Profile.selfProfile.userid}, function(){});
-    });
+    
 
     Socket.on('new-message', function(data){
       console.log('new messsage received...');

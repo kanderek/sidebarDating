@@ -668,6 +668,9 @@ io.sockets.on('connection', function(socket){
 
 	socket.on('register-user', function(data){
 		// users[data.userid] = {socket: socket.id};
+		if(users[data.userid]){
+			delete users[data.userid];
+		}
 		users[data.userid] = { socket: socket.id };
 		console.log('registered user: ' + data.userid);
 		console.log(users);
