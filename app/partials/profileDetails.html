@@ -59,7 +59,7 @@
 .is-active {
     border:1px solid red;
 }
-.details {
+/*.details {
     color:white;
     font-size:12px;
     margin-bottom:10px;
@@ -83,7 +83,7 @@
 .button.grey{
     background: #bdbdbd;
     background: -webkit-gradient(linear, left top, left bottom, from(#cacaca), to(#aeaeae)); /*  WebKit */
-    background: -moz-linear-gradient(top,  #cacaca, #aeaeae);
+  /*  background: -moz-linear-gradient(top,  #cacaca, #aeaeae);
     border-color: #b5b5b5 #a1a1a1 #8f8f8f;
     color: #555;
     text-shadow: 0 1px 0 #d4d4d4;
@@ -91,11 +91,11 @@
 .button.grey:hover{
     background: #c2c2c2;
     background: -webkit-gradient(linear, left top, left bottom, from(#bcbcbc), to(#c2c2c2)); /*  WebKit */
-    background: -moz-linear-gradient(top,  #bcbcbc, #c2c2c2);
+ /*   background: -moz-linear-gradient(top,  #bcbcbc, #c2c2c2);
     border-color: #989898 #8e8e8e #878787;
     text-shadow: 0 1px 0 #dadada;
 }
-
+*/
 /* override default controls */
 .rn-carousel-control {
     font-size:50px !important;
@@ -109,16 +109,111 @@
     right: 5px;
 }
 
+    /*******************************************
+    // Profile details view Styles 
+    //
+    *******************************************/
+    /* Layout with grid! tbd */
+    
 
+    #profile-details {
+        width: 100%;
+        background-color: white;
+        margin: 5px 0px 5px 0px;
+        overflow: auto;
+    }
+
+    #profile-details img {
+        width: 19px;
+        height: 19px;
+        position: relative;
+        top: 5px;
+    }
+
+    #profile-details h3 {
+        display: inline-block;
+        margin: 0px 5px 0px 0px;
+    }
+
+    #profile-details .col-left {
+        position: relative;
+        float: left;
+        width: 60%;
+        margin-right: 5%;
+        height: 100%;
+    }
+
+    #profile-details .col-right {
+        position: relative;
+        float: right;
+        width: 35%;
+        height: 100%;
+    }
+
+    #profile-details .profile-actions {
+        width: 100%;
+        overflow: auto;
+    }
+
+    #profile-details .col-right button, #profile-details .col-right a {
+        position: relative;
+        float: right;
+    }
+
+    #age-location {
+        margin-bottom: 10px;
+    }
+
+    #user-dancecard-count {
+        position: relative;
+        bottom: 0px;
+        right: 0px;
+        width: 100%;
+    }
+
+    #user-dancecard-count .dancecard-indicator{
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        border: 1px solid gray;
+        display: inline-block;
+        position: relative;
+        float: right;
+        margin-left: 5px;
+    }
+
+    #user-dancecard-count p {
+        text-align: right;
+    }
+
+
+    #badges-wrapper {
+        width: 100%;
+        background-color: rgba(255,0,0,0.5);
+        margin: 5px 0px 5px 0px;
+        overflow: hidden;
+        /*height: 75px;*/
+    }
+
+    .badge-item {
+        width: 75px;
+        height: 75px;
+        border-radius: 37px;
+        background-color: rgba(100,100,100,0.6);
+        margin-left: 44px;
+        position: relative;
+        float: left;
+
+    }
+
+    #profile-interests-viz {
+        width: 400px;
+        height: 300px;
+        background-color: blue;
+        overflow: hidden;
+
+    }
 	</style>
-<!-- 
-		<ul rn-carousel rn-carousel-buffered rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
-            <li ng-repeat="image in profileImages | limitTo:5" ng-style="{'background-image': 'url(' + image.imageurl  + ')'}">
-                <div class="debug">
-                    {{ image.label }} / {{ profileImages.length }}
-                </div>
-            </li>
-        </ul> -->
 
         <ul rn-carousel  rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
             <li ng-repeat="image in profile.selectedProfile.imageurls" ng-style="{'background-image': 'url(' + image + ')'}">
@@ -127,28 +222,43 @@
                 </div>
             </li>
         </ul>
-		
-<!--  		<ul rn-carousel class="image">
-		  <li ng-repeat="image in profileImages" style="background-image:url({{ image }});">
-		    <div class="layer">{{ image }}</div>
-		  </li>
-		</ul>
- -->
- 		
- 		<button type="button" 
- 				ng-show="showAddButton()"
- 				ng-click="updateDancecard(profile.selectedProfile.userid, 'added')">Add to Card</button>
-
- 		<button type="button" 
- 				ng-show="showRemoveButton()" 
- 				ng-click="updateDancecard(profile.selectedProfile.userid, 'removed')">Remove From Card</button>
-
- 		<a ng-show="isSelf()" 
- 			ui-sref='main.detailsPanel'>Edit</a>
 
  		 <div id="profile-details">
-	 		<p>Detailed profile information goes here</p>
-	 		<p>{{profile.selectedProfile | json}}</p>
+            <div class="col-left">
+                <h3>{{profile.selectedProfile.username}}</h3>
+                <a ng-show="showRemoveButton()" ui-sref="main.messages"><img ng-src="http://localhost:3000/message/message.png" /></a>
+                <p id="age-location">{{profile.selectedProfile.age}}, {{profile.selectedProfile.location_city}}, {{profile.selectedProfile.location_state}}</p>
+    	 		<p>{{profile.selectedProfile.personal_blurb}}</p>
+            </div>
+            <div class="col-right">
+                <div class="profile-actions">
+                     <button type="button" 
+                        ng-show="showAddButton()"
+                        ng-click="updateDancecard(profile.selectedProfile.userid, 'added')">Add to Card</button>
+
+                    <button type="button" 
+                            ng-show="showRemoveButton()" 
+                            ng-click="updateDancecard(profile.selectedProfile.userid, 'removed')">Remove From Card</button>
+
+                    <a ng-show="isSelf()" 
+                        ui-sref='main.detailsPanel'>Edit</a>   
+                </div>
+
+                <div id="user-dancecard-count" ng-hide="isSelf()">
+                    <p>{{profile.selectedProfile.username}}'s Dance Card </p>
+                    <div class="dancecard-indicator">
+                    </div>
+                    <div class="dancecard-indicator">
+                    </div>
+                    <div class="dancecard-indicator">
+                    </div>
+                    <div class="dancecard-indicator">
+                    </div>
+                    <div class="dancecard-indicator">
+                    </div>
+                </div>
+            </div>
+	 		<!-- <p>{{profile.selectedProfile | json}}</p> -->
 	 	</div>
 
  		<div id="badges-wrapper">
