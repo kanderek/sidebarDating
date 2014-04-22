@@ -44,6 +44,7 @@ CREATE TABLE dancecard (
 	userid			int REFERENCES users (userid) ON DELETE CASCADE, -- Foreign key constraint
 	partnerid		int REFERENCES users (userid) ON DELETE CASCADE, 
 	status			varchar(10),
+	updatetime		timestamp,
 	--FOREIGN KEY (userId, partnerId) REFERENCES user (userId, userId)
 	PRIMARY KEY (userid, partnerid)
 ); 
@@ -62,7 +63,6 @@ CREATE TABLE notifications (
 	action_time		timestamp,
 	PRIMARY KEY (userid)
 );
-
 
 
 INSERT INTO users (username, email, password, gender, dateofbirth, 
@@ -389,7 +389,7 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
     				}');
 
 	INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
-	   VALUES (14, 'true', 'false', 22, 34, 15); 
+	   VALUES (15, 'true', 'false', 22, 34, 15); 
 
 
 

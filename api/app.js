@@ -487,11 +487,13 @@ app.post('/dancecard',
 // }
     
 function addToDanceCard(req,res,next) {
+	var addTime = moment().format('YYYY-MM-DD HH:mm:ss');
 	var queryString = "INSERT INTO danceCard "+
-						  "(userId, partnerId, status) " + 
+						  "(userId, partnerId, status, updatetime) " + 
 					   "VALUES (" + req.dancecard.userid + "," + 
 					   				req.dancecard.partnerid  + ",'" + 
-					   				req.dancecard.status + "')";
+					   				req.dancecard.status + "','" + 
+					   				addTime + "')";
 
 		//console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
@@ -503,8 +505,10 @@ function addToDanceCard(req,res,next) {
 
 function updateDanceCardStatus(req,res,next) {
 		if(req.update){
+			var updateTime = moment().format('YYYY-MM-DD HH:mm:ss');
 			var queryString = "UPDATE danceCard "+
-								  "SET status = '"+ req.dancecard.status +
+								  "SET status = '"+ req.dancecard.status +"'," +
+								  		"updatetime = '" + updateTime + 
 								  "' WHERE userid = " + req.dancecard.userid + 
 								  " AND partnerid = " + req.dancecard.partnerid;
 				// console.log(queryString);
