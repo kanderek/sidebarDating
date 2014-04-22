@@ -452,23 +452,6 @@
 
 	});
 
-	//handles icon changes on tab (can't get angular to handle this)
-	// $("#arrow-icon").click(function(){
-	// 	console.log("clicked tab");
-	// 	if($("#injected-wrapper").hasClass("show-sidebar")){
-			
-	// 		if($("#full-profile").hasClass("show")){
-	// 			$("#arrow-icon").attr("src", arrowRightIconURL);
-	// 		}
-	// 		else{
-	// 			$("#arrow-icon").attr("src", arrowLeftIconURL);
-	// 		}
-	// 	}
-	// 	else {
-	// 		$("#arrow-icon").attr("src", arrowRightIconURL);
-	// 	}
-	// });
-
 	$("#close-icon").click(function(){
 		chrome.runtime.sendMessage({type: "close-sidebar"}, function(response) {
 		  console.log(response.sidebar);
