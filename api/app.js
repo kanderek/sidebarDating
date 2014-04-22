@@ -88,6 +88,7 @@ app.configure(function(){
   // app.use(express.static(__dirname + '/files'));
   app.use(express.logger());
   app.use(express.static(__dirname + '/static/images'));
+  app.use(express.static(__dirname + '/static/icons'));
   app.use(express.cookieParser());
   app.use(express.bodyParser());
   app.use(express.json());
@@ -561,8 +562,13 @@ app.get('/crowd/',
 	//connectToDb, 
 	function(req, res, next){
 
+		console.log(req.query);
 		req.url = req.query.url;
 		req.userid = req.query.userid;
+		req.limit = req.query.limit;
+		if(req.query.pageprofiles){
+			req.pageprofiles = req.query.pageprofiles.split(',');
+		}
 		next();
 		// console.log('get request /crowd/' + url);
 	}, 
@@ -588,7 +594,6 @@ function getDancecardRecord(req, res, next){
 								  "users.userId=dancecard.partnerId";
 		// console.log('get entire dancecard record: ');
 		// console.log(queryString);
-
 		req.db.client.query(queryString, function(err, result){
 				  	req.queryResult = result;
 				  	// console.log(req.queryResult);
@@ -601,18 +606,25 @@ function getPeopleOnPage(req,res,next) {
 	var whereClause = "WHERE userid != " + req.userid;
 
 	// console.log(req.userid);
-	// console.log(req.queryResult);
+	console.log('result of querying dancecard record...');
+	console.log(req.queryResult);
 	for(var i=0; i<req.queryResult.rows.length; i++){
 		whereClause += " AND userid !=" + req.queryResult.rows[i].userid;
 	}
+
+	if(req.pageprofiles){
+		for(var i=0; i<req.pageprofiles.length; i++){
+			whereClause += " AND userid !=" + req.pageprofiles[i];
+		}
+	};
 
 	var queryString = "SELECT  userid, username, dateofbirth, " +
 						"location_city, location_state, zipcode, personal_blurb, "+
 						"imageurls, medimageurls, smallimageurls "+
 						  "FROM users " + whereClause + 
-						  " LIMIT 10";
+						  " LIMIT " + req.limit;
 
-		//console.log(queryString);
+		// console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error 
 			req.queryResult = result;

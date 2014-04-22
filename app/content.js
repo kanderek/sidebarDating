@@ -193,13 +193,16 @@ var appServices = angular.module('appServices', ['ngResource']);
 Ui State Service  */
 
 appServices.factory('UiState', function(){
+
   var uiStateService = {};
 
-  uiStateService.pageProfiles = {};
-  uiStateService.selectedProfile = {};
+  // uiStateService.pageProfiles = {};
+  // uiStateService.selectedProfile = {};
+  // uiStateService.selfProfile = {};
+
   //uiStateService.selfUserId;//0 for static data 
-  uiStateService.selfProfile = {};
-  uiStateService.dancecard = {};
+
+  // uiStateService.dancecard = {};
 
   uiStateService.showSidebar = true;
   uiStateService.showDetailsPanel = false;
@@ -275,12 +278,12 @@ appServices.factory('MessageService', ['$http', '$state', 'UiState',
           url: "http://localhost:3000/message/" + userid + "/?userId=" + UiState.selfProfile.userid
         }).
         success(function(data, status, headers, config){
-            if(data.status != "logged_out"){
+            // if(data.status != "logged_out"){
                callback(data);  
-            }
-            else{
-              $state.go('sign-up-0');
-            }
+            // }
+            // else{
+            //   $state.go('sign-up-0');
+            // }
         }).
         error(function(data, status, headers, config){
           console.log('error getting static json file');
@@ -295,12 +298,12 @@ appServices.factory('MessageService', ['$http', '$state', 'UiState',
             data: message
           }).
           success(function(data, status, headers, config){
-            if(data.status != "logged_out"){
+            // if(data.status != "logged_out"){
                callback(data);  
-            }
-            else{
-              $state.go('sign-up-0');
-            }
+            // }
+            // else{
+            //   $state.go('sign-up-0');
+            // }
           }).
           error(function(data, status, headers, config){
             console.log('error posting message');
@@ -317,10 +320,35 @@ appServices.factory('MessageService', ['$http', '$state', 'UiState',
 /*******************************************************************************************************
 Dancecard Service  */
 
-appServices.factory('DancecardService', ['$rootScope', '$http', 'UiState',
-  function($rootScope, $http, UiState){
+appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
+  function($rootScope, $http, Profile){
   
+  function fillBlankDancecardSpots(){
+     console.log('in fill blank dc spots SERVICE.');
+     console.log(this.dancecard);
+     console.log(dancecardService.dancecard);
+     var curDancecardLength = dancecardService.dancecard.length;
+     for(var i=0; i<(5-curDancecardLength); i++){
+       dancecardService.dancecard.push({smallimageurls: ['http://localhost:3000/user/user.png'], userid: -1}); 
+     }
+     console.log('after blanks filled...');
+     console.log(this.dancecard);
+     console.log(dancecardService.dancecard);
+  }
+
+  function getNumberFreeDancecardSpots(){
+      var count = 0;
+      for(var i=0; i<5; i++){
+        if(dancecardService.dancecard[i].userid == -1){
+          count++;
+        }
+      } 
+      return count;
+    }
+
   var dancecardService = {};
+
+      dancecardService.dancecard = [];
 
       dancecardService.getStaticDancecard = function(callback){
         $http({
@@ -335,6 +363,18 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'UiState',
         }); 
       }
 
+      dancecardService.initializeDancecard = function(user){
+        dancecardService.dancecard = [];
+        var userid;
+        if(typeof(user) == 'object'){
+          userid = user.userid;
+        }
+        else{
+          userid = user;
+        }
+        dancecardService.getDancecardById(userid, function(data){});
+      }
+
       dancecardService.getDancecardById = function(userid, callback){
         // console.log('in dancecard service...');
         // console.log(UiState);
@@ -345,36 +385,77 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'UiState',
           url: "http://localhost:3000/dancecard/"+userid
         })
         .success(function(data, status, headers, config){
-            if(data.status != "logged_out"){
-               callback(data);  
-            }
-            else{
-              $state.go('sign-up-0');
-            }
+            // if(data.status != "logged_out"){
+              console.log('in dancecard service...');
+               console.log(data);  
+               dancecardService.dancecard = data;
+               fillBlankDancecardSpots();
+               $rootScope.$broadcast('dancecard-available');
+               console.log(dancecardService.dancecard);
+               //callback(data);
+               
+            // }
+            // else{
+            //   $state.go('sign-up-0');
+            // }
         }).
         error(function(data, status, headers, config){
           console.log('error getting dancecard');
         }); 
       }
 
-      dancecardService.updateDancecard = function(data, callback){
-        $http({
-          method: 'POST',
-          url: "http://localhost:3000/dancecard",
-          data: data
-        }).
-        success(function(data, status, headers, config){
-            if(data.status != "logged_out"){
-               callback(data);  
+      // dancecardService.updateDancecard = function(postData, profileData, callback){
+        dancecardService.updateDancecard = function(postData, profileData){
+
+        for(var i=0; i<5; i++){
+          if(postData.status == 'added'){
+            if(dancecardService.dancecard[i].userid == -1){
+              dancecardService.dancecard[i] = profileData;
+              $rootScope.$broadcast('dancecard-update');
+              dancecardService.postDancecardUpdate(postData, function(data){
+                Profile.removeFromPageProfiles(profileData.userid);
+                Profile.getProfilesByPage("someurl", 1);
+              })
+              break;
             }
-            else{
-              $state.go('sign-up-0');
+          }
+
+          if(postData.status == 'removed'){
+            if(dancecardService.dancecard[i].userid == profileData.userid){
+              dancecardService.dancecard.splice(i,1);
+              dancecardService.dancecard.push({smallimageurls: ['http://localhost:3000/user/user.png'], userid: -1});
+              $rootScope.$broadcast('dancecard-update');
+              Profile.selectedProfile = Profile.selfProfile;
+              dancecardService.postDancecardUpdate(postData, function(data){
+                //
+              })
+              break;
             }
-        }).
-        error(function(data, status, headers, config){
-          console.log('error posting data: add dancecard failed');
-        }); 
+          }
+        }
       }
+
+        dancecardService.postDancecardUpdate = function(postData, callback){
+
+          $http({
+            method: 'POST',
+            url: "http://localhost:3000/dancecard",
+            data: postData
+          }).
+          success(function(data, status, headers, config){
+              // if(data.status != "logged_out"){
+                 callback(data);
+
+              // }
+              // else{
+              //   $state.go('sign-up-0');
+              // }
+          }).
+          error(function(data, status, headers, config){
+            console.log('error posting data: add dancecard failed');
+          }); 
+        }
+      
 
   return dancecardService;
 }]);
@@ -382,10 +463,40 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'UiState',
 /*******************************************************************************************************
 Profile Service  */
 
-appServices.factory('Profile', ['$resource', '$http', '$state',
-  function($resource, $http, $state){
+appServices.factory('Profile', ['$rootScope', '$http', '$state',
+  function($rootScope, $http, $state){
 
     var profileFactory = {};
+
+    profileFactory.pageProfiles = [];
+    profileFactory.selectedProfile = {};
+    profileFactory.selfProfile = {};
+
+    profileFactory.initializeProfile = function(user, url){
+      if(typeof(user) == 'object'){
+        profileFactory.selfProfile = user;
+        profileFactory.selectedProfile = user;
+        profileFactory.initializePageProfiles(url);
+        $rootScope.$broadcast('user-data-available');
+      }
+      else{
+        profileFactory.getProfileById(user, function(data){
+          profileFactory.selfProfile = data[0];
+          profileFactory.selectedProfile = data[0];
+          profileFactory.getProfilesByPage(url, 10);
+          $rootScope.$broadcast('user-data-available');
+        })
+      }
+    }
+
+    profileFactory.removeFromPageProfiles = function(userid){
+      for(var i=0; i<profileFactory.pageProfiles.length; i++){
+        if(profileFactory.pageProfiles[i].userid == userid){
+          profileFactory.pageProfiles.splice(i, 1);
+          break;
+        }
+      }
+    }
 
     profileFactory.getStaticProfileList = function(callback){
       $http({
@@ -406,12 +517,12 @@ appServices.factory('Profile', ['$resource', '$http', '$state',
         url: 'http://localhost:3000/profile/'+userid
       }).
       success(function(data, status, headers, config){
-        if(data.status != "logged_out"){
+        // if(data.status != "logged_out"){
            callback(data);  
-        }
-        else{
-            $state.go('sign-up-0');
-        }
+        // }
+        // else{
+        //     $state.go('sign-up-0');
+        // }
       }).
       error(function(data, status, headers, config){
         console.log('error getting user profile ' + userid);
@@ -421,18 +532,34 @@ appServices.factory('Profile', ['$resource', '$http', '$state',
     profileFactory.getProfilesByInterest = function(userid, callback){
     }
 
-    profileFactory.getProfilesByPage = function(url, userid, callback){
+    profileFactory.getProfilesByPage = function(url, limit){
+       var userid = profileFactory.selfProfile.userid;
+       var queryString = "url=" + url + "&userid=" + userid + "&limit=" +limit;
+       
+      if(profileFactory.pageProfiles.length > 0){
+         queryString += "&pageprofiles="; 
+         for(var i=0; i<profileFactory.pageProfiles.length; i++){
+             queryString += profileFactory.pageProfiles[i].userid;
+             if(i != profileFactory.pageProfiles.length -1){
+                queryString += ',';
+             } 
+         }
+      }
+
        $http({
           method: 'GET', 
-          url: 'http://localhost:3000/crowd/?url=' + url + "&userid=" + userid
+          url: 'http://localhost:3000/crowd/?' + queryString
         }).
       success(function(data, status, headers, config) {
-        if(data.status != "logged_out"){
-           callback(data);   // this callback will be called asynchronously when the response is available
-        }
-        else{
-          $state.go('sign-up-0');
-        }
+        // if(data.status != "logged_out"){
+           //callback(data);   // this callback will be called asynchronously when the response is available
+          // console.log(data);
+          profileFactory.pageProfiles = profileFactory.pageProfiles.concat(data);
+          $rootScope.$broadcast('page-profiles-available');
+        // }
+        // else{
+        //   $state.go('sign-up-0');
+        // }
       }).
       error(function(data, status, headers, config) {
         console.log('get people failure');
@@ -446,8 +573,8 @@ appServices.factory('Profile', ['$resource', '$http', '$state',
 /*******************************************************************************************************
 Signup Service  */
 
-appServices.factory('SignupService', ['$http',
-  function($http){
+appServices.factory('SignupService', ['$http', 'Profile',
+  function($http, Profile){
 
     var signupService = {};
 
@@ -461,7 +588,8 @@ appServices.factory('SignupService', ['$http',
         data: {user: this.user, pref: this.pref}
       }).
       success(function(data, status, headers, config){
-        callback(data);
+        // callback(data);
+        Profile.selfProfile = data;
       }).
       error(function(data, status, headers, config){
         console.log('error signing up user: sending data to server failed');
@@ -531,49 +659,11 @@ appServices.factory('InitService', ['$rootScope', 'UiState','Profile','Dancecard
 
          var initService = {};
 
-         initService.initializeData = function(userid){
+         initService.initializeData = function(user){
 
-            // UiState.selfProfile.userid = userid;
-
-            Profile.getProfileById(userid, function(data){
-
-              UiState.selfProfile = data[0];
-              UiState.selectedProfile = data[0];
-              $rootScope.$broadcast('username-available');
-
-            });
-
-            Profile.getProfilesByPage("someUrl", userid, function(data){
-
-              UiState.pageProfiles = data;
-              $rootScope.$broadcast('page-profiles-available');
-            });
-
-            DancecardService.getDancecardById(userid, function(data){
-
-              UiState.dancecard = data;
-              $rootScope.$broadcast('dancecard-available');
-            });
-          };
-
-          initService.initializeDataOnSignup = function(user){
-
-            // UiState.selfProfile.userid = user.userid;
-            UiState.selfProfile = user;
-            UiState.selectedProfile = user;
-            $rootScope.$broadcast('username-available');
-
-            Profile.getProfilesByPage("someUrl", user.userid, function(data){
-
-              UiState.pageProfiles = data;
-              $rootScope.$broadcast('page-profiles-available');
-            });
-
-            DancecardService.getDancecardById(user.userid, function(data){
-
-              UiState.dancecard = data;
-              $rootScope.$broadcast('dancecard-available');
-            });
+            Profile.initializeProfile(user, "someurl");
+            DancecardService.initializeDancecard(user);
+            
           };
 
           return initService;
@@ -785,7 +875,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState
        SignupService.signupUser(function(data){
           console.log('Signing up user...');
           console.log(data);
-          InitService.initializeDataOnSignup(data.user);
+          InitService.initializeData(data.user);
        });
        $state.go('main.profileList', { reload: true, inherit: false, notify: false});
     }
@@ -795,12 +885,11 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState
 /*******************************************************************************************************
 Login Controller  */
 
-appControllers.controller('LoginCtrl', ['$scope', '$rootScope', '$state','UiState', 'LoginService', 'Profile', 'DancecardService', 'InitService',
-  function($scope, $rootScope, $state, UiState, LoginService, Profile, DancecardService, InitService) {
+appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'InitService',
+  function($scope, $state, LoginService, InitService) {
 
     $scope.email;
     $scope.password;
-    $scope.uiState = UiState;
 
     console.log(url_info);
     $scope.login = function(){
@@ -826,33 +915,12 @@ Message Controller  */
 appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiState', 'MessageService', 'Socket',
   function($scope, $timeout, $state, UiState, MessageService, Socket) {
 
-    // Socket.on('init', function(data){
-    //   console.log('connection started...');
-    //   console.log('socket id: ');
-    //   console.log(data.socketid);
-
-    //   Socket.emit('register-user', {userid: UiState.selfProfile.userid}, function(){});
-    // });
-
-    // Socket.on('new-message', function(data){
-    //   console.log('new messsage received...');
-    //   console.log(data);
-    //   $scope.messageThread.push(data);
-    // });
-    
-
-
     $scope.messageThread = $scope.conversation;//inherited from DanceCardCtrl
     $scope.newMessage;
 
     console.log($scope.conversation);
     $scope.ifSentByUser = function(i){
-      if($scope.conversation[i].senderid ==  UiState.selfProfile.userid){
-        return true;
-      }
-      else{
-        return false;
-      }
+      return ($scope.conversation[i].senderid ==  UiState.selfProfile.userid)
     }
 
     $scope.sendMessage = function(){
@@ -893,8 +961,8 @@ appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiSta
 /*******************************************************************************************************
 Dancecard Controller  */
 
-appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$timeout', '$state', 'UiState', 'MessageService', 'DancecardService', 'Socket',
-  function($rootScope, $scope, $timeout, $state, UiState, MessageService, DancecardService, Socket) {
+appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'UiState', 'MessageService', 'DancecardService', 'Socket', 'Profile',
+  function($rootScope, $scope, $state, UiState, MessageService, DancecardService, Socket, Profile) {
     
     // DancecardService.getStaticDancecard(function(data){
     //     $scope.danceCard = data;
@@ -907,7 +975,7 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$timeout', '
       console.log('socket id: ');
       console.log(data.socketid);
 
-      Socket.emit('register-user', {userid: UiState.selfProfile.userid}, function(){});
+      Socket.emit('register-user', {userid: Profile.selfProfile.userid}, function(){});
     });
 
     Socket.on('new-message', function(data){
@@ -917,48 +985,45 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$timeout', '
     });
 
 
-    $scope.username = UiState.selfProfile.username;
+    $scope.username = Profile.selfProfile.username;
 
-    $scope.$on('username-available', function(event){
+    $scope.$on('user-data-available', function(event){
       console.log('username is ready to render! ');
-      console.log(event);
-      $scope.username = UiState.selfProfile.username;
+      // console.log(event);
+      $scope.username = Profile.selfProfile.username;
     });
 
-    // DancecardService.getDancecard(UiState.selfProfile.userid, function(data){
-    //     $scope.dancecard = data;
-    //     for(var i=0; i < (5 - data.length); i++){
-    //       $scope.dancecard_open 
-    //     }
-    //     UiState.dancecard = $scope.dancecard;
-    // });
 
     $scope.$on('dancecard-update', function(event){
       // console.log('Dancecard was updated! ');
       // console.log(event);
-      $scope.dancecard = UiState.dancecard;
+      // $scope.dancecard = UiState.dancecard;
+      $scope.dancecard = DancecardService.dancecard;
     });
 
      $scope.$on('dancecard-available', function(event){
       // console.log('Dancecard was updated! ');
       // console.log(event);
-      $scope.dancecard = UiState.dancecard;
-    });
+      // $scope.dancecard = UiState.dancecard;
+      $scope.dancecard = DancecardService.dancecard;
+      });
 
     $scope.goToProfile = function(){
-      if(UiState.selectedProfile != UiState.selfProfile){
-        $scope.uiState.selectedProfile = $scope.uiState.selfProfile;
+      if(Profile.selectedProfile != Profile.selfProfile){
+        Profile.selectedProfile = Profile.selfProfile;
       }
       UiState.showDetailsPanel = true;
     }
 
     $scope.selectOnly = function(i){
-        UiState.selectedProfile = $scope.dancecard[i];
-        $scope.selectedProfile = $scope.dancecard[i];
-        $scope.showShortProfile = true;
-        $state.go('main.messages');
-        //MessageService.getMessageByuserid(UiState.selectedProfile.userid);
-        getConversation(UiState.selectedProfile.userid);
+        if($scope.dancecard[i].userid != -1){
+          Profile.selectedProfile = $scope.dancecard[i];
+          $scope.selectedProfile = $scope.dancecard[i];
+          $scope.showShortProfile = true;
+          $state.go('main.messages');
+          //MessageService.getMessageByuserid(UiState.selectedProfile.userid);
+          getConversation(Profile.selectedProfile.userid);
+        }
       }
 
       var getConversation = function(userid){
@@ -975,12 +1040,12 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$timeout', '
       }
 
       $scope.showDetailedProfile = function(){
-        UiState.isSelected = $scope.selectedProfile.userid; 
+        // UiState.isSelected = $scope.selectedProfile.userid; 
         UiState.showDetailsPanel = true;
       }
 
       $scope.ifSelected = function(){
-        return (UiState.selectedProfile.userid == $scope.selectedProfile.userid && $scope.selectedProfile != -1);
+        return (Profile.selectedProfile.userid == $scope.selectedProfile.userid && $scope.selectedProfile != -1);
       }
 
     $scope.conversation = [];
@@ -1001,21 +1066,21 @@ appControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
     // Profile.getProfilesByPage("someUrl", UiState.selfProfile.userid, function(data){
     //   $scope.profiles = data;
     // });
-    $scope.profiles = UiState.pageProfiles;
+    $scope.profiles = Profile.pageProfiles;
     
-    $scope.$on('dancecard-available', function(event){
-      // console.log('Dancecard was updated! ');
-      // console.log(event);
-      $scope.profiles = UiState.pageProfiles;
+    $scope.$on('page-profiles-available', function(event){
+    //   // console.log('Dancecard was updated! ');
+    //   // console.log(event);
+      $scope.profiles = Profile.pageProfiles;
     });
 
     $scope.selectOnly = function(i){
       UiState.showDetailsPanel = true;
-      UiState.selectedProfile = $scope.profiles[i];
+      Profile.selectedProfile = $scope.profiles[i];
     }
 
     $scope.ifSelected = function(i){
-      return (UiState.showDetailsPanel && UiState.selectedProfile.userid == $scope.profiles[i].userid);
+      return (UiState.showDetailsPanel && Profile.selectedProfile.userid == $scope.profiles[i].userid);
     }
 
     // $scope.orderProp = 'username'; does not sort UiState.pageProfiles so indexes are out of sync, don't use for now.
@@ -1028,47 +1093,24 @@ Profile Detail Controller  */
 appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state', 'Profile', 'UiState','DancecardService',
   function($rootScope, $scope, $state, Profile, UiState, DancecardService) {
 
-    // $scope.profileImages = [
-    //           {
-    //              imageurl: "http://lorempixel.com/400/300/people/1",
-    //              label: 1
-    //           },
-    //           {
-    //               imageurl:  "http://lorempixel.com/400/300/people/2",
-    //               label: 2
-    //           },
-    //           {
-    //               imageurl:  "http://lorempixel.com/400/300/people/3",
-    //               label: 3
-    //           }
-    //         ];
-
-    // console.log('in profileDetails controller....');
-    // console.log(UiState);
-    // console.log($scope.uiState);
-
-    $scope.uiState = UiState;
-    $scope.profileImages = UiState.selectedProfile.imageurls;
-    console.log('in profile details controller...');
-    console.log(UiState);
-    console.log(UiState.selectedProfile);
-    console.log($scope.profileImages);
-    console.log(UiState.selectedProfile.imageurls);
+    $scope.profile = Profile;
 
     $scope.showAddButton = function(){
-      return (!$scope.isInDanceCard(UiState.selectedProfile.userid) && !$scope.isSelf());
+      return (!$scope.isInDanceCard(Profile.selectedProfile.userid) && !$scope.isSelf());
     }
 
     $scope.showRemoveButton = function(){
-      return ($scope.isInDanceCard(UiState.selectedProfile.userid) && !$scope.isSelf());
+      return ($scope.isInDanceCard(Profile.selectedProfile.userid) && !$scope.isSelf());
     }
 
     $scope.isInDanceCard = function(userid){
       // console.log("isInDanceCard?  ");
       // console.log(UiState.dancecard);
       // console.log(userid);
-      for(var i=0; i<UiState.dancecard.length; i++) {
-        if(UiState.dancecard[i].userid == userid){
+      console.log('checking if isInDancecard: profileDetails cnotrller');
+      console.log(DancecardService.dancecard);
+      for(var i=0; i<DancecardService.dancecard.length; i++) {
+        if(DancecardService.dancecard[i].userid == userid){
           return true;
         }
       };
@@ -1076,35 +1118,31 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
     };
 
     $scope.isSelf = function(){
-      return (UiState.selectedProfile.userid == UiState.selfProfile.userid);
+      return (Profile.selectedProfile.userid == Profile.selfProfile.userid);
+    }
+
+    function getNumberFreeDancecardSpots(){
+      var count = 0;
+      for(var i=0; i<5; i++){
+        if(DancecardService.dancecard[i].userid == -1){
+          count++;
+        }
+      } 
+      return count;
     }
 
     $scope.updateDancecard = function(userid, status){
       var data = {
-        userid: UiState.selfProfile.userid,
+        userid: Profile.selfProfile.userid,
         partnerid: userid,
         status: status
       }
-      if(status == 'added'){
-        if(UiState.dancecard.length < 5){
-          DancecardService.updateDancecard(data, function(result){
-              UiState.dancecard = result;
-              $rootScope.$broadcast('dancecard-update');
-          });
-        }
-        else {
-          console.log('Your dancecard is filled! You must remove someone to add again');
-        }
-      }
+
+      DancecardService.updateDancecard(data, Profile.selectedProfile);
 
       if(status == 'removed'){
-          DancecardService.updateDancecard(data, function(result){
-            UiState.dancecard = result;
-            UiState.selectedProfile = UiState.selfProfile;
             UiState.showDetailsPanel = false;
-            $rootScope.$broadcast('dancecard-update');
             $state.go('main.profileList');
-          });
       }
 
     };
