@@ -1,35 +1,26 @@
 
 <style>
-/*	.fileUpload {
-	position: relative;
-	overflow: hidden;
-	width: 88%;
-	height: 20px;
-	border-radius: 5px;
-	background-color: white;
-	border: 1px solid gray;
-	margin: 10px auto 10px auto;
-	text-align: center;
+	#sidebar input[type='submit'] {
+		width: 100%;
+		background-color: #008C9E;
+		color: #DBDBDB;
+		border: none;
+		border-bottom: 4px solid #005F6B;
+		padding: 10px 5px;
 	}
 
-	.fileUpload input.upload {
-		position: absolute;
-		top: 0;
-		right: 0;
-		margin: 0;
-		padding: 0;
-		font-size: 20px;
-		cursor: pointer;
-		opacity: 0;
-		filter: alpha(opacity=0);
-	}*/
+	#sidebar input[type='submit']:hover {
+		background-color: #00AABF;
+		border-bottom: 4px solid #007786;
+	}
 
 </style>
+<div class="signup-heading">
+	<a class="back" ui-sref="sign-up-0">Back</a>
+	<h4>Introduce Yourself</h4>
+</div>
+
 <div class="signup-wrapper">
-	<a ui-sref="sign-up-0">Back</a>
-	<div class="signup-heading">
-		<h4>Introduce Yourself</h4>
-	</div>
 
 	<div id="signup-photo-preview">
 		<img ng-src="{{ user.mediumImageUrl[0] }}" />
@@ -42,8 +33,8 @@
 	<form class="signup-info">
 		<input type="text" placeholder="First Name" ng-model="user.username" required/>
 		<input type="email" placeholder="Email Address" ng-model="user.email" required/>
-		<input type="text" placeholder="Password" ng-model="user.password" required/>
-		<input type="submit" value="continue" ng-click="goToSignupStep2()"/>
+		<input type="password" placeholder="Password" ng-model="user.password" required/>
+		<input type="submit" value="Continue" ng-click="goToSignupStep2()"/>
 	</form>
 
 	{{user | json}}

@@ -4,10 +4,15 @@
 <link id="angular-carousel-css" rel="stylesheet" type="text/css" />
 <!-- <link id="bootstrap" rel="stylesheet" type="text/css" /> -->
 <style>
+	
+	@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
 
-	p {
+	/*p {
 		margin: 0px;
-		line-height: 16px;
+	}*/
+
+	#sidebar a {
+		cursor: pointer;
 	}
 
 	#injected-wrapper {
@@ -23,7 +28,7 @@
 	}
 
 	#tabControl {
-		background-color: rgba(0,255,100, 0.8);
+		background-color: #CCC;
 		width: 20px;
 		height: 40px;
 		position: relative;
@@ -31,7 +36,7 @@
 		top: 65px;
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
-		/*box-shadow: 1px 4px 20px black;*/
+		/*box-shadow: 1px 4px 20px #333333;*/
 	}
 
 	#arrow-icon {
@@ -79,24 +84,51 @@
 	}
 
 	#detailsPanel {
-		width: 420px;
-		height: inherit;
+		width: 500px;
+		height: 100%;
+		overflow-y:auto;
 		background-color: rgba(200,200,200,0.9);
 		position: relative;
 		float: left;
-		padding: 10px;
+		padding: 15px;
+		box-sizing: border-box;
+
 	}
 
 	#sidebar {
-		padding-top: 10px;
-		padding-left: 10px;
-		padding-right: 10px;
-		background-color: rgba(0,100,255, 0.8);
+		color: #DBDBDB;
+		background-color: #343838;
 		position: relative;
 		float: right;
-		width: 240px;
+		width: 260px;
 		height: inherit;
-		/*box-shadow: 1px 4px 20px black;*/
+		font-family: "Open Sans", Helvetica, Arial, sans-serif;
+		font-size: 13px;
+		line-height: 1.4em;
+		border-left: 1px solid #666666;
+		/*font-weight: 300;*/
+		/*letter-spacing: .03em;*/
+	}
+
+	#sidebar button {
+		width: 100%;
+		background-color: #008C9E;
+		color: #DBDBDB;
+		border: none;
+		border-bottom: 4px solid #005F6B;
+		padding: 10px 5px;
+		font-weight: normal;
+	}
+
+	#sidebar button:hover {
+		background-color: #00AABF;
+		border-bottom: 4px solid #007786;
+	}
+
+	#sidebar .back {
+		position: absolute;
+		left: 15px;
+		cursor: pointer;
 	}
 
 	.show-sidebar {
@@ -274,9 +306,10 @@
 	*******************************************/
     .signup-wrapper, .login-wrapper {
     	width: 100%;
-    	position: relative;
-    	top: 50px;
-    	background-color: whitesmoke;
+/*    	position: relative;
+    	top: 50px;*/
+    	padding: 15px 15px 0 15px;
+    	box-sizing: border-box;
     }
 
     #logo-signup, #logo-login {
@@ -289,12 +322,15 @@
     }
 
    #tagline-signup, #tagline-login, #username-header {
+   		color: #DBDBDB;
    		text-align: center;
    }
 
-   .explain-signup, .explain-login {
+   .explain-signup, 
+   .explain-login {
+   		color: #DBDBDB;
    		text-align: left;
-   		margin: 15px 0px 15px 0px;
+   		margin: 20px 0;
    }
 
    .signup-button, .login-button, .signup-wrapper button{
@@ -314,11 +350,19 @@
 
    .signup-heading {
    	width: 100%;
-   	height: 40px;
-   	position: absolute;
-   	top: -40px;
-   	background-color: gray;
+   	height: 45px;
+   	/*background-color: #008C9E;*/
    	text-align: center;
+   	padding: 15px;
+   	box-sizing: border-box;
+   	border-bottom: 1px solid #555555;
+   }
+
+   .signup-heading h4 {
+   	color: white;
+   	margin: 0;
+   	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+   	font-weight: bold;
    }
 
    #signup-photo-preview {
@@ -335,10 +379,27 @@
    		border-radius: 50%;
    }
 
-   .signup-info, .login-form {
-   	margin: auto;
-   	width: 88%;
+   .signup-info, 
+   .login-form {
+   	margin-top: 15px;
+   	width: 100%;
    	height: 100%;
+   }
+
+   .signup-info input:focus, 
+   .login-form input:focus { 
+   	outline: none; 
+   }
+
+   .signup-info input[type='text'],
+   .signup-info input[type='email'],
+   .signup-info input[type='password'],
+   .login-form input[type='text'],
+   .login-form input[type='email'],
+   .login-form input[type='password'] {
+    padding: 3px;
+    color: #333333;
+    box-sizing: border-box;
    }
 
    .signup-info input[type='checkbox'] {
@@ -368,7 +429,7 @@
 	.slider {
 		width: 100%;
 		height: 20px;
-		background-color: gray;
+		background-color: none;
 		margin-top: 10px;
 		margin-bottom: 20px;
 	}
@@ -410,13 +471,13 @@
 
 	<div id="sidebar">
 		
-		<div id="close-action">
+		<!-- <div id="close-action">
 			<img id="close-icon" />
 		</div>
 
 		<div id="home-action">
 			<a ui-sref='main.profileList'><img id="home-icon" /></a>
-		</div>
+		</div> -->
 
 		<div ui-view="sidebar">
 		</div>
