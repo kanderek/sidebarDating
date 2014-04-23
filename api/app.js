@@ -23,10 +23,24 @@ var io = require('socket.io').listen(server);
 server.listen(3000);
 console.log("listening at port 3000");
 
-// var conString = "postgres://derekkan:5432@localhost/sidebar";
 
-// var client = new pg.Client(conString);
-//var flash = require("flash");
+var pgConnectionString = "postgres://derekkan:5432@localhost/sidebar";
+
+var client = new pg.Client(pgConnectionString);
+client.connect();
+client.query('LISTEN "watchers"');
+client.on('notification', function(data) {
+	console.log('###################### notification received ######################');
+	ee.emit('new_notification', data);
+});
+
+function listenForNotifications(req,res,next){
+	  // req.db.client.on('notification', function(msg) {
+	  // 	  ee.emit('new_notification', msg);
+	  // });
+	  // var query = req.db.client.query("LISTEN watchers");
+	  next();
+};
 
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
@@ -34,7 +48,7 @@ var passport = require('passport')
 var connectToDb = pgclient({
     config : {
         database : 'sidebar',
-        user     : 'Christina',
+        user     : 'derekkan',//Christina',
         host     : 'localhost',
         port     : 5432
     }
@@ -81,8 +95,6 @@ passport.deserializeUser(function(req, userid, done) {
   });
 });
 
-
-
 app.configure(function(){
   // app.use(express.static(__dirname + '/public'));
   // app.use(express.static(__dirname + '/files'));
@@ -95,6 +107,7 @@ app.configure(function(){
   app.use(express.urlencoded());
   // app.use(flash());
   app.use(connectToDb);
+  app.use(listenForNotifications);
   app.use(express.session({ secret: 'so secret' }));
   app.use(passport.initialize());
   app.use(passport.session());
@@ -223,6 +236,9 @@ function createNewUserPref(req, res, next){
 		next();
 	});
 }
+
+
+
 
 app.post('/upload', 
 	//connectToDb, 
@@ -675,6 +691,12 @@ io.sockets.on('connection', function(socket){
 		console.log('registered user: ' + data.userid);
 		console.log(users);
 	});
+	// io.sockets.socket(users.userid.socket).emit()
+	socket.on('disconnect', function(){
+		
+	});
+
+});
 
 	ee.on("someEvent", function (data) {
     	console.log("event has occured: ");
@@ -684,14 +706,16 @@ io.sockets.on('connection', function(socket){
 		}
 	});
 
-	// io.sockets.socket(users.userid.socket).emit()
-
-	socket.on('disconnect', function(){
-		
-
+	ee.on("new_notification", function (data) {
+		console.log('all listeners for new_notification...');
+		console.log(ee.listeners("new_notification"))
+    	console.log("new_notification event has occured: ");
+    	console.log(data);
+    	var fields = data.payload.split(',');
+    	console.log(fields)
+    	if(users[fields[0]]){
+    		io.sockets.socket(users[fields[0]].socket).emit('new-notification', fields[1]);
+    	}
 	});
-
-});
-
 
 

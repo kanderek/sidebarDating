@@ -966,6 +966,49 @@ appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiSta
      }
   }]);
 
+
+/*******************************************************************************************************
+TopMenuCtrl Controller  */
+
+appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiState', 'Socket', 'Profile',
+  function($rootScope, $scope, $state, UiState, Socket, Profile) {
+
+  $scope.username = Profile.selfProfile.username;
+  $scope.notificationCount = 0;
+
+  Socket.on('new-notification', function(data){
+    console.log('received new notification...');
+    console.log(data);
+    //add notification to list of notifications
+    //increment unread notification count 
+
+  });
+
+  $scope.$on('user-data-available', function(event){
+    // console.log('username is ready to render! ');
+    $scope.username = Profile.selfProfile.username;
+  });
+
+  $scope.isSignedIn = function(){
+    return true;
+  }
+
+  $scope.goBack = function(){
+    $state.go('main.profileList');
+  }
+
+  $scope.goToProfile = function(){
+      if(Profile.selectedProfile != Profile.selfProfile){
+        Profile.selectedProfile = Profile.selfProfile;
+      }
+      UiState.showDetailsPanel = true;
+    }
+
+  $scope.goToNotifications = function(){
+    //$state.go('notifications');
+  }
+
+}]);
 /*******************************************************************************************************
 Dancecard Controller  */
 
@@ -987,14 +1030,6 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
     });
 
 
-    $scope.username = Profile.selfProfile.username;
-
-    $scope.$on('user-data-available', function(event){
-      // console.log('username is ready to render! ');
-      $scope.username = Profile.selfProfile.username;
-    });
-
-
     $scope.$on('dancecard-update', function(event){
       $scope.dancecard = DancecardService.dancecard;
     });
@@ -1003,12 +1038,6 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
       $scope.dancecard = DancecardService.dancecard;
       });
 
-    $scope.goToProfile = function(){
-      if(Profile.selectedProfile != Profile.selfProfile){
-        Profile.selectedProfile = Profile.selfProfile;
-      }
-      UiState.showDetailsPanel = true;
-    }
 
     $scope.selectOnly = function(i){
         if($scope.dancecard[i].userid != -1){

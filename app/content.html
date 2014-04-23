@@ -139,6 +139,17 @@
 		right: -260px;
 	}
 
+	#top-menu {
+		width: inherit;
+		text-align: center;
+		color: black;
+		margin-bottom: 10px;
+	}
+
+	#top-menu a {
+		color: white;
+	}
+
 	/*******************************************
 	// Profile list view item Styles 
 	//
@@ -184,16 +195,6 @@
 		/*margin-bottom: 10px;*/
 	}
 
-	#dance-card-owner {
-		width: inherit;
-		text-align: center;
-		color: black;
-		margin-bottom: 10px;
-	}
-
-	#dance-card-owner a {
-		color: black;
-	}
 
 	.dance-card-preview-img {
 		position: relative;
@@ -221,7 +222,8 @@
 	.vertical-line {
 		width: 100%;
 		height: 1px;
-		background-color: rgb(50,50, 50);
+		background-color: white;
+		border-bottom: 1px solid gray;
 	}
 
 	.hide {
@@ -478,7 +480,11 @@
 		<div id="home-action">
 			<a ui-sref='main.profileList'><img id="home-icon" /></a>
 		</div> -->
-
+		<div id="top-menu" ng-show="isSignedIn()" ng-controller="TopMenuCtrl">
+			<a ng-click="goBack()">Back</a>
+			<a ng-click="goToProfile()" > {{username}}</a>
+			<a ng-click="goToNotifications()" >{{}}</a>
+		</div>
 		<div ui-view="sidebar">
 		</div>
 

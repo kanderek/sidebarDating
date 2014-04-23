@@ -3,12 +3,14 @@
 -- Syntax to create new database "CREATE DATABASE [mydb (db name)]"
 -- CREATE DATABASE sidebar
 
-DROP TABLE notifications;
-DROP TABLE messages;
-DROP TABLE userprefs;
-DROP TABLE dancecard;
-DROP TABLE users;
-
+DROP TABLE IF EXISTS notifications;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS userprefs;
+DROP TABLE IF EXISTS dancecard;
+DROP TABLE IF EXISTS users;
+DROP FUNCTION IF EXISTS dancecard_notification();
+DROP FUNCTION IF EXISTS message_notification();
+DROP FUNCTION IF EXISTS notify_trigger();
 
 -- Every table should have at least one primary key! (best practice)
 CREATE TABLE users (
@@ -61,9 +63,67 @@ CREATE TABLE notifications (
 	userid 			int REFERENCES users (userid) ON DELETE CASCADE,
 	message 		varchar(140) NOT NULL,	
 	action_time		timestamp,
-	PRIMARY KEY (userid)
+	type 			varchar(50),--message/dancecard
+	status			varchar(50),--read/unread/ignore
+	PRIMARY KEY (userid, message, action_time)
 );
 
+CREATE FUNCTION dancecard_notification() RETURNS TRIGGER AS $_$
+DECLARE
+	-- name varchar := SELECT username FROM users WHERE userid = NEW.userid;
+	name varchar(30);
+	message varchar := '';
+
+BEGIN
+	SELECT INTO name username FROM users WHERE userid = NEW.userid;
+	
+	IF (TG_OP = 'INSERT') THEN 
+		message := name || ' added you to their dancecard';
+	END IF;
+
+	IF (TG_OP = 'UPDATE') THEN
+		message := name || ' removed you from their dancecard';
+	END IF;
+
+	INSERT INTO notifications (userid, message, action_time, type) 
+	    VALUES (NEW.partnerid, message ,CURRENT_TIMESTAMP, 'dancecard'); 
+
+    RETURN NEW;
+END $_$ LANGUAGE 'plpgsql';
+
+CREATE FUNCTION message_notification() RETURNS TRIGGER AS $_$
+DECLARE
+	-- name varchar := SELECT username FROM users WHERE userid = NEW.userid;
+	name varchar(30);
+	message varchar := '';
+
+BEGIN
+	SELECT INTO name username FROM users WHERE userid = NEW.senderid;
+	
+	IF (TG_OP = 'INSERT') THEN 
+		message := name || ' sent you a message';
+	END IF;
+
+	INSERT INTO notifications (userid, message, action_time, type) 
+	    VALUES (NEW.receiverid, message ,CURRENT_TIMESTAMP, 'message'); 
+
+    RETURN NEW;
+END $_$ LANGUAGE 'plpgsql';
+
+
+CREATE FUNCTION notify_trigger() RETURNS trigger AS $$
+DECLARE
+BEGIN
+  -- PERFORM pg_notify('watchers', TG_TABLE_NAME || ',userid,' || NEW.userid );
+
+  PERFORM pg_notify('watchers', NEW.userid || ',' || NEW.message );
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER add_dancecard_notification BEFORE INSERT OR UPDATE ON dancecard FOR EACH ROW EXECUTE PROCEDURE dancecard_notification();
+CREATE TRIGGER add_message_notification BEFORE INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE message_notification();
+CREATE TRIGGER watched_table_trigger AFTER INSERT ON notifications FOR EACH ROW EXECUTE PROCEDURE notify_trigger();
 
 INSERT INTO users (username, email, password, gender, dateofbirth, 
 	        zipcode, location_city, location_state, personal_blurb,
