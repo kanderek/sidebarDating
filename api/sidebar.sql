@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS users;
 DROP FUNCTION IF EXISTS dancecard_notification();
 DROP FUNCTION IF EXISTS message_notification();
 DROP FUNCTION IF EXISTS notify_trigger();
+DROP FUNCTION IF EXISTS check_mutual(userid1 int, userid2 int);
 
 -- Every table should have at least one primary key! (best practice)
 CREATE TABLE users (
@@ -46,6 +47,7 @@ CREATE TABLE dancecard (
 	userid			int REFERENCES users (userid) ON DELETE CASCADE, -- Foreign key constraint
 	partnerid		int REFERENCES users (userid) ON DELETE CASCADE, 
 	status			varchar(10),
+	mutual			boolean DEFAULT 'false',
 	updatetime		timestamp,
 	--FOREIGN KEY (userId, partnerId) REFERENCES user (userId, userId)
 	PRIMARY KEY (userid, partnerid)
@@ -62,10 +64,12 @@ CREATE TABLE messages (
 CREATE TABLE notifications (
 	notificationid	SERIAL,
 	userid 			int REFERENCES users (userid) ON DELETE CASCADE,
+	about_userid	int REFERENCES users (userid),
 	message 		varchar(140) NOT NULL,	
 	action_time		timestamp,
-	type 			varchar(50),--message/dancecard
-	status			varchar(50) DEFAULT 'unread',--read/unread/ignore
+	type 			varchar(10),--message/dancecard
+	subtype			varchar(10),--dancecard (added, removed, mutual)/message (new)
+	status			varchar(10) DEFAULT 'unread',--read/unread/ignore
 	PRIMARY KEY (notificationid)
 );
 
@@ -74,20 +78,45 @@ DECLARE
 	-- name varchar := SELECT username FROM users WHERE userid = NEW.userid;
 	name varchar(30);
 	message varchar := '';
+	mutualVar boolean := 'false';
+	status_check varchar;
+	subTypeVar varchar(10);
 
 BEGIN
 	SELECT INTO name username FROM users WHERE userid = NEW.userid;
-	
+	SELECT INTO status_check status FROM dancecard WHERE userid = NEW.partnerid AND partnerid = NEW.userid;
+
+	IF (status_check = 'added' AND NEW.status = 'added') THEN
+		mutualVar := 'true';
+		NEW.mutual = 'true';
+	ELSE
+		mutualVar := 'false';
+		NEW.mutual = 'false';
+	END IF;
+
+	UPDATE dancecard SET mutual = mutualVar WHERE (partnerid=NEW.partnerid OR userid=NEW.partnerid) AND (userid=NEW.userid OR partnerid=NEW.userid);
+	-- UPDATE dancecard SET mutual = (SELECT check_mutual(14,1)) WHERE (partnerid=1 AND userid=14) OR (partnerid=14 AND userid=1);
+
+	RAISE NOTICE 'what is mutual? , %', mutualVar;
+	RAISE NOTICE 'what is NEW? , %', NEW;
+
 	IF (TG_OP = 'INSERT') THEN 
-		message := name || ' added you to their dancecard';
+		IF (mutualVar) THEN 
+			message := name || ' added you back';
+			subTypeVar := 'mutual';
+		ELSE
+			message := name || ' added you to their dancecard';
+			subTypeVar := 'added';
+		END IF;
 	END IF;
 
-	IF (TG_OP = 'UPDATE') THEN
+	IF (TG_OP = 'UPDATE' AND NEW.status = 'removed') THEN
 		message := name || ' removed you from their dancecard';
+		subTypeVar := 'removed';
 	END IF;
 
-	INSERT INTO notifications (userid, message, action_time, type) 
-	    VALUES (NEW.partnerid, message ,CURRENT_TIMESTAMP, 'dancecard'); 
+	INSERT INTO notifications (userid, about_userid, message, action_time, type, subtype) 
+	    VALUES (NEW.partnerid, NEW.userid, message ,CURRENT_TIMESTAMP, 'dancecard', subTypeVar); 
 
     RETURN NEW;
 END $_$ LANGUAGE 'plpgsql';
@@ -105,8 +134,8 @@ BEGIN
 		message := name || ' sent you a message';
 	END IF;
 
-	INSERT INTO notifications (userid, message, action_time, type) 
-	    VALUES (NEW.receiverid, message ,CURRENT_TIMESTAMP, 'message'); 
+	INSERT INTO notifications (userid, about_userid, message, action_time, type, subtype) 
+	    VALUES (NEW.receiverid, NEW.senderid, message ,CURRENT_TIMESTAMP, 'message', 'new'); 
 
     RETURN NEW;
 END $_$ LANGUAGE 'plpgsql';
@@ -118,15 +147,34 @@ BEGIN
 
   PERFORM pg_notify('watchers', NEW.userid || ',' || 
   								NEW.notificationid || ',' || 
+  								NEW.about_userid || ',' || 
   								NEW.message || ',' || 
   								NEW.action_time || ',' || 
   								NEW.type || ',' || 
+  								NEW.subtype || ',' || 
   								NEW.status);
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER add_dancecard_notification BEFORE INSERT OR UPDATE ON dancecard FOR EACH ROW EXECUTE PROCEDURE dancecard_notification();
+CREATE FUNCTION check_mutual(userid1 int, userid2 int) RETURNS boolean AS $$
+DECLARE 
+	count int;
+BEGIN
+
+	SELECT INTO count COUNT(*) FROM dancecard  WHERE (userid=$1 OR partnerid=$1) AND (userid=$2 OR partnerid=$2) AND status='added';
+
+	IF (count = 2) THEN 
+		RETURN 'true';
+	ELSE
+		RETURN 'false';
+	END IF;
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER add_dancecard_notification AFTER INSERT OR UPDATE OF status ON dancecard FOR EACH ROW EXECUTE PROCEDURE dancecard_notification();
 CREATE TRIGGER add_message_notification BEFORE INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE message_notification();
 CREATE TRIGGER watched_table_trigger AFTER INSERT ON notifications FOR EACH ROW EXECUTE PROCEDURE notify_trigger();
 

@@ -1,3 +1,13 @@
+<style>
+	.mutual {
+		position: absolute;
+		background-color: rgba(200,200,200,0.5);
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+	}
+
+</style>
 <div>
 	<div id="dance-card-preview">
 		<div class="vertical-line">
@@ -6,11 +16,12 @@
 
 		<div ng-repeat="person in dancecard" 
 			 class="dance-card-preview-img" 
-			 ng-class="{'danceCardPreviewLast': {{$last}}}"
 			 ng-click="selectOnly($index)"
 			 >
 			
-			<img ng-src="{{person.smallimageurls[0]}}" />
+			<div class='mutual' ng-hide="isMutual($index)">
+			</div>
+				<img ng-src="{{person.smallimageurls[0]}}" />
 		</div>
 
 		<div class="profile" 

@@ -449,6 +449,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
   var dancecardService = {};
 
       dancecardService.dancecard = [];
+      dancecardService.pending = [];
 
       dancecardService.getStaticDancecard = function(callback){
         $http({
@@ -467,6 +468,15 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
         dancecardService.dancecard = [];
         dancecardService.getDancecardById(userid, function(data){});
       }
+
+      dancecardService.setMutual = function(userid){
+        for(var i=0; i<dancecardService.dancecard.length; i++){
+          if(dancecardService.dancecard[i].userid == userid){
+            dancecardService.dancecard[i].mutual = true;
+            break;
+          }
+        }
+      } 
 
       dancecardService.getDancecardById = function(userid, callback){
         // console.log('in dancecard service...');
@@ -503,6 +513,8 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
               dancecardService.dancecard[i] = profileData;
               $rootScope.$broadcast('dancecard-update');
               dancecardService.postDancecardUpdate(postData, function(data){
+                console.log('in dancecard service : changed happened...');
+                console.log(data);
                 Profile.removeFromPageProfiles(profileData.userid);
                 Profile.getProfilesByPage("someurl", 1);
               })
@@ -1077,8 +1089,8 @@ appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiSta
 /*******************************************************************************************************
 TopMenuCtrl Controller  */
 
-appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiState', 'Socket', 'Profile', 'NotificationService',
-  function($rootScope, $scope, $state, UiState, Socket, Profile, NotificationService) {
+appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiState', 'Socket', 'Profile', 'NotificationService', 'DancecardService',
+  function($rootScope, $scope, $state, UiState, Socket, Profile, NotificationService, DancecardService) {
 
   $scope.username = Profile.selfProfile.username;
   $scope.ns = NotificationService;
@@ -1091,8 +1103,11 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiSt
     console.log('received new notification...');
     console.log(data);
     NotificationService.addNotification(data);
-    //add notification to list of notifications
-    //increment unread notification count 
+    
+    if(data.type == 'dancecard' && data.subtype == 'mutual'){
+      console.log("It's a match!...");
+      DancecardService.setMutual(data.about_userid); 
+    }
   });
 
   $scope.$on('user-data-available', function(event){
@@ -1155,9 +1170,11 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
           Profile.selectedProfile = $scope.dancecard[i];
           $scope.selectedProfile = $scope.dancecard[i];
           $scope.showShortProfile = true;
-          $state.go('main.messages');
-          //MessageService.getMessageByuserid(UiState.selectedProfile.userid);
-          getConversation(Profile.selectedProfile.userid);
+          if($scope.dancecard[i].mutual){
+            $state.go('main.messages');
+            //MessageService.getMessageByuserid(UiState.selectedProfile.userid);
+            getConversation(Profile.selectedProfile.userid);
+          }
         }
       }
 
@@ -1176,6 +1193,10 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
 
       $scope.ifSelected = function(){
         return (Profile.selectedProfile.userid == $scope.selectedProfile.userid && $scope.selectedProfile != -1);
+      }
+
+      $scope.isMutual = function(i){
+        return ($scope.dancecard[i].mutual);
       }
 
     $scope.conversation = [];

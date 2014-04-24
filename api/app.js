@@ -396,7 +396,7 @@ app.get('/message/:partnerId',
 app.post('/message', 
 	//connectToDb,
 	function(req, res, next){
-		console.log(req.user);
+		// console.log(req.user);
 		var senderId = req.body.senderid;
 		var receiverId = req.body.receiverid;
 		var message = req.body.message;
@@ -448,8 +448,8 @@ app.post('/notifications',
 	//connectToDb,
 	function(req, res, next){
 		// console.log(req.user);
-		console.log('updating notifications status...')
-		console.log(req.body);
+		// console.log('updating notifications status...')
+		// console.log(req.body);
 		var actionTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		//console.log(req.body);
@@ -481,13 +481,20 @@ app.get('/dancecard/:userId',
 		next();
 	},
 	getDancecardById,
-	function(req, res){
+	function(req, res, next){
 		for(var i=0; i<req.queryResult.rows.length; i++){
 			var age = calculateAge(req.queryResult.rows[i].dateofbirth);
 			req.queryResult.rows[i].age = age;
+			// req.queryResult.rows[i].mutual = checkMutual(req, req.queryResult.rows[i].userid, req.userid);
 		}
+		next();
+	},
+	function(req, res){
+		console.log('dancecard data...');
+		console.log(req.queryResult.rows);
 		res.json(req.queryResult.rows);
 	});
+
 
 function getDancecardById(req, res, next){
 		
@@ -501,7 +508,7 @@ function getDancecardById(req, res, next){
 									"users.imageurls,"+
 									"users.medimageurls,"+
 									"users.smallimageurls,"+ 
-									"danceCard.status "+  
+									"danceCard.mutual "+  
 							"FROM users,"+ 
 								 "danceCard "+ 
 							"WHERE danceCard.userId =" + req.userid + " AND "+
@@ -541,14 +548,14 @@ app.post('/dancecard',
 	// verifyDanceCardParameters(),
 	addToDanceCard,
 	updateDanceCardStatus,
+	// checkMutualDancecard,
 	function(req, res){
 		res.redirect('/dancecard/'+req.dancecard.userid);
 	});
 
 
-// function ensureAuthenticated(req, res, next) {
-//   if (req.isAuthenticated()) { return next(); }
-//   res.send(401);
+// function isMutual(req, res, next){
+// 	SELECT (partnerid, status) FROM dancecard WHERE partnerid=req.dancecard.userid;
 // }
     
 function addToDanceCard(req,res,next) {
@@ -586,6 +593,16 @@ function updateDanceCardStatus(req,res,next) {
 			next();
 		}
 };
+
+// function checkMutualDancecard(req, res, next) {
+// 	var queryString = "SELECT check_mutual(" + req.dancecard.userid + "," + req.dancecard.partnerid + ")";
+// 	// console.log("I'm checking for mutuality...");
+// 	// console.log(queryString);
+// 	req.db.client.query(queryString, function(err, result){
+// 		// console.log(result.rows);
+// 		next();
+// 	});
+// }
 
 function verifyDanceCardParameters(req,res,next) {
 		console.log(req.dancecard);
@@ -675,8 +692,8 @@ function getPeopleOnPage(req,res,next) {
 	var whereClause = "WHERE userid != " + req.userid;
 
 	// console.log(req.userid);
-	console.log('result of querying dancecard record...');
-	console.log(req.queryResult);
+	// console.log('result of querying dancecard record...');
+	// console.log(req.queryResult);
 	for(var i=0; i<req.queryResult.rows.length; i++){
 		whereClause += " AND userid !=" + req.queryResult.rows[i].userid;
 	}
@@ -714,7 +731,7 @@ function getCityStateFromZipcode(zipcode, callback){
 			country: 'US'
 		};
 	ziptastic(query).then(function(location){
-		console.log(location);
+		// console.log(location);
 		callback(location);
 	});
 }
@@ -756,19 +773,21 @@ io.sockets.on('connection', function(socket){
 	});
 
 	ee.on("new_notification", function (data) {
-		console.log('all listeners for new_notification...');
-		console.log(ee.listeners("new_notification"))
-    	console.log("new_notification event has occured: ");
-    	console.log(data);
+		// console.log('all listeners for new_notification...');
+		// console.log(ee.listeners("new_notification"))
+  //   	console.log("new_notification event has occured: ");
+  //   	console.log(data);
     	var fields = data.payload.split(',');
-    	console.log(fields)
+    	// console.log(fields)
     	var userid = fields[0];
     	var notification = {
     		notificationid: fields[1],
-    		message: fields[2],
-    		action_time: fields[3],
-    		type: fields[4],
-    		status: fields[5]
+    		about_userid: fields[2],
+    		message: fields[3],
+    		action_time: fields[4],
+    		type: fields[5],
+    		subtype: fields[6],
+    		status: fields[7]
     	};
 
     	if(users[userid]){
