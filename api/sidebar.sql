@@ -60,12 +60,13 @@ CREATE TABLE messages (
 );
 
 CREATE TABLE notifications (
+	notificationid	SERIAL,
 	userid 			int REFERENCES users (userid) ON DELETE CASCADE,
 	message 		varchar(140) NOT NULL,	
 	action_time		timestamp,
 	type 			varchar(50),--message/dancecard
-	status			varchar(50),--read/unread/ignore
-	PRIMARY KEY (userid, message, action_time)
+	status			varchar(50) DEFAULT 'unread',--read/unread/ignore
+	PRIMARY KEY (notificationid)
 );
 
 CREATE FUNCTION dancecard_notification() RETURNS TRIGGER AS $_$
@@ -110,14 +111,18 @@ BEGIN
     RETURN NEW;
 END $_$ LANGUAGE 'plpgsql';
 
-
 CREATE FUNCTION notify_trigger() RETURNS trigger AS $$
 DECLARE
 BEGIN
   -- PERFORM pg_notify('watchers', TG_TABLE_NAME || ',userid,' || NEW.userid );
 
-  PERFORM pg_notify('watchers', NEW.userid || ',' || NEW.message );
-  RETURN new;
+  PERFORM pg_notify('watchers', NEW.userid || ',' || 
+  								NEW.notificationid || ',' || 
+  								NEW.message || ',' || 
+  								NEW.action_time || ',' || 
+  								NEW.type || ',' || 
+  								NEW.status);
+  RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 

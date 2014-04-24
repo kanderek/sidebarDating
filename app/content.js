@@ -154,6 +154,12 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
           }
         })
 
+        .state('main.notifications', {
+          url: '',
+          templateUrl: chrome.extension.getURL('partials/notifications.html'),
+            controller: 'NotificationCtrl'
+            })
+
         .state('main.profileList', {
           url: '',
           templateUrl: chrome.extension.getURL('partials/profileList.html'),
@@ -325,6 +331,99 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
 }]);
 
 /*******************************************************************************************************
+Notification Service  */
+
+appServices.factory('NotificationService', ['$http', '$state', 'Profile', 
+  function($http, $state, Profile){
+  
+  var notificationService = {};
+      /*
+            notificationid  SERIAL,
+            userid      int REFERENCES users (userid) ON DELETE CASCADE,
+            message     varchar(140) NOT NULL,  
+            action_time   timestamp,
+            type      varchar(50),--message/dancecard
+            status      varchar(50),--read/unread/ignore
+      */
+
+      notificationService.notifications = [];
+      notificationService.unreadCount = 0;
+
+      notificationService.getUnreadCount = function(){
+          
+          notificationService.unreadCount = 0;
+          for(var i=0; i<notificationService.notifications.length; i++){
+            if(notificationService.notifications[i].status == "unread"){
+              notificationService.unreadCount += 1;
+            }
+          }
+          return notificationService.unreadCount;
+      }
+
+      notificationService.markRead = function(index){
+        if(notificationService.notifications[index].status == 'unread'){
+          notificationService.unreadCount--;
+          notificationService.notifications[index].status = 'read';
+          notificationService.updateNotificationStatus({
+                notification: {
+                  status: notificationService.notifications[index].status,
+                  notificationid: notificationService.notifications[index].notificationid
+                }
+              });
+        }
+      }
+
+      notificationService.addNotification = function(notification){
+          notificationService.notifications.unshift(notification);
+          notificationService.unreadCount++;
+      }
+
+      notificationService.initializeNotifications = function(userid){
+        notificationService.getNotifications(userid);
+      }
+
+      notificationService.getNotifications = function(userid){
+        $http({
+          method: 'GET',
+          url: "http://localhost:3000/notifications/" + userid
+        }).
+        success(function(data, status, headers, config){
+            // if(data.status != "logged_out"){
+               // callback(data); 
+               console.log(data);
+               notificationService.notifications = data;
+               notificationService.getUnreadCount()
+            // }
+            // else{
+            //   $state.go('sign-up-0');
+            // }
+        }).
+        error(function(data, status, headers, config){
+          console.log('error getting static json file');
+        }); 
+      }
+
+      notificationService.updateNotificationStatus = function(data){
+          $http({
+            method: 'POST',
+            url: "http://localhost:3000/notifications/",
+            data: data
+          }).
+          success(function(data, status, headers, config){
+               // callback(data);
+               //update
+
+          }).
+          error(function(data, status, headers, config){
+            console.log('error posting message');
+          }); 
+        }
+
+  return notificationService;
+}]);
+
+
+/*******************************************************************************************************
 Dancecard Service  */
 
 appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
@@ -364,15 +463,8 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
         }); 
       }
 
-      dancecardService.initializeDancecard = function(user){
+      dancecardService.initializeDancecard = function(userid){
         dancecardService.dancecard = [];
-        var userid;
-        if(typeof(user) == 'object'){
-          userid = user.userid;
-        }
-        else{
-          userid = user;
-        }
         dancecardService.getDancecardById(userid, function(data){});
       }
 
@@ -653,25 +745,20 @@ appServices.factory('AuthService', ['$http',
 /*******************************************************************************************************
 Init Service  */
 
-appServices.factory('InitService', ['$rootScope', 'UiState','Profile','DancecardService', 'Socket',
-  function($rootScope, UiState, Profile, DancecardService, Socket){
+appServices.factory('InitService', ['$rootScope', 'UiState','Profile','DancecardService', 'Socket', 'NotificationService',
+  function($rootScope, UiState, Profile, DancecardService, Socket, NotificationService){
 
          var initService = {};
 
          initService.initializeData = function(user){
 
             Profile.initializeProfile(user, "someurl");
-            DancecardService.initializeDancecard(user);
 
-              // Socket.on('init', function(socketData){
-              //   console.log('connection started...');
-              //   console.log('socket id: ');
-              //   console.log(socketData.socketid);
+            var userid = typeof(user) == 'object' ? user.userid : user;
 
-                var userid = typeof(user) == 'object' ? user.userid : user;
-                Socket.emit('register-user', {userid: userid}, function(){});
-              
-            
+            DancecardService.initializeDancecard(userid);
+            NotificationService.initializeNotifications(userid);
+            Socket.emit('register-user', {userid: userid}, function(){});            
           };
 
           return initService;
@@ -918,6 +1005,26 @@ appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'Ini
 
 
 /*******************************************************************************************************
+NotificationCtrl Controller  */
+
+appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 'UiState', 'NotificationService',
+  function($rootScope, $scope, $state, UiState, NotificationService) {
+
+    $scope.notifications = NotificationService.notifications;
+
+    $scope.markRead = function(index) {
+      console.log('mark this (' + index + ') notification read');
+      NotificationService.markRead(index);
+    };
+    
+    $scope.isRead = function(index) {
+      console.log('you moused over ' + index + ' notification');
+      return (NotificationService.notifications[index].status == 'read');
+    }
+
+}]);
+
+/*******************************************************************************************************
 Message Controller  */
 
 appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiState', 'Profile', 'MessageService', 'Socket',
@@ -970,18 +1077,22 @@ appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiSta
 /*******************************************************************************************************
 TopMenuCtrl Controller  */
 
-appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiState', 'Socket', 'Profile',
-  function($rootScope, $scope, $state, UiState, Socket, Profile) {
+appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiState', 'Socket', 'Profile', 'NotificationService',
+  function($rootScope, $scope, $state, UiState, Socket, Profile, NotificationService) {
 
   $scope.username = Profile.selfProfile.username;
-  $scope.notificationCount = 0;
+  $scope.ns = NotificationService;
+
+  console.log('top menu: checking on notification service read count...');
+  console.log(NotificationService);
+  console.log($scope.ns.unreadCount);
 
   Socket.on('new-notification', function(data){
     console.log('received new notification...');
     console.log(data);
+    NotificationService.addNotification(data);
     //add notification to list of notifications
     //increment unread notification count 
-
   });
 
   $scope.$on('user-data-available', function(event){
@@ -1005,7 +1116,7 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiSt
     }
 
   $scope.goToNotifications = function(){
-    //$state.go('notifications');
+    $state.go('main.notifications');
   }
 
 }]);

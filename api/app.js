@@ -24,7 +24,7 @@ server.listen(3000);
 console.log("listening at port 3000");
 
 
-var pgConnectionString = "postgres://derekkan:5432@localhost/sidebar";
+var pgConnectionString = "postgres://sidebar:5432@localhost/sidebar";
 
 var client = new pg.Client(pgConnectionString);
 client.connect();
@@ -48,7 +48,7 @@ var passport = require('passport')
 var connectToDb = pgclient({
     config : {
         database : 'sidebar',
-        user     : 'derekkan',//Christina',
+        user     : 'sidebar',//'derekkan',//Christina',
         host     : 'localhost',
         port     : 5432
     }
@@ -422,6 +422,55 @@ app.post('/message',
 		res.send(200);
 	});
 
+app.get('/notifications/:userid',
+	function(req, res, next){
+		var userid = req.params.userid;
+
+		var queryString = "SELECT notificationid, message, action_time, type, status " +
+							"FROM notifications " + 
+							"WHERE userid=" + userid + 
+							"ORDER BY action_time DESC";
+
+		//console.log(queryString);
+
+		req.db.client.query(queryString, function(err, result){
+			req.queryResult = result;
+			next();
+		});
+	},
+	function(req, res){
+		//console.log(req.queryResult.rows);
+		res.json(req.queryResult.rows);
+
+	});
+
+app.post('/notifications', 
+	//connectToDb,
+	function(req, res, next){
+		// console.log(req.user);
+		console.log('updating notifications status...')
+		console.log(req.body);
+		var actionTime = moment().format('YYYY-MM-DD HH:mm:ss');
+
+		//console.log(req.body);
+		var queryString = "UPDATE notifications " + 
+								"SET status = '" + req.body.notification.status + "'," + 
+									"action_time = '" + actionTime + 
+									"' WHERE notificationid = " + req.body.notification.notificationid;
+		//console.log(queryString);
+		
+		req.db.client.query(queryString, function(err, result){
+			// console.log('result: ');
+			// console.log(result);
+			// console.log('err: ');
+			// console.log(err);
+			next();
+		});
+	},
+	function(req, res){
+		res.send(200);
+	});
+
 
 app.get('/dancecard/:userId',
 	//connectToDb,
@@ -713,8 +762,17 @@ io.sockets.on('connection', function(socket){
     	console.log(data);
     	var fields = data.payload.split(',');
     	console.log(fields)
-    	if(users[fields[0]]){
-    		io.sockets.socket(users[fields[0]].socket).emit('new-notification', fields[1]);
+    	var userid = fields[0];
+    	var notification = {
+    		notificationid: fields[1],
+    		message: fields[2],
+    		action_time: fields[3],
+    		type: fields[4],
+    		status: fields[5]
+    	};
+
+    	if(users[userid]){
+    		io.sockets.socket(users[userid].socket).emit('new-notification', notification);
     	}
 	});
 
