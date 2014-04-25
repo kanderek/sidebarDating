@@ -495,6 +495,34 @@ app.get('/dancecard/:userId',
 		res.json(req.queryResult.rows);
 	});
 
+app.get('/dancecard/interested/:userId',
+	//connectToDb,
+	function(req, res, next){
+		req.userid = req.params.userId;
+		// console.log('getting dancecard for ... ');
+		// console.log(req.userid);
+		next();
+	},
+	getInterestedPeopleById,
+	function(req, res){
+		console.log('Your on these folds dancecard... data...');
+		console.log(req.queryResult.rows);
+		res.json(req.queryResult.rows);
+	});
+
+function getInterestedPeopleById(req, res, next){
+		
+		var queryString = "SELECT userid " +
+							"FROM danceCard "+ 
+							"WHERE partnerid =" + req.userid + " AND "+
+								  "status = 'added' AND mutual = 'false'";
+
+		req.db.client.query(queryString, function(err, result){
+				  	req.queryResult = result;
+				  	//console.log(req.queryResult);
+				  	next();
+				  });
+	}
 
 function getDancecardById(req, res, next){
 		
@@ -513,7 +541,8 @@ function getDancecardById(req, res, next){
 								 "danceCard "+ 
 							"WHERE danceCard.userId =" + req.userid + " AND "+
 								  "danceCard.status != 'removed' AND "+ 
-								  "users.userId=danceCard.partnerId";
+								  "users.userId=danceCard.partnerId " +
+						    "ORDER BY updatetime ASC";
 
 		//gets userid and status of memebers in dancecard
 		// var queryString = "SELECT partnerid,"

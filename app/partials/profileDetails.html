@@ -226,7 +226,7 @@
  		 <div id="profile-details">
             <div class="col-left">
                 <h3>{{profile.selectedProfile.username}}</h3>
-                <a ng-show="showRemoveButton()" ui-sref="main.messages"><img ng-src="http://localhost:3000/message/message.png" /></a>
+                <a ng-show="showMessageButton()" ui-sref="main.messages"><img ng-src="http://localhost:3000/message/message.png" /></a>
                 <p id="age-location">{{profile.selectedProfile.age}}, {{profile.selectedProfile.location_city}}, {{profile.selectedProfile.location_state}}</p>
     	 		<p>{{profile.selectedProfile.personal_blurb}}</p>
             </div>

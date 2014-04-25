@@ -449,7 +449,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
   var dancecardService = {};
 
       dancecardService.dancecard = [];
-      dancecardService.pending = [];
+      dancecardService.interestedPeople = [];
 
       dancecardService.getStaticDancecard = function(callback){
         $http({
@@ -464,9 +464,46 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
         }); 
       }
 
+      dancecardService.isDancecardFilled = function(){
+        return (getNumberFreeDancecardSpots() <= 0);
+      }
+
       dancecardService.initializeDancecard = function(userid){
         dancecardService.dancecard = [];
+        dancecardService.interestedPeople = [];
         dancecardService.getDancecardById(userid, function(data){});
+        dancecardService.getInterestedPeopleById(userid);
+      }
+
+      dancecardService.addInterestedPerson = function(userid){
+        dancecardService.interestedPeople.push({userid: parseInt(userid)});
+        console.log('people interested in you by id...');
+        console.log(dancecardService.interestedPeople);
+      }
+
+      dancecardService.noLongerInterested = function(userid){
+        for(var i=0; i<dancecardService.dancecard.length; i++){
+          if(dancecardService.dancecard[i].userid == userid){
+            dancecardService.dancecard[i].mutual = false;
+            return;
+          }
+        }
+
+        for(var i=0; i<dancecardService.interestedPeople.length;i++){
+          if(dancecardService.interestedPeople[i] == userid){
+            dancecardService.interestedPeople.splice(i, 1);
+            break;
+          }
+        }
+      }
+
+      dancecardService.hadAddedYou = function(userid){
+        for(var i=0; i<dancecardService.interestedPeople.length; i++){
+          if ( dancecardService.interestedPeople[i].userid == userid ){
+            return true;
+          }
+        }
+        return false;
       }
 
       dancecardService.setMutual = function(userid){
@@ -477,6 +514,30 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
           }
         }
       } 
+
+      dancecardService.getInterestedPeopleById = function(userid){
+        // console.log('in dancecard service...');
+        // console.log(UiState);
+        // console.log(UiState.selfProfile.userid);
+        // console.log(UiState.selfProfile.userid);
+        $http({
+          method: 'GET',
+          url: "http://localhost:3000/dancecard/interested/"+userid
+        })
+        .success(function(data, status, headers, config){
+            // if(data.status != "logged_out"){
+               dancecardService.interestedPeople  = data;
+               //callback(data);
+               
+            // }
+            // else{
+            //   $state.go('sign-up-0');
+            // }
+        }).
+        error(function(data, status, headers, config){
+          console.log('error getting dancecard');
+        }); 
+      }
 
       dancecardService.getDancecardById = function(userid, callback){
         // console.log('in dancecard service...');
@@ -511,6 +572,9 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
           if(postData.status == 'added'){
             if(dancecardService.dancecard[i].userid == -1){
               dancecardService.dancecard[i] = profileData;
+              if(dancecardService.hadAddedYou(profileData.userid)){
+                dancecardService.dancecard[i].mutual = 'true';
+              }
               $rootScope.$broadcast('dancecard-update');
               dancecardService.postDancecardUpdate(postData, function(data){
                 console.log('in dancecard service : changed happened...');
@@ -1104,9 +1168,17 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiSt
     console.log(data);
     NotificationService.addNotification(data);
     
-    if(data.type == 'dancecard' && data.subtype == 'mutual'){
-      console.log("It's a match!...");
-      DancecardService.setMutual(data.about_userid); 
+    if(data.type == 'dancecard'){
+      if(data.subtype == 'mutual'){
+        console.log("It's a match!...");
+        DancecardService.setMutual(data.about_userid); 
+      }
+      else if(data.subtype == 'added'){
+        DancecardService.addInterestedPerson(data.about_userid);
+      }
+      else if(data.subtype == 'removed'){
+        DancecardService.noLongerInterested(data.about_userid);
+      }
     }
   });
 
@@ -1267,14 +1339,18 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
     $scope.profile = Profile;
 
     $scope.showAddButton = function(){
-      return (!$scope.isInDanceCard(Profile.selectedProfile.userid) && !$scope.isSelf());
+      return (!isInDanceCard(Profile.selectedProfile.userid) && !isDancecardFilled() && !$scope.isSelf());
     }
 
     $scope.showRemoveButton = function(){
-      return ($scope.isInDanceCard(Profile.selectedProfile.userid) && !$scope.isSelf());
+      return (isInDanceCard(Profile.selectedProfile.userid) && !$scope.isSelf());
     }
 
-    $scope.isInDanceCard = function(userid){
+    $scope.showMessageButton = function(){
+      return (isMutual(Profile.selectedProfile.userid) && !$scope.isSelf());
+    }
+
+    var isInDanceCard = function(userid){
 
       for(var i=0; i<DancecardService.dancecard.length; i++) {
         if(DancecardService.dancecard[i].userid == userid){
@@ -1284,18 +1360,21 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
       return false; 
     };
 
-    $scope.isSelf = function(){
-      return (Profile.selectedProfile.userid == Profile.selfProfile.userid);
+    var isMutual = function(userid){
+      for(var i=0; i<DancecardService.dancecard.length; i++) {
+        if(DancecardService.dancecard[i].userid == userid){
+          return DancecardService.dancecard[i].mutual;
+        }
+      };
+      return false; 
     }
 
-    function getNumberFreeDancecardSpots(){
-      var count = 0;
-      for(var i=0; i<5; i++){
-        if(DancecardService.dancecard[i].userid == -1){
-          count++;
-        }
-      } 
-      return count;
+    var isDancecardFilled = function(){
+      return (DancecardService.isDancecardFilled());
+    }
+
+    $scope.isSelf = function(){
+      return (Profile.selectedProfile.userid == Profile.selfProfile.userid);
     }
 
     $scope.updateDancecard = function(userid, status){
