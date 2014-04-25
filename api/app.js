@@ -754,6 +754,8 @@ function calculateAge(dob){
 	return today.diff(birthdate, 'years');
 }
 
+exports.util = calculateAge;
+
 function getCityStateFromZipcode(zipcode, callback){
 	var query = {
 			zip: zipcode, 

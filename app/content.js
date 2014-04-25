@@ -199,7 +199,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
 //*******************************************************************************************************
  Services */ 
 
-var appServices = angular.module('appServices', ['ngResource']);
+var appServices = angular.module('appServices', []).value('version', '0.1');
 
 /*******************************************************************************************************
 Ui State Service  */

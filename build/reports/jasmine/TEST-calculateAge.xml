@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="calculate Age" errors="0" tests="1" failures="0" time="0.007" timestamp="2014-04-24T19:27:27">
+  <testcase classname="calculate Age" name="should return 30 for birthdate of &amp;apos;1983/9/9&amp;apos;" time="0.006"></testcase>
+</testsuite>
+</testsuites>
