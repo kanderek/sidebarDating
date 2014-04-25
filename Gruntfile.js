@@ -8,7 +8,7 @@ grunt.initConfig({
           background: true
       },
       travis: {
-          configFile: 'config/karma.conf.js',
+          configFile: 'karma.conf.js',
           singleRun: true,
           browsers: ['PhantomJS']
       }
