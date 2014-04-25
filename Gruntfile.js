@@ -10,7 +10,7 @@ grunt.initConfig({
       travis: {
           configFile: 'karma.conf.js',
           singleRun: true,
-          browsers: ['PhantomJS']
+          browsers: ['Firefox']
       }
 
     },
