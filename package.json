@@ -12,7 +12,7 @@
   ],
   "bin": {},
   "scripts": {
-    "test": "grunt test_node"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",

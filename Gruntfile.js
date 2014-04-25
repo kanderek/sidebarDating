@@ -6,7 +6,13 @@ grunt.initConfig({
       unit: {
           configFile: 'karma.conf.js',
           background: true
+      },
+      travis: {
+          configFile: 'config/karma.conf.js',
+          singleRun: true,
+          browsers: ['PhantomJS']
       }
+
     },
   watch: {
       karma: {
@@ -41,6 +47,7 @@ grunt.registerTask('devmode', ['karma:unit', 'watch']);
 
 grunt.registerTask('test_node', ['jasmine_node']);
 grunt.registerTask('default', ['test_node']);
+grunt.registerTask('test', ['karma:travis'])
 
 
 };

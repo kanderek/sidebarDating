@@ -12,20 +12,20 @@ module.exports = function(config){
       'test/unit/**/*.js'
     ],
 
-    autoWatch : true,
+    autoWatch : false,//true,
 
     frameworks: ['jasmine'],
-
-    reporters: ['dots'],
 
     browsers : ['Chrome'],
 
     plugins : [
             'karma-chrome-launcher',
             'karma-firefox-launcher',
-            'karma-jasmine',
-            'karma-spec-reporter'
-            ],
+            'karma-phantomjs-launcher',
+            'karma-spec-reporter',
+            'karma-junit-reporter',
+            'karma-jasmine'
+    ],  
 
     junitReporter : {
       outputFile: 'test_out/unit.xml',
