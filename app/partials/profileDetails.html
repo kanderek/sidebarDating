@@ -1,7 +1,7 @@
 	
 	<style>
 .my-slider {
-    width: 420px;
+    width: 480px;
     height: 300px;
     font-size:0;
 }
@@ -187,7 +187,7 @@
     }
 
 
-    #badges-wrapper {
+    #mutual-wrapper {
         width: 100%;
         background-color: rgba(255,0,0,0.5);
         margin: 5px 0px 5px 0px;
@@ -195,19 +195,34 @@
         /*height: 75px;*/
     }
 
-    .badge-item {
-        width: 75px;
-        height: 75px;
-        border-radius: 37px;
-        background-color: rgba(100,100,100,0.6);
-        margin-left: 44px;
+    #mutual-wrapper h5{
+        margin: 5px 0px 5px 0px;
+    }
+
+
+
+    .mutual-item {
+        /*border-radius: 37px; */
+        background-color: rgba(240,240,240,0.6);
+        margin: 5px;
         position: relative;
         float: left;
+        border-bottom: 2px solid gray;
 
     }
 
+    .mutual-item-single {
+        width: 150px;
+        height: 150px;
+    }
+
+    .mutual-item-double {
+        width: 310px;
+        height: 150px;
+    }
+
     #profile-interests-viz {
-        width: 420px;
+        width: 480px;
         height: 250px;
         background-color: blue;
         overflow: hidden;
@@ -261,14 +276,36 @@
 	 		<!-- <p>{{profile.selectedProfile | json}}</p> -->
 	 	</div>
 
- 		<div id="badges-wrapper">
- 			<h5>Top Interests</h5>
- 			<div class="badge-item">
+ 		<div id="mutual-wrapper">
+ 			<h5>Something to talk about - Your mutual browsings</h5>
+            <div class="mutual-item">
+                <iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:5Z7ygHQo02SUrFmcgpwsKW,1x6ACsKV4UdWS2FMuPFUiT,4bi73jCM02fMpkI11Lqmfe" frameborder="0" allowtransparency="true"></iframe>
+            </div>
+            <div class="mutual-item mutual-item-single">
+                Whisper CEO Michael Heyward To Join Us At Disrupt NY 2014
+            </div>
+            <div class="mutual-item mutual-item-single">
+                <img src="https://flic.kr/p/nkPjZG" />
+            </div>
+            <div class="mutual-item">
+                <iframe src="https://embed.spotify.com/?uri=spotify:track:72DTGt2tVAL6ATVhzVjvkk&theme=white&view=coverart" width="310" height="310" frameborder="0" allowtransparency="true"></iframe>
+            </div>
+
+ 			<div class="mutual-item mutual-item-double">
+                <iframe src="https://embed.spotify.com/?uri=spotify:track:72DTGt2tVAL6ATVhzVjvkk&theme=white&view=coverart" width="310" height="80" frameborder="0" allowtransparency="true"></iframe>
  			</div>
- 			<div class="badge-item">
+ 			<div class="mutual-item">
+                <iframe width="150" height="150" src="//www.youtube.com/embed/fNdO-hRQgqg" frameborder="0" allowfullscreen></iframe>
  			</div>
- 			<div class="badge-item">
+ 			<div class="mutual-item">
+                <iframe width="310" height="80" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe>
+               <!--  <iframe width="150" height="40" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe>
+                <iframe width="150" height="40" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe> -->
  			</div>
+
+            <div class="mutual-item">
+                <iframe src="//player.vimeo.com/video/40007369" width="150" height="150" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
+            </div>
  		</div>
 
  		<div id="profile-interests-viz">
@@ -277,7 +314,7 @@
 				var color = d3.scale.category10();
 				//console.log(color());
 
-				var w = 420, h = 200;
+				var w = 480, h = 200;
 				var canvas = d3.select("#profile-interests-viz").append("svg")
 					.attr("width", w)
 					.attr("height", h);

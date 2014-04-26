@@ -80,6 +80,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
         //     }
         //   }
         // })
+        // HOME STATES AND NESTED VIEWS ========================================
 
         .state('check-status', {
           url: '',
@@ -138,6 +139,16 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
                 templateUrl: chrome.extension.getURL('partials/login.html'),
                 controller: 'LoginCtrl'
               }
+          }
+        })
+
+        .state('history-test', {
+          url: '',
+          views: {
+            'sidebar': {
+              templateUrl: chrome.extension.getURL('partials/historyTest.html'),
+              controller: 'HistoryTestCtrl'
+            }
           }
         })
 
@@ -747,6 +758,13 @@ appServices.factory('SignupService', ['$http', 'Profile',
     signupService.user = {};
     signupService.pref = {};
 
+    signupService.requestInfoFromBackground = function(message){
+        chrome.runtime.sendMessage({type: 'request', command: message}, function(response) {
+          console.log('response from background script...');
+          console.log(response);
+        });
+    }
+
     signupService.signupUser = function(callback){
       $http({
         method: 'POST',
@@ -763,6 +781,48 @@ appServices.factory('SignupService', ['$http', 'Profile',
     }
 
     return signupService;
+
+  }]);
+
+/*******************************************************************************************************
+Signup Service  */
+
+appServices.factory('HistoryService', ['$http', 'Profile',
+  function($http, Profile){
+
+    var historyService = {};
+
+    historyService.currentUrl;
+
+    historyService.getHistory = function(callback){
+        var microsecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
+        var oneWeekAgo = (new Date).getTime() - microsecondsPerWeek;
+        var limit = 10;
+
+        chrome.runtime.sendMessage({type: 'history', time_ago: oneWeekAgo, limit: limit}, function(response) {
+            console.log('response from background script...');
+            console.log(response);
+            // $scope.output = response;
+            callback(response);
+          });
+      };
+
+
+    historyService.saveHistory = function(data, callback){
+      $http({
+        method: 'POST',
+        url: "http://localhost:3000/history",
+        data: {userid: Profile.selfProfile.userid, history: data}
+      }).
+      success(function(data, status, headers, config){
+        callback(data);
+      }).
+      error(function(data, status, headers, config){
+        console.log('error saving history data...');
+      }); 
+    }
+
+    return historyService;
 
   }]);
 
@@ -852,6 +912,30 @@ appServices.factory('InitService', ['$rootScope', 'UiState','Profile','Dancecard
  Controllers */
 
 var appControllers = angular.module('appControllers', []);
+
+/*******************************************************************************************************
+History Test Controller  */
+
+appControllers.controller('HistoryTestCtrl', ['$scope', '$upload', '$rootScope', '$state', 'HistoryService',
+    function($scope, $upload, $rootScope, $state, HistoryService) {
+      $scope.history;
+      $scope.time_ago;
+      $scope.output;
+
+      $scope.getHistory = function(){
+        HistoryService.getHistory(function(response){
+            $scope.$apply(function(){
+              $scope.history = response;
+            });
+            HistoryService.saveHistory(response, function(data){
+              console.log('returned from saveHistory...');
+              console.log(data);
+            });
+        });
+      }
+
+  }]);
+
 
 /*******************************************************************************************************
 Upload Test Controller  */
@@ -1030,6 +1114,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState
 
     $scope.beginSignup = function(){
         $state.go('sign-up-1');
+        SignupService.requestInfoFromBackground('YO Yo Yo, background!');
     }
 
     $scope.goToSignupStep2 = function(){
@@ -1048,6 +1133,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState
           console.log(data);
           InitService.initializeData(data.user);
        });
+       // SignupService.requestInfoFromBackground('YO Yo Yo, background!');
        $state.go('main.profileList', { reload: true, inherit: false, notify: false});
     }
 
@@ -1072,7 +1158,8 @@ appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'Ini
 
               InitService.initializeData(data.userid);
 
-            $state.go('main.profileList', {reload: true, inherit: false, notify: false});
+            // $state.go('main.profileList', {reload: true, inherit: false, notify: false});
+            $state.go('history-test', {reload: true, inherit: false, notify: false});
           }
         });
     }

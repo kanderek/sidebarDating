@@ -4,7 +4,13 @@ var app = express();
 var fs = require('fs');
 var moment = require('moment');
 var ziptastic = require('ziptastic');
-var im = require('imagemagick')
+var im = require('imagemagick');
+var q = require('q');
+
+//Create the AlchemyAPI object
+var AlchemyAPI = require('./alchemyapi');
+var alchemyapi = new AlchemyAPI();
+
 
 //Database modules for working with postgresql
 var pg = require('pg');
@@ -765,10 +771,214 @@ function getCityStateFromZipcode(zipcode, callback){
 	});
 }
 
-app.post('/processHistory', function(req, res){
+app.post('/history', function(req, res){
   console.log(req.body);      // your JSON
-  res.send(req.body);    // echo the result back
+  var userid = req.body.userid;
+  var history = req.body.history;
+  var totalCount = 0;
+  var url = '';
+  var promises = [];
+
+  for(var i=0; i<history.length; i++){
+  	url = history[i].url;
+  	title = history[i].title;
+  	totalCount = history[i].typedCount + history[i].visitCount;
+  	visitTime = moment(history[i].lastVisitTime).format('YYYY-MM-DD HH:mm:ss');
+
+  		promises.push(processOne(req, userid, url, title, totalCount, visitTime));
+
+  	// SELECT processHistory(userid, url, )
+  	//IF URL already exists in urls table return urlid
+  	//	CHECK IF URL ID exists in the user_history table
+  	//		IF it exists:
+  	//			UPDATE record with new visitTime and add to count;
+  	//		ELSE
+  	//			INSERT record with urlid, userid, visittime and count
+  	//ELSE
+  	//	INSERT record into urls with (url, title)
+  	//	call alchemy api to get 
+  	//		main image
+  	//		UPDATE urls with image with related urlid
+  	//		
+  	//		FOR each taxonomy found with confidence > 0.5
+  	//			INSERT record into url_categories (urlid, level1...5, score)
+  	
+  } 
+
+  q.all(promises).then(function(data){
+  	res.send(200);
+  },
+  function(err){
+  	res.send(500);
+  });
+
 });
+
+function processOne(req, userid, url, title, totalCount, visitTime){
+
+	return setUrl(req, url, title)
+  	.then(function(data){
+  		console.log('updated or inserted url into url table...');
+  		console.log(data);
+  		// console.log(req);
+  		return getAndSetUrlImage(url/*, data.urlid, data.action*/)
+		  	.then(function(image_result){
+		  		console.log('image finding a success...now update user_history...');
+		  		console.log(image_result);
+		  		// console.log(req);
+		  		return addImageToUrls(req, data.urlid, image_result.image_url)
+		  			.then(function(){
+						return addUrlToUserHistory(req, data.urlid, data.action, userid, totalCount, visitTime)
+							.then(function(){
+								if(data.action == 'insert'){
+									return taxonomy(data.urlid, url)
+										.then(function(taxonomyByUrlid){
+											return setUrlCategories(req, taxonomyByUrlid);
+										});
+								}
+							});				
+		  			});
+		  	});
+	})
+  	.then(function(){
+  		console.log('added or updated url record in user_history...');
+  	})
+  	.fail(function(err){
+  		console.log('Error...');
+  		console.log(err);
+  	});
+}
+
+function setUrl(req, url, title){
+	var deferred = q.defer();
+	var queryString = "UPDATE urls SET url='" + url + "', page_title='" + title + "'" + 
+					  " WHERE url='" + url + "' RETURNING urlid, (SELECT 'update' AS action); " + 
+					  " INSERT INTO urls (url, page_title) " + 
+					  "SELECT '" + url + "', '" + title + "' " + 
+					  "WHERE NOT EXISTS (SELECT 1 FROM urls WHERE url='" + url + "') "+
+					  " RETURNING urlid, (SELECT 'insert' AS action);";
+
+		console.log(queryString);
+		req.db.client.query(queryString, function(err, result){
+			if(err) deferred.reject(err)
+			else deferred.resolve(result.rows[0])
+		});
+		return deferred.promise;
+}
+
+function addUrlToUserHistory(req, urlid, urlaction, userid, count, visitTime){
+	var deferred = q.defer();
+	var queryString = "UPDATE user_history SET visit_count= visit_count + " + count + ", last_visit ='" + visitTime + "'" + 
+					  " WHERE urlid='" + urlid + "' RETURNING urlid, (SELECT '"+ urlaction+"' AS action); " + 
+					  " INSERT INTO user_history (userid, urlid, visit_count, last_visit) " + 
+					  "SELECT " + userid + ", " + urlid + ", " + count + ", '" + visitTime + "' " + 
+					  "WHERE NOT EXISTS (SELECT 1 FROM user_history WHERE urlid=" + urlid + " AND userid=" + userid + ") " +  
+					  "RETURNING urlid, (SELECT '"+ urlaction+"' AS action); "
+
+		console.log(queryString);
+		// console.log(req.db);
+		req.db.client.query(queryString, function(err, result){
+			if(err) deferred.reject(err)
+			else deferred.resolve(result.rows[0])
+		});
+		return deferred.promise;
+}
+
+// INSERT INTO table (column1, column2, …)
+// VALUES
+//     (value1, value2, …),
+//     (value1, value2, …) ,...;
+
+function setUrlCategories(req, taxonomies){
+	var deferred = q.defer();
+
+	console.log(taxonomies);
+		var queryString = "INSERT INTO url_categories (urlid, level1, level2, level3, level4, level5, score) " + 
+						  "VALUES ";
+
+		var numLevels = 0;
+		for(var i=0; i<taxonomies.taxonomy.length; i++){
+			
+			queryString += "(" + taxonomies.urlid + ",";
+			for(var j=0; j<5; j++){
+				numLevels = taxonomies.taxonomy[i].levels.length;
+				if(j < numLevels){
+					queryString += "'" + taxonomies.taxonomy[i].levels[j] + "'";
+				}
+				else{
+					queryString += "''";
+				}
+
+					queryString += ",";
+
+			}
+			queryString += taxonomies.taxonomy[i].score + ")";
+			if(i != taxonomies.taxonomy.length-1){
+				queryString += ",";
+			}
+		}
+			console.log(queryString);
+			// console.log(req.db);
+			req.db.client.query(queryString, function(err, result){
+				if(err) deferred.reject(err)
+				else deferred.resolve(result.rows)
+			});
+
+	return deferred.promise;
+}
+
+function taxonomy(urlid, url) {
+	var deferred = q.defer();
+	var categoriesByUrlid = {};
+	alchemyapi.taxonomy('url', url, {}, function(response) {
+		// console.log(response);
+		categoriesByUrlid.urlid = urlid;
+		categoriesByUrlid.taxonomy = [];
+		var levels;
+		var temp;
+		for(var i=0; i<response.taxonomy.length; i++){
+			levels = response.taxonomy[i].label.substring(1, response.taxonomy[i].label.length).split('/');
+			categoriesByUrlid.taxonomy.push({score: response.taxonomy[i].score, 
+											 levels: levels});
+		}
+		// console.log(categoriesByUrlid);
+		deferred.resolve(categoriesByUrlid);
+		// output['taxonomy'] = { url:demo_url, response:JSON.stringify(response,null,4), results:response };
+	});
+	return deferred.promise;
+}
+
+
+function getAndSetUrlImage(url /*, urlid, urlaction */){
+	var deferred = q.defer();
+	alchemyapi.image('url', url, {}, function(response) {
+		// output['image'] = { url:url, response:JSON.stringify(response,null,4), results:response };
+		// res.render('example',output);
+		deferred.resolve({image_url: response.image});
+		console.log('returned from image....');
+		console.log(response.image);
+	});
+	return deferred.promise;
+}
+
+function addImageToUrls(req, urlid, image_url){
+	var deferred = q.defer();
+	if (image_url != ''){
+		var queryString = "UPDATE urls SET  primary_img_url = '" + image_url + "'" + 
+						  " WHERE urlid=" + urlid; 
+
+			console.log(queryString);
+			// console.log(req.db);
+			req.db.client.query(queryString, function(err, result){
+				if(err) deferred.reject(err)
+				else deferred.resolve(result.rows[0])
+			});
+	}
+	else{
+		deferred.resolve();
+	}
+	return deferred.promise;
+}
 
 
 var users = {};

@@ -3,6 +3,9 @@
 -- Syntax to create new database "CREATE DATABASE [mydb (db name)]"
 -- CREATE DATABASE sidebar
 
+DROP TABLE IF EXISTS url_categories;
+DROP TABLE IF EXISTS user_history;
+DROP TABLE IF EXISTS urls;
 DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS userprefs;
@@ -72,6 +75,39 @@ CREATE TABLE notifications (
 	status			varchar(10) DEFAULT 'unread',--read/unread/ignore
 	PRIMARY KEY (notificationid)
 );
+
+CREATE TABLE urls (
+	urlid			    SERIAL,
+	url 			    varchar(300),
+	page_title		    varchar(140),
+	primary_img_url		varchar(140),
+	PRIMARY KEY (urlid)
+);
+
+CREATE TABLE url_categories (
+	urlid			int REFERENCES urls (urlid) ON DELETE CASCADE,
+	level1 			varchar(40),--main category
+	level2			varchar(40),--sub-category 
+	level3			varchar(40),--sub-sub category
+	level4			varchar(40),--etc..
+	level5			varchar(40),
+	score			NUMERIC(6,6),--accuracy/confidence score
+	PRIMARY KEY (urlid, level1, level2, level3)
+);
+
+CREATE TABLE user_history (
+	userid 			int REFERENCES users (userid) ON DELETE CASCADE,
+	urlid			int REFERENCES urls (urlid) ON DELETE CASCADE,
+	visit_count		int,
+	last_visit		timestamp,
+	PRIMARY KEY (userid, urlid)
+);
+
+--One way of caculating relative interest only considering first level
+--SELECT u.username, c.level1, SUM (c.score * h.visit_count) as interest_score  
+--FROM users u, url_categories c, user_history h 
+--WHERE u.userid = h.userid AND h.urlid=c.urlid 
+--GROUP BY u.username, c.level1;
 
 CREATE FUNCTION dancecard_notification() RETURNS TRIGGER AS $_$
 DECLARE

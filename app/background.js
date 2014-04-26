@@ -133,15 +133,34 @@ var closeSidebar = function(tab){
   //chrome.browserAction.setBadgeText({text: "red!"});
 }
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
     console.log(sender.tab ? "from a content script:" + sender.tab.url :"from the extension");
+
     if (request.type == "close-sidebar"){
-      closeSidebar(sender.tab.id);
+      closeSidebar(sender.tab);
       var index = resetTabStatus(sender.tab.id);
       setBrowserActionIcon(tabStatus[index].status);
       sendResponse({sidebar: "closed"});
     }
+
+    if (request.type == "request"){
+      sendResponse({what: "yeeesss!", history: 'some data here'});
+    }
+
+    if (request.type == "history"){
+      console.log('history requested');
+      console.log(request);
+      chrome.history.search({text: '', startTime: request.time_ago, maxResults: request.limit}, function(historyRecord){
+          console.log('response should be sent off ot content script...');
+          sendResponse(historyRecord);
+      });
+      return true;
+    }
+    
 });
+
+
 
 
 var sampleNotification = function(){
