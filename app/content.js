@@ -142,16 +142,6 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
           }
         })
 
-        .state('history-test', {
-          url: '',
-          views: {
-            'sidebar': {
-              templateUrl: chrome.extension.getURL('partials/historyTest.html'),
-              controller: 'HistoryTestCtrl'
-            }
-          }
-        })
-
         .state('main', {
           views: {   
             'sidebar': {
@@ -163,6 +153,12 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
                 controller: 'ProfileDetailCtrl'
               }
           }
+        })
+
+        .state('main.history-test', {
+          url: '',
+          templateUrl: chrome.extension.getURL('partials/historyTest.html'),
+          controller: 'HistoryTestCtrl'
         })
 
         .state('main.notifications', {
@@ -1158,8 +1154,7 @@ appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'Ini
 
               InitService.initializeData(data.userid);
 
-            // $state.go('main.profileList', {reload: true, inherit: false, notify: false});
-            $state.go('history-test', {reload: true, inherit: false, notify: false});
+            $state.go('main.profileList', {reload: true, inherit: false, notify: false});
           }
         });
     }
@@ -1291,6 +1286,10 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiSt
 
   $scope.goToNotifications = function(){
     $state.go('main.notifications');
+  }
+
+  $scope.goToHistory = function(){
+    $state.go('main.history-test');
   }
 
 }]);

@@ -31,6 +31,10 @@ var toggleTabStatus = function(tab){
   var index = getTabStatusIndex(tab.id);
   console.log(index);
 
+  if(index == -1){
+    index = initializeTabStatus(tab.id);
+  }
+  
   if(tabStatus[index].status){
     tabStatus[index].status = false;
     chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
@@ -38,6 +42,7 @@ var toggleTabStatus = function(tab){
   else{
     tabStatus[index].status = true;
   }
+  
   setBrowserActionIcon(tabStatus[index].status);
   callBrowserAction(tab, tabStatus[index].status);
 }
