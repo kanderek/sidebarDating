@@ -1,27 +1,35 @@
 {
-	"name": "Max",
+	"name": "Internet",
 	"value": 100,
-	"children": [
+	"color": "#c21617",
+	"children": 
+	[
 		{
-			"name": "Sylvia",
+			"name": "art and entertainment",
 			"value": 75,
+			"color": "#eb401d",
 			"children": [
-				{"name": "Craig", "value": 25},
-				{"name": "Robin", "value": 25},
-				{"name": "Anna", "value": 25}
+				{"name": "books and literature", "value": 25, "color": "#fe7516"},
+				{"name": "movies and tv", "value": 25, "color": "#ffc600"},
+				{"name": "music", "value": 25, "color": "#549b3c"}
 			]
 		},
 		{
-			"name": "Patty",
+			"name": "news",
 			"value": 75,
+			"color": "#067e6a",
 			"children": [
-				{"name": "Jeff", "value": 25},
-				{"name": "Buffy", "value": 25}
+				{"name": "international news", "value": 25, "color": "#704b7b"},
+				{"name": "local news", "value": 25, "color": "#932f33"}
 			]
 		},
 		{
-			"name": "Mr X",
-			"value": 75
+			"name": "technology and computing",
+			"value": 75, 
+			"color": "#4a261c",
+			"children": [
+				{"name": "technological innovation", "value": 25, "color": "#4b4540"}
+			]
 		}
 	]
 }

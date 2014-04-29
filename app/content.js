@@ -53,7 +53,8 @@ var sidebarApp = angular.module('sidebarDatingExt',[
   'angularFileUpload',
   'ui.router',
   'appControllers',
-  'appServices'
+  'appServices',
+  'appDirectives'
 ]);
 
 
@@ -194,6 +195,117 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
 
         console.log("i'm in config for the app");
   }]);
+
+/********************************************************************************************************
+//  
+//   dddddd      ii   rrrrrr    eeeee     ccccc      tt      ii    vv     vv    eeeee     ssssss
+//   dd    dd         rr   rr  ee   ee   ccc      tttttttt         vv     vv   ee   ee   ss 
+//   dd     dd   ii   rr       eeeeee    ccc         tt      ii     vv   vv    eeeeee     sssss
+//   dd    dd    ii   rr       ee        ccc         tt      ii      vv vv     ee             ss
+//   dddddd      ii   rr        eeeeee    ccccc      tt      ii       vvv       eeeeee   ssssss 
+//
+//*******************************************************************************************************
+ Directives */ 
+
+var appDirectives = angular.module('appDirectives', []);
+
+appDirectives.directive('treeMap', function(){
+  return {
+    restrict: 'A',
+    scope: {
+      data: '='
+    },
+    template: "",
+    link: function(scope, element, attrs){
+      console.log('in directeve link...');
+      console.log(scope.data);
+      console.log(element);
+      console.log(attrs);
+
+      scope.$watch('data', function(data){
+        scope.data = data;
+        element.html('');
+      if(scope.data){
+        var w = 480, h = 200;
+        var BORDER = 1;
+
+        var tooltip = d3.select('body'/*element[0]*/).append("div")
+          .style("position", "absolute")
+          .style("z-index", "100000")
+          .style("visibility", "hidden")
+          .style("background-color", "white")
+          .text("a simple tooltip");
+
+        var canvas = d3.select(element[0]).append("div")
+            .style("width", w + "px")
+            .style("height", h + "px")
+            .style("position", "relative")
+
+          var treemap = d3.layout.treemap()
+              .size([w,h])
+              .nodes(scope.data);
+
+          console.log(treemap);
+
+          var cells = canvas.selectAll(".cell")
+              .data(treemap)
+              .enter()
+              .append("div")
+              .attr("class", "cell")
+              .style("width", function(d) {return  d.dx - 2*BORDER + "px"})
+              .style("height", function(d) { return d.dy - 2*BORDER+ "px"})
+              .style("top", function(d){ return d.y + "px"})
+              .style("left", function(d){ return d.x  - BORDER + "px"})
+              .style("background-color", function(d){ return d.parent ? d.parent.color : d.color})
+              .style("position", "absolute")
+              .style("border", "2px solid white")
+              .style("color", "white")
+              // .on("mouseover", function(d){ console.log(d.parent.name)})
+              .on("mouseover", function(d){
+                console.log("moused over cell...");
+                return tooltip.style("visibility", "visible").text(d.parent.name);
+              })
+              .on("mousemove", function(){
+                console.log(d3.event.pageX + ", " + d3.event.pageY);
+                return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+              })
+              .on("mouseout", function(){
+                console.log("moused out from cell...");
+                return tooltip.style("visibility", "hidden");
+              });
+
+              cells.append("p")
+              .text(function(d){return d.area < w*h/20 ? null : d.name})
+              .attr("class", "label-text")
+              .style("margin", "5px 0px 0px 5px")
+              .style("font-family", "sans-serif")
+            }
+
+    })
+
+    },
+    controller: function($scope){
+      console.log('in treemap directive controller');
+      console.log($scope.data);
+
+      $scope.$watch('data', function(data) {
+        console.log('watching in directive...');
+        console.log(data);
+        $scope.data = data;
+      })
+       // $scope.$on('profile-selected', function(event){
+
+       //    $scope.profile = Profile;
+       //    console.log('in profiledetail ctrl...checking select userid');
+       //    console.log($scope.profile.selectedProfile.userid);
+       //    console.log(Profile);
+       //     InterestService.usersTreemap(Profile.selectedProfile.userid, function(data){
+       //         $scope.treemapData  = data;
+       //      });
+       //  });
+    }
+  };
+});
 
 /********************************************************************************************************
 //  
@@ -444,11 +556,12 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
   }
 
   function getNumberFreeDancecardSpots(){
+      if(dancecardService.dancecard.length == 0) return 5;
       var count = 0;
       for(var i=0; i<5; i++){
-        if(dancecardService.dancecard[i].userid == -1){
-          count++;
-        }
+          if(dancecardService.dancecard[i].userid == -1){
+            count++;
+          }
       } 
       return count;
     }
@@ -650,17 +763,23 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
         profileFactory.selfProfile = user;
         profileFactory.selectedProfile = user;
         profileFactory.initializePageProfiles(url);
+        $rootScope.$broadcast('profile-selected');
         $rootScope.$broadcast('user-data-available');
       }
       else{
         profileFactory.getProfileById(user, function(data){
+          console.log('iniitializing profile data on login...');
+          console.log(data);
           profileFactory.selfProfile = data[0];
           profileFactory.selectedProfile = data[0];
           profileFactory.getProfilesByPage(url, 10);
+          $rootScope.$broadcast('profile-selected');
           $rootScope.$broadcast('user-data-available');
         })
       }
     }
+
+    profileFactory.selectUser = function() {}
 
     profileFactory.removeFromPageProfiles = function(userid){
       for(var i=0; i<profileFactory.pageProfiles.length; i++){
@@ -740,6 +859,58 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     }
 
     return profileFactory;
+
+  }]);
+
+/*******************************************************************************************************
+Interest Service  */
+
+appServices.factory('InterestService', ['$http', '$rootScope',
+  function($http, $rootScope){
+
+    interestService = {};
+
+    interestService.userInterests = {};
+
+    interestService.usersTreemap = function (userid, callback){
+      if(interestService.userInterests[userid]){
+        console.log(interestService.userInterests[userid]);
+        $rootScope.$broadcast('treemap-data-available');
+        callback(interestService.userInterests[userid]);
+      }
+      else{
+        interestService.getInterestTreemapByUserid(userid, function(data){
+          console.log(data);
+           $rootScope.$broadcast('treemap-data-available');
+          callback(data);
+        });
+      }
+    };
+
+    interestService.getInterestTreemapByUserid = function(userid, callback){
+
+       $http({
+          method: 'GET', 
+          url: 'http://localhost:3000/interest/' + userid
+        }).
+        success(function(data, status, headers, config) {
+          // if(data.status != "logged_out"){
+             //callback(data);   // this callback will be called asynchronously when the response is available
+            // console.log(data);
+            interestService.userInterests[userid] = data;
+            callback(data);
+            // $rootScope.$broadcast('page-profiles-available');
+          // }
+          // else{
+          //   $state.go('sign-up-0');
+          // }
+        }).
+        error(function(data, status, headers, config) {
+          console.log('get people failure');
+        });
+    }
+
+    return interestService;
 
   }]);
 
@@ -1280,6 +1451,7 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiSt
   $scope.goToProfile = function(){
       if(Profile.selectedProfile != Profile.selfProfile){
         Profile.selectedProfile = Profile.selfProfile;
+        $rootScope.$broadcast('profile-selected');
       }
       UiState.showDetailsPanel = true;
     }
@@ -1327,6 +1499,7 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
         if($scope.dancecard[i].userid != -1){
           Profile.selectedProfile = $scope.dancecard[i];
           $scope.selectedProfile = $scope.dancecard[i];
+          $rootScope.$broadcast('profile-selected');
           $scope.showShortProfile = true;
           if($scope.dancecard[i].mutual){
             $state.go('main.messages');
@@ -1366,8 +1539,8 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
 /*******************************************************************************************************
 Profile List Controller  */
 
-appControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
-  function($scope, Profile, UiState) {
+appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', 'Profile', 'UiState',
+  function($scope, $rootScope, Profile, UiState) {
 
     $scope.profiles = Profile.pageProfiles;
     
@@ -1378,6 +1551,7 @@ appControllers.controller('ProfileListCtrl', ['$scope', 'Profile', 'UiState',
     $scope.selectOnly = function(i){
       UiState.showDetailsPanel = true;
       Profile.selectedProfile = $scope.profiles[i];
+      $rootScope.$broadcast('profile-selected');
     }
 
     $scope.ifSelected = function(i){
@@ -1419,10 +1593,29 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
 /*******************************************************************************************************
 Profile Detail Controller  */
 
-appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state', 'Profile', 'UiState','DancecardService',
-  function($rootScope, $scope, $state, Profile, UiState, DancecardService) {
+appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state', 'Profile', 'UiState','DancecardService', 'InterestService',
+  function($rootScope, $scope, $state, Profile, UiState, DancecardService, InterestService) {
 
-    $scope.profile = Profile;
+    // $scope.profile = Profile;
+    $scope.profile;
+    $scope.treemapData;
+
+    $scope.$on('profile-selected', function(event){
+
+      $scope.profile = Profile;
+      console.log('in profiledetail ctrl...checking select userid');
+      console.log($scope.profile.selectedProfile.userid);
+      console.log(Profile);
+       InterestService.usersTreemap(Profile.selectedProfile.userid, function(data){
+           $scope.treemapData  = data;
+        });
+    });
+
+    //  $scope.$on('treemap-data-available', function(event){
+
+    //   console.log('in profiledetail ctrl...treemap data...');
+    //   $scope.treemapData = InterestService.treemapData;
+    // });
 
     $scope.showAddButton = function(){
       return (!isInDanceCard(Profile.selectedProfile.userid) && !isDancecardFilled() && !$scope.isSelf());

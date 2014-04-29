@@ -115,6 +115,9 @@
     *******************************************/
     /* Layout with grid! tbd */
     
+    #detailsPanel h4 {
+        margin: 5px 0px 5px 0px;
+    }
 
     #profile-details {
         width: 100%;
@@ -130,7 +133,7 @@
         top: 5px;
     }
 
-    #profile-details h3 {
+    #profile-details h3{
         display: inline-block;
         margin: 0px 5px 0px 0px;
     }
@@ -188,46 +191,65 @@
 
 
     #mutual-wrapper {
+
         width: 100%;
-        background-color: rgba(255,0,0,0.5);
+        /*height: 300px;*/
+        background-color: rgba(255,255,255,1);
         margin: 5px 0px 5px 0px;
         overflow: hidden;
         /*height: 75px;*/
     }
 
-    #mutual-wrapper h5{
-        margin: 5px 0px 5px 0px;
+
+    #mutual-content {
+        -webkit-column-count: 2;
+        -webkit-column-gap: 10px;
+        width: 100%;
     }
-
-
 
     .mutual-item {
         /*border-radius: 37px; */
         background-color: rgba(240,240,240,0.6);
-        margin: 5px;
-        position: relative;
-        float: left;
-        border-bottom: 2px solid gray;
+        /*margin: 5px;*/
+        /*position: relative;*/
+        /*float: left;*/
+        /*border-bottom: 2px solid gray;*/
+        /*width: 225px;*/
+        width: 100%;
+        margin-bottom: 10px;
 
     }
 
-    .mutual-item-single {
-        width: 150px;
-        height: 150px;
+    .mutual-item-article, .mutual-item-song {
+        height: 80px;
+        width: 100%;
     }
 
-    .mutual-item-double {
-        width: 310px;
-        height: 150px;
+    .mutual-item-video-normal {
+        height: 176px;
+        width: 100%;
+    }
+
+    .mutual-item-video-wide {
+        height: 132px;
+        width: 100%;
     }
 
     #profile-interests-viz {
         width: 480px;
-        height: 250px;
-        background-color: blue;
+        background-color: white;
         overflow: hidden;
-
     }
+
+    .cell {
+            border: 2px solid white;
+            color: white;
+        }
+
+        .label-text {
+            margin: 5px 0px 0px 5px;
+            font-family: sans-serif;
+        }
 	</style>
 
         <ul rn-carousel  rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
@@ -276,78 +298,86 @@
 	 		<!-- <p>{{profile.selectedProfile | json}}</p> -->
 	 	</div>
 
- 		<div id="mutual-wrapper">
- 			<h5>Something to talk about - Your mutual browsings</h5>
-            <div class="mutual-item">
-                <iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:5Z7ygHQo02SUrFmcgpwsKW,1x6ACsKV4UdWS2FMuPFUiT,4bi73jCM02fMpkI11Lqmfe" frameborder="0" allowtransparency="true"></iframe>
+        <div id="profile-interests-viz">
+            <h4>Interested In</h4>
+<!-- 
+            {{treemapData}} -->
+            <div tree-map data="treemapData">
             </div>
-            <div class="mutual-item mutual-item-single">
-                Whisper CEO Michael Heyward To Join Us At Disrupt NY 2014
-            </div>
-            <div class="mutual-item mutual-item-single">
-                <img src="https://flic.kr/p/nkPjZG" />
-            </div>
-            <div class="mutual-item">
-                <iframe src="https://embed.spotify.com/?uri=spotify:track:72DTGt2tVAL6ATVhzVjvkk&theme=white&view=coverart" width="310" height="310" frameborder="0" allowtransparency="true"></iframe>
-            </div>
+            <!-- <div tree-map data="{{treemapData}}">
+            </div> -->
+            <script>
+        //         // var color = d3.scale.category10();
+        //         //console.log(color());
+        //         // console.log({{treemapData}});
+        //         var w = 480, h = 200;
+        //         var BORDER = 2;
+        //         var canvas = d3.select("#profile-interests-viz").append("div")
+        //             .style("width", w + "px")
+        //             .style("height", h + "px")
+        //             .style("position", "relative")
 
- 			<div class="mutual-item mutual-item-double">
-                <iframe src="https://embed.spotify.com/?uri=spotify:track:72DTGt2tVAL6ATVhzVjvkk&theme=white&view=coverart" width="310" height="80" frameborder="0" allowtransparency="true"></iframe>
- 			</div>
- 			<div class="mutual-item">
-                <iframe width="150" height="150" src="//www.youtube.com/embed/fNdO-hRQgqg" frameborder="0" allowfullscreen></iframe>
- 			</div>
- 			<div class="mutual-item">
-                <iframe width="310" height="80" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe>
-               <!--  <iframe width="150" height="40" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe>
-                <iframe width="150" height="40" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe> -->
- 			</div>
+        // d3.json(chrome.extension.getURL("mydata.json"), function (data) {
+        //     console.log(data);
+        //     var treemap = d3.layout.treemap()
+        //         .size([w,h])
+        //         .nodes(data);
 
-            <div class="mutual-item">
-                <iframe src="//player.vimeo.com/video/40007369" width="150" height="150" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
-            </div>
- 		</div>
+        //     console.log(treemap);
 
- 		<div id="profile-interests-viz">
- 			<h5>Interested In</h5>
- 			<script>
-				var color = d3.scale.category10();
-				//console.log(color());
+        //     var cells = canvas.selectAll(".cell")
+        //         .data(treemap)
+        //         .enter()
+        //         .append("div")
+        //         .attr("class", "cell")
+        //         .style("width", function(d) {return d.dx - 2*BORDER + "px"})
+        //         .style("height", function(d) { return d.dy - 2*BORDER+ "px"})
+        //         .style("top", function(d){ return d.y + "px"})
+        //         .style("left", function(d){ return d.x + "px"})
+        //         .style("background-color", function(d){ return d.parent ? d.parent.color : d.color})
+        //         .style("position", "absolute")
 
-				var w = 480, h = 200;
-				var canvas = d3.select("#profile-interests-viz").append("svg")
-					.attr("width", w)
-					.attr("height", h);
+        //         cells.append("p")
+        //         .text(function(d){return d.name})
+        //         .attr("class", "label-text")
 
-				d3.json(chrome.extension.getURL("mydata.json"), function (data) {
-					//console.log(data);
-					var treemap = d3.layout.treemap()
-						.size([w,h])
-						.nodes(data);
+        //         });
+        //     </script>
+        </div>
 
-					//console.log(treemap);
-					var cells = canvas.selectAll(".cell")
-						.data(treemap)
-						.enter()
-						.append("g")
-						.attr("class", "cell");
+ <!-- 		<div id="mutual-wrapper">
+ 			<h4>Something to talk about - Your mutual browsings</h4>
 
-					cells.append("rect")
-						.attr("x", function (d) {return d.x; })
-						.attr("y", function (d) {return d.y; })
-						.attr("width", function (d) {return d.dx; })
-						.attr("height", function (d) {return d.dy; })
-						.attr("fill", function (d) {return d.children ? null : color(d.parent.name); })
-						.attr("stroke", "#fff")
+            <div id="mutual-content">
+                <div class="mutual-item mutual-item-article">
+                    Whisper CEO Michael Heyward To Join Us At Disrupt NY 2014
+                </div>
+                <div class="mutual-item">
+                    <iframe src="https://embed.spotify.com/?uri=spotify:track:72DTGt2tVAL6ATVhzVjvkk&theme=white&view=coverart" class="mutual-item-song" frameborder="0" allowtransparency="true"></iframe>
+                </div>
 
-					cells.append("text")
-						.attr("x", function (d) {return d.x + d.dx / 2 })
-						.attr("y", function (d) {return d.y + d.dy / 2 })
-						.attr("text-anchor", "middle")
-						.text(function (d) {return d.children ? null : d.name; })
+     			<div class="mutual-item">
+                    <iframe src="https://embed.spotify.com/?uri=spotify:track:72DTGt2tVAL6ATVhzVjvkk&theme=white&view=coverart" width="235" height="310" frameborder="0" allowtransparency="true"></iframe>
+     			</div>
+     			<div class="mutual-item mutual-item-video-normal">
+                    <iframe class="mutual-item-video-normal" src="//www.youtube.com/embed/fNdO-hRQgqg" frameborder="0" allowfullscreen></iframe>
+     			</div>
+     			<div class="mutual-item">
+                    <iframe class="mutual-item-song" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe>
+     			</div>
+                <div class="mutual-item">
+                    <iframe width="235" height="235" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe>
+                </div>
 
-				})
-			</script>
- 		</div>
+                <div class="mutual-item mutual-item-video-normal">
+                    <iframe src="//player.vimeo.com/video/40007369" class="mutual-item-video-normal" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
+                </div>
+
+                <div class="mutual-item mutual-item-video-wide">
+                    <iframe src="http://embed.ted.com/talks/james_patten_the_best_computer_interface_maybe_your_hands.html" width="235" height="132" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                </div>
+ 		</div> --> 
+
+ 		
 
  	

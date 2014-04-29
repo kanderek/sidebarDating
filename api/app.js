@@ -771,6 +771,85 @@ function getCityStateFromZipcode(zipcode, callback){
 	});
 }
 
+app.get('/interest/:userid', function(req, res){
+	var userid = req.params.userid;
+
+	var queryString = "SELECT u.username, c.level1, c.level2, SUM (c.score * h.visit_count) as interest_score " +
+	  				  "FROM users u, url_categories c, user_history h WHERE u.userid =" + userid + " AND " +
+	  				  		 "u.userid = h.userid AND h.urlid=c.urlid GROUP BY u.username, c.level1, c.level2 ORDER BY c.level1";
+
+	console.log(queryString);
+	req.db.client.query(queryString, function(err, result){
+			//deal with error
+			// console.log(result); 
+			// console.log(err);
+			if(err){
+				res.send(500);
+			} 
+			else{
+			// res.send(200);
+				res.json(formatForTreemap(result.rows))
+			}
+			
+		});
+
+})
+
+var COLOR_BY_CAT = {
+	"religion and spirituality": "#c21617",
+    "science": 					 "#d42819",
+	"news": 					 "#eb401d",
+	"health and fitness": 		 "#fd521f",
+	"hobbies and interests": 	 "#fe7516",
+	"food and drink": 			 "#fea309",
+	"travel": 					 "#ffc600",
+	"art and entertainment": 	 "#b5b31a",
+	"pets": 				 	 "#549b3c",
+	"home and garden": 			 "#0a8856",
+	"family and parenting": 	 "#067e6a",
+	"real estate": 				 "#02747f",
+	"finance": 					 "#006f89",
+	"business and industrial":   "#305f83",
+	"law, govt and politics": 	 "#704b7b",
+	"sports": 					 "#a03b75",
+	"style and fashion": 		 "#9a3659",
+	"shopping": 				 "#932f33",
+	"society": 					 "#8d2a17",
+	"education": 				 "#702819",
+	"careers": 					 "#4a261c", 
+	"technology and computing":  "#2d241e",
+	"automotive and vehicles":   "#4b4540"
+}
+
+
+
+function formatForTreemap(data){
+	var treemapData = {};
+	treemapData.name = "Browsing History Not Available";
+	treemapData.value = 1;
+	treemapData.color = "#ddd";
+	treemapData.children = [];
+
+	var level1 = {};
+	var rootValue = 0;
+	var parentValue = 0;
+	var previousLevel1 = {level1: "", index: null};
+
+	for(var i=0; i<data.length; i++){
+		treemapData.value += parseFloat(data[i].interest_score);
+
+		if(previousLevel1.level1 != data[i].level1){
+			previousLevel1.level1 = data[i].level1;
+			previousLevel1.index = treemapData.children.push({name: data[i].level1, value: 0, color: COLOR_BY_CAT[data[i].level1], children: []}) -1;
+		}
+
+		treemapData.children[previousLevel1.index].value += parseFloat(data[i].interest_score);
+		treemapData.children[previousLevel1.index].children.push({name: data[i].level2, value: data[i].interest_score, color: COLOR_BY_CAT[data[i].level1]});
+	}
+	return treemapData;
+}
+
+
 app.post('/history', function(req, res){
   console.log(req.body);      // your JSON
   var userid = req.body.userid;
