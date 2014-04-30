@@ -15,12 +15,22 @@
 <div>
 	<div class="horizontal-line">
 	</div>
-	<div id="dance-card-preview" drop="onDrop($data, $event)" drop-effect="copy" drop-accept="'json/custom-object'" drag-over-class="drag-over-accept">
+	<div id="dance-card-preview" 
+		 ui-on-drop="onDropAdd($event, $data)"
+		 drag-hover-class="drag-over-accept"
+	>
+<!-- 		 drop="onDropAdd($data, $event)" 
+		 drop-effect="move" 
+		 drop-accept="'json/custom-object'" 
+		 drag-over-class="drag-over-accept"> -->
 		<!--<h3>Your Dance Card</h3>-->
 
 		<div ng-repeat="person in dancecard" 
 			 class="dance-card-preview-img" 
 			 ng-click="selectOnly($index)"
+			 ui-draggable="true"
+			 drag="person"
+			 drag-channel="remove-person"
 			 >
 			
 			<div class='mutual' ng-hide="isMutual($index)">

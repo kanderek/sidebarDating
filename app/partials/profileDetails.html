@@ -271,11 +271,11 @@
                 <div class="profile-actions">
                      <button type="button" 
                         ng-show="showAddButton()"
-                        ng-click="updateDancecard(profile.selectedProfile.userid, 'added')">Add to Card</button>
+                        ng-click="updateDancecard(profile.selectedProfile, 'added')">Add to Card</button>
 
                     <button type="button" 
                             ng-show="showRemoveButton()" 
-                            ng-click="updateDancecard(profile.selectedProfile.userid, 'removed')">Remove From Card</button>
+                            ng-click="updateDancecard(profile.selectedProfile, 'removed')">Remove From Card</button>
 
                     <a ng-show="isSelf()" 
                         ui-sref='main.detailsPanel'>Edit</a>   

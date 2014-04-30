@@ -36,6 +36,7 @@
         "lib/angular-ui-router.min.js",
         "lib/angular-animate.js",
         "lib/angular-draganddrop.js",
+        "lib/draganddrop.js",
         "lib/angular-touch.js",
         "lib/rangeInputSupported.js",
         "lib/angular-slider.js",

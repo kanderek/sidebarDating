@@ -21,16 +21,23 @@
 		ng-click="selectOnly($index)"
 		ng-class="{'isSelected': ifSelected($index)}">
 
-		<div class="profile" draggable="true" effect-allowed="copy" draggable-type="custom-object" draggable-data="{foo: 'bar'}">
-			<img ng-src="{{profile.smallimageurls[0]}}"/>
+		<div class="profile" 
+			 ui-draggable="true"
+			 drag="profile"
+			 >
+
+
+		<!-- 	 draggable="true" 
+			 draggable-type="custom-object" 
+		 	 draggable-data="{userid: {{profile.userid}}, index: $index}" -->
+		 	 		 	 <!-- effect-allowed="copy" 
+		 	 
+ -->			<img ng-src="{{profile.smallimageurls[0]}}"/>
 			<p>
 				<span class="name">{{profile.username}}</span></br>
 				<span class-"personal-blurb">{{profile.personal_blurb}}</span>
 			</p>
 		</div>
-	</div>
-	<div id="drop-zone" drop="onDrop($data, $event)" drop-effect="copy" drop-accept="'json/custom-object'" drag-over-class="drag-over-accept">
-		drop area
 	</div>
 </div>
 

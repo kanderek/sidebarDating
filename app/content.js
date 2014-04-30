@@ -35,7 +35,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       setTimeout(function(){
           $('#injected-content').remove();
           console.log('sidebar closed');
-      }, 1200);
+      }, 1000);
 			break;
 	}
 });
@@ -55,6 +55,7 @@ var sidebarApp = angular.module('sidebarDatingExt',[
   'angular-carousel',
   'ngAnimate',
   'draganddrop',
+  'ngDragDrop',
   'angularFileUpload',
   'ui.router',
   'appControllers',
@@ -717,7 +718,10 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
               dancecardService.dancecard.splice(i,1);
               dancecardService.dancecard.push({smallimageurls: ['http://localhost:3000/user/user.png'], userid: -1});
               $rootScope.$broadcast('dancecard-update');
-              Profile.selectedProfile = Profile.selfProfile;
+              if(Profile.selectedProfile.userid == Profile.selectedForRemoval.userid){
+                Profile.selectedProfile = Profile.selfProfile;
+              }
+              Profile.selectedForRemoval = {};
               dancecardService.postDancecardUpdate(postData, function(data){
                 //
               })
@@ -763,6 +767,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     profileFactory.pageProfiles = [];
     profileFactory.selectedProfile = {};
     profileFactory.selfProfile = {};
+    profileFactory.selectedForRemoval = {};
 
     profileFactory.initializeProfile = function(user, url){
       if(typeof(user) == 'object'){
@@ -1491,17 +1496,53 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
       $scope.conversation.push(data);
     });
 
-    $scope.onDrop = function (data, event) {
+    $scope.onDropAdd = function(event, data){
       console.log('item dropped...');
       console.log(data);
       console.log(event);
-      // Get custom object data.
-      // var customObjectData = data['json/custom-object']; // {foo: 'bar'}
 
-      // Get other attached data.
-      // var uriList = data['text/uri-list']; // http://mywebsite.com/..
+      Profile.selectedProfile = data;
+      updateDancecard(data.userid, 'added');
 
-      // ...
+    }
+
+    // $scope.onDropAdd = function (data, event) {
+    //   console.log('item dropped...');
+    //   console.log(data);
+    //   console.log(data['json/custom-object']);
+    //   console.log(data.userid);
+    //   console.log(event);
+    //   var userData = data['json/custom-object'];
+
+    //   Profile.selectedProfile = Profile.pageProfiles[userData.index];
+    //   updateDancecard(userData.userid, 'added');
+    //     console.log('update user after drop...');
+    //     console.log(Profile.selectedProfile);
+    //   // Get custom object data.
+    //   // var customObjectData = data['json/custom-object']; // {foo: 'bar'}
+
+    //   // Get other attached data.
+    //   // var uriList = data['text/uri-list']; // http://mywebsite.com/..
+
+    //   // ...
+    // };
+
+    function updateDancecard(userid, status){
+      var data = {
+        userid: Profile.selfProfile.userid,
+        partnerid: userid,
+        status: status
+      }
+
+      if(status == 'added'){
+         DancecardService.updateDancecard(data, Profile.selectedProfile);
+      }
+
+      if(status == 'removed'){
+            UiState.showDetailsPanel = false;
+            // $state.go('main.profileList');
+            $state.go('main.removeSurvey');
+      }
     };
 
     $scope.$on('dancecard-update', function(event){
@@ -1589,7 +1630,7 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
     $scope.survey;
 
     $scope.cancel = function(){
-      UiState.showDetailsPanel = false;
+      // UiState.showDetailsPanel = false;
       $state.go('main.profileList');
     }
     
@@ -1597,13 +1638,12 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
     $scope.submitSurvey = function(){
       var data = {
         userid: Profile.selfProfile.userid,
-        partnerid: Profile.selectedProfile.userid,
+        partnerid: Profile.selectedForRemoval.userid,
         status: 'removed'
       };
-      DancecardService.updateDancecard(data, Profile.selectedProfile);
-      UiState.showDetailsPanel = false;
+      DancecardService.updateDancecard(data, Profile.selectedForRemoval);
+      // UiState.showDetailsPanel = false;
       $state.go('main.profileList');
-      console.log('you just removed ' + Profile.selectedProfile.username);
     }
 
     }]);
@@ -1674,18 +1714,19 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
       return (Profile.selectedProfile.userid == Profile.selfProfile.userid);
     }
 
-    $scope.updateDancecard = function(userid, status){
+    $scope.updateDancecard = function(user, status){
       var data = {
         userid: Profile.selfProfile.userid,
-        partnerid: userid,
+        partnerid: user.userid,
         status: status
       }
 
       if(status == 'added'){
-         DancecardService.updateDancecard(data, Profile.selectedProfile);
+         DancecardService.updateDancecard(data, user);
       }
 
       if(status == 'removed'){
+            Profile.selectedForRemoval = user;
             UiState.showDetailsPanel = false;
             // $state.go('main.profileList');
             $state.go('main.removeSurvey');
@@ -1697,8 +1738,8 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
 /*******************************************************************************************************
 Ui Controller  */
 
-appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', 'UiState', 'Profile', 'DancecardService',
-  function($rootScope, $scope, $timeout, UiState, Profile, DancecardService){
+appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state', 'UiState', 'Profile', 'DancecardService',
+  function($rootScope, $scope, $timeout, $state, UiState, Profile, DancecardService){
     var arrowLeftIconURL = chrome.extension.getURL("icons/icon_22996/icon_22996.png");
     var arrowRightIconURL = chrome.extension.getURL("icons/icon_22997/icon_22997.png");
 
@@ -1754,6 +1795,53 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', 'UiStat
 
       }
     }
+
+    // $scope.showRemove = false;
+
+    $rootScope.$on('ANGULAR_DRAG_START', function (event, channel) {
+      console.log('drag started on dancecard....');
+      //listen for "remove-person" channel 
+      //onoly do stuff with that channel
+
+        if(channel == 'remove-person'){
+          $scope.$apply(function(){
+                $scope.showRemove = true;
+              });
+        }
+    });
+
+    $rootScope.$on('ANGULAR_DRAG_END', function (event, channel) {
+      console.log('drag ended on dancecard....');
+      //listen for "remove-person" channel 
+      //onoly do stuff with that channel
+      if(channel == 'remove-person'){
+        $scope.$apply(function(){
+            $scope.showRemove = false;
+          });
+      }
+    });
+
+
+    $scope.onDropRemove = function(event, data) {
+      console.log('dropping to remove user from dancecard...');
+      console.log(event);
+      console.log(data);
+      $scope.showRemove = false;
+      removeFromDancecard(data);
+    }
+
+    function removeFromDancecard(user){
+
+      if(Profile.selectedProfile.userid == user.userid){
+          UiState.showDetailsPanel = false;
+      }
+            // $state.go('main.profileList');
+      Profile.selectedForRemoval = user;
+       $state.go('main.removeSurvey');
+    };
+
+
+
   }]);
 
 

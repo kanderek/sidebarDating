@@ -483,6 +483,21 @@
 	}
 
 
+	.remove-on-drag-area {
+		width: 100%;
+		position: absolute;
+		height: 150px;
+		bottom: 0px;
+		right: 0px;
+		/*background-color: green;*/
+		visibility: hidden;
+	}
+
+	.showRemoveArea {
+		visibility: visible;
+		background-color: rgba(200,200,200,0.7);
+	}
+
 </style>
 
 <div id="injected-wrapper" 
@@ -522,6 +537,14 @@
 			<a ng-click="goToHistory()" >History </a>
 		</div>
 		<div ui-view="sidebar">
+		</div>
+		<div class="remove-on-drag-area" 
+			 ng-class="{'showRemoveArea': showRemove}"
+			  ui-on-drop="onDropRemove($event, $data)"
+		 	  drag-hover-class="drag-over-accept"
+		 	  drop-channel="remove-person"
+		>
+		{{showRemove}}
 		</div>
 
 	</div>
