@@ -28,7 +28,7 @@
 		height: 100%;
 		width: 520px;
 		position: absolute;
-		right: -240px;
+		right: -520px;
 		-webkit-transition: right 1s ease;	
 	}
 
@@ -63,7 +63,7 @@
 		/*position: relative;*/
 		/*float: right;*/
 		position: absolute;
-		right: 0px;
+		right: -260px;
 		width: 260px;
 		height: inherit;
 		font-family: "Open Sans", Helvetica, Arial, sans-serif;
@@ -491,8 +491,8 @@
 	<div id="detailsWrapper" 
 	     class="detailsWrapper" 
 	     ng-class="{'show-detailsPanel': uiState.showDetailsPanel, 
-	     			'tuck-detailsPanel': !uiState.showDetailsPanel && uiState.showSider,
-	     			'show-tabOnly': !uiState.showSidebar }">
+	     			'tuck-detailsPanel': !uiState.showDetailsPanel && uiState.showSidebar,
+	     			'show-tabOnly': !uiState.showSidebar && !uiState.showDetailsPanel && uiState.startup}">
 
 		<div id="tabControl" ng-click="tabAction()">
 			<img id="arrow-icon" src="" />

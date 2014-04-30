@@ -32,7 +32,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 			break;
 		case "close-sidebar":
 			console.log('closing sidebar');
-			$('#injected-content').remove();
+      setTimeout(function(){
+          $('#injected-content').remove();
+          console.log('sidebar closed');
+      }, 1200);
 			break;
 	}
 });
@@ -219,10 +222,10 @@ appDirectives.directive('treeMap', function(){
     },
     template: "",
     link: function(scope, element, attrs){
-      console.log('in directeve link...');
-      console.log(scope.data);
-      console.log(element);
-      console.log(attrs);
+      // console.log('in directeve link...');
+      // console.log(scope.data);
+      // console.log(element);
+      // console.log(attrs);
 
       scope.$watch('data', function(data){
         scope.data = data;
@@ -236,7 +239,6 @@ appDirectives.directive('treeMap', function(){
           .style("z-index", "100000")
           .style("visibility", "hidden")
           .style("background-color", "white")
-          .text("a simple tooltip");
 
         var canvas = d3.select(element[0]).append("div")
             .style("width", w + "px")
@@ -291,7 +293,7 @@ appDirectives.directive('treeMap', function(){
       console.log($scope.data);
 
       $scope.$watch('data', function(data) {
-        console.log('watching in directive...');
+        // console.log('watching in directive...');
         console.log(data);
         $scope.data = data;
       })
@@ -338,8 +340,10 @@ appServices.factory('UiState', function(){
   // uiStateService.dancecard = {};
 
   uiStateService.previousState;
-  uiStateService.showSidebar = true;
+  uiStateService.showSidebar = false;
   uiStateService.showDetailsPanel = false;
+  uiStateService.starup = false;
+  uiStateService.shutdown = false;
 
   return uiStateService;
 });
@@ -1693,22 +1697,47 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
 /*******************************************************************************************************
 Ui Controller  */
 
-appControllers.controller('uiCtrl', ['$rootScope', '$scope', 'UiState', 'Profile', 'DancecardService',
-  function($rootScope, $scope, UiState, Profile, DancecardService){
+appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', 'UiState', 'Profile', 'DancecardService',
+  function($rootScope, $scope, $timeout, UiState, Profile, DancecardService){
     var arrowLeftIconURL = chrome.extension.getURL("icons/icon_22996/icon_22996.png");
     var arrowRightIconURL = chrome.extension.getURL("icons/icon_22997/icon_22997.png");
 
     $scope.uiState = UiState;
-    $scope.uiState.showSidebar = true;
+    $scope.uiState.showSidebar = false;
+    $scope.uiState.showDetailsPanel = false;
+
+
+    $timeout(function(){
+      $scope.uiState.startup = true;
+      $scope.uiState.showSidebar = true;
+      $scope.uiState.showDetailsPanel = false;
+
+    }, 100);
+
+    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+
+      switch(message.type) {
+        case "close-sidebar":
+        console.log('close message received in app...');
+          $scope.$apply(function(){
+            $scope.uiState.showSidebar = false;
+            $scope.uiState.showDetailsPanel = false;
+            $scope.uiState.startup = false;
+          });
+          break;
+      }
+    });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
        //assign the "from" parameter to something
-       console.log('pervious state...');
-       console.log(from);
+       // console.log('pervious state...');
+       // console.log(from);
     });
 
     $scope.tabAction = function(){
-      console.log($scope.uiState.tabIconUrl);
+      // console.log($scope.uiState.tabIconUrl);
+      console.log($scope.uiState.showSidebar);
+      console.log($scope.ui)
       if($scope.uiState.showSidebar){
         if($scope.uiState.showDetailsPanel){
           $scope.uiState.showDetailsPanel = false;
