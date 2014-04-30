@@ -1,15 +1,9 @@
 <div id="injected-content" >
-<link id="normalize" rel="stylesheet" type="text/css" />
-<link id="flexslider2" rel="stylesheet" type="text/css" />
 <link id="angular-carousel-css" rel="stylesheet" type="text/css" />
 <!-- <link id="bootstrap" rel="stylesheet" type="text/css" /> -->
 <style>
 	
 	@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
-
-	/*p {
-		margin: 0px;
-	}*/
 
 	#sidebar a {
 		cursor: pointer;
@@ -19,12 +13,23 @@
 		/*background-color: rgba(255,100,100, 0.5);*/
 		/*width: 300px;*/
 		height: 100%;
+		width: 780px;
 		z-index: 100000;
 		position: fixed;
+		overflow: hidden;
+		right: 0px;
 		top: 0px;
 		color: black;
 		text-align: left;
 		margin: 0px;
+	}
+
+	.detailsWrapper {
+		height: 100%;
+		width: 520px;
+		position: absolute;
+		right: -240px;
+		-webkit-transition: right 1s ease;	
 	}
 
 	#tabControl {
@@ -38,6 +43,60 @@
 		border-bottom-left-radius: 10px;
 		/*box-shadow: 1px 4px 20px #333333;*/
 	}
+
+
+	#detailsPanel {
+		width: 500px;
+		height: 100%;
+		overflow-y:auto;
+		background-color: rgba(200,200,200,0.9);
+		position: relative;
+		float: left;
+		padding: 10px;
+		box-sizing: border-box;
+
+	}
+
+	.sidebar {
+		color: #DBDBDB;
+		background-color: #343838;
+		/*position: relative;*/
+		/*float: right;*/
+		position: absolute;
+		right: 0px;
+		width: 260px;
+		height: inherit;
+		font-family: "Open Sans", Helvetica, Arial, sans-serif;
+		font-size: 13px;
+		line-height: 1.4em;
+		border-left: 1px solid #666666;
+		-webkit-transition: right 1s ease;
+		/*font-weight: 300;*/
+		/*letter-spacing: .03em;*/
+	}
+
+	.show-sidebar {
+		right: 0px;
+		/*width: 260px;*/
+	}
+
+	.tuck-sidebar {
+		right: -261px;
+		/*width: 0px;*/
+	}
+
+	.show-detailsPanel {
+		right: 260px;
+	}
+
+	.show-tabOnly {
+		right: -500px;
+	}
+
+	.tuck-detailsPanel {
+		right: -240px;
+	}
+
 
 	#arrow-icon {
 		display: block;
@@ -83,32 +142,7 @@
 		width: 16px;
 	}
 
-	#detailsPanel {
-		width: 500px;
-		height: 100%;
-		overflow-y:auto;
-		background-color: rgba(200,200,200,0.9);
-		position: relative;
-		float: left;
-		padding: 10px;
-		box-sizing: border-box;
 
-	}
-
-	#sidebar {
-		color: #DBDBDB;
-		background-color: #343838;
-		position: relative;
-		float: right;
-		width: 260px;
-		height: inherit;
-		font-family: "Open Sans", Helvetica, Arial, sans-serif;
-		font-size: 13px;
-		line-height: 1.4em;
-		border-left: 1px solid #666666;
-		/*font-weight: 300;*/
-		/*letter-spacing: .03em;*/
-	}
 
 	#sidebar button {
 		width: 100%;
@@ -129,14 +163,6 @@
 		position: absolute;
 		left: 15px;
 		cursor: pointer;
-	}
-
-	.show-sidebar {
-		right: 0px;
-	}
-
-	.tuck-sidebar {
-		right: -260px;
 	}
 
 	#top-menu {
@@ -456,23 +482,31 @@
 		margin-right: 0px;
 	}
 
+
 </style>
 
 <div id="injected-wrapper" 
-	 ng-class="{'show-sidebar': uiState.showSidebar, 'tuck-sidebar': !uiState.showSidebar}" 
 	 ng-controller="uiCtrl">
 
+	<div id="detailsWrapper" 
+	     class="detailsWrapper" 
+	     ng-class="{'show-detailsPanel': uiState.showDetailsPanel, 
+	     			'tuck-detailsPanel': !uiState.showDetailsPanel && uiState.showSider,
+	     			'show-tabOnly': !uiState.showSidebar }">
 
-	<div id="tabControl" ng-click="tabAction()">
-		<img id="arrow-icon" src="" />
-	</div>
+		<div id="tabControl" ng-click="tabAction()">
+			<img id="arrow-icon" src="" />
+		</div>
 
-	<div id="detailsPanel" ng-show="uiState.showDetailsPanel">
-	 	<div ui-view="detailsPanel">
+		<div id="detailsPanel" >
+		 	<div ui-view="detailsPanel">
+			</div>
 		</div>
 	</div>
 
-	<div id="sidebar">
+	<div id="sidebar" 
+		 class="sidebar" 
+		 ng-class="{'show-sidebar': uiState.showSidebar, 'tuck-sidebar': !uiState.showSidebar}" >
 		
 		<!-- <div id="close-action">
 			<img id="close-icon" />
@@ -494,11 +528,6 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
-		var normalizeCSS = chrome.extension.getURL("css/normalize.css");
-		$("#normalize").attr("href", normalizeCSS);
-
-		var flexSlider2 = chrome.extension.getURL("css/flexslider.css");
-		$("#flexslider2").attr("href", flexSlider2);
 
 		var angularCarousel = chrome.extension.getURL("css/angular-carousel.css");
 		$("#angular-carousel-css").attr("href", angularCarousel);

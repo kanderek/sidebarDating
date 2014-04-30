@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<style>
+
+	#tabControl {
+		background-color: #CCC;
+		width: 20px;
+		height: 40px;
+		position: relative;
+		float: left;
+		top: 65px;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+		/*box-shadow: 1px 4px 20px #333333;*/
+	}
+
+	#appWrapper {
+		height: 100%;
+		width: 780px;
+		z-index: 100000;
+		/*position: fixed;*/
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		color: black;
+		text-align: left;
+		margin: 0px;
+		overflow: hidden;
+		/*-webkit-transition: all 5s ease-in-out;*/
+	}
+
+	#detailsPanel {
+		position: absolute;
+		/*float: left;*/
+		right: -240px;
+		height: 100%;
+		width: 520px;
+		-webkit-transition: right 1s ease;			
+
+	}
+
+	#profileDetails {
+		width: 500px;
+		height: 100%;
+		overflow-y:auto;
+		background-color: rgba(200,200,200,0.9);
+		position: relative;
+		float: left;
+		padding: 10px;
+		box-sizing: border-box;
+/*		visibility: hidden;*/
+
+
+	}
+
+	#sidebar {
+		color: #DBDBDB;
+		background-color: #343838;
+		/*position: relative;*/
+		position: absolute;
+		/*float: right;*/
+		right: 0px;
+		top: 0px;
+		width: 260px;
+		height: inherit;
+		font-family: "Open Sans", Helvetica, Arial, sans-serif;
+		font-size: 13px;
+		line-height: 1.4em;
+		border-left: 1px solid #666666;
+		-webkit-transition: right 1s ease;
+	}
+
+	#test {
+		background: red;
+	}
+	#test:hover {
+		background: green;
+	}
+	#test:active {
+		background: blue;
+	}
+	#test:target {
+		background: black;
+	}
+
+	.test {
+		/*transition-property duration timing-function,*/
+		background-color: blue;
+		transition: all 2s, font-size 2s ease-out;
+	}
+	.test:hover {
+		background-color: red;
+		right: -260px;
+	}
+	.test:active {
+		font-size: 200%;
+	}
+
+	.open {
+
+	}
+</style>
+
+</head>
+<body>
+
+<div id="appWrapper">
+
+	<div id="detailsPanel">
+		<div id="tabControl">
+		</div>
+		<div id="profileDetails">
+			<a href='#test'>activate</a>
+			<a href='#'>deactivate</a>
+		</div>
+	</div>
+	
+	<div id="sidebar" >
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+<!-- <script src="./lib/jquery-1.11.0.min.js"></script> -->
+<script>
+
+	function openSidepage() {  
+		  	console.log('opening sidebar...');
+		  // 	$('#sidebar').animate({  
+			 //  right: '0px'  
+			 // }, 400, 'linear');
+		  // 	$('#detailsPanel').animate({
+		  // 		right: '-240px'
+		  // 	}, 400, 'linear'); 
+		$('#sidebar').css('right', '0px');
+		$('#detailsPanel').css('right', '-240px');
+	}  
+	  
+	function closeSidepage(){  
+		console.log('closing sidebar...');
+		  // 	$('#sidebar').animate({  
+			 //  right: '-265px'  
+			 // }, 400, 'linear');
+		  // 	$('#detailsPanel').animate({
+		  // 		right: '-500px'
+		  // 	}, 400, 'linear');
+		$('#sidebar').css('right', '-261px');
+		$('#detailsPanel').css('right', '-500px');
+	} 
+
+	function closeDetailsPanel(){
+		console.log('closing details panel....');
+	  // 	$('#detailsPanel').animate({  
+		 //  right: '-240px'  
+		 // }, 400, 'linear');
+		$('#detailsPanel').css('right', '-240px');
+
+	}
+
+	function openDetailsPanel(){
+		// console.log('div clicked');
+		// $('#detailsPanel').animate({
+		// 	right: '260px'
+		//   	}, 400, 'linear');
+		$('#detailsPanel').css('right', '260px');
+	}
+	
+	$("#tabControl").on("click", function(e){  
+	 		e.preventDefault();  
+	   
+		  var panelShowing = $('#detailsPanel').css('right') == '260px' ? true : false;
+		  var sidebarShowing = $('#sidebar').css('right') == "0px" ? true : false;  
+		    
+		  if(panelShowing){
+		  	//close panel 
+		  	closeDetailsPanel();
+		  }
+		  else if (sidebarShowing) {
+		  	//close sidebar
+		  	closeSidepage();
+		  }
+		  else {
+		  	//open sidebar
+		  	openSidepage();
+
+		  }
+		  return false;
+	}); 
+
+	$('#sidebar').click(function(){
+		openDetailsPanel();
+	})
+
+
+</script>
+</body>
+</html>

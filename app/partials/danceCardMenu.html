@@ -7,11 +7,15 @@
 		border-radius: 50%;
 	}
 
+	.drag-over-accept {
+		background-color: white;
+	}
+
 </style>
 <div>
-	<div id="dance-card-preview">
-		<div class="horizontal-line">
-		</div>
+	<div class="horizontal-line">
+	</div>
+	<div id="dance-card-preview" drop="onDrop($data, $event)" drop-effect="copy" drop-accept="'json/custom-object'" drag-over-class="drag-over-accept">
 		<!--<h3>Your Dance Card</h3>-->
 
 		<div ng-repeat="person in dancecard" 

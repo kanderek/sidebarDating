@@ -50,6 +50,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 var sidebarApp = angular.module('sidebarDatingExt',[
   'vr.directives.slider',
   'angular-carousel',
+  'ngAnimate',
+  'draganddrop',
   'angularFileUpload',
   'ui.router',
   'appControllers',
@@ -1485,6 +1487,18 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
       $scope.conversation.push(data);
     });
 
+    $scope.onDrop = function (data, event) {
+      console.log('item dropped...');
+      console.log(data);
+      console.log(event);
+      // Get custom object data.
+      // var customObjectData = data['json/custom-object']; // {foo: 'bar'}
+
+      // Get other attached data.
+      // var uriList = data['text/uri-list']; // http://mywebsite.com/..
+
+      // ...
+    };
 
     $scope.$on('dancecard-update', function(event){
       $scope.dancecard = DancecardService.dancecard;
