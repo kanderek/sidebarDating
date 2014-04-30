@@ -1589,6 +1589,16 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
         return ($scope.dancecard[i].mutual);
       }
 
+      $scope.isNotPlaceholder = function(i){
+        console.log('isnotplaceholder?');
+        console.log($scope.dancecard[i].userid);
+        return ($scope.dancecard[i].userid != -1);
+      }
+
+      $scope.test = function(){
+        return true;
+      }
+
     $scope.conversation = [];
     $scope.showShortProfile = false;
     $scope.selectedProfile = -1;
@@ -1803,6 +1813,8 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
       //listen for "remove-person" channel 
       //onoly do stuff with that channel
 
+        console.log(event);
+        console.log(channel);
         if(channel == 'remove-person'){
           $scope.$apply(function(){
                 $scope.showRemove = true;
@@ -1832,12 +1844,17 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
 
     function removeFromDancecard(user){
 
-      if(Profile.selectedProfile.userid == user.userid){
-          UiState.showDetailsPanel = false;
-      }
-            // $state.go('main.profileList');
-      Profile.selectedForRemoval = user;
-       $state.go('main.removeSurvey');
+      if(user.userid != -1){
+        if(Profile.selectedProfile.userid == user.userid){
+            UiState.showDetailsPanel = false;
+        }
+              // $state.go('main.profileList');
+        Profile.selectedForRemoval = user;
+         $state.go('main.removeSurvey');
+       }
+       else{
+        console.log('cannot remove placeholder user...');
+       }
     };
 
 
