@@ -1,13 +1,48 @@
 
 <style>
-	#drop-zone {
-		width: 100%;
-		height: 50px;
-		background-color: black;
-		color: white;
-	}
 	.drag-over-accept {
 		background-color: gray;
+	}
+
+	[draggable] {
+	  -moz-user-select: none;
+	  -khtml-user-select: none;
+	  -webkit-user-select: none;
+	  user-select: none;
+	  /* Required to make elements draggable in old WebKit */
+	  -khtml-user-drag: element;
+	  -webkit-user-drag: element;
+	}
+
+	#profileList {
+		width: 100%;
+		overflow: visible;
+		position: relative;
+	}
+
+	.select-indicator-wrapper {
+		position: absolute;
+		/*position: relative;*/
+		/*float: left;*/
+		top: 0px;
+		left: -10px;
+		width: 20px;
+		height: 100%;
+		/*height: 100px;*/
+		/*overflow: auto;*/
+		/*z-index: 10000000;*/
+		/*background-color: white;*/
+	}
+
+	.select-indicator {
+		position: absolute;
+		right: 7px;
+		top: 18px;/*starting at 18, next at 72 (18+54)*/
+		width: 14px;
+		height: 14px;
+		visibility: hidden;
+		/*background-color: rgb(0,100,0, 0.7);*/
+		-webkit-transition: all 0.5s ease;
 	}
 </style>
 
@@ -16,16 +51,15 @@
 	<!--<h3>People also interested in ....</h3>-->
 	<h5>People who also visited this page</h5>
 
-	<div id="profileList" 
-		ng-repeat="profile in profiles" 
-		ng-click="selectOnly($index)"
-		ng-class="{'isSelected': ifSelected($index)}">
+	<div id="profileList" >
 
 		<div class="profile" 
+			ng-repeat="profile in profiles" 
+			ng-click="selectOnly($index)"
+			ng-class="{'isSelected': ifSelected($index)}"
 			 ui-draggable="true"
 			 drag="profile"
 			 >
-
 
 		<!-- 	 draggable="true" 
 			 draggable-type="custom-object" 
@@ -38,6 +72,15 @@
 				<span class-"personal-blurb">{{profile.personal_blurb}}</span>
 			</p>
 		</div>
+
+		<div class="select-indicator-wrapper">
+			<div class="select-indicator">
+				<svg height="14" width="14">
+				  <polygon points="0,0 0,14 14,7" style="fill:rgba(200,200,200,0.9);" />
+				</svg>
+			</div>
+		</div>
 	</div>
 </div>
+
 

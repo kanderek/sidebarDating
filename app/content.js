@@ -50,6 +50,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 /* Angular-specific code goes here (i.e. defining and configuring
  * modules, directives, services, filters, etc.) */
 
+var SIDEBAR_ANIMATION = 1000;
+var DETAILS_ANIMATION = 1000;
+var SELECT_ANIMATION = 500;
+
 var sidebarApp = angular.module('sidebarDatingExt',[
   'vr.directives.slider',
   'angular-carousel',
@@ -200,6 +204,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
 
 
         console.log("i'm in config for the app");
+
   }]);
 
 /********************************************************************************************************
@@ -268,7 +273,11 @@ appDirectives.directive('treeMap', function(){
               // .on("mouseover", function(d){ console.log(d.parent.name)})
               .on("mouseover", function(d){
                 console.log("moused over cell...");
-                return tooltip.style("visibility", "visible").text(d.parent.name);
+                var tooltipText = "";
+                if(d.parent){
+                  tooltipText = d.parent.name;
+                }
+                return tooltip.style("visibility", "visible").text(tooltipText);
               })
               .on("mousemove", function(){
                 console.log(d3.event.pageX + ", " + d3.event.pageY);
@@ -290,24 +299,14 @@ appDirectives.directive('treeMap', function(){
 
     },
     controller: function($scope){
-      console.log('in treemap directive controller');
-      console.log($scope.data);
+      // console.log('in treemap directive controller');
+      // console.log($scope.data);
 
       $scope.$watch('data', function(data) {
         // console.log('watching in directive...');
-        console.log(data);
+        // console.log(data);
         $scope.data = data;
       })
-       // $scope.$on('profile-selected', function(event){
-
-       //    $scope.profile = Profile;
-       //    console.log('in profiledetail ctrl...checking select userid');
-       //    console.log($scope.profile.selectedProfile.userid);
-       //    console.log(Profile);
-       //     InterestService.usersTreemap(Profile.selectedProfile.userid, function(data){
-       //         $scope.treemapData  = data;
-       //      });
-       //  });
     }
   };
 });
@@ -328,30 +327,120 @@ var appServices = angular.module('appServices', ['ngResource']);
 /*******************************************************************************************************
 Ui State Service  */
 
-appServices.factory('UiState', function(){
+appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profile){
 
   var uiStateService = {};
-
-  // uiStateService.pageProfiles = {};
-  // uiStateService.selectedProfile = {};
-  // uiStateService.selfProfile = {};
-
-  //uiStateService.selfUserId;//0 for static data 
-
-  // uiStateService.dancecard = {};
 
   uiStateService.previousState;
   uiStateService.showSidebar = false;
   uiStateService.showDetailsPanel = false;
-  uiStateService.starup = false;
+  uiStateService.startup = false;
   uiStateService.shutdown = false;
+  uiStateService.isAnimating = false;
+
+  uiStateService.openDetailsPanel = function(userToSelect){
+    if(!uiStateService.showDetailsPanel){
+      if(!uiStateService.isAnimating){
+        Profile.selectedProfile = userToSelect;
+        uiStateService.isAnimating = true;
+        uiStateService.showDetailsPanel = true;
+        var wait = DETAILS_ANIMATION;
+
+          $timeout(function(){
+                $('.select-indicator').css('visibility', 'visible');
+                $('.select-indicator').css('right', '0px');         
+            }, DETAILS_ANIMATION);
+        //if opening after selecting profile from list
+        // start show select indicator animation
+        wait += SELECT_ANIMATION
+
+        $timeout(function(){
+          uiStateService.isAnimating = false;
+        }, wait);
+        return true; //go ahead and do what you were going to do
+      }
+      else{
+        return false; //don't do it, animation is still happening
+      }
+    }
+  }
+
+  uiStateService.closeDetailsPanel = function(userToSelect){
+    if(uiStateService.showDetailsPanel){
+      if(!uiStateService.isAnimating){
+        uiStateService.isAnimating = true;
+        var wait = 0;
+        
+        //if closing  from profile list
+        // start hide select indicator animation
+        wait += SELECT_ANIMATION
+        wait += DETAILS_ANIMATION;
+
+        //close details panel
+        $('.select-indicator').css('visibility', 'hidden');
+        $('.select-indicator').css('right', '7px');  
+        $timeout(function(){
+            uiStateService.showDetailsPanel = false;
+        }, SELECT_ANIMATION);
+
+        $timeout(function(){
+          uiStateService.isAnimating = false;
+          Profile.selectedProfile = userToSelect;
+          return true; //go ahead and do what you were going to do
+        }, wait);
+        
+      }
+      else{
+        return false; //don't do it, animation is still happening
+      }
+    }
+    return true;
+  }
+
+  uiStateService.openSidebar = function(){
+    if(!uiStateService.showSidebar){
+      if(!uiStateService.isAnimating){
+        uiStateService.isAnimating = true;
+        var wait = SIDEBAR_ANIMATION;
+        
+        uiStateService.showSidebar = true;
+        $timeout(function(){
+          uiStateService.isAnimating = false;
+          return true; //go ahead and do what you were going to do
+        }, wait);
+      }
+      else{
+        return false; //don't do it, animation is still happening
+      }
+    }
+    return true;
+  }
+
+  uiStateService.closeSidebar = function(){
+    if(uiStateService.showSidebar){
+      if(!uiStateService.isAnimating){
+        uiStateService.isAnimating = true;
+        var wait = SIDEBAR_ANIMATION;
+        
+        uiStateService.showSidebar = false;
+        $timeout(function(){
+          uiStateService.isAnimating = false;
+          return true; //go ahead and do what you were going to do
+        }, wait);
+      }
+      else{
+        return false; //don't do it, animation is still happening
+      }
+    }
+    return true;
+  }
+
 
   return uiStateService;
-});
+}]);
 
 /*******************************************************************************************************
 Socket IO Wrapper Service  */
-
 
 appServices.factory('Socket', function ($rootScope) {
   var socket = io.connect('http://localhost:3000');
@@ -768,6 +857,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     profileFactory.selectedProfile = {};
     profileFactory.selfProfile = {};
     profileFactory.selectedForRemoval = {};
+    profileFactory.previousProfile = {};
 
     profileFactory.initializeProfile = function(user, url){
       if(typeof(user) == 'object'){
@@ -1417,8 +1507,8 @@ appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiSta
 /*******************************************************************************************************
 TopMenuCtrl Controller  */
 
-appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiState', 'Socket', 'Profile', 'NotificationService', 'DancecardService',
-  function($rootScope, $scope, $state, UiState, Socket, Profile, NotificationService, DancecardService) {
+appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$timeout', 'UiState', 'Socket', 'Profile', 'NotificationService', 'DancecardService',
+  function($rootScope, $scope, $state, $timeout, UiState, Socket, Profile, NotificationService, DancecardService) {
 
   $scope.username = Profile.selfProfile.username;
   $scope.ns = NotificationService;
@@ -1460,11 +1550,31 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiSt
   }
 
   $scope.goToProfile = function(){
+      $('.select-indicator').css('visibility', 'hidden');
+      $('.select-indicator').css('right', '7px'); 
+      
       if(Profile.selectedProfile != Profile.selfProfile){
         Profile.selectedProfile = Profile.selfProfile;
         $rootScope.$broadcast('profile-selected');
       }
-      UiState.showDetailsPanel = true;
+
+      $scope.$watch('UiState.isAnimating', function (newVal, oldVal, scope) {
+        console.log('isAnimating...?');
+          console.log(UiState.isAnimating);
+          console.log(newVal);
+        if(!UiState.isAnimating) { 
+          UiState.showDetailsPanel = true;
+          UiState.isAnimating = true;
+          $timeout(function(){
+            UiState.isAnimating = false;
+          }, DETAILS_ANIMATION);
+        }
+      });
+      
+
+      console.log('self profile selected...previous profile?');
+          console.log(Profile.previousProfile);
+      Profile.previousProfile = {userid: Profile.selfProfile.userid, origin: 'self'};
     }
 
   $scope.goToNotifications = function(){
@@ -1479,8 +1589,8 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', 'UiSt
 /*******************************************************************************************************
 Dancecard Controller  */
 
-appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'UiState', 'MessageService', 'DancecardService', 'Socket', 'Profile',
-  function($rootScope, $scope, $state, UiState, MessageService, DancecardService, Socket, Profile) {
+appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$timeout', 'UiState', 'MessageService', 'DancecardService', 'Socket', 'Profile',
+  function($rootScope, $scope, $state, $timeout, UiState, MessageService, DancecardService, Socket, Profile) {
     
     // DancecardService.getStaticDancecard(function(data){
     //     $scope.danceCard = data;
@@ -1535,6 +1645,9 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
       }
 
       if(status == 'added'){
+        //remove list select indicator when selecting person from dancecard
+            $('.select-indicator').css('visibility', 'hidden');
+            $('.select-indicator').css('right', '7px'); 
          DancecardService.updateDancecard(data, Profile.selectedProfile);
       }
 
@@ -1555,6 +1668,11 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
 
 
     $scope.selectOnly = function(i){
+
+            //remove list select indicator when selecting person from dancecard
+            $('.select-indicator').css('visibility', 'hidden');
+            $('.select-indicator').css('right', '7px'); 
+        
         if($scope.dancecard[i].userid != -1){
           Profile.selectedProfile = $scope.dancecard[i];
           $scope.selectedProfile = $scope.dancecard[i];
@@ -1565,6 +1683,9 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
             //MessageService.getMessageByuserid(UiState.selectedProfile.userid);
             getConversation(Profile.selectedProfile.userid);
           }
+          console.log('dancecard profile selected...previous profile?');
+          console.log(Profile.previousProfile);
+          Profile.previousProfile = {userid: $scope.dancecard[i].userid, origin: 'dancecard'};
         }
       }
 
@@ -1578,7 +1699,8 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
       }
 
       $scope.showDetailedProfile = function(){
-        UiState.showDetailsPanel = true;
+        // UiState.showDetailsPanel = true;
+        UiState.openDetailsPanel();
       }
 
       $scope.ifSelected = function(){
@@ -1608,8 +1730,8 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', 'Ui
 /*******************************************************************************************************
 Profile List Controller  */
 
-appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', 'Profile', 'UiState',
-  function($scope, $rootScope, Profile, UiState) {
+appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', '$timeout', 'Profile', 'UiState',
+  function($scope, $rootScope, $timeout, Profile, UiState) {
 
     $scope.profiles = Profile.pageProfiles;
     
@@ -1618,9 +1740,21 @@ appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', 'Profile',
     });
 
     $scope.selectOnly = function(i){
-      UiState.showDetailsPanel = true;
-      Profile.selectedProfile = $scope.profiles[i];
-      $rootScope.$broadcast('profile-selected');
+
+      console.log('list profile selected...previous profile?');
+      console.log(Profile.previousProfile);
+      if($scope.profiles[i].userid != Profile.previousProfile.userid /*&& Profile.previousProfile.origin == 'list'*/){
+        //toggleSelect;
+        toggleSelect(i);
+        // Profile.previousProfile = {userid: $scope.profiles[i].userid, origin: 'list'};
+      }
+      else {
+        //toggleDeselect;
+        toggleDeselect();
+        Profile.previousProfile = {};
+      }
+
+      
     }
 
     $scope.ifSelected = function(i){
@@ -1628,11 +1762,55 @@ appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', 'Profile',
     }
 
     // $scope.orderProp = 'username'; does not sort UiState.pageProfiles so indexes are out of sync, don't use for now.
+    function toggleSelect(i){
+      var delay;
+      // if(!UiState.isAnimating){
+      //   if(!UiState.showDetailPanel){
+      //     delay = DETAILS_ANIMATION;
+      //   }
+      //   else{
+      //     delay = 0;
+        // }
+             //move indicator into sidebar after details panel opens
+            //  $timeout(function(){
+            //     $('.select-indicator').css('visibility', 'visible');
+            //     $('.select-indicator').css('right', '0px');         
+            // }, delay);
+            
+            // UiState.showDetailsPanel = true; 
+            $('.select-indicator').css('top', function(){
+              return 18 + 58*i + 'px';
+            });
+          UiState.openDetailsPanel($scope.profiles[i]);
+          // if(!UiState.isAnimating){
+            Profile.selectedProfile = $scope.profiles[i];
+            $rootScope.$broadcast('profile-selected');
+            Profile.previousProfile = {userid: $scope.profiles[i].userid, origin: 'list'};
+          // }
+      // }
+    }
+
+    function toggleDeselect(){
+           
+           UiState.closeDetailsPanel(Profile.selfProfile)
+              // Profile.selectedProfile = Profile.selfProfile;
+      
+           //close detail panel after moving select indicator out of sidebar panel
+           // $('.select-indicator').css('right', '7px');
+           // $('.select-indicator').css('visibility', 'hidden');
+                  
+           //  $timeout(function(){
+           //      UiState.showDetailsPanel = false; 
+           //      $timeout(function(){
+           //        Profile.selectedProfile = Profile.selfProfile;    
+           //      }, DETAILS_ANIMATION);  
+           //  }, SELECT_ANIMATION); 
+    }
 
   }]);
 
 /*******************************************************************************************************
-Profile List Controller  */
+Remove surveyController  */
 
 appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'UiState', 'DancecardService',
   function($scope, $state, Profile, UiState, DancecardService) {
@@ -1754,15 +1932,15 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
     var arrowRightIconURL = chrome.extension.getURL("icons/icon_22997/icon_22997.png");
 
     $scope.uiState = UiState;
-    $scope.uiState.showSidebar = false;
-    $scope.uiState.showDetailsPanel = false;
-
+    // $scope.uiState.showSidebar = false;
+    // $scope.uiState.showDetailsPanel = false;
 
     $timeout(function(){
-      $scope.uiState.startup = true;
+      UiState.startup = true;
       $scope.uiState.showSidebar = true;
       $scope.uiState.showDetailsPanel = false;
-
+      // UiState.openSidebar();
+      // UiState.openDetailsPanel();
     }, 100);
 
     chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
@@ -1775,6 +1953,13 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
             $scope.uiState.showDetailsPanel = false;
             $scope.uiState.startup = false;
           });
+          chrome.runtime.onMessage.removeListener(arguments.callee);
+          // UiState.startup = false;
+          // UiState.showDetailsPanel = false;
+          // UiState.showSidebar = false;
+          // UiState.closeDetailsPanel();
+          // UiState.closeSidebar();
+          console.log($scope.uiState);
           break;
       }
     });
@@ -1788,19 +1973,20 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
     $scope.tabAction = function(){
       // console.log($scope.uiState.tabIconUrl);
       console.log($scope.uiState.showSidebar);
-      console.log($scope.ui)
-      if($scope.uiState.showSidebar){
-        if($scope.uiState.showDetailsPanel){
-          $scope.uiState.showDetailsPanel = false;
+      console.log($scope.uiState.showDetailsPanel);
+      if($scope.uiState.showSidebar){//if sidebar is open
+        if($scope.uiState.showDetailsPanel){//if details panel is open
+            UiState.closeDetailsPanel();//close details panel
         }
         else{
-          $scope.uiState.showSidebar = false;
+          UiState.closeSidebar();
+          // $scope.uiState.showSidebar = false;
           //$scope.uiState.tabIconUrl = arrowLeftIconURL;
           $("#arrow-icon").attr("src", arrowLeftIconURL);
         }
       }
       else{
-        $scope.uiState.showSidebar = true;
+        UiState.openSidebar();
         $("#arrow-icon").attr("src", arrowRightIconURL);
 
       }

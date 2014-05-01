@@ -1,6 +1,6 @@
 
 var tabStatus = [/*{tabID: 0, status: false}*/];
-
+var isAnimating = false;
 
 var initializeTabStatus = function(tabID){
   return tabStatus.push({tabID: tabID, status: false}) - 1;
@@ -57,13 +57,25 @@ var setBrowserActionIcon = function(status){
 }
 
 var callBrowserAction = function(tab, status){
-  if(status){
-    openSidebar(tab);
+  if(!isAnimating){
+    if(status){
+      waitForAnimation();
+      openSidebar(tab);
+      chrome.browserAction.setIcon({path: "./icons/19x19_heart.png"});
+    }
+    else{
+      waitForAnimation();
+      closeSidebar(tab);
+      chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
+    }
   }
-  else{
-    closeSidebar(tab);
-  }
+}
 
+var waitForAnimation = function(){
+  isAnimating = true;
+  setTimeout(function(){
+    isAnimating = false;
+  }, 1000);
 }
 
 var isBrowserActionActive = function(tabID){
@@ -86,14 +98,14 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 
 
 chrome.tabs.onCreated.addListener(function (tab){
-	console.log("tab created:");
+	console.log("tab created: " + tab.id);
 	//console.log(tab);
   initializeTabStatus(tab.id);
 });
 
 
 chrome.tabs.onActivated.addListener(function (activeInfo){
-  console.log('tab activated');
+  console.log('tab activated: ' + activeInfo.tabId);
   var index = getTabStatusIndex(activeInfo.tabId);
   if(index == -1){
     index = initializeTabStatus(activeInfo.tabId);
@@ -103,18 +115,27 @@ chrome.tabs.onActivated.addListener(function (activeInfo){
 
 
 chrome.tabs.onRemoved.addListener(function (tabID, removeInfo){
-  console.log('tab removed');
+  console.log('tab removed: ' + tabID);
   removeTabStatus(tabID);
 });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 	
-  console.log('tab updated');
+  console.log('tab updated: ' + tabId);
   console.log(changeInfo);
 
   var index = getTabStatusIndex(tabId);
 	if(changeInfo.status == "complete"){
-    callBrowserAction(tab, tabStatus[index].status);
+    console.log('index on updated complete: ' + index);
+    if(index == -1){
+      index = initializeTabStatus(tabId);
+      console.log(index);
+      // tabStatus[index].status = true;
+      // callBrowserAction(tab, tabStatus[index].status);
+    }
+    else{
+      // callBrowserAction(tab, tabStatus[index].status);
+    }
 	}
   else if(changeInfo.status == "loading" && changeInfo.url){
     resetTabStatus(tabId);
@@ -134,7 +155,8 @@ var openSidebar = function(tab){
 
 var closeSidebar = function(tab){
   chrome.tabs.sendMessage(tab.id, {type: "close-sidebar", data: {url: tab.url, page_title: tab.title}});
-  // setting a badge
+  console.log('closing Sidebar...activated from background');
+    // setting a badge
   //chrome.browserAction.setBadgeText({text: "red!"});
 }
 
