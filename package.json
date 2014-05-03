@@ -28,7 +28,6 @@
   "dependencies": {
     "express": "3.1.x",
     "pg": "3.0.x",
-    "nodemon": "1.0.x",
     "connect-pgclient": "~0.3.0",
     "moment": "~2.6.0",
     "passport": "~0.2.0",
@@ -47,7 +46,6 @@
     "grunt": "~0.4.4",
     "nodemon": "1.0.x",
     "grunt-jasmine-node": "~0.2.1",
-    "karma": "~0.12.6",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-karma": "~0.8.2",
     "karma-junit-reporter": "~0.2.2",
@@ -61,6 +59,6 @@
   "bundledDependencies": [],
   "license": "MIT",
   "engines": {
-    "node": ">=0.6"
+    "node": "0.10.x"
   }
 }

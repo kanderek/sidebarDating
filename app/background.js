@@ -158,7 +158,10 @@ var closeSidebar = function(tab){
   chrome.tabs.sendMessage(tab.id, {type: "close-sidebar", data: {url: tab.url, page_title: tab.title}});
   console.log('closing Sidebar...activated from background');
     // setting a badge
-  //chrome.browserAction.setBadgeText({text: "red!"});
+
+  setTimeout(function(){
+      chrome.browserAction.setBadgeText({text: "99"});
+  },3000);  
 }
 
 chrome.runtime.onMessage.addListener(
