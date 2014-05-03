@@ -28,23 +28,25 @@ var resetTabStatus = function(tabID){
 }
 
 var toggleTabStatus = function(tab){
-  var index = getTabStatusIndex(tab.id);
-  console.log(index);
+  if(!isAnimating){
+    var index = getTabStatusIndex(tab.id);
+    console.log(index);
 
-  if(index == -1){
-    index = initializeTabStatus(tab.id);
+    if(index == -1){
+      index = initializeTabStatus(tab.id);
+    }
+    
+    if(tabStatus[index].status){
+      tabStatus[index].status = false;
+      // chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
+    }
+    else{
+      tabStatus[index].status = true;
+    }
+    
+    setBrowserActionIcon(tabStatus[index].status);
+    callBrowserAction(tab, tabStatus[index].status);
   }
-  
-  if(tabStatus[index].status){
-    tabStatus[index].status = false;
-    chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
-  }
-  else{
-    tabStatus[index].status = true;
-  }
-  
-  setBrowserActionIcon(tabStatus[index].status);
-  callBrowserAction(tab, tabStatus[index].status);
 }
 
 var setBrowserActionIcon = function(status){
@@ -57,25 +59,24 @@ var setBrowserActionIcon = function(status){
 }
 
 var callBrowserAction = function(tab, status){
-  if(!isAnimating){
+    waitForAnimation();
     if(status){
-      waitForAnimation();
+      // waitForAnimation(openSidebar, tab);
       openSidebar(tab);
-      chrome.browserAction.setIcon({path: "./icons/19x19_heart.png"});
+      // chrome.browserAction.setIcon({path: "./icons/19x19_heart.png"});
     }
     else{
-      waitForAnimation();
+      // waitForAnimation(closeSidebar, tab);
       closeSidebar(tab);
-      chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
+      // chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
     }
-  }
 }
 
 var waitForAnimation = function(){
   isAnimating = true;
   setTimeout(function(){
     isAnimating = false;
-  }, 1000);
+  }, 500);
 }
 
 var isBrowserActionActive = function(tabID){

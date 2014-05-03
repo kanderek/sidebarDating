@@ -40,8 +40,8 @@
 
 		<div class="profile" 
 			 ng-click="showDetailedProfile()"
-			 ng-show="ifSelected()"
-			 ng-class="{'isSelected': ifSelected()}":>
+			 ng-show="uiState.showShortProfile"><!--
+			 ng-class="{'isSelected': ifSelected()}":> -->
 			<p>
 				<span class="name">{{selectedProfile.username}}</span></br>
 				<span class-"personal-blurb">{{selectedProfile.personal_blurb}}</span>

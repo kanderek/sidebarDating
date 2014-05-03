@@ -35,7 +35,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       setTimeout(function(){
           $('#injected-content').remove();
           console.log('sidebar closed');
-      }, 1000);
+      }, 500);
 			break;
 	}
 });
@@ -245,6 +245,7 @@ appDirectives.directive('treeMap', function(){
           .style("z-index", "100000")
           .style("visibility", "hidden")
           .style("background-color", "white")
+          .style("padding", "5px")
 
         var canvas = d3.select(element[0]).append("div")
             .style("width", w + "px")
@@ -275,8 +276,8 @@ appDirectives.directive('treeMap', function(){
                 console.log("moused over cell...");
                 var tooltipText = "";
                 if(d.parent){
-                  tooltipText = d.parent.name;
-                }
+                  tooltipText = d.parent.name  + ', ' + d.name;
+                } 
                 return tooltip.style("visibility", "visible").text(tooltipText);
               })
               .on("mousemove", function(){
@@ -329,110 +330,92 @@ Ui State Service  */
 
 appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profile){
 
+  var dom = {
+            select: $( "#select-indicator" ),
+            details: $( "#detailsWrapper" ),
+            sidebar: $( "#sidebar" ),
+        };
+  var detailsPanel = document.getElementById('detailsWrapper');
+  var detailsContent = document.getElementById('detailsContent');
+  var sidebar = document.getElementById('sidebar');
+
+  detailsPanel.addEventListener("webkitAnimationEnd", 
+    function(event){
+      //only happens if transition finishes
+      console.log(event.animationName);
+      if(event.animationName == "openDetails"){
+        console.log('should do something...');
+        $( "#select-indicator" ).removeClass('init-indicator').removeClass('remove-indicator').addClass('apply-indicator')
+      }
+    }, false);
+
+  console.log(detailsPanel);
+  console.log(detailsContent);
+  detailsContent.addEventListener('webkitTransitionEnd', 
+    function(event){
+      $('#detailsContent').css('opacity', 1.0);
+    },false);
+
+
   var uiStateService = {};
 
   uiStateService.previousState;
-  uiStateService.showSidebar = false;
+  uiStateService.showSidebar = true;
   uiStateService.showDetailsPanel = false;
-  uiStateService.startup = false;
-  uiStateService.shutdown = false;
-  uiStateService.isAnimating = false;
+  uiStateService.showShortProfile = false;
 
-  uiStateService.openDetailsPanel = function(userToSelect){
-    if(!uiStateService.showDetailsPanel){
-      if(!uiStateService.isAnimating){
-        Profile.selectedProfile = userToSelect;
-        uiStateService.isAnimating = true;
-        uiStateService.showDetailsPanel = true;
-        var wait = DETAILS_ANIMATION;
-
-          $timeout(function(){
-                $('.select-indicator').css('visibility', 'visible');
-                $('.select-indicator').css('right', '0px');         
-            }, DETAILS_ANIMATION);
-        //if opening after selecting profile from list
-        // start show select indicator animation
-        wait += SELECT_ANIMATION
-
-        $timeout(function(){
-          uiStateService.isAnimating = false;
-        }, wait);
-        return true; //go ahead and do what you were going to do
-      }
-      else{
-        return false; //don't do it, animation is still happening
-      }
-    }
+  uiStateService.shutdown = function(){
+    // dom.sidebar.addClass('shutdownPanel');
+    // dom.details.addClass('shutdownDetails');
+    dom.sidebar.css('-webkit-transform', 'translateX(780px)');
+    dom.details.css('-webkit-transform', 'translateX(780px)');
   }
 
-  uiStateService.closeDetailsPanel = function(userToSelect){
-    if(uiStateService.showDetailsPanel){
-      if(!uiStateService.isAnimating){
-        uiStateService.isAnimating = true;
-        var wait = 0;
-        
-        //if closing  from profile list
-        // start hide select indicator animation
-        wait += SELECT_ANIMATION
-        wait += DETAILS_ANIMATION;
+  uiStateService.resetSelectIndicator = function(){
+    $('#select-indicator').removeClass().addClass('apply-indicator');
+  }
 
-        //close details panel
-        $('.select-indicator').css('visibility', 'hidden');
-        $('.select-indicator').css('right', '7px');  
-        $timeout(function(){
-            uiStateService.showDetailsPanel = false;
-        }, SELECT_ANIMATION);
+  uiStateService.selectTransition = function(){
+      $('#detailsContent').css('opacity', 0);
+  }
 
-        $timeout(function(){
-          uiStateService.isAnimating = false;
-          Profile.selectedProfile = userToSelect;
-          return true; //go ahead and do what you were going to do
-        }, wait);
-        
-      }
-      else{
-        return false; //don't do it, animation is still happening
-      }
-    }
-    return true;
+  uiStateService.selectProfile = function(user, from){
+    // uiStateService.selectTransition();
+    uiStateService.showShortProfile = false;
+   if( $('#select-indicator').hasClass('init-indicator') && uiStateService.showDetailsPanel){
+    uiStateService.resetSelectIndicator();
+   }
+    return Profile.selectProfile(user,from);
+  }
+
+  uiStateService.openDetailsPanel = function(){
+    console.log('opendetailspanel called');
+    uiStateService.showDetailsPanel = true;
+    dom.details.removeClass('initDetails').removeClass('closeDetails').addClass('openDetails');
+  }
+
+uiStateService.closeDetailsPanel = function(){
+console.log('closedetailspanel called');
+    uiStateService.showDetailsPanel = false;
+   var select = $('#select-indicator');
+   if(select[0]){
+     select.removeClass('apply-indicator').addClass('remove-indicator');
+   }
+   else{
+     dom.details.removeClass('openDetails').addClass('closeDetails');
+   }
   }
 
   uiStateService.openSidebar = function(){
-    if(!uiStateService.showSidebar){
-      if(!uiStateService.isAnimating){
-        uiStateService.isAnimating = true;
-        var wait = SIDEBAR_ANIMATION;
-        
-        uiStateService.showSidebar = true;
-        $timeout(function(){
-          uiStateService.isAnimating = false;
-          return true; //go ahead and do what you were going to do
-        }, wait);
-      }
-      else{
-        return false; //don't do it, animation is still happening
-      }
-    }
-    return true;
+    uiStateService.showSidebar = true;
+    dom.sidebar.removeClass('initPanel').removeClass('closePanel').addClass('openPanel');
+    dom.details.removeClass('tuckDetails').addClass('revealDetails');
   }
 
   uiStateService.closeSidebar = function(){
-    if(uiStateService.showSidebar){
-      if(!uiStateService.isAnimating){
-        uiStateService.isAnimating = true;
-        var wait = SIDEBAR_ANIMATION;
-        
-        uiStateService.showSidebar = false;
-        $timeout(function(){
-          uiStateService.isAnimating = false;
-          return true; //go ahead and do what you were going to do
-        }, wait);
-      }
-      else{
-        return false; //don't do it, animation is still happening
-      }
-    }
-    return true;
+    uiStateService.showSidebar = false;
+    dom.sidebar.removeClass('initPanel').removeClass('openPanel').addClass('closePanel');
+    dom.details.removeClass('initDetails').removeClass('closeDetails').removeClass('revealDetails').addClass('tuckDetails');
   }
 
 
@@ -880,7 +863,39 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
       }
     }
 
-    profileFactory.selectUser = function() {}
+    profileFactory.isPageProfile = function(){
+
+    }
+
+    profileFactory.findIndexForPageProfileById = function(userid){
+      for(var i=0; i < profileFactory.pageProfiles.length; i++){
+        if(profileFactory.pageProfiles[i].userid == userid){
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    profileFactory.selectProfile = function(user, from) {
+      if(user.userid !== profileFactory.previousProfile.userid){
+        if(from != 'list'){
+          $('#select-indicator').css({'opacity': 0, 'top': '-15px'});
+        }
+        else{
+          var i = profileFactory.findIndexForPageProfileById(user.userid);
+          $('#select-indicator').css('top', function(){
+            return 18 + 58*i + 'px';
+          });
+          $('#select-indicator').css('opacity', '1.0');
+        }
+        profileFactory.selectedProfile = user;
+        profileFactory.previousProfile.userid = user.userid;
+        $rootScope.$broadcast('profile-selected');
+        return false;
+      }
+      profileFactory.previousProfile.userid = -1;
+      return true;
+    }
 
     profileFactory.removeFromPageProfiles = function(userid){
       for(var i=0; i<profileFactory.pageProfiles.length; i++){
@@ -1546,35 +1561,14 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
   }
 
   $scope.goBack = function(){
+    UiState.showShortProfile = false;
     $state.go('main.profileList');
   }
 
   $scope.goToProfile = function(){
-      $('.select-indicator').css('visibility', 'hidden');
-      $('.select-indicator').css('right', '7px'); 
-      
-      if(Profile.selectedProfile != Profile.selfProfile){
-        Profile.selectedProfile = Profile.selfProfile;
-        $rootScope.$broadcast('profile-selected');
-      }
 
-      $scope.$watch('UiState.isAnimating', function (newVal, oldVal, scope) {
-        console.log('isAnimating...?');
-          console.log(UiState.isAnimating);
-          console.log(newVal);
-        if(!UiState.isAnimating) { 
-          UiState.showDetailsPanel = true;
-          UiState.isAnimating = true;
-          $timeout(function(){
-            UiState.isAnimating = false;
-          }, DETAILS_ANIMATION);
-        }
-      });
-      
+      UiState.selectProfile(Profile.selfProfile, 'self') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();  
 
-      console.log('self profile selected...previous profile?');
-          console.log(Profile.previousProfile);
-      Profile.previousProfile = {userid: Profile.selfProfile.userid, origin: 'self'};
     }
 
   $scope.goToNotifications = function(){
@@ -1616,27 +1610,6 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
 
     }
 
-    // $scope.onDropAdd = function (data, event) {
-    //   console.log('item dropped...');
-    //   console.log(data);
-    //   console.log(data['json/custom-object']);
-    //   console.log(data.userid);
-    //   console.log(event);
-    //   var userData = data['json/custom-object'];
-
-    //   Profile.selectedProfile = Profile.pageProfiles[userData.index];
-    //   updateDancecard(userData.userid, 'added');
-    //     console.log('update user after drop...');
-    //     console.log(Profile.selectedProfile);
-    //   // Get custom object data.
-    //   // var customObjectData = data['json/custom-object']; // {foo: 'bar'}
-
-    //   // Get other attached data.
-    //   // var uriList = data['text/uri-list']; // http://mywebsite.com/..
-
-    //   // ...
-    // };
-
     function updateDancecard(userid, status){
       var data = {
         userid: Profile.selfProfile.userid,
@@ -1662,30 +1635,27 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
       $scope.dancecard = DancecardService.dancecard;
     });
 
-     $scope.$on('dancecard-available', function(event){
-      $scope.dancecard = DancecardService.dancecard;
-      });
-
+   $scope.$on('dancecard-available', function(event){
+    $scope.dancecard = DancecardService.dancecard;
+   });
 
     $scope.selectOnly = function(i){
 
-            //remove list select indicator when selecting person from dancecard
-            $('.select-indicator').css('visibility', 'hidden');
-            $('.select-indicator').css('right', '7px'); 
-        
+        var closeDetails;
         if($scope.dancecard[i].userid != -1){
-          Profile.selectedProfile = $scope.dancecard[i];
           $scope.selectedProfile = $scope.dancecard[i];
-          $rootScope.$broadcast('profile-selected');
-          $scope.showShortProfile = true;
+          closeDetails = UiState.selectProfile($scope.dancecard[i], 'dancecard');
           if($scope.dancecard[i].mutual){
+            UiState.showShortProfile = true;
+            !closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();  
             $state.go('main.messages');
             //MessageService.getMessageByuserid(UiState.selectedProfile.userid);
             getConversation(Profile.selectedProfile.userid);
           }
-          console.log('dancecard profile selected...previous profile?');
-          console.log(Profile.previousProfile);
-          Profile.previousProfile = {userid: $scope.dancecard[i].userid, origin: 'dancecard'};
+          else {
+            closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();  
+            $state.go('main.profileList');
+          }
         }
       }
 
@@ -1703,8 +1673,8 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
         UiState.openDetailsPanel();
       }
 
-      $scope.ifSelected = function(){
-        return (Profile.selectedProfile.userid == $scope.selectedProfile.userid && $scope.selectedProfile != -1);
+      $scope.ifSelected = function(i){
+        return (Profile.selectedProfile.userid == $scope.dancecard[i].userid && $scope.dancecard[i].userid != -1);
       }
 
       $scope.isMutual = function(i){
@@ -1717,13 +1687,9 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
         return ($scope.dancecard[i].userid != -1);
       }
 
-      $scope.test = function(){
-        return true;
-      }
-
     $scope.conversation = [];
-    $scope.showShortProfile = false;
-    $scope.selectedProfile = -1;
+    $scope.uiState = UiState;
+    $scope.selectedProfile = {}
 
   }]);
 
@@ -1739,72 +1705,13 @@ appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', '$timeout'
       $scope.profiles = Profile.pageProfiles;
     });
 
-    $scope.selectOnly = function(i){
-
-      console.log('list profile selected...previous profile?');
-      console.log(Profile.previousProfile);
-      if($scope.profiles[i].userid != Profile.previousProfile.userid /*&& Profile.previousProfile.origin == 'list'*/){
-        //toggleSelect;
-        toggleSelect(i);
-        // Profile.previousProfile = {userid: $scope.profiles[i].userid, origin: 'list'};
-      }
-      else {
-        //toggleDeselect;
-        toggleDeselect();
-        Profile.previousProfile = {};
-      }
-
-      
-    }
-
     $scope.ifSelected = function(i){
       return (UiState.showDetailsPanel && Profile.selectedProfile.userid == $scope.profiles[i].userid);
     }
 
-    // $scope.orderProp = 'username'; does not sort UiState.pageProfiles so indexes are out of sync, don't use for now.
-    function toggleSelect(i){
-      var delay;
-      // if(!UiState.isAnimating){
-      //   if(!UiState.showDetailPanel){
-      //     delay = DETAILS_ANIMATION;
-      //   }
-      //   else{
-      //     delay = 0;
-        // }
-             //move indicator into sidebar after details panel opens
-            //  $timeout(function(){
-            //     $('.select-indicator').css('visibility', 'visible');
-            //     $('.select-indicator').css('right', '0px');         
-            // }, delay);
-            
-            // UiState.showDetailsPanel = true; 
-            $('.select-indicator').css('top', function(){
-              return 18 + 58*i + 'px';
-            });
-          UiState.openDetailsPanel($scope.profiles[i]);
-          // if(!UiState.isAnimating){
-            Profile.selectedProfile = $scope.profiles[i];
-            $rootScope.$broadcast('profile-selected');
-            Profile.previousProfile = {userid: $scope.profiles[i].userid, origin: 'list'};
-          // }
-      // }
-    }
-
-    function toggleDeselect(){
-           
-           UiState.closeDetailsPanel(Profile.selfProfile)
-              // Profile.selectedProfile = Profile.selfProfile;
+    $scope.selectOnly = function(i){
+      UiState.selectProfile($scope.profiles[i], 'list') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();  
       
-           //close detail panel after moving select indicator out of sidebar panel
-           // $('.select-indicator').css('right', '7px');
-           // $('.select-indicator').css('visibility', 'hidden');
-                  
-           //  $timeout(function(){
-           //      UiState.showDetailsPanel = false; 
-           //      $timeout(function(){
-           //        Profile.selectedProfile = Profile.selfProfile;    
-           //      }, DETAILS_ANIMATION);  
-           //  }, SELECT_ANIMATION); 
     }
 
   }]);
@@ -1935,24 +1842,37 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
     // $scope.uiState.showSidebar = false;
     // $scope.uiState.showDetailsPanel = false;
 
-    $timeout(function(){
-      UiState.startup = true;
-      $scope.uiState.showSidebar = true;
-      $scope.uiState.showDetailsPanel = false;
-      // UiState.openSidebar();
-      // UiState.openDetailsPanel();
-    }, 100);
+    // $timeout(function(){
+    //   UiState.startup = true;
+    //   $scope.uiState.showSidebar = true;
+    //   $scope.uiState.showDetailsPanel = false;
+    //   // UiState.openSidebar();
+    //   // UiState.openDetailsPanel();
+    // }, 100);
 
     chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
       switch(message.type) {
         case "close-sidebar":
         console.log('close message received in app...');
-          $scope.$apply(function(){
-            $scope.uiState.showSidebar = false;
-            $scope.uiState.showDetailsPanel = false;
-            $scope.uiState.startup = false;
-          });
+          // $scope.$apply(function(){
+          //   $scope.uiState.showSidebar = false;
+          //   $scope.uiState.showDetailsPanel = false;
+          //   $scope.uiState.startup = false;
+          // });
+          // if(UiState.showDetailsPanel){
+          //   UiState.closeDetailsPanel();
+          //   var details = document.getElementById('detailsWrapper');
+          //   details.addEventListener('webkitAnimationEnd', 
+          //     function(e){
+          //       UiState.closeSidebar();
+          //     },false)
+          // }
+          // else{
+          //   UiState.closeSidebar();
+          // }
+
+          UiState.shutdown();
           chrome.runtime.onMessage.removeListener(arguments.callee);
           // UiState.startup = false;
           // UiState.showDetailsPanel = false;
@@ -1972,8 +1892,8 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
 
     $scope.tabAction = function(){
       // console.log($scope.uiState.tabIconUrl);
-      console.log($scope.uiState.showSidebar);
-      console.log($scope.uiState.showDetailsPanel);
+      console.log('show sidebar? ' + $scope.uiState.showSidebar);
+      console.log('show details panel? ' + $scope.uiState.showDetailsPanel);
       if($scope.uiState.showSidebar){//if sidebar is open
         if($scope.uiState.showDetailsPanel){//if details panel is open
             UiState.closeDetailsPanel();//close details panel

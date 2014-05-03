@@ -31,14 +31,46 @@
 		/*-webkit-transition: all 5s ease-in-out;*/
 	}
 
-	#detailsPanel {
+	.detailsPanel {
+		/*right: -240px;*/
+		-webkit-transform: translateX(500px);
 		position: absolute;
 		/*float: left;*/
-		right: -240px;
+		/*right: -240px;*/
 		height: 100%;
 		width: 520px;
-		-webkit-transition: right 1s ease;			
+		/*-webkit-transition: right 1s ease;			*/
+	}
 
+	.initDetails {
+		/*right: -240px;*/
+		-webkit-transform: translateX(500px);
+	}
+
+	.openDetails {
+		/*right: 260px;*/
+		-webkit-transform: translateX(0px);
+		-webkit-animation:openPanel 1s 1;
+	}
+
+	.closeDetails {
+		/*right: -240px;*/
+		-webkit-transform: translateX(500px);
+		-webkit-animation:closePanel 1s 1;
+	}
+
+	@-webkit-keyframes openPanel{
+/*	  from{right:-240px;}
+	  to{right:260px;}*/
+	  from{-webkit-transform: translateX(500px);}
+	  to{-webkit-transform: translateX(0px);}
+	}
+
+	@-webkit-keyframes closePanel{
+/*	  from{right:260px;}
+	  to{right:-240px;}*/
+	  from{-webkit-transform:translateX(0px);}
+	  to{-webkit-transform: translateX(500px);}
 	}
 
 	#profileDetails {
@@ -55,7 +87,7 @@
 
 	}
 
-	#sidebar {
+	.sidebar {
 		color: #DBDBDB;
 		background-color: #343838;
 		/*position: relative;*/
@@ -73,36 +105,6 @@
 		border-left: 1px solid #666666;
 		-webkit-transition: right 1s ease;
 		box-shadow: 2px 10px 10px black;
-	}
-
-	#test {
-		background: red;
-	}
-	#test:hover {
-		background: green;
-	}
-	#test:active {
-		background: blue;
-	}
-	#test:target {
-		background: black;
-	}
-
-	.test {
-		/*transition-property duration timing-function,*/
-		background-color: blue;
-		transition: all 2s, font-size 2s ease-out;
-	}
-	.test:hover {
-		background-color: red;
-		right: -260px;
-	}
-	.test:active {
-		font-size: 200%;
-	}
-
-	.open {
-
 	}
 
 	#top-menu {
@@ -162,15 +164,52 @@
 		/*background-color: white;*/
 	}
 
+	.init-indicator {
+		visibility: visible;
+		/*right: 7px;*/
+		-webkit-transform: translateX(-4px);
+	}
+
 	.select-indicator {
+		visibility: visible;
+		/*right: 7px;*/
+		-webkit-transform: translateX(-4px);
 		position: absolute;
-		right: 7px;
 		top: 18px;
 		width: 14px;
 		height: 14px;
-		visibility: hidden;
+/*		visibility: hidden;
+		right: 7px;*/
 		/*background-color: rgb(0,100,0, 0.7);*/
-		-webkit-transition: all 0.5s ease;
+		-webkit-transition: top 0.5s ease;
+	}
+
+	.apply-indicator {
+		visibility: visible;
+		/*right: 0px;*/
+		-webkit-transform: translateX(4px);
+		-webkit-animation:indicatorIn 0.5s 1;
+	}
+
+	.remove-indicator {
+		visibility: hidden;
+		/*right: 7px;*/
+		-webkit-transform: translateX(-4px);
+		-webkit-animation:indicatorOut 0.5s 1;
+	}
+
+	@-webkit-keyframes indicatorIn{
+	 /* from{right:7px;visibility: hidden;}
+	  to{right:0px;visibility:visible;}*/
+		from{-webkit-transform: translateX(-4px);visibility: hidden;}
+	  to{-webkit-transform: translateX(4px);visibility:visible;}
+	}
+
+	@-webkit-keyframes indicatorOut{
+	  /*from{right:0px;visibility: visible;}
+	  to{right:7px;visibility:hidden;}*/
+	  from{-webkit-transform: translateX(4px);visibility: visible;}
+	  to{-webkit-transform: translateX(-4px);visibility:hidden;}
 	}
 
 	.content {
@@ -189,7 +228,7 @@
 
 <div id="appWrapper">
 
-	<div id="detailsPanel">
+	<div class="detailsPanel"><!--  class="initDetails"> -->
 		<div id="tabControl">
 		</div>
 		<div id="profileDetails">
@@ -200,7 +239,7 @@
 		</div>
 	</div>
 	
-	<div id="sidebar" >
+	<div class="sidebar" >
 		
 		<div id="top-menu">
 		</div>
@@ -233,7 +272,7 @@
 				</p>
 			</div>
 			<div class="select-indicator-wrapper" data-index="2">
-				<div class="select-indicator">
+				<div class="select-indicator"> <!--  class="init-indicator"> -->
 					<svg height="14" width="14">
 					  <polygon points="0,0 0,14 14,7" style="fill:rgba(200,200,200,0.9);" />
 					</svg>
@@ -247,73 +286,128 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
 <!-- <script src="./lib/jquery-1.11.0.min.js"></script> -->
 <script>
+	
+	var showSidebar = true;
+	var showDetails = false;
+	var previousIndex = -1;
+
+		// $('#detailsPanel').on("webkitAnimationEnd", AnimationListener, false);
+	var detailsPanel = document.getElementById('detailsPanel');
+	// detailsPanel.addEventListener("webkitAnimationStart", function(event){ console.log(event)}, false);
+	// detailsPanel.addEventListener("webkitAnimationIteration", function(event){console.log(event)}, false);
+
+	// detailsPanel.addEventListener("webkitAnimationEnd", 
+	console.log($('.detailsPanel').parent());
+	$('.detailsPanel').bind('webkitAnimationEnd', 	
+		function(event){
+			//only happens if transition finishes
+			console.log(event);
+			if(event.animationName == "openPanel"){
+
+				$('.select-indicator').removeClass('init-indicator').removeClass('remove-indicator').addClass('apply-indicator')
+
+			}
+				// if(showDetails){
+				// 	//isOpening
+				// 	$('#select-indicator').removeClass('hide-indicator').addClass('show-indicator');
+				// }
+			
+		}, false);
+
+	var selectIndicator = document.getElementById('select-indicator');
+	// selectIndicator.addEventListener('webkitAnimationEnd',
+	$('.select-indicator').bind('webkitAnimationEnd', 
+		function(event){
+			console.log(event);
+
+			if(event.animationName == "indicatorOut"){
+				$('.detailsPanel').removeClass('openDetails').addClass('closeDetails');
+			}
+			// if(!showDetails){
+			// 	$('#detailsPanel').css('right','-240px');//close details panel
+			// 	showDetails = false;
+			// }
+	}, false);
 
 	//18px to first element
 	//18+60px to next element
 	//18 + n*60 to next elements;
 	function openSidepage() {  
 		  	console.log('opening sidebar...');
-		  // 	$('#sidebar').animate({  
-			 //  right: '0px'  
-			 // }, 400, 'linear');
-		  // 	$('#detailsPanel').animate({
-		  // 		right: '-240px'
-		  // 	}, 400, 'linear'); 
 		$('#sidebar').css('right', '0px');
 		$('#detailsPanel').css('right', '-240px');
 	}  
 	  
 	function closeSidepage(){  
 		console.log('closing sidebar...');
-		  // 	$('#sidebar').animate({  
-			 //  right: '-265px'  
-			 // }, 400, 'linear');
-		  // 	$('#detailsPanel').animate({
-		  // 		right: '-500px'
-		  // 	}, 400, 'linear');
+
 		$('#sidebar').css('right', '-261px');
 		$('#detailsPanel').css('right', '-500px');
 	} 
 
 	function closeDetailsPanel(){
 		console.log('closing details panel....');
-	  // 	$('#detailsPanel').animate({  
-		 //  right: '-240px'  
-		 // }, 400, 'linear');
-		$('#detailsPanel').css('right', '-240px');
+
+		$('#select-indicator').removeClass('show-indicator').addClass('hide-indicator');
+		// $('#detailsPanel').css('right', '-240px');
+		//after finishes animates select indicator
 
 	}
 
 	function openDetailsPanel(){
-		// console.log('div clicked');
-		// $('#detailsPanel').animate({
-		// 	right: '260px'
-		//   	}, 400, 'linear');
-		$('#detailsPanel').css('right', '260px');
+
+		$('.detailsPanel').css('right', '260px'); //happens after indicator animation finishes
+	}
+
+
+	// $('#detailsPanel').on("webkitAnimationStart", 
+	// 	function(event) {
+	// 		console.log(event);
+	// 		$('.select-indicator'.css())
+	// 	}, false);
+	// $('#detailsPanel').on("webkitAnimationIteration", AnimationListener, false);
+
+	var AnimationListener = function(event){
+		console.log(event);
 	}
 
 	$(".profile-section").each(function(index, element){
-			var data = $(this).context.dataset;//.dataset;
-			console.log(data);
+
 			$(this).on("click", index, function(e){
-				console.log(index + ": profile section clicked...");
-				$('.select-indicator').css('top', function(){
-					console.log(index);
-					return 18 + index*60 + 'px';
-				});
+				
+				if(!showDetails){
+					$('.detailsPanel').removeClass('initDetails').removeClass('closeDetails').addClass('openDetails');
+					$('.select-indicator').css('top', function(){
+						return 18 + 60*index + 'px';
+					});
+					if(previousIndex == index){
+						showDetails = true;
+					}
+				}
+				else{
+					$('.select-indicator').removeClass('apply-indicator').addClass('remove-indicator');
+					showDetails=false;
+				}
+				previousIndex = index;
 			});
 	});
 	
+	$('.detailsPanel').on('click', function(e){
+		e.preventDefault();
+		// $(this).css('right', $(this).css('right'));
+		$(this).css('right', '-240px');
+	});
+
 	$("#tabControl").on("click", function(e){  
 	 		e.preventDefault();  
 	   
-		  var panelShowing = $('#detailsPanel').css('right') == '260px' ? true : false;
-		  var sidebarShowing = $('#sidebar').css('right') == "0px" ? true : false;  
+		  var panelShowing = $('.detailsPanel').css('right') == '260px' ? true : false;
+		  var sidebarShowing = $('.sidebar').css('right') == "0px" ? true : false;  
 		    
 		  if(panelShowing){
 		  	//close panel 
-		  	$('.select-indicator').css('right', '7px');
-			$('.select-indicator').css('visibility', 'hidden');
+		 //  	$('.select-indicator').css('right', '7px');
+			// $('.select-indicator').css('visibility', 'hidden');
 			setTimeout(function(){
 				closeDetailsPanel();
 			},500);
@@ -333,14 +427,14 @@
 		  return false;
 	}); 
 
-	$('#sidebar').click(function(){
-		openDetailsPanel();
-		setTimeout(function(){
-			// $('#all-profiles').css('overflow', 'visible');
-			$('.select-indicator').css('visibility', 'visible');
-			$('.select-indicator').css('right', '0px')
-		}, 1000);
-	})
+	// $('#sidebar').click(function(){
+	// 	// openDetailsPanel();
+	// 	setTimeout(function(){
+	// 		// $('#all-profiles').css('overflow', 'visible');
+	// 		$('.select-indicator').css('visibility', 'visible');
+	// 		$('.select-indicator').css('right', '0px')
+	// 	}, 1000);
+	// })
 
 
 </script>

@@ -20,8 +20,9 @@
 		position: relative;
 	}
 
-	.select-indicator-wrapper {
+	#select-indicator-wrapper {
 		position: absolute;
+		/*overflow: hidden;*/
 		/*position: relative;*/
 		/*float: left;*/
 		top: 0px;
@@ -34,16 +35,51 @@
 		/*background-color: white;*/
 	}
 
-	.select-indicator {
+	#select-indicator {
 		position: absolute;
-		right: 7px;
-		top: 18px;/*starting at 18, next at 72 (18+54)*/
-		width: 14px;
-		height: 14px;
-		visibility: hidden;
+		/*right: 7px;*/
+		top: -20px;/*starting at 18, next at 72 (18+54)*/
+		width: 10px;
+		height: 10px;
+		/*visibility: hidden;*/
 		/*background-color: rgb(0,100,0, 0.7);*/
-		-webkit-transition: all 0.5s ease;
+		-webkit-transition: top 0.5s ease, opacity 1s linear;
 	}
+
+	.init-indicator {
+		visibility: hidden;
+		/*right: 7px;*/
+		-webkit-transform: translateX(0px);
+	}
+
+	.apply-indicator {
+		visibility: visible;
+		/*right: 0px;*/
+		-webkit-transform: translateX(8px);
+		-webkit-animation:indicatorIn 0.5s 1;
+	}
+
+	.remove-indicator {
+		visibility: hidden;
+		/*right: 7px;*/
+		-webkit-transform: translateX(0px);
+		-webkit-animation:indicatorOut 0.5s 1;
+	}
+
+	@-webkit-keyframes indicatorIn{
+	 /* from{right:7px;visibility: hidden;}
+	  to{right:0px;visibility:visible;}*/
+		from{-webkit-transform: translateX(0px);visibility: hidden;}
+	  to{-webkit-transform: translateX(8px);visibility:visible;}
+	}
+
+	@-webkit-keyframes indicatorOut{
+	  /*from{right:0px;visibility: visible;}
+	  to{right:7px;visibility:hidden;}*/
+	  from{-webkit-transform: translateX(8px);visibility: visible;}
+	  to{-webkit-transform: translateX(0px);visibility:hidden;}
+	}
+
 </style>
 
 <div class="meeting-space">
@@ -73,14 +109,26 @@
 			</p>
 		</div>
 
-		<div class="select-indicator-wrapper">
-			<div class="select-indicator">
-				<svg height="14" width="14">
-				  <polygon points="0,0 0,14 14,7" style="fill:rgba(200,200,200,0.9);" />
+		<div id="select-indicator-wrapper">
+			<div id="select-indicator" class="init-indicator">
+				<svg height="10" width="10">
+				  <polygon points="0,0 0,10 10,5" style="fill:rgba(200,200,200,0.9);" />
 				</svg>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+    var selectIndicator = document.getElementById('select-indicator');
+      selectIndicator.addEventListener('webkitAnimationEnd',
+      // $('#select-indicator').bind('webkitTransitionEnd', 
+        function(event){
+          console.log(event);
+          if(event.animationName == "indicatorOut"){
+            $('#detailsWrapper').removeClass('openDetails').addClass('closeDetails');
+          }
+      }, false);
+    
+</script>
 
 

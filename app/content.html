@@ -24,13 +24,103 @@
 		margin: 0px;
 	}
 
-	.detailsWrapper {
+	#detailsWrapper {
 		height: 100%;
 		width: 520px;
 		position: absolute;
-		right: -520px;
-		-webkit-transition: right 1s ease;	
+		/*right: 260px;*/
+		-webkit-transition: -webkit-transform 0.5s ease;	
+		/*-webkit-transition: -webkit-transform 1s ease;	*/
 	}
+
+	#detailsContent {
+
+		-webkit-transition: opacity 0.5s ease;	
+	}
+
+	.show-detailsPanel {
+		/*right: 260px;*/
+		-webkit-transform: translateX(0px);
+	}
+
+	.show-tabOnly {
+		/*right: -500px;*/
+		-webkit-transform: translateX(760px);
+		-webkit-animation:tuckDetails 1s 1;
+	}
+
+	.tuckDetails {
+		/*right: -240px;*/
+	 	-webkit-transform: translateX(760px);
+	 	-webkit-animation:tuckDetails 1s 1;
+	}
+
+	.revealDetails {
+		/*right: -240px;*/
+	 	-webkit-transform: translateX(500px);
+	 	-webkit-animation:revealDetails 1s 1;
+	}
+
+
+
+	.initDetails {
+		/*right: -240px;*/
+		-webkit-transform: translateX(500px);
+		-webkit-animation:initDetails 1s 1;
+	}
+
+	.openDetails {
+		/*right: 260px;*/
+		-webkit-transform: translateX(0px);
+		-webkit-animation:openDetails 1s 1;
+	}
+
+	.closeDetails {
+		/*right: -240px;*/
+		-webkit-transform: translateX(500px);
+		-webkit-animation:closeDetails 1s 1;
+	}
+
+	.shutdownDetails {
+		/*right: -20px;*/
+		-webkit-transform: translateX(780px);
+	}
+
+	@-webkit-keyframes initDetails{
+/*	  from{right:260px;}
+	  to{right:-240px;}*/
+	  from{-webkit-transform:translateX(780px);}
+	  to{-webkit-transform: translateX(500px);}
+	}
+
+	@-webkit-keyframes tuckDetails{
+/*	  from{right:260px;}
+	  to{right:-240px;}*/
+	  from{-webkit-transform:translateX(500px);}
+	  to{-webkit-transform: translateX(760px);}
+	}
+
+	@-webkit-keyframes revealDetails{
+/*	  from{right:260px;}
+	  to{right:-240px;}*/
+	  from{-webkit-transform:translateX(760px);}
+	  to{-webkit-transform: translateX(500px);}
+	}
+
+	@-webkit-keyframes openDetails{
+/*	  from{right:-240px;}
+	  to{right:260px;}*/
+	  from{-webkit-transform: translateX(500px);}
+	  to{-webkit-transform: translateX(0px);}
+	}
+
+	@-webkit-keyframes closeDetails{
+/*	  from{right:260px;}
+	  to{right:-240px;}*/
+	  from{-webkit-transform:translateX(0px);}
+	  to{-webkit-transform: translateX(500px);}
+	}
+
 
 	#tabControl {
 		background-color: #CCC;
@@ -54,47 +144,114 @@
 		float: left;
 		padding: 10px;
 		box-sizing: border-box;
+		/*-webkit-transition: opacity 0.3s linear;	*/
+	}
+	.on {
+		opacity: 1.0;
+		-webkit-animation:fadeIn 1s 1;
 
 	}
 
-	.sidebar {
+	.off {
+		opacity: 0.0;
+		-webkit-animation:fadeOut 1s 1;
+	}
+
+	.change {
+		/*opacity: 1.0;*/
+		-webkit-animation:fadeOutIn 1s 1;
+	}
+
+	@-webkit-keyframes fadeIn{
+/*	  from{right:260px;}
+	  to{right:-240px;}*/
+	  from{opacity: 0;}
+	  to{opacity: 1.0;}
+	}
+
+	@-webkit-keyframes fadeOutIn {
+		/*0% { opacity: 1.0;}*/
+		50% { opacity: 0; }
+		/*100% { opacity: 1.0;}*/
+	}
+
+	@-webkit-keyframes fadeOut{
+/*	  from{right:260px;}
+	  to{right:-240px;}*/
+	  from{opacity: 1.0;}
+	  to{opacity: 0;}
+	}
+
+	#sidebar {
 		color: #DBDBDB;
 		background-color: #343838;
 		/*position: relative;*/
 		/*float: right;*/
 		position: absolute;
-		right: -260px;
+		/*right: 520px;*/
+		/*-webkit-transform: translateX(780px);*/
 		width: 260px;
 		height: inherit;
 		font-family: "Open Sans", Helvetica, Arial, sans-serif;
 		font-size: 13px;
 		line-height: 1.4em;
 		border-left: 1px solid #666666;
-		-webkit-transition: right 1s ease;
+		-webkit-transition: -webkit-transform 0.5s ease;
 		/*font-weight: 300;*/
 		/*letter-spacing: .03em;*/
 	}
 
-	.show-sidebar {
+/*	.initPanel {
+		/*right: -240px;*/
+	/*	-webkit-transform: translateX(520px);
+		-webkit-animation:initPanel 1s 1;
+	}*/
+
+	.openPanel {
+		/*right: 260px;*/
+		-webkit-transform: translateX(520px);
+		-webkit-animation:openPanel 1s 1;
+	}
+
+	.closePanel {
+		/*right: -240px;*/
+		-webkit-transform: translateX(780px);
+		-webkit-animation:closePanel 1s 1;
+	}
+
+	.shutdownPanel {
+		/*-webkit-transform: 780px;
+		-webkit-animation:closePanel 0.5s 1;*/
 		right: 0px;
+	}
+
+/*	@-webkit-keyframes initPanel{
+/*	  from{right:260px;}
+	  to{right:-240px;}*/
+/*	  from{-webkit-transform:translateX(780px);}
+	  to{-webkit-transform: translateX(520px);}
+	}*/
+
+	@-webkit-keyframes openPanel{
+		from{-webkit-transform: translateX(780px);}
+		to{-webkit-transform: translateX(520px);}
+	}
+
+	@-webkit-keyframes closePanel{
+		from{-webkit-transform: translateX(520px);}
+		to{-webkit-transform: translateX(780px);}
+	}
+
+	.show-sidebar {
+		/*right: 0px;*/
+		-webkit-transform: translateX(520px);
+		/*-webkit-animation: openPanel 1s 1;*/
 		/*width: 260px;*/
 	}
 
 	.tuck-sidebar {
 		right: -261px;
 		/*width: 0px;*/
-	}
-
-	.show-detailsPanel {
-		right: 260px;
-	}
-
-	.show-tabOnly {
-		right: -500px;
-	}
-
-	.tuck-detailsPanel {
-		right: -240px;
 	}
 
 
@@ -141,8 +298,6 @@
 		height: 16px;
 		width: 16px;
 	}
-
-
 
 	#sidebar button {
 		width: 100%;
@@ -505,24 +660,26 @@
 	 ng-controller="uiCtrl">
 
 	<div id="detailsWrapper" 
-	     class="detailsWrapper" 
-	     ng-class="{'show-detailsPanel': uiState.showDetailsPanel, 
+	     class="initDetails" >
+	   <!--   ng-class="{'show-detailsPanel': uiState.showDetailsPanel, 
 	     			'tuck-detailsPanel': !uiState.showDetailsPanel && uiState.showSidebar,
-	     			'show-tabOnly': !uiState.showSidebar && !uiState.showDetailsPanel && uiState.startup}">
+	     			'show-tabOnly': !uiState.showSidebar && !uiState.showDetailsPanel && uiState.startup}"> -->
 
 		<div id="tabControl" ng-click="tabAction()">
 			<img id="arrow-icon" src="" />
 		</div>
 
 		<div id="detailsPanel" >
-		 	<div ui-view="detailsPanel">
+		 	<div id="detailsContent" >
+		 		<div ui-view="detailsPanel">
+		 		</div>
 			</div>
 		</div>
 	</div>
 
 	<div id="sidebar" 
-		 class="sidebar" 
-		 ng-class="{'show-sidebar': uiState.showSidebar, 'tuck-sidebar': !uiState.showSidebar}" >
+		 class="openPanel" >
+		 <!-- ng-class="{'show-sidebar': uiState.showSidebar, 'tuck-sidebar': !uiState.showSidebar}" > -->
 		
 		<!-- <div id="close-action">
 			<img id="close-icon" />
