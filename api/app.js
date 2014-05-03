@@ -30,7 +30,20 @@ server.listen(3000);
 console.log("listening at port 3000");
 
 
-var pgConnectionString = "postgres://sidebar:5432@localhost/sidebar";
+var pgConnectionString = process.env.DATABASE_URL || "postgres://sidebar:5432@localhost/sidebar";
+
+//"postgres:// dvybsfqqxhtvlt :ep3gKsF6uWa7qmnWKbM1_wWRIk @ec2-54-83-43-49.compute-1.amazonaws.com: 5432 /d5ct0tand6bndq"
+
+console.log(process.env.DATABASE_URL);
+
+var connectToDb = pgclient({
+    config : {
+        database : 'sidebar',
+        user     : 'sidebar',//'derekkan',//Christina',
+        host     : 'localhost',
+        port     : 5432
+    }
+});
 
 var client = new pg.Client(pgConnectionString);
 client.connect();
@@ -50,15 +63,6 @@ function listenForNotifications(req,res,next){
 
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
-
-var connectToDb = pgclient({
-    config : {
-        database : 'sidebar',
-        user     : 'sidebar',//'derekkan',//Christina',
-        host     : 'localhost',
-        port     : 5432
-    }
-});
 
 passport.use(new LocalStrategy({
 		usernameField: 'email',//can be anything including email
