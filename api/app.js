@@ -38,7 +38,7 @@ if(process.env.DATABASE_URL){
 	 	PGDATABASE: dbConfig[5],
 	 	PGUSER: dbConfig[1],
 	 	PGPASS: dbConfig[2],
-	 	PGHOST: dbConfig[3],
+	 	PGHOST: parseInt(dbConfig[3]),
 	 	PGPORT: dbConfig[4]
 	 }
 }
