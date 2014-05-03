@@ -1291,6 +1291,8 @@ Sign-up Controller  */
 appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState', 'SignupService', 'InitService',
   function($scope, $state, $upload, UiState, SignupService, InitService) {
 
+
+    // var re5digit=/^\d{5}$/ to check for 5 digit zipcode 
     $scope.age_floor = 18;
     $scope.age_ceil = 80;
     $scope.distance_floor = 0;

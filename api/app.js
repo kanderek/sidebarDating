@@ -29,21 +29,39 @@ var io = require('socket.io').listen(server);
 server.listen(3000);
 console.log("listening at port 3000");
 
+//postgres://{user}:{pass}@some-ec2-instance:{port}/{db}
+var dbConfigObj = {};
+if(process.env.DATABASE_URL){
+	 var re1 = /^postgres:\/\/(\w+):(\w+)@([a-zA-z0-9-.]+):(\d+)\/([a-zA-Z0-9]+)$/;
+	 var dbConfig = re1.exec(process.env.DATABASE_URL);
+	 dbConfigObj = {
+	 	PGDATABASE: dbConfig[5],
+	 	PGUSER: dbConfig[1],
+	 	PGPASS: dbConfig[2],
+	 	PGHOST: dbConfig[3],
+	 	PGPORT: dbConfig[4]
+	 }
+}
+
+ var connectToDb = pgclient({
+    config : {
+        database : dbConfigObj.PGDATABASE || 'sidebar',
+        user     : dbConfigObj.PGUSER || 'sidebar',//'derekkan',//Christina',
+        host     : dbConfigObj.PGHOST || 'localhost',
+        port     : dbConfigObj.PGPORT || 5432,
+        password : dbConfigObj.PGPASS || '',
+    }
+});
+
 
 var pgConnectionString = process.env.DATABASE_URL || "postgres://sidebar:5432@localhost/sidebar";
 
 //"postgres:// dvybsfqqxhtvlt :ep3gKsF6uWa7qmnWKbM1_wWRIk @ec2-54-83-43-49.compute-1.amazonaws.com: 5432 /d5ct0tand6bndq"
 
 console.log(process.env.DATABASE_URL);
+console.log(dbConfigObj);
 
-var connectToDb = pgclient({
-    config : {
-        database : 'sidebar',
-        user     : 'sidebar',//'derekkan',//Christina',
-        host     : 'localhost',
-        port     : 5432
-    }
-});
+
 
 var client = new pg.Client(pgConnectionString);
 client.connect();
