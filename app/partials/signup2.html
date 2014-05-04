@@ -21,7 +21,7 @@
 	}
 
 	.blurb_length {
-		font-size: 10px;
+		font-size: 10px;h
 		float: right;
 		margin: -10px 0 15px 0;
 	}
@@ -65,7 +65,7 @@
 		<textarea id="personal_blurb" placeholder="I'm interested in..." maxlength="140" minlength="1" required ng-model="user.personal_blurb" >
 		</textarea>
 		<label for="personal_blurb" class="blurb_length">{{ user.personal_blurb.length || '0' }}/140 Characters</label>
-		<input type="submit" value="continue" ng-click="goToSignupStep3()"/>
+		<input type="submit" value="Continue." ng-click="goToSignupStep3()"/>
 	</form>
 
 	{{user | json}}

@@ -80,12 +80,27 @@
 	  to{-webkit-transform: translateX(0px);visibility:hidden;}
 	}
 
+	#sidebar .profile p {
+		margin: 0;
+	}
+
+	#sidebar .name {
+		font-weight: bold;
+	}
+
+	#sidebar .personal-blurb {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		width: 190px;
+		display: inline-block;
+	}
+
 </style>
 
 <div class="meeting-space">
 
-	<!--<h3>People also interested in ....</h3>-->
-	<h5>People who also visited this page</h5>
+	<h3>People who also visited this page</h3>
 
 	<div id="profileList" >
 
@@ -105,7 +120,7 @@
  -->			<img ng-src="{{profile.smallimageurls[0]}}"/>
 			<p>
 				<span class="name">{{profile.username}}</span></br>
-				<span class-"personal-blurb">{{profile.personal_blurb}}</span>
+				<span class="personal-blurb">{{profile.personal_blurb}}</span>
 			</p>
 		</div>
 

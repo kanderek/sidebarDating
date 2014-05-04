@@ -5,9 +5,36 @@
 	
 	@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
 
+	@font-face {
+	    font-family: 'Normal'; 
+	    src: url('http://www.microcake.org/sidebardating/Normal.ttf'); 
+	}
+	@font-face {
+	    font-family: 'Light'; 
+	    src: url('http://www.microcake.org/sidebardating/Light.ttf'); 
+	}
+
+	@font-face {
+		font-family: 'Book';
+		src: url('http://www.microcake.org/sidebardating/Book.ttf');
+	}
+
+	@font-face {
+		font-family: 'Heavy';
+		src: url('http://www.microcake.org/sidebardating/Heavy.ttf');
+	}
+
 	#sidebar a {
 		cursor: pointer;
 	}
+
+	/*#sidebar h1,
+	#sidebar h2,
+	#sidebar h3,
+	#sidebar h4,
+	#sidebar h5,
+	#sidebar h6 {
+	}*/
 
 	#injected-wrapper {
 		/*background-color: rgba(255,100,100, 0.5);*/
@@ -194,12 +221,13 @@
 		height: inherit;
 		font-family: "Open Sans", Helvetica, Arial, sans-serif;
 		font-size: 13px;
-		line-height: 1.4em;
-		border-left: 1px solid #666666;
+		line-height: 1.5em;
+		/*border-left: 1px solid #666666;*/
 		-webkit-transition: -webkit-transform 0.5s ease;
 		/*font-weight: 300;*/
 		/*letter-spacing: .03em;*/
 	}
+
 
 /*	.initPanel {
 		/*right: -240px;*/
@@ -320,6 +348,15 @@
 		cursor: pointer;
 	}
 
+
+	.show-sidebar {
+		right: 0px;
+	}
+
+	.tuck-sidebar {
+		right: -240px;
+	}
+
 	#top-menu {
 		width: inherit;
 		text-align: center;
@@ -341,7 +378,7 @@
 		width: 100%;
 		height: 48px;
 		overflow: hidden;
-		margin-bottom: 10px;
+		padding: 5px 0;
 	}
 
 	.isSelected {
@@ -358,13 +395,19 @@
 		border-radius: 24px;
 	}
 	
-	.meetingspace {
+	.meeting-space {
 		width: 100%;
-		overflow: hidden;
+		overflow-y: scroll;
 		/*margin-bottom: 10px;*/
+		box-sizing: border-box;
 	}
 
-
+	.meeting-space > h3 {
+		padding-left: 10px;
+		color: #00D6F2;
+		font-weight: normal;
+		font-size: 1.1em;
+	}
 
 	/*******************************************
 	// Profile dancecard view Styles 
@@ -431,17 +474,27 @@
     }
 
     #logo-signup, #logo-login {
-    	height: 150px;
+    	height: auto;
     	width: 150px;
-    	position: relative;
-    	margin: auto;
-    	border-radius: 50%;
-    	background-color: rgb(255,75, 75);
+    	margin: 0 auto;
     }
 
-   #tagline-signup, #tagline-login, #username-header {
+    #logo-signup img, 
+    #logo-login img {
+    	width: 100%;
+    	height: auto;
+    }
+
+   #tagline-signup, 
+   #tagline-login, 
+   #username-header {
    		color: #DBDBDB;
    		text-align: center;
+   }
+
+   #tagline-signup,
+   #tagline-login {
+   		font-style: oblique;
    }
 
    .explain-signup, 
@@ -450,8 +503,7 @@
    		text-align: left;
    		margin: 20px 0;
    }
-
-   .signup-button, .login-button, .signup-wrapper button{
+   .signup-wrapper button{
    		width: 88%;
    		display: block;
    		position: relative;
@@ -461,8 +513,25 @@
 
    .login-toggle {
    		text-align: center;
-   		font-size: 10px;
+   		font-size: 12px;
    }
+
+   #sidebar .signup-button, 
+   #sidebar .login-button, 
+   #sidebar .submit-btn {
+		width: 100%;
+		background-color: #008C9E;
+		color: #FEFEFE;
+		border: none;
+		border-bottom: 4px solid #005F6B;
+		padding: 10px 5px;
+		font-size: 1em;
+	}
+
+	#sidebar .submit-btn:hover {
+		background-color: #00AABF;
+		border-bottom: 4px solid #007786;
+	}
 
 /*************** signup 1 *************************/
 
@@ -479,7 +548,7 @@
    .signup-heading h4 {
    	color: white;
    	margin: 0;
-   	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+   	font-family: 'Book', Helvetica, Arial, sans-serif;
    	font-weight: bold;
    }
 
@@ -515,7 +584,7 @@
    .login-form input[type='text'],
    .login-form input[type='email'],
    .login-form input[type='password'] {
-    padding: 3px;
+    padding: 5px;
     color: #333333;
     box-sizing: border-box;
    }
