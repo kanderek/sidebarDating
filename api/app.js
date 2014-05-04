@@ -26,7 +26,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
 // app.listen(3000);
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
 console.log("listening at port 3000");
 
 //postgres://{user}:{pass}@some-ec2-instance:{port}/{db}
