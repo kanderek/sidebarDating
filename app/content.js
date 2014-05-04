@@ -1,4 +1,4 @@
-var SERVER = "http://sidebar-dating.herokuapp.com";//"http://localhost:3000";
+var SERVER = /*"http://sidebar-dating.herokuapp.com";//*/"http://localhost:3000";
 var url_info = {};
 
 /***************************************************************************
@@ -865,10 +865,12 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     }
 
     profileFactory.initializeProfile = function(user, url){
+      console.log('initilize Profile');
+      console.log(user);
       if(typeof(user) == 'object'){
         profileFactory.selfProfile = user;
         profileFactory.selectedProfile = user;
-        profileFactory.initializePageProfiles(url);
+        profileFactory.getProfilesByPage(url, user.userid);
         $rootScope.$broadcast('profile-selected');
         $rootScope.$broadcast('user-data-available');
       }
@@ -1084,13 +1086,16 @@ appServices.factory('SignupService', ['$http', 'Profile',
     }
 
     signupService.signupUser = function(callback){
+      console.log('signup user!');
       $http({
         method: 'POST',
         url: SERVER + "/signup",
-        data: {user: this.user, pref: this.pref}
+        data: {user: signupService.user, pref: signupService.pref}
       }).
       success(function(data, status, headers, config){
-        // callback(data);
+        callback(data);
+        console.log('self profile');
+        console.log(data);
         Profile.selfProfile = data;
       }).
       error(function(data, status, headers, config){
@@ -1210,6 +1215,8 @@ appServices.factory('InitService', ['$rootScope', 'UiState','Profile','Dancecard
 
             var userid = typeof(user) == 'object' ? user.userid : user;
 
+            console.log('initialize service...');
+            console.log('user' + userid);
             DancecardService.initializeDancecard(userid);
             NotificationService.initializeNotifications(userid);
             Socket.emit('register-user', {userid: userid}, function(){});            
@@ -1261,8 +1268,8 @@ Upload Test Controller  */
 appControllers.controller('UploadTestCtrl', ['$scope', '$upload', '$rootScope', '$state',
     function($scope, $upload, $rootScope, $state) {
 
-        $scope.largeImage = SERVER + "/userId_1.jpg";
-        $scope.mediumImage = SERVER + "/thumb_okc_profile2.jpg"; 
+        $scope.largeImage = "/userId_1.jpg";
+        $scope.mediumImage = "/thumb_okc_profile2.jpg"; 
 
 $scope.onFileSelect = function($files) {
     //$files: an array of files selected, each file has name, size, and type.
@@ -1284,8 +1291,8 @@ $scope.onFileSelect = function($files) {
         console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
       }).success(function(data, status, headers, config) {
         // file is uploaded successfully
-        $scope.largeImage = SERVER + "/" + file.name;
-        $scope.mediumImage = SERVER + "/thumb_"+ file.name; 
+        $scope.largeImage =  "/" + file.name;
+        $scope.mediumImage = "/thumb_"+ file.name; 
         // $scope.mediumImage = "http://lorempixel.com/200/200/sports/";
         // console.log(data);
       });
@@ -1448,6 +1455,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState
 
     $scope.createAccount = function(){
        // $state.go('main.profileList');
+       console.log('create Account!!!');
        SignupService.signupUser(function(data){
           console.log('Signing up user...');
           console.log(data);
