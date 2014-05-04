@@ -26,6 +26,7 @@
 
 	#sidebar a {
 		cursor: pointer;
+		color: #00A1B5;
 	}
 
 	/*#sidebar h1,
@@ -380,9 +381,10 @@
 		width: 100%;
 		height: 48px;
 		overflow: hidden;
-		padding: 5px 0;
+		padding: 7px 0;
 		-webkit-box-shadow: inset 0px -1px 0px 0px #535959;
 		box-shadow: inset 0px -1px 0px 0px #535959;
+		cursor: pointer;
 	}
 
 	.isSelected {
@@ -632,20 +634,32 @@
 	}
 
 	#sidebar .sidebar-back {
-		width: 15px;
-		height: 15px;
+		width: 13px;
+		height: 13px;
 		float: left;
 		margin-left: 10px;
-		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow.png') no-repeat;
+		margin-top: 3px;
+		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow.png') no-repeat 0 0;
 	}
 
 	#sidebar .sidebar-back:hover {
-		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow-hover.png') no-repeat;
+		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow.png') no-repeat 0 -13px;
 	}
 
 	#sidebar .sidebar-notif {
+		width: 20px;
+		height: 20px;
+		border-radius: 20px;
+		background-color: #3B3D3D;
 		float: right;
 		margin-right: 10px;
+		font-size: .8em;
+	}
+
+	#sidebar .sidebar-mainUserName {
+		color: #44D6E2;
+		font-weight: bold;
+		font-size: 1.1em;
 	}
 
 </style>
@@ -684,8 +698,8 @@
 		</div> -->
 		<div id="top-menu" ng-show="isSignedIn()" ng-controller="TopMenuCtrl">
 			<a ng-click="goBack()" class="sidebar-back"></a>
-			<a ng-click="goToProfile()" > {{username}}</a>
-			<a ng-click="goToHistory()" >History </a>
+			<a ng-click="goToProfile()" class="sidebar-mainUserName" > {{username}}</a>
+			<!-- <a ng-click="goToHistory()" >History </a> -->
 			<a ng-click="goToNotifications()" class="sidebar-notif">{{ns.unreadCount}} </a>
 		</div>
 		<div ui-view="sidebar">

@@ -908,7 +908,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
         else{
           var i = profileFactory.findIndexForPageProfileById(user.userid);
           $('#select-indicator').css('top', function(){
-            return 18 + 58*i + 'px';
+            return 18 + 62*i + 'px';
           });
           $('#select-indicator').css('opacity', '1.0');
         }
