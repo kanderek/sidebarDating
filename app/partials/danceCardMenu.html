@@ -11,10 +11,44 @@
 		background-color: white;
 	}
 
+	#dance-card-preview div:first-of-type {
+		margin: 10px;
+	}
+
+	#dance-card-preview {
+		width: 100%;
+		overflow: hidden;
+		/*margin-bottom: 10px;*/
+		background-color: #2B2E2E;
+	}
+
+
+	.dance-card-preview-img {
+		position: relative;
+		float: left;
+		height: 36px;
+		width: 36px;
+		margin: 10px 10px 10px 0px;
+		border: 1px solid gray;
+		background-color: rgba(255,255,255, 1);
+		border-radius: 50%;
+	}
+
+	.dance-card-preview-img img{
+		border-radius: 50%;
+		height: 36px;
+		width: 36px;
+		bottom: 0px;
+	}
+
+	.danceCardPreviewLast {
+		margin-right: 0px;
+	}
+
 </style>
 <div>
-	<div class="horizontal-line">
-	</div>
+	<!-- <div class="horizontal-line">
+	</div> -->
 	<div id="dance-card-preview" 
 		 ui-on-drop="onDropAdd($event, $data)"
 		 drag-hover-class="drag-over-accept"
