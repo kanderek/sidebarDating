@@ -1,4 +1,4 @@
-
+var SERVER = "http://sidebar-dating.herokuapp.com";//"http://localhost:3000";
 var url_info = {};
 
 /***************************************************************************
@@ -426,7 +426,7 @@ console.log('closedetailspanel called');
 Socket IO Wrapper Service  */
 
 appServices.factory('Socket', function ($rootScope) {
-  var socket = io.connect('http://localhost:3000');
+  var socket = io.connect(SERVER);
   return {
     on: function (eventName, callback) {
       socket.on(eventName, function () {  
@@ -486,7 +486,7 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
       messageService.getMessageByuserid = function(userid, callback){
         $http({
           method: 'GET',
-          url: "http://localhost:3000/message/" + userid + "/?userId=" + Profile.selfProfile.userid
+          url: SERVER + "/message/" + userid + "/?userId=" + Profile.selfProfile.userid
         }).
         success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
@@ -505,7 +505,7 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
         if(message.senderid != message.receiverid){
           $http({
             method: 'POST',
-            url: "http://localhost:3000/message/",
+            url: SERVER + "/message/",
             data: message
           }).
           success(function(data, status, headers, config){
@@ -583,7 +583,7 @@ appServices.factory('NotificationService', ['$http', '$state', 'Profile',
       notificationService.getNotifications = function(userid){
         $http({
           method: 'GET',
-          url: "http://localhost:3000/notifications/" + userid
+          url: SERVER + "/notifications/" + userid
         }).
         success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
@@ -604,7 +604,7 @@ appServices.factory('NotificationService', ['$http', '$state', 'Profile',
       notificationService.updateNotificationStatus = function(data){
           $http({
             method: 'POST',
-            url: "http://localhost:3000/notifications/",
+            url: SERVER + "/notifications/",
             data: data
           }).
           success(function(data, status, headers, config){
@@ -630,7 +630,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
   function fillBlankDancecardSpots(){
      var curDancecardLength = dancecardService.dancecard.length;
      for(var i=0; i<(5-curDancecardLength); i++){
-       dancecardService.dancecard.push({smallimageurls: ['http://localhost:3000/user/user.png'], userid: -1}); 
+       dancecardService.dancecard.push({smallimageurls: [ SERVER + '/user/user.png'], userid: -1}); 
      }
   }
 
@@ -721,7 +721,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
         // console.log(UiState.selfProfile.userid);
         $http({
           method: 'GET',
-          url: "http://localhost:3000/dancecard/interested/"+userid
+          url: SERVER + "/dancecard/interested/"+userid
         })
         .success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
@@ -745,10 +745,11 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
         // console.log(UiState.selfProfile.userid);
         $http({
           method: 'GET',
-          url: "http://localhost:3000/dancecard/"+userid
+          url: SERVER + "/dancecard/"+userid
         })
         .success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
+               data = Profile.makeFullImageUrl(data);
                dancecardService.dancecard = data;
                fillBlankDancecardSpots();
                $rootScope.$broadcast('dancecard-available');
@@ -770,6 +771,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
         for(var i=0; i<5; i++){
           if(postData.status == 'added'){
             if(dancecardService.dancecard[i].userid == -1){
+              $('#select-indicator').css({'top': '-20px', 'opacity': 0});
               dancecardService.dancecard[i] = profileData;
               if(dancecardService.hadAddedYou(profileData.userid)){
                 dancecardService.dancecard[i].mutual = 'true';
@@ -788,7 +790,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
           if(postData.status == 'removed'){
             if(dancecardService.dancecard[i].userid == profileData.userid){
               dancecardService.dancecard.splice(i,1);
-              dancecardService.dancecard.push({smallimageurls: ['http://localhost:3000/user/user.png'], userid: -1});
+              dancecardService.dancecard.push({smallimageurls: [SERVER + '/user/user.png'], userid: -1});
               $rootScope.$broadcast('dancecard-update');
               if(Profile.selectedProfile.userid == Profile.selectedForRemoval.userid){
                 Profile.selectedProfile = Profile.selfProfile;
@@ -807,7 +809,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
 
           $http({
             method: 'POST',
-            url: "http://localhost:3000/dancecard",
+            url: SERVER + "/dancecard",
             data: postData
           }).
           success(function(data, status, headers, config){
@@ -834,6 +836,17 @@ Profile Service  */
 appServices.factory('Profile', ['$rootScope', '$http', '$state',
   function($rootScope, $http, $state){
 
+    function processImageUrls(imgArray){
+      // console.log('in process images urls....');
+      // console.log(imgArray);
+      if(imgArray){
+        for(var i=0; i<imgArray.length; i++){
+          imgArray[i] = SERVER + imgArray[i]; 
+        }
+      }
+      return imgArray;
+    }
+
     var profileFactory = {};
 
     profileFactory.pageProfiles = [];
@@ -841,6 +854,15 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     profileFactory.selfProfile = {};
     profileFactory.selectedForRemoval = {};
     profileFactory.previousProfile = {};
+
+    profileFactory.makeFullImageUrl = function(data){
+      for(var i=0; i<data.length; i++){
+          data[i].imageurls = processImageUrls(data[i].imageurls);
+          data[i].medimageurls = processImageUrls(data[i].medimageurls);
+          data[i].smallimageurls = processImageUrls(data[i].smallimageurls);
+        }
+        return data;
+    }
 
     profileFactory.initializeProfile = function(user, url){
       if(typeof(user) == 'object'){
@@ -922,10 +944,15 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     profileFactory.getProfileById = function(userid, callback){
       $http({
         method: 'GET',
-        url: 'http://localhost:3000/profile/'+userid
+        url: SERVER + '/profile/'+userid
       }).
       success(function(data, status, headers, config){
         // if(data.status != "logged_out"){
+           // console.log(data);
+           data = profileFactory.makeFullImageUrl(data);
+           // data[0].imageurls = processImageUrls(data[0].imageurls);
+           // data[0].medimageurls = processImageUrls(data[0].medimageurls);
+           // data[0].smallimageurls = processImageUrls(data[0].smallimageurls);
            callback(data);  
         // }
         // else{
@@ -956,12 +983,20 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
 
        $http({
           method: 'GET', 
-          url: 'http://localhost:3000/crowd/?' + queryString
+          url: SERVER + '/crowd/?' + queryString
         }).
       success(function(data, status, headers, config) {
         // if(data.status != "logged_out"){
            //callback(data);   // this callback will be called asynchronously when the response is available
           // console.log(data);
+
+          data = profileFactory.makeFullImageUrl(data);
+          // for(var i=0; i<data.length; i++){
+          //   data[i].imageurls = processImageUrls(data[i].imageurls);
+          //   data[i].medimageurls = processImageUrls(data[i].medimageurls);
+          //   data[i].smallimageurls = processImageUrls(data[i].smallimageurls);
+          // }
+
           profileFactory.pageProfiles = profileFactory.pageProfiles.concat(data);
           $rootScope.$broadcast('page-profiles-available');
         // }
@@ -1007,7 +1042,7 @@ appServices.factory('InterestService', ['$http', '$rootScope',
 
        $http({
           method: 'GET', 
-          url: 'http://localhost:3000/interest/' + userid
+          url: SERVER + '/interest/' + userid
         }).
         success(function(data, status, headers, config) {
           // if(data.status != "logged_out"){
@@ -1051,7 +1086,7 @@ appServices.factory('SignupService', ['$http', 'Profile',
     signupService.signupUser = function(callback){
       $http({
         method: 'POST',
-        url: "http://localhost:3000/signup",
+        url: SERVER + "/signup",
         data: {user: this.user, pref: this.pref}
       }).
       success(function(data, status, headers, config){
@@ -1094,7 +1129,7 @@ appServices.factory('HistoryService', ['$http', 'Profile',
     historyService.saveHistory = function(data, callback){
       $http({
         method: 'POST',
-        url: "http://localhost:3000/history",
+        url: SERVER + "/history",
         data: {userid: Profile.selfProfile.userid, history: data}
       }).
       success(function(data, status, headers, config){
@@ -1120,7 +1155,7 @@ appServices.factory('LoginService', ['$http', 'Socket',
     loginService.loginUser = function(credentials, callback){
       $http({
         method: 'POST',
-        url: "http://localhost:3000/login",
+        url: SERVER + "/login",
         data: credentials
       }).
       success(function(data, status, headers, config){
@@ -1147,7 +1182,7 @@ appServices.factory('AuthService', ['$http',
     authService.checkUserStatus = function(callback){
       $http({
         method: 'GET',
-        url: "http://localhost:3000/authentication_status"
+        url: SERVER + "/authentication_status"
       }).
       success(function(data, status, headers, config){
         callback(data);
@@ -1226,8 +1261,8 @@ Upload Test Controller  */
 appControllers.controller('UploadTestCtrl', ['$scope', '$upload', '$rootScope', '$state',
     function($scope, $upload, $rootScope, $state) {
 
-        $scope.largeImage = "http://localhost:3000/userId_1.jpg";
-        $scope.mediumImage = "http://localhost:3000/thumb_okc_profile2.jpg"; 
+        $scope.largeImage = SERVER + "/userId_1.jpg";
+        $scope.mediumImage = SERVER + "/thumb_okc_profile2.jpg"; 
 
 $scope.onFileSelect = function($files) {
     //$files: an array of files selected, each file has name, size, and type.
@@ -1235,7 +1270,7 @@ $scope.onFileSelect = function($files) {
       var file = $files[i];
       console.log(file);
       $scope.upload = $upload.upload({
-        url: 'http://localhost:3000/upload', //upload.php script, node.js route, or servlet url
+        url: SERVER + '/upload', //upload.php script, node.js route, or servlet url
         // method: POST or PUT,
         // headers: {'header-key': 'header-value'},
         // withCredentials: true,
@@ -1249,8 +1284,8 @@ $scope.onFileSelect = function($files) {
         console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
       }).success(function(data, status, headers, config) {
         // file is uploaded successfully
-        $scope.largeImage = "http://localhost:3000/" + file.name;
-        $scope.mediumImage = "http://localhost:3000/thumb_"+ file.name; 
+        $scope.largeImage = SERVER + "/" + file.name;
+        $scope.mediumImage = SERVER + "/thumb_"+ file.name; 
         // $scope.mediumImage = "http://lorempixel.com/200/200/sports/";
         // console.log(data);
       });
@@ -1356,7 +1391,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState
       var file = $files[i];
       console.log(file);
       $scope.upload = $upload.upload({
-        url: 'http://localhost:3000/upload', //upload.php script, node.js route, or servlet url
+        url: SERVER + '/upload', //upload.php script, node.js route, or servlet url
         // method: POST or PUT,
         // headers: {'header-key': 'header-value'},
         // withCredentials: true,

@@ -11,18 +11,12 @@
       "38": "icons/38x38_heart_idle.png"
     },
     "default_title": ""
-    //"default_popup": "browseraction/popup.html"
   },
 
   "background": {
     "scripts": ["lib/jquery-1.11.0.min.js", "background.js"],
-    "persistent": false// should be used 
+    "persistent": false
   },
-
-  // Allows you to use an html page of your creation instead of the default google tabs page
-  // "chrome_url_overrides" : {
-  //    "newtab": "newtab/newtab.html"
-  // },
 
   "content_scripts": [
     {
@@ -40,7 +34,6 @@
         "lib/angular-touch.js",
         "lib/rangeInputSupported.js",
         "lib/angular-slider.js",
-        //"lib/bootstrap-3.1.1-dist/js/bootstrap.min.js",
         "lib/jquery.flexslider.js",
         "lib/angular-carousel.js",
         "lib/angular-file-upload.js",
@@ -63,13 +56,9 @@
       "lib/angular-resource.min.js.map",
       "lib/angular-route.min.js.map",
       "lib/angular-ui-router.min.js.map",
-      // "icon_22997/icon_22997.png",
-      // "icon_22996/icon_22996.png",
-      // "icon_15724/icon_15724.png",
-      // "icon_25798/icon_25798.png",
       "css/*"
   ],
-  "permissions": ["tabs", "history", "notifications","http://*/*", "https://*/*"]
 
-  // "content_security_policy": "script-src 'self' http://localhost:3000 ; object-src 'self' "
+  "permissions": ["tabs", "history","http://*/*", "https://*/*"]
+
 }

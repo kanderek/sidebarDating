@@ -709,6 +709,10 @@ app.get('/crowd/',
 		req.url = req.query.url;
 		req.userid = req.query.userid;
 		req.limit = req.query.limit;
+		if(!req.limit){
+			req.limit = 10;
+		}
+
 		if(req.query.pageprofiles){
 			req.pageprofiles = req.query.pageprofiles.split(',');
 		}

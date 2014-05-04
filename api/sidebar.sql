@@ -219,17 +219,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Aziz', 'Aziz@gmail.com', '1234', 'm', '1985-11-28', 
 	   		   '94121', 'San Francisco', 'California', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lectus sed neque ultrices tincidunt. Aliquam erat volutpat. Aliquam erat.',
-	   		   '{"http://localhost:3000/scaled_azizAnsari1.jpg", 
-	   		     "http://localhost:3000/scaled_azizAnsari3.jpg",
-    			 "http://localhost:3000/scaled_azizAnsari2.jpg"
+	   		   '{"/scaled_azizAnsari1.jpg", 
+	   		     "/scaled_azizAnsari3.jpg",
+    			 "/scaled_azizAnsari2.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_azizAnsari1.jpg",
-    			   "http://localhost:3000/med_azizAnsari3.jpg",
-   				   "http://localhost:3000/med_azizAnsari2.jpg"
+    			 '{"/med_azizAnsari1.jpg",
+    			   "/med_azizAnsari3.jpg",
+   				   "/med_azizAnsari2.jpg"
    				   }',
-   				   '{"http://localhost:3000/small_azizAnsari1.jpg",
-    				"http://localhost:3000/small_azizAnsari3.jpg",
-    				"http://localhost:3000/small_azizAnsari2.jpg"
+   				   '{"/small_azizAnsari1.jpg",
+    				"/small_azizAnsari3.jpg",
+    				"/small_azizAnsari2.jpg"
     				}');
 
 INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -240,17 +240,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Daniel', 'danny@gmail.com', '1234', 'm', '1990-3-14', 
 	   		   '94121', 'San Francisco', 'California', 'Integer accumsan, felis vel tempor faucibus, nisl dui aliquam diam, ornare ultricies magna elit sit amet ipsum. Vivamus fermentum condimentum.',
-	   		   '{"http://localhost:3000/scaled_danRadclife3.jpg",
-    			"http://localhost:3000/scaled_danRadclife1.jpg",
-   				 "http://localhost:3000/scaled_danRadclife2.jpg"
+	   		   '{"/scaled_danRadclife3.jpg",
+    			"/scaled_danRadclife1.jpg",
+   				 "/scaled_danRadclife2.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_danRadclife3.jpg",
-   				   "http://localhost:3000/med_danRadclife1.jpg",
-    				"http://localhost:3000/med_danRadclife2.jpg"
+    			 '{"/med_danRadclife3.jpg",
+   				   "/med_danRadclife1.jpg",
+    				"/med_danRadclife2.jpg"
    				   }',
-   				   '{ "http://localhost:3000/small_danRadclife3.jpg",
-    				  "http://localhost:3000/small_danRadclife1.jpg",
-  					  "http://localhost:3000/small_danRadclife2.jpg"
+   				   '{ "/small_danRadclife3.jpg",
+    				  "/small_danRadclife1.jpg",
+  					  "/small_danRadclife2.jpg"
     				}');
 
 INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -261,17 +261,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Michael', 'mike@gmail.com', '1234', 'm', '1987-8-2', 
 	   		   '94103', 'San Francisco', 'California', 'Donec fermentum eget nibh et congue. Pellentesque facilisis neque et nulla scelerisque, tristique mattis mi dictum. Sed molestie mi eleifend.',
-	   		   '{"http://localhost:3000/scaled_mikeCera3.jpg",
-  				  "http://localhost:3000/scaled_mikeCera2.jpg",
-  				  "http://localhost:3000/scaled_mikeCera1.jpg"
+	   		   '{"/scaled_mikeCera3.jpg",
+  				  "/scaled_mikeCera2.jpg",
+  				  "/scaled_mikeCera1.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_mikeCera3.jpg",
-    			  "http://localhost:3000/med_mikeCera2.jpg",
-    			  "http://localhost:3000/med_mikeCera1.jpg"
+    			 '{"/med_mikeCera3.jpg",
+    			  "/med_mikeCera2.jpg",
+    			  "/med_mikeCera1.jpg"
    				   }',
-   				   '{ "http://localhost:3000/small_mikeCera3.jpg",
-    				  "http://localhost:3000/small_mikeCera2.jpg",
-   					  "http://localhost:3000/small_mikeCera1.jpg"
+   				   '{ "/small_mikeCera3.jpg",
+    				  "/small_mikeCera2.jpg",
+   					  "/small_mikeCera1.jpg"
     				}');
 
 INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -282,17 +282,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Max', 'max@gmail.com', '1234', 'm', '1982-5-17', 
 	   		   '94103', 'San Francisco', 'California', 'Ut elit sapien, malesuada in felis nec, imperdiet consequat leo. Nunc a velit eu tellus gravida interdum id quis mauris. Vestibulum tincidunt.',
-	   		   '{"http://localhost:3000/scaled_maxGreenfield1.jpg",
-  				 "http://localhost:3000/scaled_maxGreenfield3.jpg",
-   				 "http://localhost:3000/scaled_maxGreenfield2.jpg"
+	   		   '{"/scaled_maxGreenfield1.jpg",
+  				 "/scaled_maxGreenfield3.jpg",
+   				 "/scaled_maxGreenfield2.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_maxGreenfield1.jpg",
-    				"http://localhost:3000/med_maxGreenfield3.jpg",
-    				"http://localhost:3000/med_maxGreenfield2.jpg"
+    			 '{"/med_maxGreenfield1.jpg",
+    				"/med_maxGreenfield3.jpg",
+    				"/med_maxGreenfield2.jpg"
    				   }',
-   				   '{ "http://localhost:3000/small_maxGreenfield1.jpg",
-    				  "http://localhost:3000/small_maxGreenfield3.jpg",
-    				  "http://localhost:3000/small_maxGreenfield2.jpg"
+   				   '{ "/small_maxGreenfield1.jpg",
+    				  "/small_maxGreenfield3.jpg",
+    				  "/small_maxGreenfield2.jpg"
     				}');
 
 INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -304,17 +304,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Mac', 'mac@gmail.com', '1234', 'm', '1991-1-17', 
 	   		   '94103', 'San Francisco', 'California', 'Aliquam tincidunt diam quis lorem dignissim, sed venenatis odio ornare. Duis vel turpis interdum, rutrum metus ac, dictum risus.', 
-	   		   '{"http://localhost:3000/scaled_macDemarco1.jpg",
-			    "http://localhost:3000/scaled_macDemarco3.jpg",
-			    "http://localhost:3000/scaled_macDemarco2.jpg"
+	   		   '{"/scaled_macDemarco1.jpg",
+			    "/scaled_macDemarco3.jpg",
+			    "/scaled_macDemarco2.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_macDemarco1.jpg",
-				    "http://localhost:3000/med_macDemarco3.jpg",
-				    "http://localhost:3000/med_macDemarco2.jpg"
+    			 '{"/med_macDemarco1.jpg",
+				    "/med_macDemarco3.jpg",
+				    "/med_macDemarco2.jpg"
    				   }',
-   				   '{ "http://localhost:3000/small_macDemarco1.jpg",
-    				  "http://localhost:3000/small_macDemarco3.jpg",
-   					  "http://localhost:3000/small_macDemarco2.jpg"
+   				   '{ "/small_macDemarco1.jpg",
+    				  "/small_macDemarco3.jpg",
+   					  "/small_macDemarco2.jpg"
     				}');
 
 INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -325,17 +325,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Jonah', 'jonah@gmail.com', '1234', 'm', '1989-10-30', 
 	   		   '94103', 'San Francisco', 'California', 'Nullam vitae ultrices risus, id volutpat odio. Suspendisse convallis nibh eget nisi pharetra porta. Sed eget ligula ultrices, varius ligula quis.',
-	   		   '{"http://localhost:3000/scaled_jonahHill2.jpg",
-			    "http://localhost:3000/scaled_jonahHill3.jpg",
-			    "http://localhost:3000/scaled_jonahHill1.jpg"
+	   		   '{"/scaled_jonahHill2.jpg",
+			    "/scaled_jonahHill3.jpg",
+			    "/scaled_jonahHill1.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_jonahHill2.jpg",
-				    "http://localhost:3000/med_jonahHill3.jpg",
-				    "http://localhost:3000/med_jonahHill1.jpg"
+    			 '{"/med_jonahHill2.jpg",
+				    "/med_jonahHill3.jpg",
+				    "/med_jonahHill1.jpg"
    				   }',
-   				   '{ "http://localhost:3000/small_jonahHill2.jpg",
-				    "http://localhost:3000/small_jonahHill3.jpg",
-				    "http://localhost:3000/small_jonahHill1.jpg"
+   				   '{ "/small_jonahHill2.jpg",
+				    "/small_jonahHill3.jpg",
+				    "/small_jonahHill1.jpg"
     				}');
 
 
@@ -348,17 +348,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('John', 'john@gmail.com', '1234', 'm', '1981-9-2', 
 	   		   '94103', 'San Francisco', 'California', 'Aenean dui turpis, pellentesque quis libero et, laoreet venenatis mauris. In facilisis, ante id vehicula aliquet, erat nulla placerat mauris.', 
-	   		   '{"http://localhost:3000/scaled_johnCho3.jpg",
-			    "http://localhost:3000/scaled_johnCho1.jpg",
-			    "http://localhost:3000/scaled_johnCho2.jpg"
+	   		   '{"/scaled_johnCho3.jpg",
+			    "/scaled_johnCho1.jpg",
+			    "/scaled_johnCho2.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_johnCho3.jpg",
-				    "http://localhost:3000/med_johnCho1.jpg",
-				    "http://localhost:3000/med_johnCho2.jpg"
+    			 '{"/med_johnCho3.jpg",
+				    "/med_johnCho1.jpg",
+				    "/med_johnCho2.jpg"
    				   }',
-   				   '{ "http://localhost:3000/small_johnCho3.jpg",
-					    "http://localhost:3000/small_johnCho1.jpg",
-					    "http://localhost:3000/small_johnCho2.jpg"
+   				   '{ "/small_johnCho3.jpg",
+					    "/small_johnCho1.jpg",
+					    "/small_johnCho2.jpg"
     				}');
 
 INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -370,17 +370,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Joe', 'joe@gmail.com', '1234', 'm', '1984-7-28', 
 	   		   '94103', 'San Francisco', 'California', 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur imperdiet augue ut consectetur.', 
-	   		   '{"http://localhost:3000/scaled_jgl2.jpg",
-			    "http://localhost:3000/scaled_jgl3.jpg",
-			    "http://localhost:3000/scaled_jgl1.jpg"
+	   		   '{"/scaled_jgl2.jpg",
+			    "/scaled_jgl3.jpg",
+			    "/scaled_jgl1.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_jgl2.jpg",
-				    "http://localhost:3000/med_jgl3.jpg",
-				    "http://localhost:3000/med_jgl1.jpg"
+    			 '{"/med_jgl2.jpg",
+				    "/med_jgl3.jpg",
+				    "/med_jgl1.jpg"
    				   }',
-   				   '{ "http://localhost:3000/small_jgl2.jpg",
-					    "http://localhost:3000/small_jgl3.jpg",
-					    "http://localhost:3000/small_jgl1.jpg"
+   				   '{ "/small_jgl2.jpg",
+					    "/small_jgl3.jpg",
+					    "/small_jgl1.jpg"
     				}');
 
 INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -392,17 +392,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Jason', 'jason@gmail.com', '1234', 'm', '1983-11-14', 
 	   		   '94103', 'San Francisco', 'California', 'Nunc varius elit at rutrum molestie. Sed molestie ornare eros, in feugiat massa cursus ut. Vestibulum vitae erat velit. In pharetra felis dolor.', 
-	   		   '{"http://localhost:3000/scaled_jasonSegel1.jpg",
-			    "http://localhost:3000/scaled_jasonSegel3.JPG",
-			    "http://localhost:3000/scaled_jasonSegel2.jpg"
+	   		   '{"/scaled_jasonSegel1.jpg",
+			    "/scaled_jasonSegel3.JPG",
+			    "/scaled_jasonSegel2.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_jasonSegel1.jpg",
-				    "http://localhost:3000/med_jasonSegel3.JPG",
-				    "http://localhost:3000/med_jasonSegel2.jpg"
+    			 '{"/med_jasonSegel1.jpg",
+				    "/med_jasonSegel3.JPG",
+				    "/med_jasonSegel2.jpg"
    				   }',
-   				   '{ "http://localhost:3000/small_jasonSegel1.jpg",
-					    "http://localhost:3000/small_jasonSegel3.JPG",
-					    "http://localhost:3000/small_jasonSegel2.jpg"
+   				   '{ "/small_jasonSegel1.jpg",
+					    "/small_jasonSegel3.JPG",
+					    "/small_jasonSegel2.jpg"
     				}');
 
 INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -414,17 +414,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Martin', 'martin@gmail.com', '1234', 'm', '1982-10-14', 
 	   		   '94103', 'San Francisco', 'California', 'Nam eleifend accumsan urna et eleifend. Sed ornare nulla eu risus volutpat, quis hendrerit erat condimentum. Eu sollicitudin nibh posuere.', 
-	   		   '{"http://localhost:3000/scaled_martinStarr1.jpg",
-			    "http://localhost:3000/scaled_martinStarr2.jpg",
-			    "http://localhost:3000/scaled_martinStarr3.png"
+	   		   '{"/scaled_martinStarr1.jpg",
+			    "/scaled_martinStarr2.jpg",
+			    "/scaled_martinStarr3.png"
     			 }',
-    			 '{"http://localhost:3000/med_martinStarr1.jpg",
-				    "http://localhost:3000/med_martinStarr2.jpg",
-				    "http://localhost:3000/med_martinStarr3.png"
+    			 '{"/med_martinStarr1.jpg",
+				    "/med_martinStarr2.jpg",
+				    "/med_martinStarr3.png"
    				   }',
-   				   '{ "http://localhost:3000/small_martinStarr1.jpg",
-				    "http://localhost:3000/small_martinStarr2.jpg",
-				    "http://localhost:3000/small_martinStarr3.png"
+   				   '{ "/small_martinStarr1.jpg",
+				    "/small_martinStarr2.jpg",
+				    "/small_martinStarr3.png"
     				}');
 
 	INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -436,17 +436,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Jason', 'j@gmail.com', '1234', 'm', '1979-4-10', 
 	   		   '94103', 'San Francisco', 'California', 'Maecenas hendrerit neque ac neque auctor sodales. Etiam dapibus, lorem eget porttitor luctus, tellus dui dapibus libero, non faucibus.',
-	   		   '{    "http://localhost:3000/scaled_jasonLee3.jpg",
-				    "http://localhost:3000/scaled_jasonLee1.jpg",
-				    "http://localhost:3000/scaled_jasonLee2.png"
+	   		   '{    "/scaled_jasonLee3.jpg",
+				    "/scaled_jasonLee1.jpg",
+				    "/scaled_jasonLee2.png"
     			 }',
-    			 '{"http://localhost:3000/med_jasonLee3.jpg",
-				    "http://localhost:3000/med_jasonLee1.jpg",
-				    "http://localhost:3000/med_jasonLee2.png"
+    			 '{"/med_jasonLee3.jpg",
+				    "/med_jasonLee1.jpg",
+				    "/med_jasonLee2.png"
    				   }',
-   				   '{ "http://localhost:3000/small_jasonLee3.jpg",
-					    "http://localhost:3000/small_jasonLee1.jpg",
-					    "http://localhost:3000/small_jasonLee2.png"
+   				   '{ "/small_jasonLee3.jpg",
+					    "/small_jasonLee1.jpg",
+					    "/small_jasonLee2.png"
     				}');
 
 INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -458,17 +458,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('James', 'james@gmail.com', '1234', 'm', '1984-7-10', 
 	   		   '94103', 'San Francisco', 'California', 'Mauris justo a dui. Nulla facilisi. Morbi molestie risus massa, vel feugiat libero posuere pretium. Sed egestas, turpis ut dignissim ornare.', 
-	   		   '{    "http://localhost:3000/scaled_jamesFranco3.jpg",
-				    "http://localhost:3000/scaled_jamesFranco2.jpg",
-				    "http://localhost:3000/scaled_jamesFranco1.jpg"
+	   		   '{    "/scaled_jamesFranco3.jpg",
+				    "/scaled_jamesFranco2.jpg",
+				    "/scaled_jamesFranco1.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_jamesFranco3.jpg",
-				    "http://localhost:3000/med_jamesFranco2.jpg",
-				    "http://localhost:3000/med_jamesFranco1.jpg"
+    			 '{"/med_jamesFranco3.jpg",
+				    "/med_jamesFranco2.jpg",
+				    "/med_jamesFranco1.jpg"
    				   }',
-   				   '{ "http://localhost:3000/small_jamesFranco3.jpg",
-					    "http://localhost:3000/small_jamesFranco2.jpg",
-					    "http://localhost:3000/small_jamesFranco1.jpg"
+   				   '{ "/small_jamesFranco3.jpg",
+					    "/small_jamesFranco2.jpg",
+					    "/small_jamesFranco1.jpg"
     				}');
 
 	INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -480,17 +480,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Reggie', 'reggie@gmail.com', '1234', 'm', '1980-7-10', 
 	   		   '94103', 'San Francisco', 'California', 'Sapien urna adipiscing metus, at fringilla diam magna eu dui. Aliquam nibh enim, egestas vel gravida ac, faucibus sit amet est.',
-	   		   '{   "http://localhost:3000/scaled_reggieWatts1.jpeg",
-				    "http://localhost:3000/scaled_reggieWatts2.jpeg",
-				    "http://localhost:3000/scaled_reggieWatts3.jpeg"
+	   		   '{   "/scaled_reggieWatts1.jpeg",
+				    "/scaled_reggieWatts2.jpeg",
+				    "/scaled_reggieWatts3.jpeg"
     			 }',
-    			 '{"http://localhost:3000/med_reggieWatts1.jpeg",
-				    "http://localhost:3000/med_reggieWatts2.jpeg",
-				    "http://localhost:3000/med_reggieWatts3.jpeg"
+    			 '{"/med_reggieWatts1.jpeg",
+				    "/med_reggieWatts2.jpeg",
+				    "/med_reggieWatts3.jpeg"
    				   }',
-   				   '{ "http://localhost:3000/small_reggieWatts1.jpeg",
-					    "http://localhost:3000/small_reggieWatts2.jpeg",
-					    "http://localhost:3000/small_reggieWatts3.jpeg"
+   				   '{ "/small_reggieWatts1.jpeg",
+					    "/small_reggieWatts2.jpeg",
+					    "/small_reggieWatts3.jpeg"
     				}');
 
 	INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -502,17 +502,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Zooey', 'zooey@gmail.com', '1234', 'f', '1982-9-10', 
 	   		   '94103', 'San Francisco', 'California', 'Sed a tellus eu lectus luctus vulputate et a felis. Nullam eget odio sit amet tortor hendrerit condimentum a sed nibh. Ut odio mi, vulputate.',
-	   		   '{   "http://localhost:3000/scaled_zooeyD2.jpeg",
-				    "http://localhost:3000/scaled_zooeyD3.jpeg",
-				    "http://localhost:3000/scaled_zooeyD1.jpg"
+	   		   '{   "/scaled_zooeyD2.jpeg",
+				    "/scaled_zooeyD3.jpeg",
+				    "/scaled_zooeyD1.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_zooeyD2.jpeg",
-				    "http://localhost:3000/med_zooeyD3.jpeg",
-				    "http://localhost:3000/med_zooeyD1.jpg"
+    			 '{"/med_zooeyD2.jpeg",
+				    "/med_zooeyD3.jpeg",
+				    "/med_zooeyD1.jpg"
    				   }',
-   				   '{  "http://localhost:3000/small_zooeyD2.jpeg",
-					    "http://localhost:3000/small_zooeyD3.jpeg",
-					    "http://localhost:3000/small_zooeyD1.jpg"
+   				   '{  "/small_zooeyD2.jpeg",
+					    "/small_zooeyD3.jpeg",
+					    "/small_zooeyD1.jpg"
     				}');
 
 	INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
@@ -524,17 +524,17 @@ INSERT INTO users (username, email, password, gender, dateofbirth,
 	        imageurls, medimageurls, smallimageurls) 
 	   VALUES ('Emma', 'emma@gmail.com', '1234', 'f', '1989-9-10', 
 	   		   '94103', 'San Francisco', 'California', 'Non lacus ac, mollis consequat ante. Pellentesque nec venenatis justo. Nunc congue mi sed magna consectetur, quis tincidunt quam.',
-	   		   '{  "http://localhost:3000/scaled_emmaStone2.jpg",
-				    "http://localhost:3000/scaled_emmaStone3.jpg",
-				    "http://localhost:3000/scaled_emmaStone1.jpg"
+	   		   '{  "/scaled_emmaStone2.jpg",
+				    "/scaled_emmaStone3.jpg",
+				    "/scaled_emmaStone1.jpg"
     			 }',
-    			 '{"http://localhost:3000/med_emmaStone2.jpg",
-				    "http://localhost:3000/med_emmaStone3.jpg",
-				    "http://localhost:3000/med_emmaStone1.jpg"
+    			 '{"/med_emmaStone2.jpg",
+				    "/med_emmaStone3.jpg",
+				    "/med_emmaStone1.jpg"
    				   }',
-   				   '{  "http://localhost:3000/small_emmaStone2.jpg",
-					    "http://localhost:3000/small_emmaStone3.jpg",
-					    "http://localhost:3000/small_emmaStone1.jpg"
+   				   '{  "/small_emmaStone2.jpg",
+					    "/small_emmaStone3.jpg",
+					    "/small_emmaStone1.jpg"
     				}');
 
 	INSERT INTO userprefs (userid, male, female, age_min, age_max, distance_max) 
