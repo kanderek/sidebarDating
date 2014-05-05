@@ -724,11 +724,11 @@ app.get('/crowd/',
 	function (req, res) {
 		//console.log(req.queryResult);
 		if(req.pagePeople){
-			for(var i=0; i<req.queryResult.rows.length; i++){
-				var age = calculateAge(req.pagePeople.rows[i].dateofbirth);
-				req.pagePeople.rows[i].age = age;
+			for(var i=0; i<req.pagePeople.length; i++){
+				var age = calculateAge(req.pagePeople[i].dateofbirth);
+				req.pagePeople[i].age = age;
 			}
-			res.json(req.pagePeople.rows);
+			res.json(req.pagePeople);
 		}
 		else {
 			res.send(500);
@@ -754,26 +754,26 @@ function getDancecardRecord(req, res, next){
 
 function getPeopleOnPage(req,res,next) {
 
-	var whereClause = " userid != " + req.userid;
+	var whereClause = " u.userid != " + req.userid;
 
 	// console.log(req.userid);
 	// console.log('result of querying dancecard record...');
 	// console.log(req.queryResult);
 	for(var i=0; i<req.excludeUser.length; i++){
-		whereClause += " AND userid !=" + req.excludeUser[i].userid;
+		whereClause += " AND u.userid !=" + req.excludeUser[i].userid;
 	}
 
 	if(req.pageprofiles){
 		for(var i=0; i<req.pageprofiles.length; i++){
-			whereClause += " AND userid !=" + req.pageprofiles[i];
+			whereClause += " AND u.userid !=" + req.pageprofiles[i];
 		}
 	};
 
 	// By URL
 	// WHERE userhistory.urlid = (SELECT urlid FROM urls WHERE url=req.url)
-	var queryString = "SELECT  userid, username, dateofbirth, " +
-						"location_city, location_state, zipcode, personal_blurb, "+
-						"imageurls, medimageurls, smallimageurls "+
+	var queryString = "SELECT  u.userid, u.username, u.dateofbirth, " +
+						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
+						"u.imageurls, u.medimageurls, u.smallimageurls "+
 						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url='" + req.url + "') AND ("  + whereClause + 
 						  ") LIMIT " + req.limit;
 
@@ -781,7 +781,9 @@ function getPeopleOnPage(req,res,next) {
 		req.db.client.query(queryString, function(err, result){
 			//deal with error 
 			console.log(result);
-			req.pagePeople = result;
+			if(!err){
+				req.pagePeople = result.rows;
+			}
 			next();
 		});
 	};
@@ -882,8 +884,10 @@ function formatForTreemap(data){
 	return treemapData;
 }
 
-app.get('/mockhistory', function(req, res){
-	console.log(__dirname);
+app.get('/mockhistory/:userid', function(req, res){
+	// console.log(__dirname);
+	var userid = req.params.userid;
+	// console.log(userid);
 	var history;
 	fs.readFile( __dirname + '/mockHistory.json', 'utf8', function (err, data) {
 	  // if (err) throw err;
@@ -892,7 +896,7 @@ app.get('/mockhistory', function(req, res){
 	  }
 	  else {
 	  history = JSON.parse(data);
-	  console.log(history);
+	  // console.log(history);
 	  	// res.json(history);
 	  	var promises = [];
   		for(var i=0; i<history.length; i++){
@@ -901,7 +905,8 @@ app.get('/mockhistory', function(req, res){
 		  	totalCount = history[i].typedCount + history[i].visitCount;
 		  	visitTime = moment(history[i].lastVisitTime).format('YYYY-MM-DD HH:mm:ss');
 
-		  		promises.push(setUrlsAndCategories(req, url, title, totalCount, visitTime));
+		  		// promises.push(setUrlsAndCategories(req, url, title, totalCount, visitTime));
+		  		promises.push(processOne(req, userid, url, title, totalCount, visitTime));
 		  } 
 
 		  q.all(promises).then(function(data){
