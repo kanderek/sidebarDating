@@ -1,4 +1,5 @@
-var SERVER = /*"http://sidebar-dating.herokuapp.com";//*/"http://localhost:3000";
+// var SERVER = "http://sidebar-dating.herokuapp.com";
+var SERVER = "http://localhost:3000";
 var url_info = {};
 
 /***************************************************************************
@@ -868,6 +869,8 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
       console.log('initilize Profile');
       console.log(user);
       if(typeof(user) == 'object'){
+        console.log('initializing profile data on signup...');
+        console.log(user);
         profileFactory.selfProfile = user;
         profileFactory.selectedProfile = user;
         profileFactory.getProfilesByPage(url, user.userid);
@@ -1032,6 +1035,8 @@ appServices.factory('InterestService', ['$http', '$rootScope',
         callback(interestService.userInterests[userid]);
       }
       else{
+        console.log('in users Treemap...');
+        console.log(userid);
         interestService.getInterestTreemapByUserid(userid, function(data){
           console.log(data);
            $rootScope.$broadcast('treemap-data-available');
@@ -1096,7 +1101,7 @@ appServices.factory('SignupService', ['$http', 'Profile',
         callback(data);
         console.log('self profile');
         console.log(data);
-        Profile.selfProfile = data;
+        Profile.selfProfile = data.user;
       }).
       error(function(data, status, headers, config){
         console.log('error signing up user: sending data to server failed');
@@ -1330,8 +1335,8 @@ appControllers.controller('CheckStatusCtrl', ['$scope', '$rootScope', '$state','
 /*******************************************************************************************************
 Sign-up Controller  */
 
-appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState', 'SignupService', 'InitService',
-  function($scope, $state, $upload, UiState, SignupService, InitService) {
+appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upload', 'UiState', 'SignupService', 'InitService',
+  function($scope, $rootScope, $state, $upload, UiState, SignupService, InitService) {
 
 
     // var re5digit=/^\d{5}$/ to check for 5 digit zipcode 
@@ -1461,11 +1466,47 @@ appControllers.controller('SignupCtrl', ['$scope', '$state', '$upload', 'UiState
           console.log(data);
           InitService.initializeData(data.user);
        });
-       // SignupService.requestInfoFromBackground('YO Yo Yo, background!');
-       $state.go('main.profileList', { reload: true, inherit: false, notify: false});
+       // SignupService.requestInfoFromBackground('YO Yo Yo, background!')
+          $rootScope.$broadcast('start-tutorial');
+          $state.go('main.profileList', { reload: true, inherit: false, notify: false});
     }
 
 }]);
+
+/*******************************************************************************************************
+Tutorial Controller  */
+
+appControllers.controller('TutorialCtrl', ['$scope', '$state', 
+  function($scope, $state) {
+
+
+    $scope.firstVisit = false;
+
+    $scope.$on('start-tutorial', function(event){
+      $scope.firstVisit = true;
+    });
+
+    $scope.step1 = true;
+    $scope.step2 = false;
+    $scope.step3 = false;
+
+    $scope.next = function(){
+      if($scope.step1){
+        $scope.step1 = false;
+        $scope.step2 = true;
+      }
+      else if($scope.step2){
+        $scope.step2 = false;
+        $scope.step3 = true;
+      }
+      else if($scope.step3){
+        $scope.step3 = false;
+        $scope.firstVisit = false;
+        //load real data for page...
+      }
+    }
+
+  }]);
 
 /*******************************************************************************************************
 Login Controller  */
@@ -1804,6 +1845,7 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
       console.log('in profiledetail ctrl...checking select userid');
       console.log($scope.profile.selectedProfile.userid);
       console.log(Profile);
+      console.log(Profile.selectProfile);
        InterestService.usersTreemap(Profile.selectedProfile.userid, function(data){
            $scope.treemapData  = data;
         });

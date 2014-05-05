@@ -662,6 +662,87 @@
 		font-size: 1.1em;
 	}
 
+	#sbe-tutorial-wrapper {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		width: 540px;
+		height: 100%;
+	}
+
+	#sbe-tutorial-step1 {
+		position: relative;
+		height: 88px;
+		width: 100%;
+		/*background-color:  rgba(0,100,0,0.4);*/
+	}
+	#sbe-tutorial-step2 {
+		position: relative;
+		height: 392px;
+		width: 100%;
+		/*background-color:  rgba(0,100,100,0.4);*/
+	}
+	#sbe-tutorial-step3 {
+		position: relative;
+		height: 100%;
+		width: 100%;
+		/*background-color:  rgba(0,0,100,0.4);*/
+	}
+
+	.sbe-tutorial {
+/*		background-color: gray;
+		width: 200px;*/
+	}
+
+	.sbe-tutorial-text {
+		position: relative;
+		float: left;
+		width: 260px;
+		background-color: white;
+		box-shadow: -1px 3px 20px 1px #888888;
+		color: black;
+		border-radius: 2px
+	}
+
+	.sbe-tutorial-text > p{
+		margin: 8px;
+	}
+
+	.sbe-tutorial-text > svg {
+		position: absolute;
+		top: 50%;
+		-webkit-transform: translateY(-50%) translateX(260px);
+	}
+
+	.sbe-tutorial-overlay {
+		position: relative;
+		float: right;
+		width: 260px;
+		height: 100%;
+		opacity: 0.5;
+		background-color:  rgb(0,0,0);
+	}
+
+	.sbe-deactivated {
+		opacity: 0;
+	}
+
+/*	.sbe-tutorial-overlay:hover {
+		opacity: 0;
+	}
+*/
+	.sbe-pos-step1 {
+		-webkit-transform: translateY(20px);
+	}
+
+	.sbe-pos-step2 {
+		-webkit-transform: translateY(20px);
+	}
+
+	.sbe-pos-step3 {
+		-webkit-transform: translateY(20px);
+	}
+
 </style>
 
 <div id="injected-wrapper" 
@@ -702,8 +783,46 @@
 			<!-- <a ng-click="goToHistory()" >History </a> -->
 			<a ng-click="goToNotifications()" class="sidebar-notif">{{ns.unreadCount}} </a>
 		</div>
+
 		<div ui-view="sidebar">
 		</div>
+
+		<div ng-controller="TutorialCtrl">
+			<div id="sbe-tutorial-wrapper"  ng-show="firstVisit">
+
+				<div id="sbe-tutorial-step1" class="sbe-tutorial">
+					<div class="sbe-tutorial-text sbe-pos-step1" ng-show="step1">
+						<p>This is your Dance Card. If you want to message someone or see more detailed profiles, add them to this list. <a ng-click="next()">Next</a></p>
+						<svg height="20" width="20">
+						  <polygon points="0,0 0,20 20,10" style="fill:rgba(255,255,255,1.0);" />
+						</svg>
+					</div>
+					<div class="sbe-tutorial-overlay" ng-class="{'sbe-deactivated': step1}">
+					</div>
+				</div>
+				<div id="sbe-tutorial-step2" class="sbe-tutorial">
+					<div class="sbe-tutorial-text sbe-pos-step2" ng-show="step2">
+						<p>Here are a list of other people viewing similar pages to the one you're currently viewing. Click on them to reveal their profile. <a ng-click="next()">Next</a></p>
+						<svg height="20" width="20">
+						  <polygon points="0,0 0,20 20,10" style="fill:rgba(255,255,255,1.0);" />
+						</svg>
+					</div>
+					<div class="sbe-tutorial-overlay" ng-class="{'sbe-deactivated': step2}">
+					</div>
+				</div>
+				<div id="sbe-tutorial-step3" class="sbe-tutorial">
+					<div class="sbe-tutorial-text sbe-pos-step3" ng-show="step3">
+						<p>These are people who are slightly outside of what you're looking for, but you might be interested. <a ng-click="next()">Let's Start!</a></p>
+						<svg height="20" width="20">
+						  <polygon points="0,0 0,20 20,10" style="fill:rgba(255,255,255,1.0);" />
+						</svg>
+					</div>
+					<div class="sbe-tutorial-overlay" ng-class="{'sbe-deactivated': step3}">
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="remove-on-drag-area" 
 			 ng-class="{'showRemoveArea': showRemove}"
 			  ui-on-drop="onDropRemove($event, $data)"
