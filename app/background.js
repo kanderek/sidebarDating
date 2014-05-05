@@ -129,7 +129,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 	if(changeInfo.status == "complete"){
     console.log('index on updated complete: ' + index);
     if(index == -1){
-      index = initializeTabStatus(tabId);
+      index = initializeTabStatus(tabId); 
       console.log(index);
       // tabStatus[index].status = true;
       // callBrowserAction(tab, tabStatus[index].status);

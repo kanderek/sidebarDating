@@ -973,8 +973,10 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     }
 
     profileFactory.getProfilesByPage = function(url, limit){
+       console.log('getting profiles by page...');
+       console.log(url_info);
        var userid = profileFactory.selfProfile.userid;
-       var queryString = "url=" + url + "&userid=" + userid + "&limit=" +limit;
+       var queryString = "url=" + url_info.url + "&userid=" + userid + "&limit=" +limit;
        
       if(profileFactory.pageProfiles.length > 0){
          queryString += "&pageprofiles="; 
@@ -1842,10 +1844,10 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
     $scope.$on('profile-selected', function(event){
 
       $scope.profile = Profile;
-      console.log('in profiledetail ctrl...checking select userid');
-      console.log($scope.profile.selectedProfile.userid);
-      console.log(Profile);
-      console.log(Profile.selectProfile);
+      // console.log('in profiledetail ctrl...checking select userid');
+      // console.log($scope.profile.selectedProfile.userid);
+      // console.log(Profile);
+      // console.log(Profile.selectProfile);
        InterestService.usersTreemap(Profile.selectedProfile.userid, function(data){
            $scope.treemapData  = data;
         });

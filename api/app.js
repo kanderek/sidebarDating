@@ -705,17 +705,17 @@ app.get('/crowd/',
 	//connectToDb, 
 	function(req, res, next){
 
+		console.log('getting crowd for page....');
 		console.log(req.query);
-		req.url = req.query.url;
-		req.userid = req.query.userid;
-		req.limit = req.query.limit;
-		if(!req.limit){
-			req.limit = 10;
-		}
-
-		if(req.query.pageprofiles){
-			req.pageprofiles = req.query.pageprofiles.split(',');
-		}
+		console.log(req.user);
+		req.type = req.query.type ? req.query.type : 'url';
+		req.url = req.query.url ? req.query.url : 'www.google.com';
+		req.userid = req.query.userid ? req.query.userid : req.user.userid;
+		req.limit = req.query.limit ? req.query.limit : 10;
+		req.pageProfiles = req.query.pageprofiles ? req.query.pageprofiles.split(',') : [];
+		// if(req.query.pageprofiles){
+		// 	req.pageprofiles = req.query.pageprofiles.split(',');
+		// }
 		next();
 		// console.log('get request /crowd/' + url);
 	}, 
@@ -723,12 +723,16 @@ app.get('/crowd/',
 	getPeopleOnPage,
 	function (req, res) {
 		//console.log(req.queryResult);
-		for(var i=0; i<req.queryResult.rows.length; i++){
-			var age = calculateAge(req.queryResult.rows[i].dateofbirth);
-			req.queryResult.rows[i].age = age;
+		if(req.pagePeople){
+			for(var i=0; i<req.queryResult.rows.length; i++){
+				var age = calculateAge(req.pagePeople.rows[i].dateofbirth);
+				req.pagePeople.rows[i].age = age;
+			}
+			res.json(req.pagePeople.rows);
 		}
-		res.json(req.queryResult.rows);
-
+		else {
+			res.send(500);
+		}
 	});
 
 function getDancecardRecord(req, res, next){
@@ -742,7 +746,7 @@ function getDancecardRecord(req, res, next){
 		// console.log('get entire dancecard record: ');
 		// console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
-				  	req.queryResult = result;
+				  	req.excludeUser = result.rows;
 				  	// console.log(req.queryResult);
 				  	next();
 				  });
@@ -750,13 +754,13 @@ function getDancecardRecord(req, res, next){
 
 function getPeopleOnPage(req,res,next) {
 
-	var whereClause = "WHERE userid != " + req.userid;
+	var whereClause = " userid != " + req.userid;
 
 	// console.log(req.userid);
 	// console.log('result of querying dancecard record...');
 	// console.log(req.queryResult);
-	for(var i=0; i<req.queryResult.rows.length; i++){
-		whereClause += " AND userid !=" + req.queryResult.rows[i].userid;
+	for(var i=0; i<req.excludeUser.length; i++){
+		whereClause += " AND userid !=" + req.excludeUser[i].userid;
 	}
 
 	if(req.pageprofiles){
@@ -765,16 +769,19 @@ function getPeopleOnPage(req,res,next) {
 		}
 	};
 
+	// By URL
+	// WHERE userhistory.urlid = (SELECT urlid FROM urls WHERE url=req.url)
 	var queryString = "SELECT  userid, username, dateofbirth, " +
 						"location_city, location_state, zipcode, personal_blurb, "+
 						"imageurls, medimageurls, smallimageurls "+
-						  "FROM users " + whereClause + 
-						  " LIMIT " + req.limit;
+						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url='" + req.url + "') AND ("  + whereClause + 
+						  ") LIMIT " + req.limit;
 
-		// console.log(queryString);
+		console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error 
-			req.queryResult = result;
+			console.log(result);
+			req.pagePeople = result;
 			next();
 		});
 	};
@@ -875,6 +882,40 @@ function formatForTreemap(data){
 	return treemapData;
 }
 
+app.get('/mockhistory', function(req, res){
+	console.log(__dirname);
+	var history;
+	fs.readFile( __dirname + '/mockHistory.json', 'utf8', function (err, data) {
+	  // if (err) throw err;
+	  if(err){
+	  	console.log(err);
+	  }
+	  else {
+	  history = JSON.parse(data);
+	  console.log(history);
+	  	// res.json(history);
+	  	var promises = [];
+  		for(var i=0; i<history.length; i++){
+		  	url = history[i].url;
+		  	title = history[i].title;
+		  	totalCount = history[i].typedCount + history[i].visitCount;
+		  	visitTime = moment(history[i].lastVisitTime).format('YYYY-MM-DD HH:mm:ss');
+
+		  		promises.push(setUrlsAndCategories(req, url, title, totalCount, visitTime));
+		  } 
+
+		  q.all(promises).then(function(data){
+		  	res.send(200);
+		  },
+		  function(err){
+		  	res.send(500);
+		  });
+
+		}
+	});
+
+});
+
 
 app.post('/history', function(req, res){
   console.log(req.body);      // your JSON
@@ -918,6 +959,38 @@ app.post('/history', function(req, res){
   });
 
 });
+
+function setUrlsAndCategories(req, url, title, totalCount, visitTime){
+
+	return setUrl(req, url, title)
+  	.then(function(data){
+  		console.log('updated or inserted url into url table...');
+  		console.log(data);
+  		// console.log(req);
+  		return getAndSetUrlImage(url/*, data.urlid, data.action*/)
+		  	.then(function(image_result){
+		  		console.log('image finding a success...now update user_history...');
+		  		console.log(image_result);
+		  		// console.log(req);
+		  		return addImageToUrls(req, data.urlid, image_result.image_url)
+		  			.then(function(){
+							if(data.action == 'insert'){
+								return taxonomy(data.urlid, url)
+									.then(function(taxonomyByUrlid){
+										return setUrlCategories(req, taxonomyByUrlid);
+									});
+							}			
+		  			});
+		  	});
+	})
+  	.then(function(){
+  		console.log('added or updated url record and categories...');
+  	})
+  	.fail(function(err){
+  		console.log('Error...');
+  		console.log(err);
+  	});
+}
 
 function processOne(req, userid, url, title, totalCount, visitTime){
 
