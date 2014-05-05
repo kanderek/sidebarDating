@@ -234,6 +234,10 @@
         margin-left: 5px;
     }
 
+    .sbe-dancecard-fill {
+        background-color: red;
+    }
+
     #user-dancecard-count p {
         text-align: right;
     }
@@ -337,15 +341,15 @@
 
                 <div id="user-dancecard-count" ng-hide="isSelf()">
                     <p>{{profile.selectedProfile.username}}'s Dance Card </p>
-                    <div class="dancecard-indicator">
+                    <div class="dancecard-indicator" ng-class="{'sbe-dancecard-fill': profile.selectedProfile.dancecard_count >= 5}">
                     </div>
-                    <div class="dancecard-indicator">
+                    <div class="dancecard-indicator" ng-class="{'sbe-dancecard-fill': profile.selectedProfile.dancecard_count >= 4}">
                     </div>
-                    <div class="dancecard-indicator">
+                    <div class="dancecard-indicator" ng-class="{'sbe-dancecard-fill': profile.selectedProfile.dancecard_count >= 3}">
                     </div>
-                    <div class="dancecard-indicator">
+                    <div class="dancecard-indicator" ng-class="{'sbe-dancecard-fill': profile.selectedProfile.dancecard_count >= 2}">
                     </div>
-                    <div class="dancecard-indicator">
+                    <div class="dancecard-indicator" ng-class="{'sbe-dancecard-fill': profile.selectedProfile.dancecard_count >= 1}">
                     </div>
                 </div>
             </div>

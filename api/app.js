@@ -684,7 +684,7 @@ app.get('/profile/:userid',
 
 		var queryString = "SELECT userid, username, dateofbirth," +
 							"location_city, location_state, personal_blurb, "+
-							"imageurls, medimageurls, smallimageurls "+ 
+							"imageurls, medimageurls, smallimageurls, (SELECT count(*) from dancecard where userid=" + userid + " AND status='added') AS dancecard_count "+ 
 							"FROM users "+
 							"WHERE userid=" + userid;
 		req.db.client.query(queryString, function(err, result){
@@ -773,7 +773,7 @@ function getPeopleOnPage(req,res,next) {
 	// WHERE userhistory.urlid = (SELECT urlid FROM urls WHERE url=req.url)
 	var queryString = "SELECT  u.userid, u.username, u.dateofbirth, " +
 						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
-						"u.imageurls, u.medimageurls, u.smallimageurls "+
+						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count "+
 						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url='" + req.url + "') AND ("  + whereClause + 
 						  ") LIMIT " + req.limit;
 
