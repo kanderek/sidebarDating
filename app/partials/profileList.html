@@ -44,6 +44,7 @@
 		/*visibility: hidden;*/
 		/*background-color: rgb(0,100,0, 0.7);*/
 		-webkit-transition: top 0.5s ease, opacity 1s linear;
+		margin-top: 5px;
 	}
 
 	.init-indicator {
@@ -84,10 +85,15 @@
 		margin: 0;
 	}
 
+	#sidebar .profile:hover {
+		background-color: #404242;
+	}
+
 	#sidebar .name {
-		font-size: 1em;
+		font-size: 1.1em;
 		margin-bottom: 10px;
-		color: #16C1D7;
+		/*color: #8AD9DD;*/
+		color: white;
 	}
 
 	#sidebar .personal-blurb {
@@ -96,18 +102,29 @@
 		text-overflow: ellipsis;
 		width: 180px;
 		display: inline-block;
+		color: #DBDBDB;
 	}
 
-	#sidebar .profilelist div:first-of-type {
+	/*#sidebar .profilelist div:first-of-type {
 		border-top: 1px solid #5F6565;
+	}*/
+
+	#sidebar .sidebar-visitors {
+		width: 100%;
+		/*background-color: #9E9E9E;*/
+		box-sizing: border-box;
+		text-align: center;
 	}
 
 </style>
 
 <div class="meeting-space">
-
-	<h3>People who also visited this page</h3>
-
+	<div class="sidebar-visitors">
+		<h3 class="sidebar-visitorsTitle">People who also visited this page</h3>
+		<div class="horizontal-line">
+		</div>
+	</div>
+	</div>
 	<div id="profileList" >
 
 		<div class="profile" 
