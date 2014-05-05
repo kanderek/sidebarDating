@@ -3,6 +3,11 @@
 	width: 100%;
 }
 
+.survey-info {
+	padding: 10px;
+	box-sizing: border-box;
+}
+
 .survey-info textarea {
 	width: 97%;
 	height: 100px;
@@ -18,12 +23,62 @@
 	width: 48%;
 	position: relative;
 	float: right;
+
+	background-color: #008C9E;
+	color: #DBDBDB;
+	border: none;
+	border-bottom: 4px solid #005F6B;
+	padding: 10px 5px;
+	font-weight: normal;
+}
+
+.survey-info input[type='submit']:hover {
+	background-color: #00AABF;
+	border-bottom: 4px solid #007786;
+}
+
+.survey-cancel-btn {
+	width: 48% !important;
+	background-color: #666666 !important;
+	border-bottom: 4px solid #444444 !important;
+}
+
+.survey-cancel-btn:hover {
+	width: 48% !important;
+	background-color: #797979 !important;
+	border-bottom: 4px solid #565656 !important;
+}
+
+#sidebar .survey-heading {
+	font-weight: 700;
+	font-size: 1.1em;
+	text-shadow: 0px 1px 0px #000;
+	color: #BCBCBC;
+	box-sizing: border-box;
+	margin-bottom: 10px;
+}
+
+#sidebar .survey-heading h4 {
+	margin: 0;
+	padding: 13px;
+	text-align: center;
+}
+
+#sidebar #free-reasons {
+	margin: 10px 0;
+}
+
+#sidebar .free-reasons-label {
+	margin: 15px 0 0 0 ;
+	display: block;
 }
 
 </style>
 <div class="survey-wrapper">
 	<div class="survey-heading">
 		<h4>Feedback</h4>
+		<div class="horizontal-line">
+		</div>
 	</div>
 
 	<form class="survey-info">
@@ -49,11 +104,11 @@
 		</div>
 
 
-		<label for="free-reasons">Anything you want to tell them?</label>
+		<label class="free-reasons-label" for="free-reasons">Anything you want to tell them?</label>
 		<textarea id="free-reasons"></textarea>
 
 
-		<button type="button" ng-click="cancel()">Cancel</button>
-		<input type="submit" value="Submit" ng-click="submitSurvey()"/>
+		<button class="survey-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+		<input type="submit" class="survey-submit-btn" value="Submit" ng-click="submitSurvey()"/>
 	</form>
 </div>
