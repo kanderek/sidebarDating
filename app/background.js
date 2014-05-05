@@ -135,15 +135,16 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
       // callBrowserAction(tab, tabStatus[index].status);
     }
     else{
-      // callBrowserAction(tab, tabStatus[index].status);
+      setBrowserActionIcon(tabStatus[index].status);
+      callBrowserAction(tab, tabStatus[index].status);
     }
 	}
   else if(changeInfo.status == "loading" && changeInfo.url){
-    resetTabStatus(tabId);
-    setBrowserActionIcon(tabStatus[index].status);
+    // resetTabStatus(tabId);
+    // setBrowserActionIcon(tabStatus[index].status);
   }
   else if(changeInfo.status == "loading"){
-    setBrowserActionIcon(tabStatus[index].status);
+    // setBrowserActionIcon(tabStatus[index].status);
   }
 });
 
