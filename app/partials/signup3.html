@@ -88,10 +88,11 @@
 	#sbe-sidebar input[type='submit'] {
 		width: 100%;
 		background-color: #008C9E;
-		color: #DBDBDB;
+		color: white;
 		border: none;
 		border-bottom: 4px solid #005F6B;
 		padding: 10px 5px;
+		font-size: 1em;
 	}
 
 	#sbe-sidebar input[type='submit']:hover {
@@ -104,11 +105,23 @@
 		float: right;
 	}
 
+	#sbe-sidebar .sidebar-back {
+		margin-left: 0;
+	}
+
+	#sbe-sidebar .signup-info {
+		margin-top: 0;
+	}
+
+	#sbe-sidebar .sbe-sliders {
+		margin-top: 20px;
+	}
+
 </style>
 
 <div class="signup-heading" ng-cloak>
-	<a class="back" ui-sref="sign-up-2">Back</a>
-	<h4>What are you looking for?</h4>
+	<a class="back sidebar-back" ui-sref="sign-up-2"></a>
+	<h4>What Are You Looking For?</h4>
 </div>
 <div class="signup-wrapper">
 	<form class="signup-info">
@@ -121,16 +134,18 @@
 			<label for="female_pref">Female</label>	
 		</div>
 
-		<label for="age_pref">Age Range:</label><span id="sbe-age-range">{{pref.age_min}} - {{pref.age_max}}</span>
-		<div class="slider">
-			<slider floor='{{age_floor}}' ceiling='{{age_ceil}}' step='1' precision='0' buffer='' showSteps='false'
-	            stickiness='0.5' ng-model-low='pref.age_min' ng-model-high='pref.age_max'></slider>
-		</div>
+		<div class="sbe-sliders">
+			<label for="age_pref">Age Range:</label><span id="sbe-age-range">{{pref.age_min}} - {{pref.age_max}}</span>
+			<div class="slider">
+				<slider floor='{{age_floor}}' ceiling='{{age_ceil}}' step='1' precision='0' buffer='' showSteps='false'
+		            stickiness='0.5' ng-model-low='pref.age_min' ng-model-high='pref.age_max'></slider>
+			</div>
 
-		<label for="location_pref">Within:</label><span id="sbe-distance">{{pref.distance_max}} miles</span>
-		<div class="slider" ng-model="pref.distance_max">
-			<slider floor='{{distance_floor}}' ceiling='{{distance_ceil}}' step='1' precision='0' stickiness='0.5'
-	            ng-model='pref.distance_max'></slider>
+			<label for="location_pref">Within:</label><span id="sbe-distance">{{pref.distance_max}} miles</span>
+			<div class="slider" ng-model="pref.distance_max">
+				<slider floor='{{distance_floor}}' ceiling='{{distance_ceil}}' step='1' precision='0' stickiness='0.5'
+		            ng-model='pref.distance_max'></slider>
+			</div>
 		</div>
 
 		<input type="submit" value="Ready?" ng-click="createAccount()"/>
