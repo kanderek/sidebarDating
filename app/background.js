@@ -129,15 +129,18 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 	if(changeInfo.status == "complete"){
     console.log('index on updated complete: ' + index);
     if(index == -1){
-      index = initializeTabStatus(tabId); 
-      console.log(index);
-      // tabStatus[index].status = true;
-      // callBrowserAction(tab, tabStatus[index].status);
+      index = initializeTabStatus(tabId);
+
     }
-    else{
+
+    // copy previous tab's sidebar status to current tab, activate if true
+    tabStatus[index].status = tabStatus.length > 1 ? tabStatus[index-1].status : false;
+    if (tabStatus[index].status) {
       setBrowserActionIcon(tabStatus[index].status);
       callBrowserAction(tab, tabStatus[index].status);
     }
+
+
 	}
   else if(changeInfo.status == "loading" && changeInfo.url){
     // resetTabStatus(tabId);
