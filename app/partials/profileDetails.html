@@ -118,8 +118,41 @@
     //
     *******************************************/
     /* Layout with grid! tbd */
+
+    #detailsWrapper.openDetails {
+        color: #DBDBDB;
+        position: absolute;
+        height: inherit;
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.4em;
+    }
+
+    #detailsWrapper.openDetails div, 
+    #detailsWrapper.openDetails p, 
+    #detailsWrapper.openDetails span, 
+    #detailsWrapper.openDetails h1, 
+    #detailsWrapper.openDetails h2, 
+    #detailsWrapper.openDetails h3,
+    #detailsWrapper.openDetails h4,
+    #detailsWrapper.openDetails h5,
+    #detailsWrapper.openDetails h6, 
+    #detailsWrapper.openDetails a {
+        font-size: 100%;
+        vertical-align: baseline;
+        font-style: normal;
+    }
+
+    #detailsWrapper.openDetails h1, 
+    #detailsWrapper.openDetails h2, 
+    #detailsWrapper.openDetails h3,
+    #detailsWrapper.openDetails h4,
+    #detailsWrapper.openDetails h5,
+    #detailsWrapper.openDetails h6 {
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    }
     
-    #detailsPanel h4 {
+    #detailsWrapper.openDetails #detailsPanel h3 {
         font-weight: 700;
         font-size: 1.1em;
         text-shadow: 0px 1px 0px #000;
@@ -127,12 +160,11 @@
         margin: 0 0 10px 0;
     }
 
-
-    #detailsPanel {
+    #detailsWrapper.openDetails #detailsPanel {
         width: 500px;
         height: 100%;
         overflow-y:auto;
-        background-color: #666;
+        background-color: #666666;
         position: relative;
         float: left;
         padding: 10px;
@@ -140,26 +172,26 @@
         /*-webkit-transition: opacity 0.3s linear;  */
     }
 
-    #profile-details {
+    #detailsWrapper.openDetails #profile-details {
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
         width: 100%;
         background-color: #2C3030;
-        margin: 5px 0px 0px 0px;
+        margin: 0px 0px 0px 0px;
         overflow: auto;
-        color: #dfdfdf;
+        color: #ababab;
         box-sizing: border-box;
         padding: 10px;
         font-size: 12px;
     }
 
-    #profile-details img {
+    #detailsWrapper.openDetails #profile-details img {
         width: 19px;
         height: 19px;
         position: relative;
         top: 5px;
     }
 
-    #profile-details h3{
+    #detailsWrapper.openDetails #profile-details h3{
         display: inline-block;
         margin: 0px 5px 0px 0px;
         /*color: #8AD9DD;*/
@@ -168,7 +200,7 @@
         font-weight: 300;
     }
 
-    #profile-details .col-left {
+    #detailsWrapper.openDetails #profile-details .col-left {
         position: relative;
         float: left;
         width: 60%;
@@ -176,25 +208,25 @@
         height: 100%;
     }
 
-    #profile-details .col-right {
+    #detailsWrapper.openDetails #profile-details .col-right {
         position: relative;
         float: right;
         width: 35%;
         height: 100%;
     }
 
-    #profile-details .profile-actions {
+    #detailsWrapper.openDetails #profile-details .profile-actions {
         width: 100%;
         overflow: auto;
     }
 
-    #profile-details .col-right button, 
-    #profile-details .col-right a {
+    #detailsWrapper.openDetails #profile-details .col-right button, 
+    #detailsWrapper.openDetails #profile-details .col-right a {
         position: relative;
         float: right;
     }
 
-    #profile-details button[type="button"] {
+    #detailsWrapper.openDetails #profile-details button[type="button"] {
         width: auto;
         background-color: #008C9E;
         color: #FEFEFE;
@@ -204,26 +236,26 @@
         cursor: pointer;
     }
 
-    #profile-details button[type="button"]:hover {
+    #detailsWrapper.openDetails #profile-details button[type="button"]:hover {
         background-color: #00AABF;
         border-bottom: 4px solid #007786;
         cursor: pointer;
     }
 
-    #age-location {
+    #detailsWrapper.openDetails #age-location {
         margin-top: 0;
         margin-bottom: 10px;
-        color: #DBDBDB;
+        color: #ababab;
     }
 
-    #user-dancecard-count {
+    #detailsWrapper.openDetails #user-dancecard-count {
         position: relative;
         bottom: 0px;
         right: 0px;
         width: 100%;
     }
 
-    #user-dancecard-count .dancecard-indicator{
+    #detailsWrapper.openDetails #user-dancecard-count .dancecard-indicator{
         width: 19px;
         height: 19px;
         border-radius: 50%;
@@ -234,16 +266,16 @@
         margin-left: 5px;
     }
 
-    .sbe-dancecard-fill {
+    #detailsWrapper.openDetails .sbe-dancecard-fill {
         background-color: red;
     }
 
-    #user-dancecard-count p {
+    #detailsWrapper.openDetails #user-dancecard-count p {
         text-align: right;
     }
 
 
-    #mutual-wrapper {
+    #detailsWrapper.openDetails #mutual-wrapper {
 
         width: 100%;
         /*height: 300px;*/
@@ -254,13 +286,13 @@
     }
 
 
-    #mutual-content {
+    #detailsWrapper.openDetails #mutual-content {
         -webkit-column-count: 2;
         -webkit-column-gap: 10px;
         width: 100%;
     }
 
-    .mutual-item {
+    #detailsWrapper.openDetails .mutual-item {
         /*border-radius: 37px; */
         background-color: rgba(240,240,240,0.6);
         /*margin: 5px;*/
@@ -273,38 +305,38 @@
 
     }
 
-    .mutual-item-article, .mutual-item-song {
+    #detailsWrapper.openDetails .mutual-item-article, .mutual-item-song {
         height: 80px;
         width: 100%;
     }
 
-    .mutual-item-video-normal {
+    #detailsWrapper.openDetails .mutual-item-video-normal {
         height: 176px;
         width: 100%;
     }
 
-    .mutual-item-video-wide {
+    #detailsWrapper.openDetails .mutual-item-video-wide {
         height: 132px;
         width: 100%;
     }
 
-    #profile-interests-viz {
+    #detailsWrapper.openDetails #profile-interests-viz {
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
         width: 100%;
         background-color: #2C3030;
         margin: 5px 0px 0px 0px;
         overflow: auto;
-        color: #dfdfdf;
+        color: #ababab;
         box-sizing: border-box;
         padding: 10px;
     }
 
-    .cell {
+    #detailsWrapper.openDetails .cell {
             border: 2px solid white;
             color: white;
         }
 
-    .label-text {
+    #detailsWrapper.openDetails .label-text {
         margin: 5px 0px 0px 5px;
         font-family: sans-serif;
     }
@@ -357,7 +389,7 @@
 	 	</div>
 
         <div id="profile-interests-viz">
-            <h4>Interested In</h4>
+            <h3>Interested In</h3>
 <!-- 
             {{treemapData}} -->
             <div tree-map data="treemapData">
