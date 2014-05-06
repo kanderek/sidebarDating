@@ -68,18 +68,18 @@
 		<input type="submit" value="Continue." ng-click="goToSignupStep3()"/>
 	</form>
 
-	{{user | json}}
+<!-- 	{{user | json}}
 
-	{{pref | json}}
+	{{pref | json}} -->
 
 </div>
 <script>
 
-	$('#sbd-zipcode')
+	$('#sbe-zipcode')
     .ziptastic()
     .on('zipChange', function(event, country, state, city, zip) {
         // Use the data...
-        $('#sbd-location-preview').html(city + ", " + state + ', ' + country);
+        $('#sbe-location-preview').html(city + ", " + state + ', ' + country);
     });
 	
 </script>

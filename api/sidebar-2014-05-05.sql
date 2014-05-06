@@ -12,7 +12,7 @@ SET client_min_messages = warning;
 --
 -- Name: sidebar; Type: SCHEMA; Schema: -; Owner: sidebar
 --
-
+DROP SCHEMA IF EXISTS sidebar CASCADE;
 CREATE SCHEMA sidebar;
 
 
@@ -44,6 +44,7 @@ SET search_path = sidebar, pg_catalog;
 --
 -- Name: check_mutual(integer, integer); Type: FUNCTION; Schema: sidebar; Owner: sidebar
 --
+DROP FUNCTION IF EXISTS check_mutual(integer, integer);
 
 CREATE FUNCTION check_mutual(userid1 integer, userid2 integer) RETURNS boolean
     LANGUAGE plpgsql
@@ -69,6 +70,8 @@ ALTER FUNCTION sidebar.check_mutual(userid1 integer, userid2 integer) OWNER TO s
 --
 -- Name: notify_trigger(); Type: FUNCTION; Schema: sidebar; Owner: sidebar
 --
+
+DROP FUNCTION IF EXISTS notify_trigger();
 
 CREATE FUNCTION notify_trigger() RETURNS trigger
     LANGUAGE plpgsql
@@ -100,6 +103,8 @@ SET default_with_oids = false;
 -- Name: dancecard; Type: TABLE; Schema: sidebar; Owner: sidebar; Tablespace:
 --
 
+DROP TABLE IF EXISTS dancecard;
+
 CREATE TABLE dancecard (
     userid integer NOT NULL,
     partnerid integer NOT NULL,
@@ -115,6 +120,8 @@ ALTER TABLE sidebar.dancecard OWNER TO sidebar;
 -- Name: messages; Type: TABLE; Schema: sidebar; Owner: sidebar; Tablespace:
 --
 
+DROP TABLE IF EXISTS messages;
+
 CREATE TABLE messages (
     senderid integer NOT NULL,
     receiverid integer NOT NULL,
@@ -128,6 +135,8 @@ ALTER TABLE sidebar.messages OWNER TO sidebar;
 --
 -- Name: notifications; Type: TABLE; Schema: sidebar; Owner: sidebar; Tablespace:
 --
+
+DROP TABLE IF EXISTS notifications; 
 
 CREATE TABLE notifications (
     notificationid integer NOT NULL,
@@ -167,6 +176,7 @@ ALTER SEQUENCE notifications_notificationid_seq OWNED BY notifications.notificat
 --
 -- Name: url_categories; Type: TABLE; Schema: sidebar; Owner: sidebar; Tablespace:
 --
+DROP TABLE IF EXISTS url_categories;
 
 CREATE TABLE url_categories (
     urlid integer NOT NULL,
@@ -184,6 +194,8 @@ ALTER TABLE sidebar.url_categories OWNER TO sidebar;
 --
 -- Name: urls; Type: TABLE; Schema: sidebar; Owner: sidebar; Tablespace:
 --
+
+DROP TABLE IF EXISTS urls;
 
 CREATE TABLE urls (
     urlid integer NOT NULL,
@@ -219,6 +231,7 @@ ALTER SEQUENCE urls_urlid_seq OWNED BY urls.urlid;
 --
 -- Name: user_history; Type: TABLE; Schema: sidebar; Owner: sidebar; Tablespace:
 --
+DROP TABLE IF EXISTS user_history;
 
 CREATE TABLE user_history (
     userid integer NOT NULL,
@@ -233,6 +246,7 @@ ALTER TABLE sidebar.user_history OWNER TO sidebar;
 --
 -- Name: userprefs; Type: TABLE; Schema: sidebar; Owner: sidebar; Tablespace:
 --
+DROP TABLE IF EXISTS userprefs;
 
 CREATE TABLE userprefs (
     userid integer NOT NULL,
@@ -250,6 +264,7 @@ ALTER TABLE sidebar.userprefs OWNER TO sidebar;
 --
 -- Name: users; Type: TABLE; Schema: sidebar; Owner: sidebar; Tablespace:
 --
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     userid integer NOT NULL,
@@ -313,6 +328,44 @@ ALTER TABLE ONLY urls ALTER COLUMN urlid SET DEFAULT nextval('urls_urlid_seq'::r
 --
 
 ALTER TABLE ONLY users ALTER COLUMN userid SET DEFAULT nextval('users_userid_seq'::regclass);
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: sidebar; Owner: sidebar
+--
+
+COPY users (userid, username, password, email, gender, dateofbirth, age, location_city, location_state, zipcode, personal_blurb, imageurls, medimageurls, smallimageurls) FROM stdin;
+23  Christina   1234    christina@gmail.com f   1986-01-01  27  Berkeley    CA  94704   Microcakes and stuff!   {/scaled_23-1.jpg,/scaled_23-2.jpg,/scaled_23-3.jpg}    {/med_23-1.jpg,/med_23-2.jpg,/med_23-3.jpg} {/small_23-1.jpg,/small_23-2.jpg,/small_23-3.jpg}
+1   Alex    1234    alex@gmail.com  m   1990-03-03  24  San Mateo   CA  94404   LA based Actor, originally SF Bay Area. Have 2 Feature films currently working on. I like Film/Theater. Family. Friends. Food. Wrestling.   {/scaled_1-1.jpg,/scaled_1-2.jpg,/scaled_1-3.jpg}   {/med_1-1.jpg,/med_1-2.jpg,/med_1-3.jpg}    {/small_1-1.jpg,/small_1-2.jpg,/small_1-3.jpg}
+2   James   1234    james@gmail.com m   1989-02-07  25  Richmond    CA  94084   Mellow, night owl, weekend hiker. Illustrator. Art, movie, and game enthusiast. Likes to do something out of the ordinary. Likes Animals.   {/scaled_2-1.jpg,/scaled_2-2.jpg,/scaled_2-3.jpg}   {/med_2-1.jpg,/med_2-2.jpg,/med_2-3.jpg}    {/small_2-1.jpg,/small_2-2.jpg,/small_2-3.jpg}
+3   Hunter  1234    hunter@gmail.com    m   1991-10-06  22  Oakland CA  94607   Looking for like minded chill people. Interested in clubs, parties, and meaningless shinnanigans.   {/scaled_3-1.jpg,/scaled_3-2.jpg,/scaled_3-3.jpg}   {/med_3-1.jpg,/med_3-2.jpg,/med_3-3.jpg}    {/small_3-1.jpg,/small_3-2.jpg,/small_3-3.jpg}
+4   Joseph  1234    joseph@gmail.com    m   1984-01-30  30  Fremont CA  94536   God, talking, playing basketball, cooking, beach, gym, smiles. I've no kids, but I want some. Don't be shy. {/scaled_4-1.jpg,/scaled_4-2.jpg,/scaled_4-3.jpg}   {/med_4-1.jpg,/med_4-2.jpg,/med_4-3.jpg}    {/small_4-1.jpg,/small_4-2.jpg,/small_4-3.jpg}
+5   Robert  1234    robert@gmail.com    m   1991-01-01  23  Daily City  CA  94015   I am an urban farmer, so that's pretty fun! Backpacking, climbing, running, biking, the works. I also write for a food politics journal!    {/scaled_5-1.jpg,/scaled_5-2.jpg,/scaled_5-3.jpg}   {/med_5-1.jpg,/med_5-2.jpg,/med_5-3.jpg}    {/small_5-1.jpg,/small_5-2.jpg,/small_5-3.jpg}
+6   Kenny   1234    kenny@gmail.com m   1990-06-05  23  San Francisco   CA  94111   I've always been a creator, but cinematography is my driving force. It's what satisfies me. I shoot horrors, westerns, and thrillers.   {/scaled_6-1.jpg,/scaled_6-2.jpg,/scaled_6-3.jpg}   {/med_6-1.jpg,/med_6-2.jpg,/med_6-3.jpg}    {/small_6-1.jpg,/small_6-2.jpg,/small_6-3.jpg}
+7   Jarod   1234    jarod@gmail.com m   1990-10-25  23  Daily City  CA  94015   I love the idea of creating art for a living. I'm good at singing/songwriting/guitar/acting/improvisation/poker {/scaled_7-1.jpg,/scaled_7-2.jpg,/scaled_7-3.jpg}   {/med_7-1.jpg,/med_7-2.jpg,/med_7-3.jpg}    {/small_7-1.jpg,/small_7-2.jpg,/small_7-3.jpg}
+8   Daniel  1234    daniel@gmail.com    m   1989-05-13  24  Berkeley    CA  94704   Things I love... Dance, Guitar, Music in general, pursuing my passions, experiencing life and a lot more    {/scaled_8-1.jpg,/scaled_8-2.jpg,/scaled_8-3.jpg}   {/med_8-1.jpg,/med_8-2.jpg,/med_8-3.jpg}    {/small_8-1.jpg,/small_8-2.jpg,/small_8-3.jpg}
+9   Evan    1234    evan@gmail.com  m   1984-07-04  29  Daily City  CA  94015   Things I could not live without: Food, exercise, sex, laughter, sports, friends {/scaled_9-1.jpg,/scaled_9-2.jpg,/scaled_9-3.jpg}   {/med_9-1.jpg,/med_9-2.jpg,/med_9-3.jpg}    {/small_9-1.jpg,/small_9-2.jpg,/small_9-3.jpg}
+10  Elijah  1234    elijah@gmail.com    m   1986-11-14  27  Daily City  CA  94015   Making the most out of my time. Kicking ass and having fun. I like to dance, giggle, wiggle, and work on my power moves while driving.  {/scaled_10-1.jpg,/scaled_10-2.jpg,/scaled_10-3.jpg}    {/med_10-1.jpg,/med_10-2.jpg,/med_10-3.jpg} {/small_10-1.jpg,/small_10-2.jpg,/small_10-3.jpg}
+11  Michael 1234    michael@gmail.com   m   1984-07-27  29  Berkeley    CA  94704   My interests and skills are acting, singing, swimming, running, soccer, and I love to hike and I am a gym fanatic as well.  {/scaled_11-1.jpg,/scaled_11-2.jpg,/scaled_11-3.jpg}    {/med_11-1.jpg,/med_11-2.jpg,/med_11-3.jpg} {/small_11-1.jpg,/small_11-2.jpg,/small_11-3.jpg}
+12  Benny   1234    benny@gmail.com m   1990-06-28  23  Berkeley    CA  94704   Filmmaking, capoeira, oil paintings, and theatre are the aspirations on the table. Also love sunlight, food, vegetation, and chocolate  {/scaled_12-1.jpg,/scaled_12-2.jpg,/scaled_12-3.jpg}    {/med_12-1.jpg,/med_12-2.jpg,/med_12-3.jpg} {/small_12-1.jpg,/small_12-2.jpg,/small_12-3.jpg}
+13  Peter   1234    peter@gmail.com m   1991-11-08  22  Oakland CA  94607   The activities I most like to do are acting in my free times , spending time with my dog, and watching movies.  {/scaled_13-1.jpg,/scaled_13-2.jpg,/scaled_13-3.jpg}    {/med_13-1.jpg,/med_13-2.jpg,/med_13-3.jpg} {/small_13-1.jpg,/small_13-2.jpg,/small_13-3.jpg}
+14  Shane   1234    shane@gmail.com m   1984-04-23  30  Daily City  CA  94015   I'm little bit all over the place i draw paint sing play guitar and do graphic design i love my two dogs tomatoe and ninja! {/scaled_14-1.jpg,/scaled_14-2.jpg,/scaled_14-3.jpg}    {/med_14-1.jpg,/med_14-2.jpg,/med_14-3.jpg} {/small_14-1.jpg,/small_14-2.jpg,/small_14-3.jpg}
+15  Luke    1234    luke@gmail.com  m   1990-12-23  23  Richmond    CA  94084   Sports, Technology, Beer, Books, Fishing, Going out and having fun! {/scaled_15-1.jpg,/scaled_15-2.jpg,/scaled_15-3.jpg}    {/med_15-1.jpg,/med_15-2.jpg,/med_15-3.jpg} {/small_15-1.jpg,/small_15-2.jpg,/small_15-3.jpg}
+16  Jackson 1234    jackson@gmail.com   m   1990-05-29  23  Richmond    CA  94084   Battling monsters, demons, and lethargy. Creating stuff from nowhere. Leaving footprints and taking pictures of the footprint   {/scaled_16-1.jpg,/scaled_16-2.jpg,/scaled_16-3.jpg}    {/med_16-1.jpg,/med_16-2.jpg,/med_16-3.jpg} {/small_16-1.jpg,/small_16-2.jpg,/small_16-3.jpg}
+17  Zane    1234    zane@gmail.com  m   1986-06-27  27  Oakland CA  94607   I love to have fun, work out and play baseball. I'm quite the jokester- I'm sure I can make you laugh.  {/scaled_17-1.jpg,/scaled_17-2.jpg,/scaled_17-3.jpg}    {/med_17-1.jpg,/med_17-2.jpg,/med_17-3.jpg} {/small_17-1.jpg,/small_17-2.jpg,/small_17-3.jpg}
+18  Brock   1234    brock@gmail.com m   1988-08-06  25  Oakland CA  94607   Writing, acting, kareoke(sometimes), making pizza, drinking(not too proud of that one) and negotiating  {/scaled_18-1.jpg,/scaled_18-2.jpg,/scaled_18-3.jpg}    {/med_18-1.jpg,/med_18-2.jpg,/med_18-3.jpg} {/small_18-1.jpg,/small_18-2.jpg,/small_18-3.jpg}
+19  Ryan    1234    ryan@gmail.com  m   1985-09-24  28  Belmont CA  94002   Making moves, tshirt design, writing music and poetry, drawing, photography, living life how I define it    {/scaled_19-1.jpg,/scaled_19-2.jpg,/scaled_19-3.jpg}    {/med_19-1.jpg,/med_19-2.jpg,/med_19-3.jpg} {/small_19-1.jpg,/small_19-2.jpg,/small_19-3.jpg}
+20  Sebastian   1234    sebastian@gmail.com m   1991-03-01  23  Richmond    CA  94084   Technology - Crafting - Video Games - Using Common Sense - Rubiks Cube - Managing - Writing - Guitar - Fixing burned out light bulbs    {/scaled_20-1.jpg,/scaled_20-2.jpg,/scaled_20-3.jpg}    {/med_20-1.jpg,/med_20-2.jpg,/med_20-3.jpg} {/small_20-1.jpg,/small_20-2.jpg,/small_20-3.jpg}
+21  David   1234    david@gmail.com m   1984-04-05  30  San Mateo   CA  94404   Sports, jeopardy, chess, poker, family, friends, music, books   {/scaled_21-1.jpg,/scaled_21-2.jpg,/scaled_21-3.jpg}    {/med_21-1.jpg,/med_21-2.jpg,/med_21-3.jpg} {/small_21-1.jpg,/small_21-2.jpg,/small_21-3.jpg}
+22  Andrew  1234    andrew@gmail.com    m   1985-12-15  28  Berkeley    CA  94704   I've never been beaten at MarioKart 64. Ever. I'm the best on Earth. It's a curse   {/scaled_22-1.jpg,/scaled_22-2.jpg,/scaled_22-3.jpg}    {/med_22-1.jpg,/med_22-2.jpg,/med_22-3.jpg} {/small_22-1.jpg,/small_22-2.jpg,/small_22-3.jpg}
+\.
+
+
+--
+-- Name: users_userid_seq; Type: SEQUENCE SET; Schema: sidebar; Owner: sidebar
+--
+
+SELECT pg_catalog.setval('users_userid_seq', 20, true);
+
 
 
 --
@@ -599,43 +652,6 @@ COPY userprefs (userid, male, female, age_min, age_max, distance_max) FROM stdin
 23  t   f   22  28  30
 \.
 
-
---
--- Data for Name: users; Type: TABLE DATA; Schema: sidebar; Owner: sidebar
---
-
-COPY users (userid, username, password, email, gender, dateofbirth, age, location_city, location_state, zipcode, personal_blurb, imageurls, medimageurls, smallimageurls) FROM stdin;
-23  Christina   1234    christina@gmail.com f   1986-01-01  27  Berkeley    CA  94704   Microcakes and stuff!   {/scaled_23-1.jpg,/scaled_23-2.jpg,/scaled_23-3.jpg}    {/med_23-1.jpg,/med_23-2.jpg,/med_23-3.jpg} {/small_23-1.jpg,/small_23-2.jpg,/small_23-3.jpg}
-1   Alex    1234    alex@gmail.com  m   1990-03-03  24  San Mateo   CA  94404   LA based Actor, originally SF Bay Area. Have 2 Feature films currently working on. I like Film/Theater. Family. Friends. Food. Wrestling.   {/scaled_1-1.jpg,/scaled_1-2.jpg,/scaled_1-3.jpg}   {/med_1-1.jpg,/med_1-2.jpg,/med_1-3.jpg}    {/small_1-1.jpg,/small_1-2.jpg,/small_1-3.jpg}
-2   James   1234    james@gmail.com m   1989-02-07  25  Richmond    CA  94084   Mellow, night owl, weekend hiker. Illustrator. Art, movie, and game enthusiast. Likes to do something out of the ordinary. Likes Animals.   {/scaled_2-1.jpg,/scaled_2-2.jpg,/scaled_2-3.jpg}   {/med_2-1.jpg,/med_2-2.jpg,/med_2-3.jpg}    {/small_2-1.jpg,/small_2-2.jpg,/small_2-3.jpg}
-3   Hunter  1234    hunter@gmail.com    m   1991-10-06  22  Oakland CA  94607   Looking for like minded chill people. Interested in clubs, parties, and meaningless shinnanigans.   {/scaled_3-1.jpg,/scaled_3-2.jpg,/scaled_3-3.jpg}   {/med_3-1.jpg,/med_3-2.jpg,/med_3-3.jpg}    {/small_3-1.jpg,/small_3-2.jpg,/small_3-3.jpg}
-4   Joseph  1234    joseph@gmail.com    m   1984-01-30  30  Fremont CA  94536   God, talking, playing basketball, cooking, beach, gym, smiles. I've no kids, but I want some. Don't be shy. {/scaled_4-1.jpg,/scaled_4-2.jpg,/scaled_4-3.jpg}   {/med_4-1.jpg,/med_4-2.jpg,/med_4-3.jpg}    {/small_4-1.jpg,/small_4-2.jpg,/small_4-3.jpg}
-5   Robert  1234    robert@gmail.com    m   1991-01-01  23  Daily City  CA  94015   I am an urban farmer, so that's pretty fun! Backpacking, climbing, running, biking, the works. I also write for a food politics journal!    {/scaled_5-1.jpg,/scaled_5-2.jpg,/scaled_5-3.jpg}   {/med_5-1.jpg,/med_5-2.jpg,/med_5-3.jpg}    {/small_5-1.jpg,/small_5-2.jpg,/small_5-3.jpg}
-6   Kenny   1234    kenny@gmail.com m   1990-06-05  23  San Francisco   CA  94111   I've always been a creator, but cinematography is my driving force. It's what satisfies me. I shoot horrors, westerns, and thrillers.   {/scaled_6-1.jpg,/scaled_6-2.jpg,/scaled_6-3.jpg}   {/med_6-1.jpg,/med_6-2.jpg,/med_6-3.jpg}    {/small_6-1.jpg,/small_6-2.jpg,/small_6-3.jpg}
-7   Jarod   1234    jarod@gmail.com m   1990-10-25  23  Daily City  CA  94015   I love the idea of creating art for a living. I'm good at singing/songwriting/guitar/acting/improvisation/poker {/scaled_7-1.jpg,/scaled_7-2.jpg,/scaled_7-3.jpg}   {/med_7-1.jpg,/med_7-2.jpg,/med_7-3.jpg}    {/small_7-1.jpg,/small_7-2.jpg,/small_7-3.jpg}
-8   Daniel  1234    daniel@gmail.com    m   1989-05-13  24  Berkeley    CA  94704   Things I love... Dance, Guitar, Music in general, pursuing my passions, experiencing life and a lot more    {/scaled_8-1.jpg,/scaled_8-2.jpg,/scaled_8-3.jpg}   {/med_8-1.jpg,/med_8-2.jpg,/med_8-3.jpg}    {/small_8-1.jpg,/small_8-2.jpg,/small_8-3.jpg}
-9   Evan    1234    evan@gmail.com  m   1984-07-04  29  Daily City  CA  94015   Things I could not live without: Food, exercise, sex, laughter, sports, friends {/scaled_9-1.jpg,/scaled_9-2.jpg,/scaled_9-3.jpg}   {/med_9-1.jpg,/med_9-2.jpg,/med_9-3.jpg}    {/small_9-1.jpg,/small_9-2.jpg,/small_9-3.jpg}
-10  Elijah  1234    elijah@gmail.com    m   1986-11-14  27  Daily City  CA  94015   Making the most out of my time. Kicking ass and having fun. I like to dance, giggle, wiggle, and work on my power moves while driving.  {/scaled_10-1.jpg,/scaled_10-2.jpg,/scaled_10-3.jpg}    {/med_10-1.jpg,/med_10-2.jpg,/med_10-3.jpg} {/small_10-1.jpg,/small_10-2.jpg,/small_10-3.jpg}
-11  Michael 1234    michael@gmail.com   m   1984-07-27  29  Berkeley    CA  94704   My interests and skills are acting, singing, swimming, running, soccer, and I love to hike and I am a gym fanatic as well.  {/scaled_11-1.jpg,/scaled_11-2.jpg,/scaled_11-3.jpg}    {/med_11-1.jpg,/med_11-2.jpg,/med_11-3.jpg} {/small_11-1.jpg,/small_11-2.jpg,/small_11-3.jpg}
-12  Benny   1234    benny@gmail.com m   1990-06-28  23  Berkeley    CA  94704   Filmmaking, capoeira, oil paintings, and theatre are the aspirations on the table. Also love sunlight, food, vegetation, and chocolate  {/scaled_12-1.jpg,/scaled_12-2.jpg,/scaled_12-3.jpg}    {/med_12-1.jpg,/med_12-2.jpg,/med_12-3.jpg} {/small_12-1.jpg,/small_12-2.jpg,/small_12-3.jpg}
-13  Peter   1234    peter@gmail.com m   1991-11-08  22  Oakland CA  94607   The activities I most like to do are acting in my free times , spending time with my dog, and watching movies.  {/scaled_13-1.jpg,/scaled_13-2.jpg,/scaled_13-3.jpg}    {/med_13-1.jpg,/med_13-2.jpg,/med_13-3.jpg} {/small_13-1.jpg,/small_13-2.jpg,/small_13-3.jpg}
-14  Shane   1234    shane@gmail.com m   1984-04-23  30  Daily City  CA  94015   I'm little bit all over the place i draw paint sing play guitar and do graphic design i love my two dogs tomatoe and ninja! {/scaled_14-1.jpg,/scaled_14-2.jpg,/scaled_14-3.jpg}    {/med_14-1.jpg,/med_14-2.jpg,/med_14-3.jpg} {/small_14-1.jpg,/small_14-2.jpg,/small_14-3.jpg}
-15  Luke    1234    luke@gmail.com  m   1990-12-23  23  Richmond    CA  94084   Sports, Technology, Beer, Books, Fishing, Going out and having fun! {/scaled_15-1.jpg,/scaled_15-2.jpg,/scaled_15-3.jpg}    {/med_15-1.jpg,/med_15-2.jpg,/med_15-3.jpg} {/small_15-1.jpg,/small_15-2.jpg,/small_15-3.jpg}
-16  Jackson 1234    jackson@gmail.com   m   1990-05-29  23  Richmond    CA  94084   Battling monsters, demons, and lethargy. Creating stuff from nowhere. Leaving footprints and taking pictures of the footprint   {/scaled_16-1.jpg,/scaled_16-2.jpg,/scaled_16-3.jpg}    {/med_16-1.jpg,/med_16-2.jpg,/med_16-3.jpg} {/small_16-1.jpg,/small_16-2.jpg,/small_16-3.jpg}
-17  Zane    1234    zane@gmail.com  m   1986-06-27  27  Oakland CA  94607   I love to have fun, work out and play baseball. I'm quite the jokester- I'm sure I can make you laugh.  {/scaled_17-1.jpg,/scaled_17-2.jpg,/scaled_17-3.jpg}    {/med_17-1.jpg,/med_17-2.jpg,/med_17-3.jpg} {/small_17-1.jpg,/small_17-2.jpg,/small_17-3.jpg}
-18  Brock   1234    brock@gmail.com m   1988-08-06  25  Oakland CA  94607   Writing, acting, kareoke(sometimes), making pizza, drinking(not too proud of that one) and negotiating  {/scaled_18-1.jpg,/scaled_18-2.jpg,/scaled_18-3.jpg}    {/med_18-1.jpg,/med_18-2.jpg,/med_18-3.jpg} {/small_18-1.jpg,/small_18-2.jpg,/small_18-3.jpg}
-19  Ryan    1234    ryan@gmail.com  m   1985-09-24  28  Belmont CA  94002   Making moves, tshirt design, writing music and poetry, drawing, photography, living life how I define it    {/scaled_19-1.jpg,/scaled_19-2.jpg,/scaled_19-3.jpg}    {/med_19-1.jpg,/med_19-2.jpg,/med_19-3.jpg} {/small_19-1.jpg,/small_19-2.jpg,/small_19-3.jpg}
-20  Sebastian   1234    sebastian@gmail.com m   1991-03-01  23  Richmond    CA  94084   Technology - Crafting - Video Games - Using Common Sense - Rubiks Cube - Managing - Writing - Guitar - Fixing burned out light bulbs    {/scaled_20-1.jpg,/scaled_20-2.jpg,/scaled_20-3.jpg}    {/med_20-1.jpg,/med_20-2.jpg,/med_20-3.jpg} {/small_20-1.jpg,/small_20-2.jpg,/small_20-3.jpg}
-21  David   1234    david@gmail.com m   1984-04-05  30  San Mateo   CA  94404   Sports, jeopardy, chess, poker, family, friends, music, books   {/scaled_21-1.jpg,/scaled_21-2.jpg,/scaled_21-3.jpg}    {/med_21-1.jpg,/med_21-2.jpg,/med_21-3.jpg} {/small_21-1.jpg,/small_21-2.jpg,/small_21-3.jpg}
-22  Andrew  1234    andrew@gmail.com    m   1985-12-15  28  Berkeley    CA  94704   I've never been beaten at MarioKart 64. Ever. I'm the best on Earth. It's a curse   {/scaled_22-1.jpg,/scaled_22-2.jpg,/scaled_22-3.jpg}    {/med_22-1.jpg,/med_22-2.jpg,/med_22-3.jpg} {/small_22-1.jpg,/small_22-2.jpg,/small_22-3.jpg}
-\.
-
-
---
--- Name: users_userid_seq; Type: SEQUENCE SET; Schema: sidebar; Owner: sidebar
---
-
-SELECT pg_catalog.setval('users_userid_seq', 20, true);
 
 
 --
