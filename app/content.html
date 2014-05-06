@@ -204,23 +204,23 @@
 		/*letter-spacing: .03em;*/
 	}
 
-	#sbe-sidebar div, 
-	#sbe-sidebar p, 
-	#sbe-sidebar span, 
-	#sbe-sidebar h1, 
-	#sbe-sidebar h2, 
+	#sbe-sidebar div,
+	#sbe-sidebar p,
+	#sbe-sidebar span,
+	#sbe-sidebar h1,
+	#sbe-sidebar h2,
 	#sbe-sidebar h3,
 	#sbe-sidebar h4,
 	#sbe-sidebar h5,
-	#sbe-sidebar h6, 
+	#sbe-sidebar h6,
 	#sbe-sidebar a {
 		font-size: 100%;
 		vertical-align: baseline;
 		font-style: normal;
 	}
 
-	#sbe-sidebar h1, 
-	#sbe-sidebar h2, 
+	#sbe-sidebar h1,
+	#sbe-sidebar h2,
 	#sbe-sidebar h3,
 	#sbe-sidebar h4,
 	#sbe-sidebar h5,
@@ -463,7 +463,7 @@
     	box-sizing: border-box;
     }
 
-    #sbe-sidebar #logo-signup, 
+    #sbe-sidebar #logo-signup,
     #sbe-sidebar #logo-login {
     	height: auto;
     	width: 150px;
@@ -508,8 +508,8 @@
    }
 
 
-   #sbe-sidebar .signup-button, 
-   #sbe-sidebar .login-button, 
+   #sbe-sidebar .signup-button,
+   #sbe-sidebar .login-button,
    #sbe-sidebar .submit-btn {
 
 		width: 100%;
@@ -596,9 +596,9 @@
    	height: 25px;
    }
 
-	#sbe-sidebar .signup-info input, 
-	#sbe-sidebar .signup-info textarea, 
-	#sbe-sidebar .signup-info select, 
+	#sbe-sidebar .signup-info input,
+	#sbe-sidebar .signup-info textarea,
+	#sbe-sidebar .signup-info select,
 	#sbe-sidebar .login-form input{
 		display: block;
 		width: 100%;
@@ -641,7 +641,7 @@
 	#sbe-sidebar .remove-on-drag-area {
 		width: 100%;
 		position: absolute;
-		height: 150px;
+		height: 250px;
 		bottom: 0px;
 		right: 0px;
 		/*background-color: green;*/
@@ -650,7 +650,8 @@
 
 	#sbe-sidebar .showRemoveArea {
 		visibility: visible;
-		background-color: rgba(200,200,200,0.7);
+
+		background: #007786 url('http://www.endlessicons.com/wp-content/uploads/2012/12/remove-icon-614x460.png') no-repeat center center;
 	}
 
 	#sbe-sidebar .sidebar-back {
@@ -823,7 +824,7 @@
 	</div>
 
 
-	<div id="sbe-sidebar" 
+	<div id="sbe-sidebar"
 		 class="openPanel" >
 		 <!-- ng-class="{'show-sidebar': uiState.showSidebar, 'tuck-sidebar': !uiState.showSidebar}" > -->
 
@@ -895,7 +896,7 @@
 		 	  drag-hover-class="drag-over-accept"
 		 	  drop-channel="remove-person"
 		>
-		{{showRemove}}
+		<!-- {{showRemove}} -->
 		</div>
 
 	</div>
