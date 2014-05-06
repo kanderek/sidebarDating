@@ -875,7 +875,6 @@ function formatForTreemap(data){
 	var rootValue = 0;
 	var parentValue = 0;
 	var previousLevel1 = {level1: "", index: null};
-
 	for(var i=0; i<data.length; i++){
 		treemapData.value += parseFloat(data[i].interest_score);
 
@@ -884,8 +883,9 @@ function formatForTreemap(data){
 			previousLevel1.index = treemapData.children.push({name: data[i].level1, value: 0, color: COLOR_BY_CAT[data[i].level1], children: []}) -1;
 		}
 
+		var nameLevel2 = data[i].level2.length > 3 ? data[i].level2 : data[i].level1;
 		treemapData.children[previousLevel1.index].value += parseFloat(data[i].interest_score);
-		treemapData.children[previousLevel1.index].children.push({name: data[i].level2, value: data[i].interest_score, color: COLOR_BY_CAT[data[i].level1]});
+		treemapData.children[previousLevel1.index].children.push({name: nameLevel2, value: data[i].interest_score, color: COLOR_BY_CAT[data[i].level1]});
 	}
 	return treemapData;
 }
