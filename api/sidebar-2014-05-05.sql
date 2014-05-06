@@ -130,13 +130,9 @@ ALTER TABLE "sidebar"."dancecard" OWNER TO "sidebar";
 --  Records of dancecard
 -- ----------------------------
 BEGIN;
-INSERT INTO "sidebar"."dancecard" VALUES ('1', '10', 'added', 'f', '2014-05-05 19:44:14');
-INSERT INTO "sidebar"."dancecard" VALUES ('1', '11', 'added', 'f', '2014-05-05 19:44:16');
-INSERT INTO "sidebar"."dancecard" VALUES ('1', '13', 'added', 'f', '2014-05-05 19:48:43');
-INSERT INTO "sidebar"."dancecard" VALUES ('1', '15', 'added', 'f', '2014-05-05 19:48:47');
-INSERT INTO "sidebar"."dancecard" VALUES ('23', '11', 'added', 'f', '2014-05-05 17:54:10');
+INSERT INTO "sidebar"."dancecard" VALUES ('11', '23', 'added', 't', '2014-05-05 19:48:47');
+INSERT INTO "sidebar"."dancecard" VALUES ('23', '11', 'added', 't', '2014-05-05 17:54:10');
 INSERT INTO "sidebar"."dancecard" VALUES ('23', '2', 'added', 'f', '2014-05-05 17:58:51');
-INSERT INTO "sidebar"."dancecard" VALUES ('23', '20', 'removed', 'f', '2014-05-05 22:38:10');
 COMMIT;
 
 -- ----------------------------
@@ -156,8 +152,8 @@ ALTER TABLE "sidebar"."messages" OWNER TO "sidebar";
 --  Records of messages
 -- ----------------------------
 BEGIN;
+INSERT INTO "sidebar"."messages" VALUES ('11', '23', 'Hi there cutie!', '2014-05-05 15:40:17');
 INSERT INTO "sidebar"."messages" VALUES ('23', '11', 'I see you''re on github?', '2014-05-05 16:39:59');
-INSERT INTO "sidebar"."messages" VALUES ('11', '23', 'Hi there cutie!', '2014-05-05 16:40:17');
 COMMIT;
 
 -- ----------------------------
@@ -556,7 +552,7 @@ DROP FUNCTION IF EXISTS message_notification();
 DROP FUNCTION IF EXISTS notify_trigger();
 DROP FUNCTION IF EXISTS check_mutual(userid1 int, userid2 int);
 
-CREATE FUNCTION dancecard_notification() RETURNS TRIGGER AS $_$
+CREATE FUNCTION dancecard_notification() RETURNS TRIGGER AS $$
 DECLARE
     -- name varchar := SELECT username FROM users WHERE userid = NEW.userid;
     name varchar(30);
@@ -583,8 +579,8 @@ BEGIN
     RAISE NOTICE 'what is mutual? , %', mutualVar;
     RAISE NOTICE 'what is NEW? , %', NEW;
 
-    IF (TG_OP = 'INSERT') THEN 
-        IF (mutualVar) THEN 
+    IF (TG_OP = 'INSERT') THEN
+        IF (mutualVar) THEN
             message := name || ' added you back';
             subTypeVar := 'mutual';
         ELSE
@@ -598,13 +594,13 @@ BEGIN
         subTypeVar := 'removed';
     END IF;
 
-    INSERT INTO notifications (userid, about_userid, message, action_time, type, subtype) 
-        VALUES (NEW.partnerid, NEW.userid, message ,CURRENT_TIMESTAMP, 'dancecard', subTypeVar); 
+    INSERT INTO notifications (userid, about_userid, message, action_time, type, subtype)
+        VALUES (NEW.partnerid, NEW.userid, message ,CURRENT_TIMESTAMP, 'dancecard', subTypeVar);
 
     RETURN NEW;
-END $_$ LANGUAGE 'plpgsql';
+END $$ LANGUAGE 'plpgsql';
 
-CREATE FUNCTION message_notification() RETURNS TRIGGER AS $_$
+CREATE FUNCTION message_notification() RETURNS TRIGGER AS $$
 DECLARE
     -- name varchar := SELECT username FROM users WHERE userid = NEW.userid;
     name varchar(30);
@@ -612,29 +608,29 @@ DECLARE
 
 BEGIN
     SELECT INTO name username FROM users WHERE userid = NEW.senderid;
-    
-    IF (TG_OP = 'INSERT') THEN 
+
+    IF (TG_OP = 'INSERT') THEN
         message := name || ' sent you a message';
     END IF;
 
-    INSERT INTO notifications (userid, about_userid, message, action_time, type, subtype) 
-        VALUES (NEW.receiverid, NEW.senderid, message ,CURRENT_TIMESTAMP, 'message', 'new'); 
+    INSERT INTO notifications (userid, about_userid, message, action_time, type, subtype)
+        VALUES (NEW.receiverid, NEW.senderid, message ,CURRENT_TIMESTAMP, 'message', 'new');
 
     RETURN NEW;
-END $_$ LANGUAGE 'plpgsql';
+END $$ LANGUAGE 'plpgsql';
 
 CREATE FUNCTION notify_trigger() RETURNS trigger AS $$
 DECLARE
 BEGIN
   -- PERFORM pg_notify('watchers', TG_TABLE_NAME || ',userid,' || NEW.userid );
 
-  PERFORM pg_notify('watchers', NEW.userid || ',' || 
-                                NEW.notificationid || ',' || 
-                                NEW.about_userid || ',' || 
-                                NEW.message || ',' || 
-                                NEW.action_time || ',' || 
-                                NEW.type || ',' || 
-                                NEW.subtype || ',' || 
+  PERFORM pg_notify('watchers', NEW.userid || ',' ||
+                                NEW.notificationid || ',' ||
+                                NEW.about_userid || ',' ||
+                                NEW.message || ',' ||
+                                NEW.action_time || ',' ||
+                                NEW.type || ',' ||
+                                NEW.subtype || ',' ||
                                 NEW.status);
   RETURN NEW;
 END;
@@ -642,13 +638,13 @@ $$ LANGUAGE plpgsql;
 
 <<<<<<< Updated upstream
 CREATE FUNCTION check_mutual(userid1 int, userid2 int) RETURNS boolean AS $$
-DECLARE 
+DECLARE
     count int;
 BEGIN
 
     SELECT INTO count COUNT(*) FROM dancecard  WHERE (userid=$1 OR partnerid=$1) AND (userid=$2 OR partnerid=$2) AND status='added';
 
-    IF (count = 2) THEN 
+    IF (count = 2) THEN
         RETURN 'true';
     ELSE
         RETURN 'false';
@@ -668,6 +664,7 @@ CREATE TABLE url_categories (
 );
 
 
+<<<<<<< HEAD
 ALTER TABLE sidebar.url_categories OWNER TO sidebar;
 
 --
@@ -1958,3 +1955,8 @@ CREATE TRIGGER watched_table_trigger AFTER INSERT ON notifications FOR EACH ROW 
 -- ----------------------------
 ALTER TABLE "sidebar"."userprefs" ADD CONSTRAINT "userprefs_userid_fkey" FOREIGN KEY ("userid") REFERENCES "sidebar"."users" ("userid") ON UPDATE NO ACTION ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE;
 >>>>>>> Stashed changes
+=======
+CREATE TRIGGER add_dancecard_notification AFTER INSERT OR UPDATE OF status ON dancecard FOR EACH ROW EXECUTE PROCEDURE dancecard_notification();
+CREATE TRIGGER add_message_notification BEFORE INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE message_notification();
+CREATE TRIGGER watched_table_trigger AFTER INSERT ON notifications FOR EACH ROW EXECUTE PROCEDURE notify_trigger();
+>>>>>>> 6455084870b9e664f6cc77512fa9a4b7dbb240cd
