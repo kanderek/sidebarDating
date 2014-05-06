@@ -72,9 +72,15 @@
 	slider span.bubble.limit {
 	}
 
-	slider span.bubble.low, slider span.bubble.high {
+	slider span.bubble.low, slider span.bubble.high, slider span.bubble.middle {
+		visibility: hidden;
 	}
 	
+
+	slider span.bubble.limit.ceiling, slider span.bubble.selection, slider span.bubble.limit.floor {
+		visibility: hidden;
+	}
+
 	::-ms-tooltip {
 		display: none;
 	}
@@ -92,6 +98,12 @@
 		background-color: #00AABF;
 		border-bottom: 4px solid #007786;
 	}
+
+	#sbe-age-range, #sbe-distance {
+		position: relative;
+		float: right;
+	}
+
 </style>
 
 <div class="signup-heading" ng-cloak>
@@ -109,13 +121,13 @@
 			<label for="female_pref">Female</label>	
 		</div>
 
-		<label for="age_pref">Age Range</label>
+		<label for="age_pref">Age Range:</label><span id="sbe-age-range">{{pref.age_min}} - {{pref.age_max}}</span>
 		<div class="slider">
-			<slider floor='{{age_floor}}' ceiling='{{age_ceil}}' step='1' precision='0' buffer=''
+			<slider floor='{{age_floor}}' ceiling='{{age_ceil}}' step='1' precision='0' buffer='' showSteps='false'
 	            stickiness='0.5' ng-model-low='pref.age_min' ng-model-high='pref.age_max'></slider>
 		</div>
 
-		<label for="location_pref">Within:</label>
+		<label for="location_pref">Within:</label><span id="sbe-distance">{{pref.distance_max}} miles</span>
 		<div class="slider" ng-model="pref.distance_max">
 			<slider floor='{{distance_floor}}' ceiling='{{distance_ceil}}' step='1' precision='0' stickiness='0.5'
 	            ng-model='pref.distance_max'></slider>
