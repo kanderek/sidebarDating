@@ -21,7 +21,7 @@ var events = require("events");
 var EventEmitter = require("events").EventEmitter;
 var ee = new EventEmitter();
 
-//For Socket.io 
+//For Socket.io
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
@@ -46,7 +46,7 @@ if(process.env.DATABASE_URL){
  var connectToDb = pgclient({
     config : {
         database : dbConfigObj.PGDATABASE || 'sidebar',
-        user     : dbConfigObj.PGUSER || 'sidebar',//'derekkan',//Christina',
+        user     : dbConfigObj.PGUSER || 'sidebar2',//'derekkan',//Christina',
         host     : dbConfigObj.PGHOST || 'localhost',
         port     : dbConfigObj.PGPORT || 5432,
         password : dbConfigObj.PGPASS || '',
@@ -90,9 +90,9 @@ passport.use(new LocalStrategy({
   function(req, email, password, done) {
   	// console.log(req.body);
   	var queryString = "SELECT userid, password FROM users WHERE email='" + email + "'";
-  	
+
   	// console.log(queryString);
-  	req.db.client.query(queryString, function(err, result){ 
+  	req.db.client.query(queryString, function(err, result){
   		// console.log(err);
   		// console.log(result);
       if (err) { return done(err); }
@@ -115,7 +115,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(req, userid, done) {
   var queryString = "SELECT (userid) FROM users WHERE userid=" + userid;
- 
+
   req.db.client.query(queryString, function(err, result){
   	// console.log('deserialize user..');
   	// console.log(result);
@@ -146,7 +146,7 @@ app.get('/', function(req, res){
   res.send('hello world');
 });
 
-app.post('/signup', 
+app.post('/signup',
 	createNewUser,
 	createNewUserPref,
 	function(req, res){
@@ -187,31 +187,31 @@ function createNewUser(req, res, next){
 
 	getCityStateFromZipcode(user.zipcode, function(location){
 
-		var queryString = "INSERT INTO users " + 
-									"(username," + 
-									  "email," + 
-									  "password," + 
-									  "gender," + 
+		var queryString = "INSERT INTO users " +
+									"(username," +
+									  "email," +
+									  "password," +
+									  "gender," +
 									  "dateofbirth," +
 									  "zipcode," +
 									  "location_city," +
-									  "location_state," + 
+									  "location_state," +
 									  "personal_blurb," +
-									  "imageurls," + 
-									  "medimageurls," + 
+									  "imageurls," +
+									  "medimageurls," +
 									  "smallimageurls) " +
-							   "VALUES ('" + user.username  + "','" + 
-							   				 user.email + "','" + 
-							   				 user.password + "','" + 
-							   				 user.gender + "','" + 
+							   "VALUES ('" + user.username  + "','" +
+							   				 user.email + "','" +
+							   				 user.password + "','" +
+							   				 user.gender + "','" +
 							   				 user.dateofbirth + "','" +
-							   				 user.zipcode + "','" + 
+							   				 user.zipcode + "','" +
 							   				 location.city + "','" +
-							   				 location.state + "','" + 
-							   				 replaceAll("'", "''", user.personal_blurb) + "'," + 
-							   				 urls + "," + 
-							   				 medurls + "," + 
-							   				 smallurls + ") " + 
+							   				 location.state + "','" +
+							   				 replaceAll("'", "''", user.personal_blurb) + "'," +
+							   				 urls + "," +
+							   				 medurls + "," +
+							   				 smallurls + ") " +
 								"RETURNING *";
 		console.log(queryString);
 
@@ -232,25 +232,25 @@ function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-function replaceAll(find,replace,str){ 
+function replaceAll(find,replace,str){
 	return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
 
 function createNewUserPref(req, res, next){
 	var pref = req.body.pref;
-	var queryString = "INSERT INTO userprefs " + 
-								"(userid," + 
-								  "male," + 
-								  "female," + 
-								  "age_min," + 
+	var queryString = "INSERT INTO userprefs " +
+								"(userid," +
+								  "male," +
+								  "female," +
+								  "age_min," +
 								  "age_max," +
 								  "distance_max) " +
-						   "VALUES (" + req.userid  + "," + 
-						   				 pref.male + "," + 
-						   				 pref.female + "," + 
-						   				 pref.age_min + "," + 
+						   "VALUES (" + req.userid  + "," +
+						   				 pref.male + "," +
+						   				 pref.female + "," +
+						   				 pref.age_min + "," +
 						   				 pref.age_max + "," +
-						   				 pref.distance_max + ") " + 
+						   				 pref.distance_max + ") " +
 						 "RETURNING *";
 	// console.log(queryString);
 
@@ -268,8 +268,8 @@ function createNewUserPref(req, res, next){
 
 
 
-app.post('/upload', 
-	//connectToDb, 
+app.post('/upload',
+	//connectToDb,
 	// passport.authenticate('local'),
 	function(req, res, next){
 		console.log('this is the body of the file uploads');
@@ -311,7 +311,7 @@ app.post('/upload',
 							  dstPath: medPath,
 							  width:   150,
 							  height: 150,
-							  quality: 1,
+							  quality: 100,
 							  gravity: "Center"//default gravity is Center
 							}, function(err, stdout, stderr){
 							  if (err){
@@ -326,7 +326,7 @@ app.post('/upload',
 								  dstPath: smallPath,
 								  width:   36,
 								  height: 36,
-								  quality: 1,
+								  quality: 100,
 								  gravity: "Center"//default gravity is Center
 								}, function(err, stdout, stderr){
 								  if (err){
@@ -355,16 +355,16 @@ app.post('/upload',
 		});
 	},
 	function(req,res){
-		res.json({origImageUrl: 'http://localhost:3000/scaled_' + req.files.file.name, 
-				  medImageUrl: "http://localhost:3000/med_" + req.files.file.name,
-				  smallImageUrl: "http://localhost:3000/small_" + req.files.file.name
+		res.json({origImageUrl: '/scaled_' + req.files.file.name,
+				  medImageUrl: "/med_" + req.files.file.name,
+				  smallImageUrl: "/small_" + req.files.file.name
 
 		});
 	});
 
 
-app.post('/login', 
-	//connectToDb, 
+app.post('/login',
+	//connectToDb,
 	passport.authenticate('local'),
 	function(req, res){
 		console.log(req.body);
@@ -403,7 +403,7 @@ app.get('/message/:partnerId',
 		var partnerId = req.params.partnerId;
 
 		var queryString = "SELECT senderId, receiverId, message, sendTime " +
-							"FROM messages " + 
+							"FROM messages " +
 							"WHERE (senderId=" + userId + " AND receiverId=" + partnerId + ") OR "+
 								"(receiverId=" + userId + " AND senderId=" + partnerId + ")" +
 							"ORDER BY sendTime ASC";
@@ -421,7 +421,7 @@ app.get('/message/:partnerId',
 
 	});
 
-app.post('/message', 
+app.post('/message',
 	//connectToDb,
 	function(req, res, next){
 		// console.log(req.user);
@@ -431,12 +431,12 @@ app.post('/message',
 		var sendTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		//console.log(req.body);
-		var queryString = "INSERT INTO messages " + 
+		var queryString = "INSERT INTO messages " +
 								"(senderId, receiverId, message, sendTime) " +
 						   "VALUES (" + senderId + "," + receiverId + ",'" + replaceAll("'", "''", message) + "','" + sendTime + "') " +
 						   "RETURNING *";
 		//console.log(queryString);
-		
+
 		req.db.client.query(queryString, function(err, result){
 			// console.log('result: ');
 			// console.log(result);
@@ -455,8 +455,8 @@ app.get('/notifications/:userid',
 		var userid = req.params.userid;
 
 		var queryString = "SELECT notificationid, message, action_time, type, status " +
-							"FROM notifications " + 
-							"WHERE userid=" + userid + 
+							"FROM notifications " +
+							"WHERE userid=" + userid +
 							"ORDER BY action_time DESC";
 
 		//console.log(queryString);
@@ -472,7 +472,7 @@ app.get('/notifications/:userid',
 
 	});
 
-app.post('/notifications', 
+app.post('/notifications',
 	//connectToDb,
 	function(req, res, next){
 		// console.log(req.user);
@@ -481,12 +481,12 @@ app.post('/notifications',
 		var actionTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
 		//console.log(req.body);
-		var queryString = "UPDATE notifications " + 
-								"SET status = '" + req.body.notification.status + "'," + 
-									"action_time = '" + actionTime + 
+		var queryString = "UPDATE notifications " +
+								"SET status = '" + req.body.notification.status + "'," +
+									"action_time = '" + actionTime +
 									"' WHERE notificationid = " + req.body.notification.notificationid;
 		//console.log(queryString);
-		
+
 		req.db.client.query(queryString, function(err, result){
 			// console.log('result: ');
 			// console.log(result);
@@ -539,9 +539,9 @@ app.get('/dancecard/interested/:userId',
 	});
 
 function getInterestedPeopleById(req, res, next){
-		
+
 		var queryString = "SELECT userid " +
-							"FROM danceCard "+ 
+							"FROM danceCard "+
 							"WHERE partnerid =" + req.userid + " AND "+
 								  "status = 'added' AND mutual = 'false'";
 
@@ -553,29 +553,29 @@ function getInterestedPeopleById(req, res, next){
 	}
 
 function getDancecardById(req, res, next){
-		
+
 		//gets full profile of all memebers in dancecard
 		var queryString = "SELECT users.userId," +
-									"users.dateofbirth,"+ 
+									"users.dateofbirth,"+
 									"users.username,"+
-									"users.location_city,"+ 
-									"users.location_state,"+ 
+									"users.location_city,"+
+									"users.location_state,"+
 									"users.personal_blurb,"+
 									"users.imageurls,"+
 									"users.medimageurls,"+
-									"users.smallimageurls,"+ 
-									"danceCard.mutual "+  
-							"FROM users,"+ 
-								 "danceCard "+ 
+									"users.smallimageurls,"+
+									"danceCard.mutual "+
+							"FROM users,"+
+								 "danceCard "+
 							"WHERE danceCard.userId =" + req.userid + " AND "+
-								  "danceCard.status != 'removed' AND "+ 
+								  "danceCard.status != 'removed' AND "+
 								  "users.userId=danceCard.partnerId " +
 						    "ORDER BY updatetime ASC";
 
 		//gets userid and status of memebers in dancecard
 		// var queryString = "SELECT partnerid,"
-		// 							"status "+  
-		// 					"FROM dancecard "+ 
+		// 							"status "+
+		// 					"FROM dancecard "+
 		// 					"WHERE userid =" + userId + " AND "+
 		// 						  "status != 'removed'";
 
@@ -589,15 +589,15 @@ function getDancecardById(req, res, next){
 				  });
 	}
 
-app.post('/dancecard', 
-	//connectToDb, 
+app.post('/dancecard',
+	//connectToDb,
 	function(req, res, next){
 		req.dancecard = req.body;
 
 		next();
 		//if entry.status == remove -> send notification to removed user;
 		//if entry.status == add
-			//if responding to add -> 
+			//if responding to add ->
 			//else -> send notification to added user;
 		//if entry.status == mutual -> ??
 
@@ -614,19 +614,19 @@ app.post('/dancecard',
 // function isMutual(req, res, next){
 // 	SELECT (partnerid, status) FROM dancecard WHERE partnerid=req.dancecard.userid;
 // }
-    
+
 function addToDanceCard(req,res,next) {
 	var addTime = moment().format('YYYY-MM-DD HH:mm:ss');
 	var queryString = "INSERT INTO danceCard "+
-						  "(userId, partnerId, status, updatetime) " + 
-					   "VALUES (" + req.dancecard.userid + "," + 
-					   				req.dancecard.partnerid  + ",'" + 
-					   				req.dancecard.status + "','" + 
+						  "(userId, partnerId, status, updatetime) " +
+					   "VALUES (" + req.dancecard.userid + "," +
+					   				req.dancecard.partnerid  + ",'" +
+					   				req.dancecard.status + "','" +
 					   				addTime + "')";
 
 		//console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
-			//deal with error 
+			//deal with error
 			req.update = err ? true : false;
 			next();
 		});
@@ -637,12 +637,12 @@ function updateDanceCardStatus(req,res,next) {
 			var updateTime = moment().format('YYYY-MM-DD HH:mm:ss');
 			var queryString = "UPDATE danceCard "+
 								  "SET status = '"+ req.dancecard.status +"'," +
-								  		"updatetime = '" + updateTime + 
-								  "' WHERE userid = " + req.dancecard.userid + 
+								  		"updatetime = '" + updateTime +
+								  "' WHERE userid = " + req.dancecard.userid +
 								  " AND partnerid = " + req.dancecard.partnerid;
 				// console.log(queryString);
 				req.db.client.query(queryString, function(err, result){
-					//deal with error 
+					//deal with error
 					next();
 				});
 		}
@@ -676,22 +676,22 @@ function verifyDanceCardParameters(req,res,next) {
 		}
 };
 
-app.get('/profile/:userid', 
-	//connectToDb, 
+app.get('/profile/:userid',
+	//connectToDb,
 	function(req, res, next){
 
 		var userid = req.params.userid;
 
 		var queryString = "SELECT userid, username, dateofbirth," +
 							"location_city, location_state, personal_blurb, "+
-							"imageurls, medimageurls, smallimageurls, (SELECT count(*) from dancecard where userid=" + userid + " AND status='added') AS dancecard_count "+ 
+							"imageurls, medimageurls, smallimageurls, (SELECT count(*) from dancecard where userid=" + userid + " AND status='added') AS dancecard_count "+
 							"FROM users "+
 							"WHERE userid=" + userid;
 		req.db.client.query(queryString, function(err, result){
-			
+
 			req.queryResult = result;
 			next();
-		}) 
+		})
 	},
 	function (req, res) {
 		//console.log(req.queryResult);
@@ -701,8 +701,8 @@ app.get('/profile/:userid',
 
 	});
 
-app.get('/crowd/', 
-	//connectToDb, 
+app.get('/crowd/',
+	//connectToDb,
 	function(req, res, next){
 
 		console.log('getting crowd for page....');
@@ -718,7 +718,7 @@ app.get('/crowd/',
 		// }
 		next();
 		// console.log('get request /crowd/' + url);
-	}, 
+	},
 	getDancecardRecord,
 	getPeopleOnPage,
 	function (req, res) {
@@ -736,11 +736,11 @@ app.get('/crowd/',
 	});
 
 function getDancecardRecord(req, res, next){
-		
+
 		//gets entire dancecard record for signed in user
 		var queryString = "SELECT users.userId " +
-							"FROM users,"+ 
-								 "dancecard "+ 
+							"FROM users,"+
+								 "dancecard "+
 							"WHERE dancecard.userId =" + req.userid + " AND "+
 								  "users.userId=dancecard.partnerId";
 		// console.log('get entire dancecard record: ');
@@ -774,12 +774,12 @@ function getPeopleOnPage(req,res,next) {
 	var queryString = "SELECT  u.userid, u.username, u.dateofbirth, " +
 						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
 						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count "+
-						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url='" + req.url + "') AND ("  + whereClause + 
+						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url='" + req.url + "') AND ("  + whereClause +
 						  ") LIMIT " + req.limit;
 
 		console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
-			//deal with error 
+			//deal with error
 			console.log(result);
 			if(!err){
 				req.pagePeople = result.rows;
@@ -787,7 +787,7 @@ function getPeopleOnPage(req,res,next) {
 			next();
 		});
 	};
-	
+
 function calculateAge(dob){
 	var today = moment();
 	var birthdate = moment(dob);
@@ -797,7 +797,7 @@ function calculateAge(dob){
 
 function getCityStateFromZipcode(zipcode, callback){
 	var query = {
-			zip: zipcode, 
+			zip: zipcode,
 			country: 'US'
 		};
 	ziptastic(query).then(function(location){
@@ -816,16 +816,16 @@ app.get('/interest/:userid', function(req, res){
 	console.log(queryString);
 	req.db.client.query(queryString, function(err, result){
 			//deal with error
-			// console.log(result); 
+			// console.log(result);
 			// console.log(err);
 			if(err){
 				res.send(500);
-			} 
+			}
 			else{
 			// res.send(200);
 				res.json(formatForTreemap(result.rows))
 			}
-			
+
 		});
 
 })
@@ -851,7 +851,7 @@ var COLOR_BY_CAT = {
 	"shopping": 				 "#932f33",
 	"society": 					 "#8d2a17",
 	"education": 				 "#702819",
-	"careers": 					 "#4a261c", 
+	"careers": 					 "#4a261c",
 	"technology and computing":  "#2d241e",
 	"automotive and vehicles":   "#4b4540"
 }
@@ -907,7 +907,7 @@ app.get('/mockhistory/:userid', function(req, res){
 
 		  		// promises.push(setUrlsAndCategories(req, url, title, totalCount, visitTime));
 		  		promises.push(processOne(req, userid, url, title, totalCount, visitTime));
-		  } 
+		  }
 
 		  q.all(promises).then(function(data){
 		  	res.send(200);
@@ -947,14 +947,14 @@ app.post('/history', function(req, res){
   	//			INSERT record with urlid, userid, visittime and count
   	//ELSE
   	//	INSERT record into urls with (url, title)
-  	//	call alchemy api to get 
+  	//	call alchemy api to get
   	//		main image
   	//		UPDATE urls with image with related urlid
-  	//		
+  	//
   	//		FOR each taxonomy found with confidence > 0.5
   	//			INSERT record into url_categories (urlid, level1...5, score)
-  	
-  } 
+
+  }
 
   q.all(promises).then(function(data){
   	res.send(200);
@@ -984,7 +984,7 @@ function setUrlsAndCategories(req, url, title, totalCount, visitTime){
 									.then(function(taxonomyByUrlid){
 										return setUrlCategories(req, taxonomyByUrlid);
 									});
-							}			
+							}
 		  			});
 		  	});
 	})
@@ -1019,7 +1019,7 @@ function processOne(req, userid, url, title, totalCount, visitTime){
 											return setUrlCategories(req, taxonomyByUrlid);
 										});
 								}
-							});				
+							});
 		  			});
 		  	});
 	})
@@ -1034,10 +1034,10 @@ function processOne(req, userid, url, title, totalCount, visitTime){
 
 function setUrl(req, url, title){
 	var deferred = q.defer();
-	var queryString = "UPDATE urls SET url='" + url + "', page_title='" + title + "'" + 
-					  " WHERE url='" + url + "' RETURNING urlid, (SELECT 'update' AS action); " + 
-					  " INSERT INTO urls (url, page_title) " + 
-					  "SELECT '" + url + "', '" + title + "' " + 
+	var queryString = "UPDATE urls SET url='" + url + "', page_title='" + title + "'" +
+					  " WHERE url='" + url + "' RETURNING urlid, (SELECT 'update' AS action); " +
+					  " INSERT INTO urls (url, page_title) " +
+					  "SELECT '" + url + "', '" + title + "' " +
 					  "WHERE NOT EXISTS (SELECT 1 FROM urls WHERE url='" + url + "') "+
 					  " RETURNING urlid, (SELECT 'insert' AS action);";
 
@@ -1051,11 +1051,11 @@ function setUrl(req, url, title){
 
 function addUrlToUserHistory(req, urlid, urlaction, userid, count, visitTime){
 	var deferred = q.defer();
-	var queryString = "UPDATE user_history SET visit_count= visit_count + " + count + ", last_visit ='" + visitTime + "'" + 
-					  " WHERE urlid='" + urlid + "' RETURNING urlid, (SELECT '"+ urlaction+"' AS action); " + 
-					  " INSERT INTO user_history (userid, urlid, visit_count, last_visit) " + 
-					  "SELECT " + userid + ", " + urlid + ", " + count + ", '" + visitTime + "' " + 
-					  "WHERE NOT EXISTS (SELECT 1 FROM user_history WHERE urlid=" + urlid + " AND userid=" + userid + ") " +  
+	var queryString = "UPDATE user_history SET visit_count= visit_count + " + count + ", last_visit ='" + visitTime + "'" +
+					  " WHERE urlid='" + urlid + "' RETURNING urlid, (SELECT '"+ urlaction+"' AS action); " +
+					  " INSERT INTO user_history (userid, urlid, visit_count, last_visit) " +
+					  "SELECT " + userid + ", " + urlid + ", " + count + ", '" + visitTime + "' " +
+					  "WHERE NOT EXISTS (SELECT 1 FROM user_history WHERE urlid=" + urlid + " AND userid=" + userid + ") " +
 					  "RETURNING urlid, (SELECT '"+ urlaction+"' AS action); "
 
 		console.log(queryString);
@@ -1076,12 +1076,12 @@ function setUrlCategories(req, taxonomies){
 	var deferred = q.defer();
 
 	console.log(taxonomies);
-		var queryString = "INSERT INTO url_categories (urlid, level1, level2, level3, level4, level5, score) " + 
+		var queryString = "INSERT INTO url_categories (urlid, level1, level2, level3, level4, level5, score) " +
 						  "VALUES ";
 
 		var numLevels = 0;
 		for(var i=0; i<taxonomies.taxonomy.length; i++){
-			
+
 			queryString += "(" + taxonomies.urlid + ",";
 			for(var j=0; j<5; j++){
 				numLevels = taxonomies.taxonomy[i].levels.length;
@@ -1121,7 +1121,7 @@ function taxonomy(urlid, url) {
 		var temp;
 		for(var i=0; i<response.taxonomy.length; i++){
 			levels = response.taxonomy[i].label.substring(1, response.taxonomy[i].label.length).split('/');
-			categoriesByUrlid.taxonomy.push({score: response.taxonomy[i].score, 
+			categoriesByUrlid.taxonomy.push({score: response.taxonomy[i].score,
 											 levels: levels});
 		}
 		// console.log(categoriesByUrlid);
@@ -1147,8 +1147,8 @@ function getAndSetUrlImage(url /*, urlid, urlaction */){
 function addImageToUrls(req, urlid, image_url){
 	var deferred = q.defer();
 	if (image_url != ''){
-		var queryString = "UPDATE urls SET  primary_img_url = '" + image_url + "'" + 
-						  " WHERE urlid=" + urlid; 
+		var queryString = "UPDATE urls SET  primary_img_url = '" + image_url + "'" +
+						  " WHERE urlid=" + urlid;
 
 			console.log(queryString);
 			// console.log(req.db);
@@ -1181,7 +1181,7 @@ io.sockets.on('connection', function(socket){
 	});
 	// io.sockets.socket(users.userid.socket).emit()
 	socket.on('disconnect', function(){
-		
+
 	});
 
 });

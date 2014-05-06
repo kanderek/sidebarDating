@@ -4,7 +4,7 @@ var url_info = {};
 
 /***************************************************************************
 /
-/ Communication between background.js 
+/ Communication between background.js
 /
 /***************************************************************************/
 
@@ -78,10 +78,10 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
       'self',
       // Allow loading from outer templates domain.
       'chrome-extension://*/partials/**'
-    ]); 
+    ]);
 
     $stateProvider
-        
+
         // HOME STATES AND NESTED VIEWS ========================================
         // .state('file-upload-teset', {
         //   url: '',
@@ -106,7 +106,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
 
         .state('sign-up-0', {
           url: '',
-          views: {   
+          views: {
             'sidebar': {
                 templateUrl: chrome.extension.getURL('partials/signup0.html'),
                 controller: 'SignupCtrl'
@@ -116,7 +116,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
 
         .state('sign-up-1', {
           url: '',
-          views: {   
+          views: {
             'sidebar': {
                 templateUrl: chrome.extension.getURL('partials/signup1.html'),
                 controller: 'SignupCtrl'
@@ -126,7 +126,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
 
         .state('sign-up-2', {
           url: '',
-          views: {   
+          views: {
             'sidebar': {
                 templateUrl: chrome.extension.getURL('partials/signup2.html'),
                 controller: 'SignupCtrl'
@@ -136,7 +136,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
 
         .state('sign-up-3', {
           url: '',
-          views: {   
+          views: {
             'sidebar': {
                 templateUrl: chrome.extension.getURL('partials/signup3.html'),
                 controller: 'SignupCtrl'
@@ -146,7 +146,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
 
         .state('login', {
           url: '',
-          views: {   
+          views: {
             'sidebar': {
                 templateUrl: chrome.extension.getURL('partials/login.html'),
                 controller: 'LoginCtrl'
@@ -155,7 +155,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
         })
 
         .state('main', {
-          views: {   
+          views: {
             'sidebar': {
                 templateUrl: chrome.extension.getURL('partials/danceCardMenu.html'),
                 controller: 'DanceCardCtrl'
@@ -190,7 +190,7 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
           templateUrl: chrome.extension.getURL('partials/removeSurvey.html'),
             controller: 'RemoveSurveyCtrl'
             })
-        
+
         .state('main.messages', {
               url: '',
           templateUrl: chrome.extension.getURL('partials/messages.html') ,
@@ -209,15 +209,15 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
   }]);
 
 /********************************************************************************************************
-//  
+//
 //   dddddd      ii   rrrrrr    eeeee     ccccc      tt      ii    vv     vv    eeeee     ssssss
-//   dd    dd         rr   rr  ee   ee   ccc      tttttttt         vv     vv   ee   ee   ss 
+//   dd    dd         rr   rr  ee   ee   ccc      tttttttt         vv     vv   ee   ee   ss
 //   dd     dd   ii   rr       eeeeee    ccc         tt      ii     vv   vv    eeeeee     sssss
 //   dd    dd    ii   rr       ee        ccc         tt      ii      vv vv     ee             ss
-//   dddddd      ii   rr        eeeeee    ccccc      tt      ii       vvv       eeeeee   ssssss 
+//   dddddd      ii   rr        eeeeee    ccccc      tt      ii       vvv       eeeeee   ssssss
 //
 //*******************************************************************************************************
- Directives */ 
+ Directives */
 
 var appDirectives = angular.module('appDirectives', []);
 
@@ -278,7 +278,7 @@ appDirectives.directive('treeMap', function(){
                 var tooltipText = "";
                 if(d.parent){
                   tooltipText = d.parent.name  + ', ' + d.name;
-                } 
+                }
                 return tooltip.style("visibility", "visible").text(tooltipText);
               })
               .on("mousemove", function(){
@@ -314,15 +314,15 @@ appDirectives.directive('treeMap', function(){
 });
 
 /********************************************************************************************************
-//  
+//
 //    ssssss    eeeee    rrrrrr    vv     vv   ii    ccccc    eeeee     ssssss
-//   ss        ee   ee   rr   rr   vv     vv        ccc      ee   ee   ss 
+//   ss        ee   ee   rr   rr   vv     vv        ccc      ee   ee   ss
 //    sssss    eeeeee    rr         vv   vv    ii   ccc      eeeeee     sssss
 //        ss   ee        rr          vv vv     ii   ccc      ee             ss
-//   ssssss     eeeeee   rr           vvv      ii    ccccc    eeeeee   ssssss 
+//   ssssss     eeeeee   rr           vvv      ii    ccccc    eeeeee   ssssss
 //
 //*******************************************************************************************************
- Services */ 
+ Services */
 
 var appServices = angular.module('appServices', ['ngResource']);
 
@@ -340,7 +340,7 @@ appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profil
   var detailsContent = document.getElementById('detailsContent');
   var sidebar = document.getElementById('sidebar');
 
-  detailsPanel.addEventListener("webkitAnimationEnd", 
+  detailsPanel.addEventListener("webkitAnimationEnd",
     function(event){
       //only happens if transition finishes
       console.log(event.animationName);
@@ -352,7 +352,7 @@ appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profil
 
   console.log(detailsPanel);
   console.log(detailsContent);
-  detailsContent.addEventListener('webkitTransitionEnd', 
+  detailsContent.addEventListener('webkitTransitionEnd',
     function(event){
       $('#detailsContent').css('opacity', 1.0);
     },false);
@@ -430,7 +430,7 @@ appServices.factory('Socket', function ($rootScope) {
   var socket = io.connect(SERVER);
   return {
     on: function (eventName, callback) {
-      socket.on(eventName, function () {  
+      socket.on(eventName, function () {
         var args = arguments;
         $rootScope.$apply(function () {
           callback.apply(socket, args);
@@ -453,9 +453,9 @@ appServices.factory('Socket', function ($rootScope) {
 /*******************************************************************************************************
 Message Service  */
 
-appServices.factory('MessageService', ['$http', '$state', 'Profile', 
+appServices.factory('MessageService', ['$http', '$state', 'Profile',
   function($http, $state, Profile){
-  
+
   var messageService = {};
 
       messageService.getStaticMessages = function(callback){
@@ -468,7 +468,7 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
         }).
         error(function(data, status, headers, config){
           console.log('error getting static json file');
-        }); 
+        });
       }
 
       messageService.getStaticMessageByuserid = function(userid, callback){
@@ -481,7 +481,7 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
         }).
         error(function(data, status, headers, config){
           console.log('error getting static json file');
-        }); 
+        });
       }
 
       messageService.getMessageByuserid = function(userid, callback){
@@ -491,7 +491,7 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
         }).
         success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
-               callback(data);  
+               callback(data);
             // }
             // else{
             //   $state.go('sign-up-0');
@@ -499,7 +499,7 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
         }).
         error(function(data, status, headers, config){
           console.log('error getting static json file');
-        }); 
+        });
       }
 
       messageService.sendMessageTouserid = function(message, callback){
@@ -511,7 +511,7 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
           }).
           success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
-               callback(data);  
+               callback(data);
             // }
             // else{
             //   $state.go('sign-up-0');
@@ -519,7 +519,7 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
           }).
           error(function(data, status, headers, config){
             console.log('error posting message');
-          }); 
+          });
         }
         else{
           console.log('Cannot send message to yourself');
@@ -532,14 +532,14 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
 /*******************************************************************************************************
 Notification Service  */
 
-appServices.factory('NotificationService', ['$http', '$state', 'Profile', 
+appServices.factory('NotificationService', ['$http', '$state', 'Profile',
   function($http, $state, Profile){
-  
+
   var notificationService = {};
       /*
             notificationid  SERIAL,
             userid      int REFERENCES users (userid) ON DELETE CASCADE,
-            message     varchar(140) NOT NULL,  
+            message     varchar(140) NOT NULL,
             action_time   timestamp,
             type      varchar(50),--message/dancecard
             status      varchar(50),--read/unread/ignore
@@ -549,7 +549,7 @@ appServices.factory('NotificationService', ['$http', '$state', 'Profile',
       notificationService.unreadCount = 0;
 
       notificationService.getUnreadCount = function(){
-          
+
           notificationService.unreadCount = 0;
           for(var i=0; i<notificationService.notifications.length; i++){
             if(notificationService.notifications[i].status == "unread"){
@@ -588,7 +588,7 @@ appServices.factory('NotificationService', ['$http', '$state', 'Profile',
         }).
         success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
-               // callback(data); 
+               // callback(data);
                console.log(data);
                notificationService.notifications = data;
                notificationService.getUnreadCount()
@@ -599,7 +599,7 @@ appServices.factory('NotificationService', ['$http', '$state', 'Profile',
         }).
         error(function(data, status, headers, config){
           console.log('error getting static json file');
-        }); 
+        });
       }
 
       notificationService.updateNotificationStatus = function(data){
@@ -615,7 +615,7 @@ appServices.factory('NotificationService', ['$http', '$state', 'Profile',
           }).
           error(function(data, status, headers, config){
             console.log('error posting message');
-          }); 
+          });
         }
 
   return notificationService;
@@ -627,11 +627,11 @@ Dancecard Service  */
 
 appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
   function($rootScope, $http, Profile){
-  
+
   function fillBlankDancecardSpots(){
      var curDancecardLength = dancecardService.dancecard.length;
      for(var i=0; i<(5-curDancecardLength); i++){
-       dancecardService.dancecard.push({smallimageurls: [ SERVER + '/user/user.png'], userid: -1}); 
+       dancecardService.dancecard.push({smallimageurls: [ SERVER + '/user/user.png'], userid: -1});
      }
   }
 
@@ -642,7 +642,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
           if(dancecardService.dancecard[i].userid == -1){
             count++;
           }
-      } 
+      }
       return count;
     }
 
@@ -661,7 +661,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
         }).
         error(function(data, status, headers, config){
           console.log('error getting static json file');
-        }); 
+        });
       }
 
       dancecardService.isDancecardFilled = function(){
@@ -713,7 +713,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
             break;
           }
         }
-      } 
+      }
 
       dancecardService.getInterestedPeopleById = function(userid){
         // console.log('in dancecard service...');
@@ -728,7 +728,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
             // if(data.status != "logged_out"){
                dancecardService.interestedPeople  = data;
                //callback(data);
-               
+
             // }
             // else{
             //   $state.go('sign-up-0');
@@ -736,7 +736,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
         }).
         error(function(data, status, headers, config){
           console.log('error getting dancecard');
-        }); 
+        });
       }
 
       dancecardService.getDancecardById = function(userid, callback){
@@ -755,7 +755,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
                fillBlankDancecardSpots();
                $rootScope.$broadcast('dancecard-available');
                //callback(data);
-               
+
             // }
             // else{
             //   $state.go('sign-up-0');
@@ -763,7 +763,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
         }).
         error(function(data, status, headers, config){
           console.log('error getting dancecard');
-        }); 
+        });
       }
 
       // dancecardService.updateDancecard = function(postData, profileData, callback){
@@ -824,9 +824,9 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
           }).
           error(function(data, status, headers, config){
             console.log('error posting data: add dancecard failed');
-          }); 
+          });
         }
-      
+
 
   return dancecardService;
 }]);
@@ -842,7 +842,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
       // console.log(imgArray);
       if(imgArray){
         for(var i=0; i<imgArray.length; i++){
-          imgArray[i] = SERVER + imgArray[i]; 
+          imgArray[i] = SERVER + imgArray[i];
         }
       }
       return imgArray;
@@ -943,7 +943,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
       }).
       error(function(data, status, headers, config){
         console.log('error getting static json file');
-      }); 
+      });
     }
 
     profileFactory.getProfileById = function(userid, callback){
@@ -958,7 +958,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
            // data[0].imageurls = processImageUrls(data[0].imageurls);
            // data[0].medimageurls = processImageUrls(data[0].medimageurls);
            // data[0].smallimageurls = processImageUrls(data[0].smallimageurls);
-           callback(data);  
+           callback(data);
         // }
         // else{
         //     $state.go('sign-up-0');
@@ -966,7 +966,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
       }).
       error(function(data, status, headers, config){
         console.log('error getting user profile ' + userid);
-      }); 
+      });
     }
 
     profileFactory.getProfilesByInterest = function(userid, callback){
@@ -977,19 +977,18 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
        console.log(url_info);
        var userid = profileFactory.selfProfile.userid;
        var queryString = "url=" + url_info.url + "&userid=" + userid + "&limit=" +limit;
-       
       if(profileFactory.pageProfiles.length > 0){
-         queryString += "&pageprofiles="; 
+         queryString += "&pageprofiles=";
          for(var i=0; i<profileFactory.pageProfiles.length; i++){
              queryString += profileFactory.pageProfiles[i].userid;
              if(i != profileFactory.pageProfiles.length -1){
                 queryString += ',';
-             } 
+             }
          }
       }
 
        $http({
-          method: 'GET', 
+          method: 'GET',
           url: SERVER + '/crowd/?' + queryString
         }).
       success(function(data, status, headers, config) {
@@ -1050,7 +1049,7 @@ appServices.factory('InterestService', ['$http', '$rootScope',
     interestService.getInterestTreemapByUserid = function(userid, callback){
 
        $http({
-          method: 'GET', 
+          method: 'GET',
           url: SERVER + '/interest/' + userid
         }).
         success(function(data, status, headers, config) {
@@ -1107,7 +1106,7 @@ appServices.factory('SignupService', ['$http', 'Profile',
       }).
       error(function(data, status, headers, config){
         console.log('error signing up user: sending data to server failed');
-      }); 
+      });
     }
 
     return signupService;
@@ -1127,7 +1126,7 @@ appServices.factory('HistoryService', ['$http', 'Profile',
     historyService.getHistory = function(callback){
         var microsecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
         var oneWeekAgo = (new Date).getTime() - microsecondsPerWeek;
-        var limit = 10;
+        var limit = 30;
 
         chrome.runtime.sendMessage({type: 'history', time_ago: oneWeekAgo, limit: limit}, function(response) {
             console.log('response from background script...');
@@ -1149,7 +1148,7 @@ appServices.factory('HistoryService', ['$http', 'Profile',
       }).
       error(function(data, status, headers, config){
         console.log('error saving history data...');
-      }); 
+      });
     }
 
     return historyService;
@@ -1172,11 +1171,11 @@ appServices.factory('LoginService', ['$http', 'Socket',
       }).
       success(function(data, status, headers, config){
         callback(data);
-        
+
       }).
       error(function(data, status, headers, config){
         console.log('error logging in user');
-      }); 
+      });
     }
 
     return loginService;
@@ -1201,7 +1200,7 @@ appServices.factory('AuthService', ['$http',
       }).
       error(function(data, status, headers, config){
         console.log('error logging in user');
-      }); 
+      });
     }
 
     return authService;
@@ -1226,19 +1225,19 @@ appServices.factory('InitService', ['$rootScope', 'UiState','Profile','Dancecard
             console.log('user' + userid);
             DancecardService.initializeDancecard(userid);
             NotificationService.initializeNotifications(userid);
-            Socket.emit('register-user', {userid: userid}, function(){});            
+            Socket.emit('register-user', {userid: userid}, function(){});
           };
 
           return initService;
   }]);
 
 /********************************************************************************************************
-//  
+//
 //    ccccc     ooooo    nnnnnn       tt      rrrrrr     ooooo    ll   ll     eeeee    rrrrrr    ssssss
-//   ccc  cc   oo   oo   nn   nn   tttttttt   rr   rr   oo   oo   ll   ll    ee   ee   rr   rr  ss 
+//   ccc  cc   oo   oo   nn   nn   tttttttt   rr   rr   oo   oo   ll   ll    ee   ee   rr   rr  ss
 //   ccc       oo   oo   nn    nn     tt      rr        oo   oo   ll   ll    eeeeee    rr        sssss
 //   ccc  cc   oo   oo   nn    nn     tt      rr        oo   oo   ll   ll    ee        rr            ss
-//    ccccc     ooooo    nn    nn     tt      rr         ooooo    ll   ll     eeeeee   rr       ssssss 
+//    ccccc     ooooo    nn    nn     tt      rr         ooooo    ll   ll     eeeeee   rr       ssssss
 //
 //*******************************************************************************************************
  Controllers */
@@ -1276,7 +1275,7 @@ appControllers.controller('UploadTestCtrl', ['$scope', '$upload', '$rootScope', 
     function($scope, $upload, $rootScope, $state) {
 
         $scope.largeImage = "/userId_1.jpg";
-        $scope.mediumImage = "/thumb_okc_profile2.jpg"; 
+        $scope.mediumImage = "/thumb_okc_profile2.jpg";
 
 $scope.onFileSelect = function($files) {
     //$files: an array of files selected, each file has name, size, and type.
@@ -1299,16 +1298,16 @@ $scope.onFileSelect = function($files) {
       }).success(function(data, status, headers, config) {
         // file is uploaded successfully
         $scope.largeImage =  "/" + file.name;
-        $scope.mediumImage = "/thumb_"+ file.name; 
+        $scope.mediumImage = "/thumb_"+ file.name;
         // $scope.mediumImage = "http://lorempixel.com/200/200/sports/";
         // console.log(data);
       });
       //.error(...)
-      //.then(success, error, progress); 
+      //.then(success, error, progress);
       //.xhr(function(xhr){xhr.upload.addEventListener(...)})// access and attach any event listener to XMLHttpRequest.
     }
     /* alternative way of uploading, send the file binary with the file's content-type.
-       Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed. 
+       Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed.
        It could also be used to monitor the progress of a normal http post/put request with large data*/
     // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
   };
@@ -1341,7 +1340,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
   function($scope, $rootScope, $state, $upload, UiState, SignupService, InitService) {
 
 
-    // var re5digit=/^\d{5}$/ to check for 5 digit zipcode 
+    // var re5digit=/^\d{5}$/ to check for 5 digit zipcode
     $scope.age_floor = 18;
     $scope.age_ceil = 80;
     $scope.distance_floor = 0;
@@ -1351,12 +1350,12 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
     var createOptions = function(start, finish, increment){
       var options = [];
           if(increment > 0){
-            for(var i=start; i<= finish; i+= increment){ 
+            for(var i=start; i<= finish; i+= increment){
               options.push(i);
             }
           }
           else {
-            for(var i=start; i>= finish; i+= increment){ 
+            for(var i=start; i>= finish; i+= increment){
               options.push(i);
             }
           }
@@ -1431,17 +1430,17 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
           $scope.user.smallImageUrl = [];
         }
         $scope.user.originalImageUrl.push(data.origImageUrl);
-        $scope.user.mediumImageUrl.push(data.medImageUrl); 
+        $scope.user.mediumImageUrl.push(data.medImageUrl);
         $scope.user.smallImageUrl.push(data.smallImageUrl);
         // $scope.mediumImage = "http://lorempixel.com/200/200/sports/";
         console.log(data);
       });
       //.error(...)
-      //.then(success, error, progress); 
+      //.then(success, error, progress);
       //.xhr(function(xhr){xhr.upload.addEventListener(...)})// access and attach any event listener to XMLHttpRequest.
     }
     /* alternative way of uploading, send the file binary with the file's content-type.
-       Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed. 
+       Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed.
        It could also be used to monitor the progress of a normal http post/put request with large data*/
     // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
   };
@@ -1478,7 +1477,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
 /*******************************************************************************************************
 Tutorial Controller  */
 
-appControllers.controller('TutorialCtrl', ['$scope', '$state', 
+appControllers.controller('TutorialCtrl', ['$scope', '$state',
   function($scope, $state) {
 
 
@@ -1522,7 +1521,7 @@ appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'Ini
     console.log(url_info);
     $scope.login = function(){
             LoginService.loginUser({email: $scope.email, password: $scope.password}, function(data){
-            if(data){ 
+            if(data){
               console.log('data returned from login process');
               console.log(data);
               console.log('User should be logged in...');
@@ -1549,7 +1548,7 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
       console.log('mark this (' + index + ') notification read');
       NotificationService.markRead(index);
     };
-    
+
     $scope.isRead = function(index) {
       console.log('you moused over ' + index + ' notification');
       return (NotificationService.notifications[index].status == 'read');
@@ -1597,7 +1596,7 @@ appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiSta
     var scrollToBottom = function(){
        var element = $('#messages')[0];
        //console.log(element.scrollHeight);
-         
+
        if( (element.offsetHeight < element.scrollHeight)){
          var valueToScroll = element.scrollHeight;
          $("#messages").scrollTop(valueToScroll);
@@ -1624,11 +1623,11 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
     console.log('received new notification...');
     console.log(data);
     NotificationService.addNotification(data);
-    
+
     if(data.type == 'dancecard'){
       if(data.subtype == 'mutual'){
         console.log("It's a match!...");
-        DancecardService.setMutual(data.about_userid); 
+        DancecardService.setMutual(data.about_userid);
       }
       else if(data.subtype == 'added'){
         DancecardService.addInterestedPerson(data.about_userid);
@@ -1655,7 +1654,7 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
 
   $scope.goToProfile = function(){
 
-      UiState.selectProfile(Profile.selfProfile, 'self') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();  
+      UiState.selectProfile(Profile.selfProfile, 'self') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
 
     }
 
@@ -1673,14 +1672,14 @@ Dancecard Controller  */
 
 appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$timeout', 'UiState', 'MessageService', 'DancecardService', 'Socket', 'Profile',
   function($rootScope, $scope, $state, $timeout, UiState, MessageService, DancecardService, Socket, Profile) {
-    
+
     // DancecardService.getStaticDancecard(function(data){
     //     $scope.danceCard = data;
     // });
-  
+
     // console.log("Uistate in dancecard controller...");
     // console.log(UiState);
-    
+
 
     Socket.on('new-message', function(data){
       console.log('new messsage received...');
@@ -1708,7 +1707,7 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
       if(status == 'added'){
         //remove list select indicator when selecting person from dancecard
             $('.select-indicator').css('visibility', 'hidden');
-            $('.select-indicator').css('right', '7px'); 
+            $('.select-indicator').css('right', '7px');
          DancecardService.updateDancecard(data, Profile.selectedProfile);
       }
 
@@ -1735,13 +1734,13 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
           closeDetails = UiState.selectProfile($scope.dancecard[i], 'dancecard');
           if($scope.dancecard[i].mutual){
             UiState.showShortProfile = true;
-            !closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();  
+            !closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
             $state.go('main.messages');
             //MessageService.getMessageByuserid(UiState.selectedProfile.userid);
             getConversation(Profile.selectedProfile.userid);
           }
           else {
-            closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();  
+            closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
             $state.go('main.profileList');
           }
         }
@@ -1788,7 +1787,7 @@ appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', '$timeout'
   function($scope, $rootScope, $timeout, Profile, UiState) {
 
     $scope.profiles = Profile.pageProfiles;
-    
+
     $scope.$on('page-profiles-available', function(event){
       $scope.profiles = Profile.pageProfiles;
     });
@@ -1798,8 +1797,8 @@ appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', '$timeout'
     }
 
     $scope.selectOnly = function(i){
-      UiState.selectProfile($scope.profiles[i], 'list') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();  
-      
+      UiState.selectProfile($scope.profiles[i], 'list') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
+
     }
 
   }]);
@@ -1816,7 +1815,7 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
       // UiState.showDetailsPanel = false;
       $state.go('main.profileList');
     }
-    
+
 
     $scope.submitSurvey = function(){
       var data = {
@@ -1878,7 +1877,7 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
           return true;
         }
       };
-      return false; 
+      return false;
     };
 
     var isMutual = function(userid){
@@ -1887,7 +1886,7 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
           return DancecardService.dancecard[i].mutual;
         }
       };
-      return false; 
+      return false;
     }
 
     var isDancecardFilled = function(){
@@ -1952,7 +1951,7 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
           // if(UiState.showDetailsPanel){
           //   UiState.closeDetailsPanel();
           //   var details = document.getElementById('detailsWrapper');
-          //   details.addEventListener('webkitAnimationEnd', 
+          //   details.addEventListener('webkitAnimationEnd',
           //     function(e){
           //       UiState.closeSidebar();
           //     },false)
@@ -2005,7 +2004,7 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
 
     $rootScope.$on('ANGULAR_DRAG_START', function (event, channel) {
       console.log('drag started on dancecard....');
-      //listen for "remove-person" channel 
+      //listen for "remove-person" channel
       //onoly do stuff with that channel
 
         console.log(event);
@@ -2019,7 +2018,7 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
 
     $rootScope.$on('ANGULAR_DRAG_END', function (event, channel) {
       console.log('drag ended on dancecard....');
-      //listen for "remove-person" channel 
+      //listen for "remove-person" channel
       //onoly do stuff with that channel
       if(channel == 'remove-person'){
         $scope.$apply(function(){

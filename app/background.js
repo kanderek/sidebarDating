@@ -35,7 +35,7 @@ var toggleTabStatus = function(tab){
     if(index == -1){
       index = initializeTabStatus(tab.id);
     }
-    
+
     if(tabStatus[index].status){
       tabStatus[index].status = false;
       // chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
@@ -43,7 +43,7 @@ var toggleTabStatus = function(tab){
     else{
       tabStatus[index].status = true;
     }
-    
+
     setBrowserActionIcon(tabStatus[index].status);
     callBrowserAction(tab, tabStatus[index].status);
   }
@@ -94,7 +94,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
   console.log('browserAction clicked');
   //injectAngular(tab.id);
   console.log(tab);
-  toggleTabStatus(tab);    
+  toggleTabStatus(tab);
 });
 
 
@@ -121,7 +121,7 @@ chrome.tabs.onRemoved.addListener(function (tabID, removeInfo){
 });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
-	
+
   console.log('tab updated: ' + tabId);
   console.log(changeInfo);
 
@@ -162,7 +162,7 @@ var closeSidebar = function(tab){
 
   setTimeout(function(){
       chrome.browserAction.setBadgeText({text: "99"});
-  },3000);  
+  },3000);
 }
 
 chrome.runtime.onMessage.addListener(
@@ -189,7 +189,7 @@ chrome.runtime.onMessage.addListener(
       });
       return true;
     }
-    
+
 });
 
 
@@ -225,7 +225,7 @@ var logHistory = function() {
 	 chrome.history.search({
       	'text': '',              // Return every history item....
       	'startTime': oneWeekAgo  // that was accessed less than one week ago.
-    	}, 
+    	},
     	function(historyItems) {
     		//console.log(historyItems);
     		sendHistory(historyItems);
@@ -257,7 +257,7 @@ function sendHistory(historyItems) {
 
 /******************************************************************
 //
-// TAKEN FROM SAMPLE EXTENSION USING CHROME HISTORY API 
+// TAKEN FROM SAMPLE EXTENSION USING CHROME HISTORY API
 //
 
 // Copyright (c) 2012 The Chromium Authors. All rights reserved.
