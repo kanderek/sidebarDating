@@ -384,6 +384,8 @@
 		padding: 5px 0;
 		box-sizing: border-box;
 		background-color: #2B2E2E;
+		position: fixed;
+		z-index: 50;
 	}
 
 	/*#sbe-sidebar #top-menu a {
@@ -819,6 +821,12 @@
 		-webkit-transform: translateY(20px);
 	}
 
+	#sbe-sidebar #sbe-bodyContent {
+		height: 100%;
+		overflow-y: auto;
+		box-sizing: border-box;
+	}
+
 </style>
 
 <div id="injected-wrapper"
@@ -862,7 +870,7 @@
 			<a ng-click="goToNotifications()" class="sidebar-notif">{{ns.unreadCount}} </a>
 		</div>
 
-		<div ui-view="sidebar">
+		<div ui-view="sidebar" id="sbe-bodyContent">
 		</div>
 
 		<div ng-controller="TutorialCtrl">

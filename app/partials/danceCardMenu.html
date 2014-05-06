@@ -20,6 +20,11 @@
 		overflow: hidden;
 		/*margin-bottom: 10px;*/
 		background-color: #2B2E2E;
+		position: fixed;
+		margin-top: 25px;
+		z-index: 50;
+		box-shadow:  0px 1px 0px 0px #141616,
+					 0px 2px 0px 0px #535959;
 	}
 
 	.dance-card-preview-img {
@@ -47,6 +52,24 @@
 	.danceCardPreviewLast {
 		margin-right: 0px;
 	}
+
+	#sbe-sidebar .sbe-userDetails {
+		background-color: #343838;
+		width: 100%;
+		height: auto;
+		padding: 0px 10px;
+		box-shadow: inset 0px 1px 0px 0px #141616,
+					inset 0px 2px 0px 0px #535959;
+		cursor: pointer;
+		box-sizing: border-box;
+		color: #ababab;
+	}
+
+	#sbe-sidebar .sbe-MsgName {
+		color: white;
+		font-weight: bold;
+	}
+
 </style>
 <div ng-cloak>
 	<!-- <div class="horizontal-line">
@@ -74,20 +97,20 @@
 				<img ng-src="{{person.smallimageurls[0]}}" />
 		</div>
 
-		<div class="profile" 
+		<div class="profile sbe-userDetails" 
 			 ng-click="showDetailedProfile()"
 			 ng-show="uiState.showShortProfile"><!--
 			 ng-class="{'isSelected': ifSelected()}":> -->
 			<p>
-				<span class="name">{{selectedProfile.username}}</span></br>
+				<span class="name sbe-MsgName">{{selectedProfile.username}}</span></br>
 				<span class-"personal-blurb">{{selectedProfile.personal_blurb}}</span>
 			</p>
 		</div>
 
 	</div>
 
-	<div class="horizontal-line">
-	</div>
+	<!-- <div class="horizontal-line">
+	</div> -->
 
 	<div ui-view>
 	</div>
