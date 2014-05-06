@@ -67,7 +67,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS "sidebar"."notifications";
 CREATE TABLE "sidebar"."notifications" (
-    "notificationid" serial primary key,
+    "notificationid" serial,
     "userid" int4,
     "about_userid" int4,
     "message" varchar(140) NOT NULL COLLATE "default",
@@ -230,7 +230,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS "sidebar"."urls";
 CREATE TABLE "sidebar"."urls" (
-    "urlid" SERIAL PRIMARY KEY,
+    "urlid" SERIAL,
     "url" varchar(300) COLLATE "default",
     "page_title" varchar(140) COLLATE "default",
     "primary_img_url" varchar(140) COLLATE "default"
@@ -391,7 +391,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS "sidebar"."users";
 CREATE TABLE "sidebar"."users" (
-    "userid" SERIAL PRIMARY KEY,
+    "userid" SERIAL,
     "username" varchar(30) NOT NULL COLLATE "default",
     "password" varchar(30) NOT NULL COLLATE "default",
     "email" varchar(30) NOT NULL COLLATE "default",
@@ -444,45 +444,9 @@ COMMIT;
 ALTER TABLE "sidebar"."dancecard" ADD PRIMARY KEY ("userid", "partnerid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- ----------------------------
---  Triggers structure for table dancecard
--- ----------------------------
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17333" AFTER UPDATE ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17333" ON "sidebar"."dancecard" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17332" AFTER INSERT ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17332" ON "sidebar"."dancecard" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17174" AFTER UPDATE ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17174" ON "sidebar"."dancecard" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17173" AFTER INSERT ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17173" ON "sidebar"."dancecard" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17169" AFTER UPDATE ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17169" ON "sidebar"."dancecard" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17168" AFTER INSERT ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17168" ON "sidebar"."dancecard" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17328" AFTER UPDATE ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17328" ON "sidebar"."dancecard" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17327" AFTER INSERT ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17327" ON "sidebar"."dancecard" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17323" AFTER UPDATE ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17323" ON "sidebar"."dancecard" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17322" AFTER INSERT ON "sidebar"."dancecard" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17322" ON "sidebar"."dancecard" IS NULL;
-
--- ----------------------------
 --  Primary key structure for table messages
 -- ----------------------------
 ALTER TABLE "sidebar"."messages" ADD PRIMARY KEY ("senderid", "receiverid", "sendtime") NOT DEFERRABLE INITIALLY IMMEDIATE;
-
--- ----------------------------
---  Triggers structure for table messages
--- ----------------------------
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17192" AFTER UPDATE ON "sidebar"."messages" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17192" ON "sidebar"."messages" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17191" AFTER INSERT ON "sidebar"."messages" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17191" ON "sidebar"."messages" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17187" AFTER UPDATE ON "sidebar"."messages" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17187" ON "sidebar"."messages" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17186" AFTER INSERT ON "sidebar"."messages" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17186" ON "sidebar"."messages" IS NULL;
 
 -- ----------------------------
 --  Primary key structure for table notifications
@@ -490,31 +454,9 @@ COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17186" ON "sidebar"."messages" IS NUL
 ALTER TABLE "sidebar"."notifications" ADD PRIMARY KEY ("notificationid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- ----------------------------
---  Triggers structure for table notifications
--- ----------------------------
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17211" AFTER UPDATE ON "sidebar"."notifications" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17211" ON "sidebar"."notifications" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17210" AFTER INSERT ON "sidebar"."notifications" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17210" ON "sidebar"."notifications" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17206" AFTER UPDATE ON "sidebar"."notifications" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17206" ON "sidebar"."notifications" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17205" AFTER INSERT ON "sidebar"."notifications" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17205" ON "sidebar"."notifications" IS NULL;
-CREATE TRIGGER "watched_table_trigger" AFTER INSERT ON "sidebar"."notifications" FOR EACH ROW EXECUTE PROCEDURE "notify_trigger"();
-COMMENT ON TRIGGER "watched_table_trigger" ON "sidebar"."notifications" IS NULL;
-
--- ----------------------------
 --  Primary key structure for table url_categories
 -- ----------------------------
 ALTER TABLE "sidebar"."url_categories" ADD PRIMARY KEY ("urlid", "level1", "level2", "level3") NOT DEFERRABLE INITIALLY IMMEDIATE;
-
--- ----------------------------
---  Triggers structure for table url_categories
--- ----------------------------
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17298" AFTER UPDATE ON "sidebar"."url_categories" FROM "sidebar"."urls" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17298" ON "sidebar"."url_categories" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17297" AFTER INSERT ON "sidebar"."url_categories" FROM "sidebar"."urls" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17297" ON "sidebar"."url_categories" IS NULL;
 
 -- ----------------------------
 --  Primary key structure for table urls
@@ -522,33 +464,9 @@ COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17297" ON "sidebar"."url_categories" 
 ALTER TABLE "sidebar"."urls" ADD PRIMARY KEY ("urlid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- ----------------------------
---  Triggers structure for table urls
--- ----------------------------
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17296" AFTER UPDATE ON "sidebar"."urls" FROM "sidebar"."url_categories" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17296" ON "sidebar"."urls" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17295" AFTER DELETE ON "sidebar"."urls" FROM "sidebar"."url_categories" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_cascade_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17295" ON "sidebar"."urls" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17311" AFTER UPDATE ON "sidebar"."urls" FROM "sidebar"."user_history" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17311" ON "sidebar"."urls" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17310" AFTER DELETE ON "sidebar"."urls" FROM "sidebar"."user_history" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_cascade_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17310" ON "sidebar"."urls" IS NULL;
-
--- ----------------------------
 --  Primary key structure for table user_history
 -- ----------------------------
 ALTER TABLE "sidebar"."user_history" ADD PRIMARY KEY ("userid", "urlid") NOT DEFERRABLE INITIALLY IMMEDIATE;
-
--- ----------------------------
---  Triggers structure for table user_history
--- ----------------------------
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17313" AFTER UPDATE ON "sidebar"."user_history" FROM "sidebar"."urls" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17313" ON "sidebar"."user_history" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17312" AFTER INSERT ON "sidebar"."user_history" FROM "sidebar"."urls" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17312" ON "sidebar"."user_history" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17308" AFTER UPDATE ON "sidebar"."user_history" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17308" ON "sidebar"."user_history" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17307" AFTER INSERT ON "sidebar"."user_history" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17307" ON "sidebar"."user_history" IS NULL;
 
 -- ----------------------------
 --  Primary key structure for table userprefs
@@ -561,14 +479,6 @@ ALTER TABLE "sidebar"."userprefs" ADD PRIMARY KEY ("userid") NOT DEFERRABLE INIT
 ALTER TABLE "sidebar"."userprefs" ADD CONSTRAINT "userprefs_check" CHECK ((age_max > age_min)) NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 -- ----------------------------
---  Triggers structure for table userprefs
--- ----------------------------
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17158" AFTER UPDATE ON "sidebar"."userprefs" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17158" ON "sidebar"."userprefs" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_c_17157" AFTER INSERT ON "sidebar"."userprefs" FROM "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_check_ins"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_c_17157" ON "sidebar"."userprefs" IS NULL;
-
--- ----------------------------
 --  Primary key structure for table users
 -- ----------------------------
 ALTER TABLE "sidebar"."users" ADD PRIMARY KEY ("userid") NOT DEFERRABLE INITIALLY IMMEDIATE;
@@ -578,54 +488,6 @@ ALTER TABLE "sidebar"."users" ADD PRIMARY KEY ("userid") NOT DEFERRABLE INITIALL
 -- ----------------------------
 ALTER TABLE "sidebar"."users" ADD CONSTRAINT "users_dateofbirth_check" CHECK ((dateofbirth < ('now'::text)::date)) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE "sidebar"."users" ADD CONSTRAINT "users_age_check" CHECK (((age > 0) AND (age < 100))) NOT DEFERRABLE INITIALLY IMMEDIATE;
-
--- ----------------------------
---  Triggers structure for table users
--- ----------------------------
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17306" AFTER UPDATE ON "sidebar"."users" FROM "sidebar"."user_history" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17306" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17305" AFTER DELETE ON "sidebar"."users" FROM "sidebar"."user_history" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_cascade_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17305" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17156" AFTER UPDATE ON "sidebar"."users" FROM "sidebar"."userprefs" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17156" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17155" AFTER DELETE ON "sidebar"."users" FROM "sidebar"."userprefs" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_cascade_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17155" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17209" AFTER UPDATE ON "sidebar"."users" FROM "sidebar"."notifications" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17209" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17208" AFTER DELETE ON "sidebar"."users" FROM "sidebar"."notifications" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17208" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17204" AFTER UPDATE ON "sidebar"."users" FROM "sidebar"."notifications" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17204" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17203" AFTER DELETE ON "sidebar"."users" FROM "sidebar"."notifications" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_cascade_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17203" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17190" AFTER UPDATE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17190" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17189" AFTER DELETE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17189" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17185" AFTER UPDATE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17185" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17184" AFTER DELETE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17184" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17331" AFTER UPDATE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17331" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17330" AFTER DELETE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17330" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17172" AFTER UPDATE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17172" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17171" AFTER DELETE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_cascade_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17171" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17167" AFTER UPDATE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17167" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17166" AFTER DELETE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_cascade_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17166" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17326" AFTER UPDATE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17326" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17325" AFTER DELETE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17325" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17321" AFTER UPDATE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_upd"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17321" ON "sidebar"."users" IS NULL;
-CREATE CONSTRAINT TRIGGER "RI_ConstraintTrigger_a_17320" AFTER DELETE ON "sidebar"."users" NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE "RI_FKey_noaction_del"();
-COMMENT ON TRIGGER "RI_ConstraintTrigger_a_17320" ON "sidebar"."users" IS NULL;
 
 -- ----------------------------
 --  Foreign keys structure for table dancecard
