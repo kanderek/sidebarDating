@@ -1,6 +1,6 @@
 
 <style>
-	#sidebar input[type='submit'] {
+	#sbe-sidebar input[type='submit'] {
 		width: 100%;
 		background-color: #008C9E;
 		color: #DBDBDB;
@@ -9,7 +9,7 @@
 		padding: 10px 5px;
 	}
 
-	#sidebar input[type='submit']:hover {
+	#sbe-sidebar input[type='submit']:hover {
 		background-color: #00AABF;
 		border-bottom: 4px solid #007786;
 	}
@@ -26,12 +26,12 @@
 		margin: -10px 0 15px 0;
 	}
 
-	#sbd-zipcode {
+	#sbe-zipcode {
 		margin-bottom: 0;
 	}
 
 </style>
-<div class="signup-heading">
+<div class="signup-heading" ng-cloak>
 	<a class="back" ui-sref="sign-up-1">Back</a>
 	<h4>Tell us about yourself</h4>
 </div>
@@ -58,8 +58,8 @@
 		<select ng-model="user.gender" ng-options="gender.value as gender.name for gender in gender_options">
 			<option value="">Gender</option>
 		</select>
-		<input id="sbd-zipcode" type="text" placeholder="Zipcode" ng-model="user.zipcode" required />
-		<span id="sbd-location-preview"></span><br><br>
+		<input id="sbe-zipcode" type="text" placeholder="Zipcode" ng-model="user.zipcode" required />
+		<span id="sbe-location-preview"></span><br><br>
 
 		<label for="personal_blurb">What are your interests?</label>
 		<textarea id="personal_blurb" placeholder="I'm interested in..." maxlength="140" minlength="1" required ng-model="user.personal_blurb" >

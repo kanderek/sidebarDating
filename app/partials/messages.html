@@ -68,7 +68,7 @@
     }
 
 </style>
-<div id="messageWrapper">	
+<div id="messageWrapper" ng-cloak>	
 	<div id='messages'>
 		<div ng-repeat='message in conversation'>
 			<div class='message' ng-class="{'sent': ifSentByUser($index), 'received': !ifSentByUser($index)}"> 

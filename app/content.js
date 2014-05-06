@@ -238,12 +238,12 @@ appDirectives.directive('treeMap', function(){
         scope.data = data;
         element.html('');
       if(scope.data){
-        var w = 480, h = 200;
+        var w = 460, h = 200;
         var BORDER = 1;
 
         var tooltip = d3.select('body'/*element[0]*/).append("div")
           .style("position", "absolute")
-          .style("z-index", "100000")
+          .style("z-index", "10000000000")
           .style("visibility", "hidden")
           .style("background-color", "white")
           .style("padding", "5px")
@@ -274,7 +274,7 @@ appDirectives.directive('treeMap', function(){
               .style("color", "white")
               // .on("mouseover", function(d){ console.log(d.parent.name)})
               .on("mouseover", function(d){
-                console.log("moused over cell...");
+                // console.log("moused over cell...");
                 var tooltipText = "";
                 if(d.parent){
                   tooltipText = d.parent.name  + ', ' + d.name;
@@ -282,16 +282,16 @@ appDirectives.directive('treeMap', function(){
                 return tooltip.style("visibility", "visible").text(tooltipText);
               })
               .on("mousemove", function(){
-                console.log(d3.event.pageX + ", " + d3.event.pageY);
+                // console.log(d3.event.pageX + ", " + d3.event.pageY);
                 return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
               })
               .on("mouseout", function(){
-                console.log("moused out from cell...");
+                // console.log("moused out from cell...");
                 return tooltip.style("visibility", "hidden");
               });
 
               cells.append("p")
-              .text(function(d){return d.area < w*h/20 ? null : d.name})
+              .text(function(d){return (d.parent && d.area < w*h/20) ? null : d.name})
               .attr("class", "label-text")
               .style("margin", "5px 0px 0px 5px")
               .style("font-family", "sans-serif")
@@ -1646,7 +1646,11 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
   });
 
   $scope.isSignedIn = function(){
-    return true;
+    console.log("is signed in...");
+    console.log(Profile.selfProfile);
+    console.log(Profile.selfProfile ? true : false);
+    return Profile.selfProfile.userid ? true : false;
+    // return UiState.signedIn;
   }
 
   $scope.goBack = function(){
