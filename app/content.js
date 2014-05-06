@@ -334,7 +334,7 @@ appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profil
   var dom = {
             select: $( "#select-indicator" ),
             details: $( "#detailsWrapper" ),
-            sidebar: $( "#sidebar" ),
+            sidebar: $( "#sbe-sidebar" ),
         };
   var detailsPanel = document.getElementById('detailsWrapper');
   var detailsContent = document.getElementById('detailsContent');
@@ -408,12 +408,14 @@ console.log('closedetailspanel called');
   }
 
   uiStateService.openSidebar = function(){
+    console.log('show sidebar');
     uiStateService.showSidebar = true;
     dom.sidebar.removeClass('initPanel').removeClass('closePanel').addClass('openPanel');
     dom.details.removeClass('tuckDetails').addClass('revealDetails');
   }
 
   uiStateService.closeSidebar = function(){
+    console.log('close sidebar');
     uiStateService.showSidebar = false;
     dom.sidebar.removeClass('initPanel').removeClass('openPanel').addClass('closePanel');
     dom.details.removeClass('initDetails').removeClass('closeDetails').removeClass('revealDetails').addClass('tuckDetails');

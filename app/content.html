@@ -24,7 +24,7 @@
 		src: url('http://www.microcake.org/sidebardating/Heavy.ttf');
 	}
 
-	#sidebar a {
+	#sbe-sidebar a {
 		cursor: pointer;
 		color: #00A1B5;
 	}
@@ -34,7 +34,7 @@
 		/*width: 300px;*/
 		height: 100%;
 		width: 780px;
-		z-index: 2000000100;
+		z-index: 1000000100;
 		position: fixed;
 		overflow: hidden;
 		right: 0px;
@@ -48,62 +48,53 @@
 		height: 100%;
 		width: 520px;
 		position: absolute;
-		/*right: 260px;*/
 		-webkit-transition: -webkit-transform 0.5s ease;
-		/*-webkit-transition: -webkit-transform 1s ease;	*/
 	}
 
-	#detailsContent {
-
-		-webkit-transition: opacity 0.5s ease;
-	}
-
-	.show-detailsPanel {
+/*	.show-detailsPanel {
 		/*right: 260px;*/
-		-webkit-transform: translateX(0px);
-	}
+/*		-webkit-transform: translateX(0px) translateZ(1px);
+	}*/
 
-	.show-tabOnly {
+/*	.show-tabOnly {
 		/*right: -500px;*/
-		-webkit-transform: translateX(760px);
+/*		-webkit-transform: translateX(760px) translateZ(1px);
 		-webkit-animation:tuckDetails 1s 1;
-	}
+	}*/
 
 	.tuckDetails {
 		/*right: -240px;*/
-	 	-webkit-transform: translateX(760px);
+	 	-webkit-transform: translateX(760px) translateZ(1px);
 	 	-webkit-animation:tuckDetails 1s 1;
 	}
 
 	.revealDetails {
 		/*right: -240px;*/
-	 	-webkit-transform: translateX(500px);
+	 	-webkit-transform: translateX(500px) translateZ(1px);
 	 	-webkit-animation:revealDetails 1s 1;
 	}
 
-
-
 	.initDetails {
 		/*right: -240px;*/
-		-webkit-transform: translateX(500px);
+		-webkit-transform: translateX(500px) translateZ(1px);
 		-webkit-animation:initDetails 1s 1;
 	}
 
 	.openDetails {
 		/*right: 260px;*/
-		-webkit-transform: translateX(0px);
+		-webkit-transform: translateX(0px) translateZ(1px);
 		-webkit-animation:openDetails 1s 1;
 	}
 
 	.closeDetails {
 		/*right: -240px;*/
-		-webkit-transform: translateX(500px);
+		-webkit-transform: translateX(500px) translateZ(1px);
 		-webkit-animation:closeDetails 1s 1;
 	}
 
 	.shutdownDetails {
 		/*right: -20px;*/
-		-webkit-transform: translateX(780px);
+		-webkit-transform: translateX(780px) translateZ(1px);
 	}
 
 	@-webkit-keyframes initDetails{
@@ -190,20 +181,21 @@
 	  to{opacity: 0;}
 	}
 
-	#sidebar {
+	#sbe-sidebar {
 		color: #DBDBDB;
 		background-color: #343838;
 		/*position: relative;*/
 		/*float: right;*/
 		position: absolute;
 		/*right: 520px;*/
-		/*-webkit-transform: translateX(780px);*/
+		/*-webkit-transform: translateZ(10px);*/
+		/*z-index: 10;
+		-webkit-transform-style: flat;*/
 		width: 260px;
 		height: inherit;
 		font-family: "Open Sans", Helvetica, Arial, sans-serif;
 		font-size: 12px;
 		line-height: 1.4em;
-		overflow-y: auto;
 		/*border-left: 1px solid #666666;*/
 		-webkit-transition: -webkit-transform 0.5s ease;
 		/*font-weight: 300;*/
@@ -219,13 +211,18 @@
 
 	.openPanel {
 		/*right: 260px;*/
-		-webkit-transform: translateX(520px);
+		/*-webkit-transform: translateZ(10px);*/
+		-webkit-transform: translateX(520px) translateZ(10px);
+		/*-webkit-transform: translate3d(520px,0,0);*/
+		/*-webkit-transform: translateX(521px);*/
 		-webkit-animation:openPanel 1s 1;
 	}
 
 	.closePanel {
+
 		/*right: -240px;*/
-		-webkit-transform: translateX(780px);
+		-webkit-transform: translateX(780px) translateZ(10px);
+/*		-webkit-transform: translate3d(780px,0,0);*/
 		-webkit-animation:closePanel 1s 1;
 	}
 
@@ -245,11 +242,15 @@
 	@-webkit-keyframes openPanel{
 		from{-webkit-transform: translateX(780px);}
 		to{-webkit-transform: translateX(520px);}
+/*		from{-webkit-transform: translate3d(780px,0,0);}
+		to{-webkit-transform: translate3d(520px,0,0);}*/
 	}
 
 	@-webkit-keyframes closePanel{
 		from{-webkit-transform: translateX(520px);}
 		to{-webkit-transform: translateX(780px);}
+/*		from{-webkit-transform: translate3d(520px,0,0);}
+		to{-webkit-transform: translate3d(780px,0,0);}*/
 	}
 
 	.show-sidebar {
@@ -309,7 +310,7 @@
 		width: 16px;
 	}
 
-	#sidebar button {
+	#sbe-sidebar button {
 		width: 100%;
 		background-color: #008C9E;
 		color: #DBDBDB;
@@ -319,12 +320,12 @@
 		font-weight: normal;
 	}
 
-	#sidebar button:hover {
+	#sbe-sidebar button:hover {
 		background-color: #00AABF;
 		border-bottom: 4px solid #007786;
 	}
 
-	#sidebar .back {
+	#sbe-sidebar .back {
 		position: absolute;
 		left: 15px;
 		cursor: pointer;
@@ -358,7 +359,7 @@
 	*******************************************/
 
 
-	#sidebar .profile {
+	#sbe-sidebar .profile {
 		width: 100%;
 		height: 62px;
 		overflow: hidden;
@@ -369,7 +370,7 @@
 		box-sizing: border-box;
 	}
 
-	#sidebar .isSelected {
+	#sbe-sidebar .isSelected {
 		background-color: #404242;
 		border-right: 3px solid #82CC00;
 		box-sizing: border-box;
@@ -385,7 +386,7 @@
 		border-radius: 24px;
 	}
 
-	#sidebar .meeting-space {
+	#sbe-sidebar .meeting-space {
 
 		width: 100%;
 		overflow-y: scroll;
@@ -393,7 +394,7 @@
 		box-sizing: border-box;
 	}
 
-	#sidebar .sidebar-visitorsTitle {
+	#sbe-sidebar .sidebar-visitorsTitle {
 		font-weight: 700;
 		font-size: 1.1em;
 		text-shadow: 0px 1px 0px #000;
@@ -478,9 +479,11 @@
    		font-size: 12px;
    }
 
-   #sidebar .signup-button,
-   #sidebar .login-button,
-   #sidebar .submit-btn {
+
+   #sbe-sidebar .signup-button, 
+   #sbe-sidebar .login-button, 
+   #sbe-sidebar .submit-btn {
+
 		width: 100%;
 		background-color: #008C9E;
 		color: #FEFEFE;
@@ -490,7 +493,7 @@
 		font-size: 1em;
 	}
 
-	#sidebar .submit-btn:hover {
+	#sbe-sidebar .submit-btn:hover {
 		background-color: #00AABF;
 		border-bottom: 4px solid #007786;
 	}
@@ -618,7 +621,7 @@
 		background-color: rgba(200,200,200,0.7);
 	}
 
-	#sidebar .sidebar-back {
+	#sbe-sidebar .sidebar-back {
 		width: 13px;
 		height: 13px;
 		float: left;
@@ -627,11 +630,11 @@
 		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow.png') no-repeat 0 0;
 	}
 
-	#sidebar .sidebar-back:hover {
+	#sbe-sidebar .sidebar-back:hover {
 		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow.png') no-repeat 0 -13px;
 	}
 
-	#sidebar .sidebar-notif {
+	#sbe-sidebar .sidebar-notif {
 		width: 20px;
 		height: 20px;
 		border-radius: 20px;
@@ -641,7 +644,7 @@
 		font-size: .8em;
 	}
 
-	#sidebar .sidebar-mainUserName {
+	#sbe-sidebar .sidebar-mainUserName {
 		color: #44D6E2;
 		font-weight: bold;
 		font-size: 1.1em;
@@ -751,7 +754,8 @@
 		</div>
 	</div>
 
-	<div id="sidebar"
+
+	<div id="sbe-sidebar" 
 		 class="openPanel" >
 		 <!-- ng-class="{'show-sidebar': uiState.showSidebar, 'tuck-sidebar': !uiState.showSidebar}" > -->
 
