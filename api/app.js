@@ -58,8 +58,8 @@ var pgConnectionString = process.env.DATABASE_URL || "postgres://sidebar:5432@lo
 
 //"postgres:// dvybsfqqxhtvlt :ep3gKsF6uWa7qmnWKbM1_wWRIk @ec2-54-83-43-49.compute-1.amazonaws.com: 5432 /d5ct0tand6bndq"
 
-console.log(process.env.DATABASE_URL);
-console.log(dbConfigObj);
+// console.log(process.env.DATABASE_URL);
+// console.log(dbConfigObj);
 
 
 
@@ -216,14 +216,20 @@ function createNewUser(req, res, next){
 		console.log(queryString);
 
 		req.db.client.query(queryString, function(err, result){
-			req.signupResult = result;
-			 console.log("result of inserting user...");
-			console.log(result.rows[0].userid);
-			req.userid = result.rows[0].userid;
-			// console.log("Errors?...");
-			// console.log(err);
-			// console.log
-			next();
+
+			if(err){
+				res.send(500);
+			}
+			else{
+				req.signupResult = result;
+				 console.log("result of inserting user...");
+				console.log(result.rows[0].userid);
+				req.userid = result.rows[0].userid;
+				// console.log("Errors?...");
+				// console.log(err);
+				// console.log
+				next();
+			}
 		});
 	});
 }
@@ -454,7 +460,7 @@ app.get('/notifications/:userid',
 	function(req, res, next){
 		var userid = req.params.userid;
 
-		var queryString = "SELECT notificationid, message, action_time, type, status " +
+		var queryString = "SELECT notificationid, about_userid, message, action_time, type, subtype, status " +
 							"FROM notifications " +
 							"WHERE userid=" + userid +
 							"ORDER BY action_time DESC";
@@ -624,7 +630,7 @@ function addToDanceCard(req,res,next) {
 					   				req.dancecard.status + "','" +
 					   				addTime + "')";
 
-		//console.log(queryString);
+		console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error
 			req.update = err ? true : false;
@@ -1213,6 +1219,7 @@ io.sockets.on('connection', function(socket){
     	};
 
     	if(users[userid]){
+    		console.log('all systems go...sending message off to sbe..');
     		io.sockets.socket(users[userid].socket).emit('new-notification', notification);
     	}
 	});

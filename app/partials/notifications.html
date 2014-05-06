@@ -50,6 +50,7 @@
 		<div class="notification"
 			ng-repeat="notification in notifications"
 			ng-mouseover="markRead($index)"
+			ng-click="followNotificationSender($index)"
 			ng-class="{'notificationRead': isRead($index)}">
 			<!-- <img ng-src="{{profile.smallimageurls[0]}}"/> -->
 			<div class="icon-placeholder">

@@ -1541,19 +1541,39 @@ appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'Ini
 /*******************************************************************************************************
 NotificationCtrl Controller  */
 
-appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 'UiState', 'NotificationService',
-  function($rootScope, $scope, $state, UiState, NotificationService) {
+appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 'UiState', 'NotificationService', 'Profile',
+  function($rootScope, $scope, $state, UiState, NotificationService, Profile) {
 
     $scope.notifications = NotificationService.notifications;
 
     $scope.markRead = function(index) {
-      console.log('mark this (' + index + ') notification read');
+      // console.log('mark this (' + index + ') notification read');
       NotificationService.markRead(index);
     };
 
     $scope.isRead = function(index) {
-      console.log('you moused over ' + index + ' notification');
+      // console.log('you moused over ' + index + ' notification');
       return (NotificationService.notifications[index].status == 'read');
+    }
+
+    $scope.followNotificationSender = function(i){
+      console.log($scope.notifications[i]);
+      var notification = $scope.notifications[i];
+      if(notification.type == "dancecard" && notification.subtype == "added"){
+        //go to profile in details panel
+        Profile.getProfileById(notification.about_userid, function(data){
+          console.log('getting user from notifications...');
+          console.log(data);
+          Profile.selectedProfile = data[0];
+          UiState.openDetailsPanel();
+        })
+      }
+
+      if(notification.type == "message"){
+        //go to message view for user
+
+      }
+
     }
 
 }]);
@@ -1646,9 +1666,9 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
   });
 
   $scope.isSignedIn = function(){
-    console.log("is signed in...");
-    console.log(Profile.selfProfile);
-    console.log(Profile.selfProfile ? true : false);
+    // console.log("is signed in...");
+    // console.log(Profile.selfProfile);
+    // console.log(Profile.selfProfile ? true : false);
     return Profile.selfProfile.userid ? true : false;
     // return UiState.signedIn;
   }
