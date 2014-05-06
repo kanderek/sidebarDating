@@ -46,7 +46,7 @@ if(process.env.DATABASE_URL){
  var connectToDb = pgclient({
     config : {
         database : dbConfigObj.PGDATABASE || 'sidebar',
-        user     : dbConfigObj.PGUSER || 'sidebar2',//'derekkan',//Christina',
+        user     : dbConfigObj.PGUSER || 'sidebar',//'derekkan',//Christina',
         host     : dbConfigObj.PGHOST || 'localhost',
         port     : dbConfigObj.PGPORT || 5432,
         password : dbConfigObj.PGPASS || '',
