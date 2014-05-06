@@ -459,18 +459,23 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
   function($http, $state, $interval, $rootScope, Profile){
 
       function updateRelativeTimestamps(data){
+        var sendtime1;
+        var sendtime2;
         for(var i=1; i<data.length; i++){
-            if(moment(data[i-1].sendtime).fromNow(true) != moment(data[i].sendtime).fromNow(true)){
+           sendtime1 = moment(data[i-1].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[i-1].sendtime).fromNow();
+           sendtime2 = moment(data[i].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[i].sendtime).fromNow();
+
+            if(sendtime1 != sendtime2){
              //  console.log('compared two times and were not the same...');
              // console.log(moment(data[i-1].sendtime).fromNow()); 
              // console.log(moment(data[i].sendtime).fromNow()); 
-             data[i].relativeTimestamp = moment(data[i].sendtime).fromNow();
+             data[i].relativeTimestamp = sendtime2;
            }
            else {
-             data[i].relativeTimestamp 
+             data[i].relativeTimestamp = "";
            }
          }
-           data[data.length-1].relativeTimestamp = moment(data[data.length-1].sendtime).fromNow();
+           data[data.length-1].relativeTimestamp = moment(data[data.length-1].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[data.length-1].sendtime).fromNow()
         return data;
       }
 
@@ -515,7 +520,7 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
       messageService.updateConversationWith = function(userid, message){
         console.log('UPDATE: message service messages!!!');
         console.log(messageService.messages);
-        message.relativeTimestamp = 'just now';//moment(message.sendtime).fromNow();
+        //message.relativeTimestamp = 'just now';//moment(message.sendtime).fromNow();
         if(messageService.messages[userid]){
           messageService.messages[userid].push(message);
         }
