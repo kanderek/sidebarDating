@@ -147,6 +147,9 @@
         font-size: 100%;
         vertical-align: baseline;
         font-style: normal;
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.5em;
     }
 
 
@@ -171,7 +174,9 @@
         width: 500px;
         height: 100%;
         overflow-y:auto;
-        background-color: #666666;
+        /*background-color: #666666;*/
+        /*background-color: #202121;*/
+        background-color: #b7bcbc;
         position: relative;
         float: left;
         padding: 10px;
@@ -182,7 +187,7 @@
     #detailsWrapper #profile-details {
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
         width: 100%;
-        background-color: #2C3030;
+        background-color: #434747;
         margin: 0px 0px 0px 0px;
         overflow: auto;
         color: #ababab;
@@ -200,7 +205,7 @@
 
     #detailsWrapper.openDetails #profile-details h3{
         /*display: inline-block;*/
-        margin: 0px 5px 5px 0px;
+        margin: 0px 5px 0px 0px;
         /*color: #8AD9DD;*/
         color: white;
         font-size: 1.5em;
@@ -284,6 +289,8 @@
 
     #detailsWrapper #user-dancecard-count p {
         text-align: right;
+        margin: 10px 0 5px 0;
+        color: #DBDBDB;
     }
 
 
@@ -335,7 +342,7 @@
     #detailsWrapper #profile-interests-viz {
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
         width: 100%;
-        background-color: #2C3030;
+        background-color: #434747;
         margin: 0px 0px 0px 0px;
         overflow: auto;
         color: #ababab;
@@ -348,7 +355,7 @@
         height: 1px;
         background-color: #141616;
         border-bottom: 1px solid #535959;
-        margin: auto;
+        margin: 10px 0 0 0;
     }
 
     #detailsWrapper .cell {
@@ -415,6 +422,9 @@
 <!--
             {{treemapData}} -->
             <div tree-map data="treemapData">
+            </div>
+
+            <div class="horizontal-line">
             </div>
             <!-- <div tree-map data="{{treemapData}}">
             </div> -->
@@ -514,11 +524,11 @@
     opacity: 0.4;
 }*/
 
-#profile-shared-interests {
+#detailsWrapper #profile-shared-interests {
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
     width: 100%;
-    background-color: #2C3030;
-    margin: 5px 0px 0px 0px;
+    background-color: #434747;
+    margin: 0px 0px 0px 0px;
     overflow: auto;
     color: #ababab;
     box-sizing: border-box;

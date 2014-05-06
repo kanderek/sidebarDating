@@ -217,6 +217,9 @@
 		font-size: 100%;
 		vertical-align: baseline;
 		font-style: normal;
+		font-family: "Open Sans", Helvetica, Arial, sans-serif;
+		font-size: 12px;
+		line-height: 1.5em;
 	}
 
 	#sbe-sidebar h1,
@@ -351,6 +354,11 @@
 		border-bottom: 4px solid #007786;
 	}
 
+	#sbe-sidebar button:active {
+		background-color: #00AABF;
+		border-bottom: 4px solid #007786;
+	}
+
 	#sbe-sidebar .back {
 		position: absolute;
 		left: 15px;
@@ -375,9 +383,9 @@
 		background-color: #2B2E2E;
 	}
 
-	#sbe-sidebar #top-menu a {
+	/*#sbe-sidebar #top-menu a {
 		color: white;
-	}
+	}*/
 
 	/*******************************************
 	// Profile list view item Styles
@@ -421,10 +429,11 @@
 	}
 
 	#sbe-sidebar .sidebar-visitorsTitle {
-		font-weight: 700;
+		font-weight: bold;
 		font-size: 1.1em;
 		text-shadow: 0px 1px 0px #000;
 		color: #BCBCBC;
+		text-align: center;
 	}
 
 	/*******************************************
@@ -690,6 +699,13 @@
 		float: right;
 		margin-right: 10px;
 		font-size: .8em;
+		color: white;
+		margin-top: 2px;
+		text-decoration: none;
+	}
+
+	#sbe-sidebar .sidebar-notif:hover {
+		text-decoration: none;
 	}
 
 	#sbe-sidebar .sidebar-mainUserName {

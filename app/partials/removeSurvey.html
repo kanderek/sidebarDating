@@ -65,7 +65,7 @@
 }
 
 #sidebar #free-reasons {
-	margin: 10px 0;
+	margin: 20px 0;
 }
 
 #sidebar .free-reasons-label {
@@ -75,8 +75,8 @@
 
 </style>
 <div class="survey-wrapper" ng-cloak>
-	<div class="survey-heading">
-		<h4>Feedback</h4>
+	<div class="survey-heading sidebar-visitorsTitle">
+		<h3>Why Didn't it Work Out?</h3>
 		<div class="horizontal-line">
 		</div>
 	</div>
@@ -102,12 +102,14 @@
 			<input id="different" type="checkbox" ng-model="survey.different" />
 			<label for="different">Different in Person</label>	
 		</div>
+		<div class="checkbox-row">
+			<input id="different" type="checkbox" ng-model="survey.different" />
+			<label for="different">Didn't Add Back</label>	
+		</div>
 
-
-		<label class="free-reasons-label" for="free-reasons">Anything you want to tell them?</label>
-		<textarea id="free-reasons"></textarea>
-
-
+		<label class="free-reasons-label" for="free-reasons">Want to elaborate?</label>
+		<textarea id="free-reasons" placeholder="This message will be sent to the other user!"></textarea>
+		
 		<button class="survey-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
 		<input type="submit" class="survey-submit-btn" value="Submit" ng-click="submitSurvey()"/>
 	</form>
