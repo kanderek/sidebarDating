@@ -69,6 +69,9 @@ INSERT INTO "sidebar"."users" VALUES ('21', 'David', '1234', 'david@gmail.com', 
 INSERT INTO "sidebar"."users" VALUES ('22', 'Andrew', '1234', 'andrew@gmail.com', 'm', '1985-12-15', '28', 'Berkeley', 'CA', '94704', 'I''ve never been beaten at MarioKart 64. Ever. I''m the best on Earth. It''s a curse', '{/scaled_22-1.jpg,/scaled_22-2.jpg,/scaled_22-3.jpg}', '{/med_22-1.jpg,/med_22-2.jpg,/med_22-3.jpg}', '{/small_22-1.jpg,/small_22-2.jpg,/small_22-3.jpg}');
 COMMIT;
 
+
+SELECT setval('users_userid_seq', 24, false);
+
 -- ----------------------------
 --  Table structure for userprefs
 -- ----------------------------
@@ -175,6 +178,8 @@ CREATE TABLE "sidebar"."notifications" (
 WITH (OIDS=FALSE);
 ALTER TABLE "sidebar"."notifications" OWNER TO "sidebar";
 
+SELECT setval('notifications_notificationid_seq', 1, false);
+
 -- ----------------------------
 --  Table structure for urls
 -- ----------------------------
@@ -239,6 +244,7 @@ INSERT INTO "sidebar"."urls" VALUES ('44', 'http://www.pinterest.com/all/humor/'
 INSERT INTO "sidebar"."urls" VALUES ('45', 'https://www.google.com/', 'Google Home Page', null);
 COMMIT;
 
+SELECT setval('urls_urlid_seq', 46, false);
 
 -- ----------------------------
 --  Table structure for url_categories
