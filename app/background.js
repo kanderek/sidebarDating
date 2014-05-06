@@ -131,14 +131,16 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
     console.log('index on updated complete: ' + index);
     if(index == -1){
       index = initializeTabStatus(tabId);
-
     }
 
     // copy previous tab's sidebar status to current tab, activate if true
-    // tabStatus[index].status = tabStatus.length > 1 ? tabStatus[index-1].status : false;
+    tabStatus[index].status = tabStatus.length > 1 ? tabStatus[index-1].status : false;
+    console.log('previous tab: ');
+    console.log(tabStatus[index-1]);
+
     if (tabStatus[index].status) {
       setBrowserActionIcon(tabStatus[index].status);
-      callBrowserAction(tab, tabStatus[index].status); 
+      callBrowserAction(tab, tabStatus[index].status);
     }
 
 
