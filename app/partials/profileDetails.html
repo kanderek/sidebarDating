@@ -119,7 +119,7 @@
     *******************************************/
     /* Layout with grid! tbd */
 
-    #detailsWrapper.openDetails {
+    #detailsWrapper {
         color: #DBDBDB;
         position: absolute;
         height: inherit;
@@ -128,31 +128,33 @@
         line-height: 1.4em;
     }
 
-    #detailsWrapper.openDetails div,
-    #detailsWrapper.openDetails p,
-    #detailsWrapper.openDetails span,
-    #detailsWrapper.openDetails h1,
-    #detailsWrapper.openDetails h2,
-    #detailsWrapper.openDetails h3,
-    #detailsWrapper.openDetails h4,
-    #detailsWrapper.openDetails h5,
-    #detailsWrapper.openDetails h6,
-    #detailsWrapper.openDetails a {
+ 
+    #detailsWrapper div, 
+    #detailsWrapper p, 
+    #detailsWrapper span, 
+    #detailsWrapper h1, 
+    #detailsWrapper h2, 
+    #detailsWrapper h3,
+    #detailsWrapper h4,
+    #detailsWrapper h5,
+    #detailsWrapper h6, 
+    #detailsWrapper a {
         font-size: 100%;
         vertical-align: baseline;
         font-style: normal;
     }
 
-    #detailsWrapper.openDetails h1,
-    #detailsWrapper.openDetails h2,
-    #detailsWrapper.openDetails h3,
-    #detailsWrapper.openDetails h4,
-    #detailsWrapper.openDetails h5,
-    #detailsWrapper.openDetails h6 {
+
+    #detailsWrapper h1, 
+    #detailsWrapper h2, 
+    #detailsWrapper h3,
+    #detailsWrapper h4,
+    #detailsWrapper h5,
+    #detailsWrapper h6 {
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
     }
-
-    #detailsWrapper.openDetails #detailsPanel h3 {
+    
+    #detailsWrapper #detailsPanel h3 {
         font-weight: 700;
         font-size: 1.1em;
         text-shadow: 0px 1px 0px #000;
@@ -160,7 +162,7 @@
         margin: 0 0 10px 0;
     }
 
-    #detailsWrapper.openDetails #detailsPanel {
+    #detailsWrapper #detailsPanel {
         width: 500px;
         height: 100%;
         overflow-y:auto;
@@ -172,7 +174,7 @@
         /*-webkit-transition: opacity 0.3s linear;  */
     }
 
-    #detailsWrapper.openDetails #profile-details {
+    #detailsWrapper #profile-details {
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
         width: 100%;
         background-color: #2C3030;
@@ -184,14 +186,14 @@
         font-size: 12px;
     }
 
-    #detailsWrapper.openDetails #profile-details img {
+    #detailsWrapper #profile-details img {
         width: 19px;
         height: 19px;
         position: relative;
         top: 5px;
     }
 
-    #detailsWrapper.openDetails #profile-details h3{
+    #detailsWrapper #profile-details h3{
         display: inline-block;
         margin: 0px 5px 0px 0px;
         /*color: #8AD9DD;*/
@@ -200,7 +202,7 @@
         font-weight: 300;
     }
 
-    #detailsWrapper.openDetails #profile-details .col-left {
+    #detailsWrapper #profile-details .col-left {
         position: relative;
         float: left;
         width: 60%;
@@ -208,25 +210,27 @@
         height: 100%;
     }
 
-    #detailsWrapper.openDetails #profile-details .col-right {
+    #detailsWrapper #profile-details .col-right {
         position: relative;
         float: right;
         width: 35%;
         height: 100%;
     }
 
-    #detailsWrapper.openDetails #profile-details .profile-actions {
+    #detailsWrapper #profile-details .profile-actions {
         width: 100%;
         overflow: auto;
     }
 
-    #detailsWrapper.openDetails #profile-details .col-right button,
-    #detailsWrapper.openDetails #profile-details .col-right a {
+
+    #detailsWrapper #profile-details .col-right button, 
+    #detailsWrapper #profile-details .col-right a {
+
         position: relative;
         float: right;
     }
 
-    #detailsWrapper.openDetails #profile-details button[type="button"] {
+    #detailsWrapper #profile-details button[type="button"] {
         width: auto;
         background-color: #008C9E;
         color: #FEFEFE;
@@ -236,26 +240,26 @@
         cursor: pointer;
     }
 
-    #detailsWrapper.openDetails #profile-details button[type="button"]:hover {
+    #detailsWrapper #profile-details button[type="button"]:hover {
         background-color: #00AABF;
         border-bottom: 4px solid #007786;
         cursor: pointer;
     }
 
-    #detailsWrapper.openDetails #age-location {
+    #detailsWrapper #age-location {
         margin-top: 0;
         margin-bottom: 10px;
         color: #ababab;
     }
 
-    #detailsWrapper.openDetails #user-dancecard-count {
+    #detailsWrapper #user-dancecard-count {
         position: relative;
         bottom: 0px;
         right: 0px;
         width: 100%;
     }
 
-    #detailsWrapper.openDetails #user-dancecard-count .dancecard-indicator{
+    #detailsWrapper #user-dancecard-count .dancecard-indicator{
         width: 19px;
         height: 19px;
         border-radius: 50%;
@@ -266,16 +270,16 @@
         margin-left: 5px;
     }
 
-    #detailsWrapper.openDetails .sbe-dancecard-fill {
+    #detailsWrapper .sbe-dancecard-fill {
         background-color: red;
     }
 
-    #detailsWrapper.openDetails #user-dancecard-count p {
+    #detailsWrapper #user-dancecard-count p {
         text-align: right;
     }
 
 
-    #detailsWrapper.openDetails #mutual-wrapper {
+    #detailsWrapper #mutual-wrapper {
 
         width: 100%;
         /*height: 300px;*/
@@ -286,13 +290,13 @@
     }
 
 
-    #detailsWrapper.openDetails #mutual-content {
+    #detailsWrapper #mutual-content {
         -webkit-column-count: 2;
         -webkit-column-gap: 10px;
         width: 100%;
     }
 
-    #detailsWrapper.openDetails .mutual-item {
+    #detailsWrapper .mutual-item {
         /*border-radius: 37px; */
         background-color: rgba(240,240,240,0.6);
         /*margin: 5px;*/
@@ -305,22 +309,22 @@
 
     }
 
-    #detailsWrapper.openDetails .mutual-item-article, .mutual-item-song {
+    #detailsWrapper .mutual-item-article, .mutual-item-song {
         height: 80px;
         width: 100%;
     }
 
-    #detailsWrapper.openDetails .mutual-item-video-normal {
+    #detailsWrapper .mutual-item-video-normal {
         height: 176px;
         width: 100%;
     }
 
-    #detailsWrapper.openDetails .mutual-item-video-wide {
+    #detailsWrapper .mutual-item-video-wide {
         height: 132px;
         width: 100%;
     }
 
-    #detailsWrapper.openDetails #profile-interests-viz {
+    #detailsWrapper #profile-interests-viz {
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
         width: 100%;
         background-color: #2C3030;
@@ -331,17 +335,16 @@
         padding: 10px;
     }
 
-    #detailsWrapper.openDetails .cell {
+    #detailsWrapper .cell {
             border: 2px solid white;
             color: white;
         }
 
-    #detailsWrapper.openDetails .label-text {
+    #detailsWrapper .label-text {
         margin: 5px 0px 0px 5px;
         font-family: sans-serif;
     }
 	</style>
-<div ng-cloak>
         <ul rn-carousel  rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
             <li ng-repeat="image in profile.selectedProfile.imageurls" ng-style="{'background-image': 'url(' + image + ')'}">
                 <div class="debug">
@@ -479,6 +482,11 @@
                 </div>
  		</div>  -->
 
+<<<<<<< Updated upstream
 
 </div>
 
+=======
+ 		
+ 	
+>>>>>>> Stashed changes
