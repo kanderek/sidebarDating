@@ -875,7 +875,8 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
         console.log(user);
         profileFactory.selfProfile = user;
         profileFactory.selectedProfile = user;
-        profileFactory.getProfilesByPage(url, user.userid);
+        // profileFactory.getProfilesByPage(url, user.userid);
+        profileFactory.getStaticProfileList();
         $rootScope.$broadcast('profile-selected');
         $rootScope.$broadcast('user-data-available');
       }
@@ -935,13 +936,19 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
       }
     }
 
+    profileFactory.clearPageProfiles = function(){
+      profileFactory.pageProfiles = [];
+    }
+
     profileFactory.getStaticProfileList = function(callback){
       $http({
         method: 'GET',
         url: chrome.extension.getURL("staticData/profiles.json")
       }).
       success(function(data, status, headers, config){
-        callback(data);
+        profileFactory.pageProfiles = data;
+        $rootScope.$broadcast('page-profiles-available');
+        // callback(data);
       }).
       error(function(data, status, headers, config){
         console.log('error getting static json file');
@@ -1220,13 +1227,15 @@ appServices.factory('InitService', ['$rootScope', 'UiState','Profile','Dancecard
          initService.initializeData = function(user){
 
             Profile.initializeProfile(user, "someurl");
-
-            var userid = typeof(user) == 'object' ? user.userid : user;
+            var newUser = typeof(user) == 'object' ? true : false;
+            var userid = newUser ? user.userid : user;
 
             console.log('initialize service...');
             console.log('user' + userid);
             DancecardService.initializeDancecard(userid);
-            NotificationService.initializeNotifications(userid);
+            if(!newUser){
+             NotificationService.initializeNotifications(userid);
+            }
             Socket.emit('register-user', {userid: userid}, function(){});
           };
 
@@ -1338,8 +1347,8 @@ appControllers.controller('CheckStatusCtrl', ['$scope', '$rootScope', '$state','
 /*******************************************************************************************************
 Sign-up Controller  */
 
-appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upload', 'UiState', 'SignupService', 'InitService',
-  function($scope, $rootScope, $state, $upload, UiState, SignupService, InitService) {
+appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upload', 'UiState', 'SignupService', 'InitService', 'Profile',
+  function($scope, $rootScope, $state, $upload, UiState, SignupService, InitService, Profile) {
 
 
     // var re5digit=/^\d{5}$/ to check for 5 digit zipcode
@@ -1468,6 +1477,9 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
           console.log('Signing up user...');
           console.log(data);
           InitService.initializeData(data.user);
+          // Profile.getStaticProfileList(function(data){
+
+          // });
        });
        // SignupService.requestInfoFromBackground('YO Yo Yo, background!')
           $rootScope.$broadcast('start-tutorial');
@@ -1479,8 +1491,8 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
 /*******************************************************************************************************
 Tutorial Controller  */
 
-appControllers.controller('TutorialCtrl', ['$scope', '$state',
-  function($scope, $state) {
+appControllers.controller('TutorialCtrl', ['$scope', '$state', 'Profile',
+  function($scope, $state, Profile) {
 
 
     $scope.firstVisit = false;
@@ -1506,6 +1518,8 @@ appControllers.controller('TutorialCtrl', ['$scope', '$state',
         $scope.step3 = false;
         $scope.firstVisit = false;
         //load real data for page...
+        Profile.clearPageProfiles();
+        Profile.getProfilesByPage("", 10);
       }
     }
 

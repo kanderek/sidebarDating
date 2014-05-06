@@ -137,7 +137,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
     tabStatus[index].status = tabStatus.length > 1 ? tabStatus[index-1].status : false;
     if (tabStatus[index].status) {
       setBrowserActionIcon(tabStatus[index].status);
-      callBrowserAction(tab, tabStatus[index].status);
+      callBrowserAction(tab, tabStatus[index].status); 
     }
 
 

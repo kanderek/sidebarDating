@@ -688,13 +688,13 @@
 
 	#sbe-tutorial-step1 {
 		position: relative;
-		height: 88px;
+		height: 86px;
 		width: 100%;
 		/*background-color:  rgba(0,100,0,0.4);*/
 	}
 	#sbe-tutorial-step2 {
 		position: relative;
-		height: 392px;
+		height: 416px;
 		width: 100%;
 		/*background-color:  rgba(0,100,100,0.4);*/
 	}
@@ -730,13 +730,34 @@
 		-webkit-transform: translateY(-50%) translateX(260px);
 	}
 
-	#sbe-sidebar .sbe-tutorial-overlay {
+
+	#sbe-sidebar .sbe-tutorial-overlay-wrapper {
+
 		position: relative;
 		float: right;
 		width: 260px;
 		height: 100%;
-		opacity: 0.5;
+	}
+
+	.sbe-tutorial-overlay {
 		background-color:  rgb(0,0,0);
+		opacity: 0.5;
+	}
+
+	.sbe-top-menu-overlay {
+		height: 33%;
+	}
+
+	.sbe-dancecard-overlay {
+		height: 67%;
+	}
+
+	.sbe-heading-overlay {
+		height: 42px;
+	}
+
+	.sbe-profile-list-overlay {
+		height: 374px;
 	}
 
 	#sbe-sidebar .sbe-deactivated {
@@ -814,7 +835,11 @@
 						  <polygon points="0,0 0,20 20,10" style="fill:rgba(255,255,255,1.0);" />
 						</svg>
 					</div>
-					<div class="sbe-tutorial-overlay" ng-class="{'sbe-deactivated': step1}">
+					<div class="sbe-tutorial-overlay-wrapper">
+						<div class="sbe-top-menu-overlay sbe-tutorial-overlay">
+						</div>
+						<div class="sbe-dancecard-overlay sbe-tutorial-overlay" ng-class="{'sbe-deactivated': step1}">
+						</div>
 					</div>
 				</div>
 				<div id="sbe-tutorial-step2" class="sbe-tutorial">
@@ -824,7 +849,11 @@
 						  <polygon points="0,0 0,20 20,10" style="fill:rgba(255,255,255,1.0);" />
 						</svg>
 					</div>
-					<div class="sbe-tutorial-overlay" ng-class="{'sbe-deactivated': step2}">
+					<div class="sbe-tutorial-overlay-wrapper">
+						<div class="sbe-heading-overlay sbe-tutorial-overlay">
+						</div>
+						<div class="sbe-tutorial-overlay sbe-profile-list-overlay" ng-class="{'sbe-deactivated': step2}">
+						</div>
 					</div>
 				</div>
 				<div id="sbe-tutorial-step3" class="sbe-tutorial">
@@ -834,7 +863,7 @@
 						  <polygon points="0,0 0,20 20,10" style="fill:rgba(255,255,255,1.0);" />
 						</svg>
 					</div>
-					<div class="sbe-tutorial-overlay" ng-class="{'sbe-deactivated': step3}">
+					<div class="sbe-tutorial-overlay-wrapper sbe-tutorial-overlay" ng-class="{'sbe-deactivated': step3}">
 					</div>
 				</div>
 			</div>
