@@ -13,6 +13,9 @@
  Date: 05/05/2014 22:54:13 PM
 */
 
+DROP SCHEMA IF EXISTS sidebar;
+CREATE SCHEMA sidebar;
+SET search_path = sidebar;
 
 -- ----------------------------
 --  Table structure for users
@@ -630,6 +633,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE TRIGGER add_dancecard_notification AFTER INSERT OR UPDATE OF status ON dancecard FOR EACH ROW EXECUTE PROCEDURE dancecard_notification();
-CREATE TRIGGER add_message_notification BEFORE INSERT ON messages FOR EACH ROW EXECUTE PROCEDURE message_notification();
-CREATE TRIGGER watched_table_trigger AFTER INSERT ON notifications FOR EACH ROW EXECUTE PROCEDURE notify_trigger();
+CREATE TRIGGER add_dancecard_notification AFTER INSERT OR UPDATE OF status ON "sidebar"."dancecard" FOR EACH ROW EXECUTE PROCEDURE dancecard_notification();
+CREATE TRIGGER add_message_notification BEFORE INSERT ON "sidebar"."messages" FOR EACH ROW EXECUTE PROCEDURE message_notification();
+CREATE TRIGGER watched_table_trigger AFTER INSERT ON "sidebar"."notifications" FOR EACH ROW EXECUTE PROCEDURE notify_trigger();
