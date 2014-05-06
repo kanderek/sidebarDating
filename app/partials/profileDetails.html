@@ -134,15 +134,16 @@
         color: #00A1B5;
     }
 
-    #detailsWrapper div,
-    #detailsWrapper p,
-    #detailsWrapper span,
-    #detailsWrapper h1,
-    #detailsWrapper h2,
+ 
+    #detailsWrapper div, 
+    #detailsWrapper p, 
+    #detailsWrapper span, 
+    #detailsWrapper h1, 
+    #detailsWrapper h2, 
     #detailsWrapper h3,
     #detailsWrapper h4,
     #detailsWrapper h5,
-    #detailsWrapper h6,
+    #detailsWrapper h6, 
     #detailsWrapper a {
         font-size: 100%;
         vertical-align: baseline;
@@ -153,8 +154,8 @@
     }
 
 
-    #detailsWrapper h1,
-    #detailsWrapper h2,
+    #detailsWrapper h1, 
+    #detailsWrapper h2, 
     #detailsWrapper h3,
     #detailsWrapper h4,
     #detailsWrapper h5,
@@ -203,8 +204,10 @@
         top: 5px;
     }
 
-    #detailsWrapper.openDetails #profile-details h3{
-        /*display: inline-block;*/
+
+    #detailsWrapper #profile-details h3{
+        display: inline-block;
+
         margin: 0px 5px 0px 0px;
         /*color: #8AD9DD;*/
         color: white;
@@ -236,7 +239,7 @@
     }
 
 
-    #detailsWrapper #profile-details .col-right button,
+    #detailsWrapper #profile-details .col-right button, 
     #detailsWrapper #profile-details .col-right a {
 
         position: relative;
@@ -358,6 +361,7 @@
         margin: 10px 0 0 0;
     }
 
+
     #detailsWrapper .cell {
             border: 2px solid white;
             color: white;
@@ -369,7 +373,9 @@
         font-family: sans-serif;
     }
 	</style>
+
         <ul style="margin-bottom: 10px" rn-carousel  rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
+
             <li ng-repeat="image in profile.selectedProfile.imageurls" ng-style="{'background-image': 'url(' + image + ')'}">
                 <!-- <div class="debug">
                     {{ image}} / {{ profile.selectedProfile.imageurls.length }}
@@ -597,6 +603,5 @@
                     <iframe src="http://embed.ted.com/talks/james_patten_the_best_computer_interface_maybe_your_hands.html" width="235" height="132" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
                 </div>
  		</div>  -->
-
 
 
