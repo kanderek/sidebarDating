@@ -213,7 +213,7 @@ function createNewUser(req, res, next){
 							   				 medurls + "," +
 							   				 smallurls + ") " +
 								"RETURNING *";
-		console.log(queryString);
+		// console.log(queryString);
 
 		req.db.client.query(queryString, function(err, result){
 
@@ -630,7 +630,7 @@ function addToDanceCard(req,res,next) {
 					   				req.dancecard.status + "','" +
 					   				addTime + "')";
 
-		console.log(queryString);
+		// console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error
 			req.update = err ? true : false;
@@ -783,7 +783,7 @@ function getPeopleOnPage(req,res,next) {
 						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url='" + req.url + "') AND ("  + whereClause +
 						  ") LIMIT " + req.limit;
 
-		console.log(queryString);
+		// console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error
 			console.log(result);
@@ -812,6 +812,35 @@ function getCityStateFromZipcode(zipcode, callback){
 	});
 }
 
+app.get('/shared-interest/:userid/:userid2', function(req, res){
+	var userid = req.params.userid;
+	var userid2 = req.params.userid2;
+
+	var queryString = "select urls.urlid, urls.url, urls.page_title, \
+	urls.primary_img_url from \
+	(select urlid from user_history where userid = '" + userid + "') as t0 \
+	join (select urlid from user_history where userid = '" + userid2 + "') as t1 \
+	on t0.urlid = t1.urlid join urls on t0.urlid = urls.urlid \
+	";
+
+	// console.log(queryString);
+	req.db.client.query(queryString, function(err, result){
+			//deal with error
+			// console.log(result);
+			// console.log(err);
+			if(err){
+				res.send(500);
+			}
+			else{
+			// res.send(200);
+				res.json(result.rows)
+			}
+
+		});
+
+})
+
+
 app.get('/interest/:userid', function(req, res){
 	var userid = req.params.userid;
 
@@ -819,7 +848,7 @@ app.get('/interest/:userid', function(req, res){
 	  				  "FROM users u, url_categories c, user_history h WHERE u.userid =" + userid + " AND " +
 	  				  		 "u.userid = h.userid AND h.urlid=c.urlid GROUP BY u.username, c.level1, c.level2 ORDER BY c.level1";
 
-	console.log(queryString);
+	// console.log(queryString);
 	req.db.client.query(queryString, function(err, result){
 			//deal with error
 			// console.log(result);
@@ -1047,7 +1076,7 @@ function setUrl(req, url, title){
 					  "WHERE NOT EXISTS (SELECT 1 FROM urls WHERE url='" + url + "') "+
 					  " RETURNING urlid, (SELECT 'insert' AS action);";
 
-		console.log(queryString);
+		// console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			if(err) deferred.reject(err)
 			else deferred.resolve(result.rows[0])
@@ -1064,7 +1093,7 @@ function addUrlToUserHistory(req, urlid, urlaction, userid, count, visitTime){
 					  "WHERE NOT EXISTS (SELECT 1 FROM user_history WHERE urlid=" + urlid + " AND userid=" + userid + ") " +
 					  "RETURNING urlid, (SELECT '"+ urlaction+"' AS action); "
 
-		console.log(queryString);
+		// console.log(queryString);
 		// console.log(req.db);
 		req.db.client.query(queryString, function(err, result){
 			if(err) deferred.reject(err)
@@ -1106,7 +1135,7 @@ function setUrlCategories(req, taxonomies){
 				queryString += ",";
 			}
 		}
-			console.log(queryString);
+			// console.log(queryString);
 			// console.log(req.db);
 			req.db.client.query(queryString, function(err, result){
 				if(err) deferred.reject(err)
@@ -1156,7 +1185,7 @@ function addImageToUrls(req, urlid, image_url){
 		var queryString = "UPDATE urls SET  primary_img_url = '" + image_url + "'" +
 						  " WHERE urlid=" + urlid;
 
-			console.log(queryString);
+			// console.log(queryString);
 			// console.log(req.db);
 			req.db.client.query(queryString, function(err, result){
 				if(err) deferred.reject(err)

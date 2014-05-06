@@ -114,7 +114,7 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
 
     /*******************************************
-    // Profile details view Styles 
+    // Profile details view Styles
     //
     *******************************************/
     /* Layout with grid! tbd */
@@ -128,30 +128,30 @@
         line-height: 1.4em;
     }
 
-    #detailsWrapper.openDetails div, 
-    #detailsWrapper.openDetails p, 
-    #detailsWrapper.openDetails span, 
-    #detailsWrapper.openDetails h1, 
-    #detailsWrapper.openDetails h2, 
+    #detailsWrapper.openDetails div,
+    #detailsWrapper.openDetails p,
+    #detailsWrapper.openDetails span,
+    #detailsWrapper.openDetails h1,
+    #detailsWrapper.openDetails h2,
     #detailsWrapper.openDetails h3,
     #detailsWrapper.openDetails h4,
     #detailsWrapper.openDetails h5,
-    #detailsWrapper.openDetails h6, 
+    #detailsWrapper.openDetails h6,
     #detailsWrapper.openDetails a {
         font-size: 100%;
         vertical-align: baseline;
         font-style: normal;
     }
 
-    #detailsWrapper.openDetails h1, 
-    #detailsWrapper.openDetails h2, 
+    #detailsWrapper.openDetails h1,
+    #detailsWrapper.openDetails h2,
     #detailsWrapper.openDetails h3,
     #detailsWrapper.openDetails h4,
     #detailsWrapper.openDetails h5,
     #detailsWrapper.openDetails h6 {
         font-family: "Open Sans", Helvetica, Arial, sans-serif;
     }
-    
+
     #detailsWrapper.openDetails #detailsPanel h3 {
         font-weight: 700;
         font-size: 1.1em;
@@ -220,7 +220,7 @@
         overflow: auto;
     }
 
-    #detailsWrapper.openDetails #profile-details .col-right button, 
+    #detailsWrapper.openDetails #profile-details .col-right button,
     #detailsWrapper.openDetails #profile-details .col-right a {
         position: relative;
         float: right;
@@ -359,16 +359,16 @@
             </div>
             <div class="col-right">
                 <div class="profile-actions">
-                     <button type="button" 
+                     <button type="button"
                         ng-show="showAddButton()"
                         ng-click="updateDancecard(profile.selectedProfile, 'added')">Add to Card</button>
 
-                    <button type="button" 
-                            ng-show="showRemoveButton()" 
+                    <button type="button"
+                            ng-show="showRemoveButton()"
                             ng-click="updateDancecard(profile.selectedProfile, 'removed')">Remove From Card</button>
 
-                    <a ng-show="isSelf()" 
-                        ui-sref='main.detailsPanel'>Edit</a>   
+                    <a ng-show="isSelf()"
+                        ui-sref='main.detailsPanel'>Edit</a>
                 </div>
 
                 <div id="user-dancecard-count" ng-hide="isSelf()">
@@ -390,7 +390,7 @@
 
         <div id="profile-interests-viz">
             <h3>Interested In</h3>
-<!-- 
+<!--
             {{treemapData}} -->
             <div tree-map data="treemapData">
             </div>
@@ -435,6 +435,17 @@
         //     </script>
         </div>
 
+
+            <div shared-interests data="sharedInterestData">
+
+                <div ng-repeat='url in sharedInterestData'>
+                    <div class='message'>
+                        {{url.url}}
+                    </div>
+
+                </div>
+            </div>
+
 <!--  		<div id="mutual-wrapper">
  			<h4>Something to talk about - Your mutual browsings</h4>
 
@@ -460,7 +471,7 @@
                 </div>
 
                 <div class="mutual-item mutual-item-video-normal">
-                    <iframe src="//player.vimeo.com/video/40007369" class="mutual-item-video-normal" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
+                    <iframe src="//player.vimeo.com/video/40007369" class="mutual-item-video-normal" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
                 </div>
 
                 <div class="mutual-item mutual-item-video-wide">
@@ -468,6 +479,6 @@
                 </div>
  		</div>  -->
 
- 		
+
 </div>
- 	
+

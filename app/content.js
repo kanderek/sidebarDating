@@ -1082,6 +1082,39 @@ appServices.factory('InterestService', ['$http', '$rootScope',
 
   }]);
 
+
+appServices.factory('SharedInterestService', ['$http', '$rootScope', 'Profile',
+  function($http, $rootScope, Profile){
+
+    sharedInterestService = {};
+
+    sharedInterestService.sharedInterests = function (userid, callback){
+      sharedInterestService.getSharedInterestUrls(userid, function(data){
+        $rootScope.$broadcast('shared-interest-available');
+        callback(data);
+      });
+    };
+
+    sharedInterestService.getSharedInterestUrls = function(userid, callback){
+
+       $http({
+          method: 'GET',
+          url: SERVER + '/shared-interest/' + userid + '/' + Profile.selfProfile.userid
+        }).
+        success(function(data, status, headers, config) {
+            console.log('shared-interest success!');
+            console.log(data);
+            callback(data);
+        }).
+        error(function(data, status, headers, config) {
+          console.log('get shared interest failed');
+        });
+    }
+
+    return sharedInterestService;
+
+  }]);
+
 /*******************************************************************************************************
 Signup Service  */
 
@@ -1873,12 +1906,13 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
 /*******************************************************************************************************
 Profile Detail Controller  */
 
-appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state', 'Profile', 'UiState','DancecardService', 'InterestService',
-  function($rootScope, $scope, $state, Profile, UiState, DancecardService, InterestService) {
+appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state', 'Profile', 'UiState','DancecardService', 'InterestService', 'SharedInterestService',
+  function($rootScope, $scope, $state, Profile, UiState, DancecardService, InterestService, SharedInterestService) {
 
     // $scope.profile = Profile;
     $scope.profile;
     $scope.treemapData;
+    $scope.sharedInterestData;
 
     $scope.$on('profile-selected', function(event){
 
@@ -1888,8 +1922,13 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
       // console.log(Profile);
       // console.log(Profile.selectProfile);
        InterestService.usersTreemap(Profile.selectedProfile.userid, function(data){
-           $scope.treemapData  = data;
+           $scope.treemapData = data;
         });
+
+       SharedInterestService.sharedInterests(Profile.selectedProfile.userid, function(data){
+           $scope.sharedInterestData = data;
+        });
+
     });
 
     //  $scope.$on('treemap-data-available', function(event){
@@ -1954,7 +1993,6 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
             // $state.go('main.profileList');
             $state.go('main.removeSurvey');
       }
-
     };
   }]);
 
