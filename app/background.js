@@ -50,6 +50,7 @@ var toggleTabStatus = function(tab){
 }
 
 var setBrowserActionIcon = function(status){
+  console.log(tabStatus);
   if(status){
     chrome.browserAction.setIcon({path: "./icons/19x19_heart.png"});
   }
@@ -134,7 +135,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
     }
 
     // copy previous tab's sidebar status to current tab, activate if true
-    tabStatus[index].status = tabStatus.length > 1 ? tabStatus[index-1].status : false;
+    // tabStatus[index].status = tabStatus.length > 1 ? tabStatus[index-1].status : false;
     if (tabStatus[index].status) {
       setBrowserActionIcon(tabStatus[index].status);
       callBrowserAction(tab, tabStatus[index].status); 
@@ -163,9 +164,9 @@ var closeSidebar = function(tab){
   console.log('closing Sidebar...activated from background');
     // setting a badge
 
-  setTimeout(function(){
-      chrome.browserAction.setBadgeText({text: "99"});
-  },3000);
+  // setTimeout(function(){
+  //     chrome.browserAction.setBadgeText({text: "99"});
+  // },3000);
 }
 
 chrome.runtime.onMessage.addListener(
