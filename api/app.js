@@ -718,7 +718,10 @@ app.get('/crowd/',
 		req.url = req.query.url ? req.query.url : 'www.google.com';
 		req.userid = req.query.userid ? req.query.userid : req.user.userid;
 		req.limit = req.query.limit ? req.query.limit : 10;
+		// console.log('************************** PAGE PROFILES *******************************');
+		// console.log(req.query.pageprofiles);
 		req.pageProfiles = req.query.pageprofiles ? req.query.pageprofiles.split(',') : [];
+		// console.log(req.pageProfiles);
 		// if(req.query.pageprofiles){
 		// 	req.pageprofiles = req.query.pageprofiles.split(',');
 		// }
@@ -769,9 +772,9 @@ function getPeopleOnPage(req,res,next) {
 		whereClause += " AND u.userid !=" + req.excludeUser[i].userid;
 	}
 
-	if(req.pageprofiles){
-		for(var i=0; i<req.pageprofiles.length; i++){
-			whereClause += " AND u.userid !=" + req.pageprofiles[i];
+	if(req.pageProfiles){
+		for(var i=0; i<req.pageProfiles.length; i++){
+			whereClause += " AND u.userid !=" + req.pageProfiles[i];
 		}
 	};
 
