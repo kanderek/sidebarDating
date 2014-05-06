@@ -455,10 +455,84 @@ appServices.factory('Socket', function ($rootScope) {
 /*******************************************************************************************************
 Message Service  */
 
-appServices.factory('MessageService', ['$http', '$state', 'Profile',
-  function($http, $state, Profile){
+appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootScope', 'Profile',
+  function($http, $state, $interval, $rootScope, Profile){
+
+      function updateRelativeTimestamps(data){
+        for(var i=1; i<data.length; i++){
+            if(moment(data[i-1].sendtime).fromNow(true) != moment(data[i].sendtime).fromNow(true)){
+             //  console.log('compared two times and were not the same...');
+             // console.log(moment(data[i-1].sendtime).fromNow()); 
+             // console.log(moment(data[i].sendtime).fromNow()); 
+             data[i].relativeTimestamp = moment(data[i].sendtime).fromNow();
+           }
+           else {
+             data[i].relativeTimestamp 
+           }
+         }
+           data[data.length-1].relativeTimestamp = moment(data[data.length-1].sendtime).fromNow();
+        return data;
+      }
+
+      function refreshTimestamps(){
+        if(messageService.messages[Profile.selectedProfile.userid]){
+         $interval(function(){
+          updateRelativeTimestamps(messageService.messages[Profile.selectedProfile.userid])
+          console.log('refreshing timestamps....');
+
+        }
+          , 60000);
+       }
+      }
 
   var messageService = {};
+
+      messageService.messages = {};
+
+      messageService.getConversationWith = function(userid){
+        console.log('getting conversation with.... ' + userid);
+        console.log('RETEIVING:  message service messages!!!');
+        console.log(messageService.messages);
+        if(messageService[userid]){
+          messageService[userid] = updateRelativeTimestamps(messageService[userid]);
+          console.log(messageService.messages[userid]);
+          refreshTimestamps();
+           $rootScope.$broadcast('conversation-available', messageService[userid]);
+          // return messageService[userid];
+        }
+        else{
+          messageService.getMessageByuserid(userid, function(data){
+            messageService.messages[userid] = data;
+            refreshTimestamps();
+            console.log(messageService.messages);
+            // return data;
+
+            $rootScope.$broadcast('conversation-available', data);
+          })
+        }
+      }
+
+      messageService.updateConversationWith = function(userid, message){
+        console.log('UPDATE: message service messages!!!');
+        console.log(messageService.messages);
+        message.relativeTimestamp = 'just now';//moment(message.sendtime).fromNow();
+        if(messageService.messages[userid]){
+          messageService.messages[userid].push(message);
+        }
+        else {
+          messageService.messages[userid] = [message];
+        }
+        updateRelativeTimestamps(messageService.messages[userid]);
+        $rootScope.$broadcast('conversation-available', messageService.messages[userid]);
+      }
+
+      messageService.sendMessageTo = function(message) {
+          message.relativeTimestamp = 'just now';//moment().fromNow();
+          message.sendtime = moment();
+          messageService.messages[message.receiverid].push(message);
+          updateRelativeTimestamps(messageService.messages[message.receiverid]);
+          messageService.sendMessageTouserid(message, function(data){});
+      }
 
       messageService.getStaticMessages = function(callback){
         $http({
@@ -493,6 +567,8 @@ appServices.factory('MessageService', ['$http', '$state', 'Profile',
         }).
         success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
+               // console.log(data);
+               data = updateRelativeTimestamps(data);
                callback(data);
             // }
             // else{
@@ -1631,13 +1707,39 @@ Message Controller  */
 appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiState', 'Profile', 'MessageService', 'Socket',
   function($scope, $timeout, $state, UiState, Profile, MessageService, Socket) {
 
+    // Socket.on('new-message', function(data){
+    //   console.log('new messsage received...');
+    //   console.log(data);
+    //   $scope.conversation.push(data);
+    // });
+
     $scope.messageThread = $scope.conversation;//inherited from DanceCardCtrl
+    // $scope.messageThread = MessageService.messages[Profile.selectedProfile.userid];
+    // MessageService.getConversationWith(Profile.selectedProfile.userid);
+
+    // $scope.$on('conversation-available', function(event, data){
+    //   console.log('conversation is available...');
+    //   console.log(data);
+    //   // $scope.$apply(function(){
+    //     $scope.messageThread = data;
+    //   // })
+    // })
     $scope.newMessage;
 
-    console.log($scope.conversation);
+    // console.log($scope.messageThread);
     $scope.ifSentByUser = function(i){
       return ($scope.conversation[i].senderid ==  Profile.selfProfile.userid)
+      // return ($scope.conversation[i].senderid ==  Profile.selfProfile.userid)
     }
+
+    // var getConversation = function(userid){
+    //   // MessageService.getStaticMessageByuserid(userid, function(data){
+    //   //   $scope.conversation = data;
+    //   // });
+    //    MessageService.getMessageByuserid(userid, function(data){
+    //     $scope.conversation = data;
+    //   });
+    // }
 
     $scope.sendMessage = function(){
 
@@ -1647,11 +1749,7 @@ appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiSta
           receiverid: Profile.selectedProfile.userid,
           message: $scope.newMessage,
         }
-        $scope.conversation.push(message);
-        MessageService.sendMessageTouserid(message, function(data){
-          //post response data?
-          // console.log('post of message a success');
-        });
+        MessageService.sendMessageTo(message);
         $scope.newMessage = "";
       }
     }
@@ -1757,7 +1855,8 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
     Socket.on('new-message', function(data){
       console.log('new messsage received...');
       console.log(data);
-      $scope.conversation.push(data);
+      // $scope.conversation.push(data);
+      MessageService.updateConversationWith(data.senderid, data);
     });
 
     $scope.onDropAdd = function(event, data){
@@ -1808,9 +1907,11 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
           if($scope.dancecard[i].mutual){
             UiState.showShortProfile = true;
             !closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
+            MessageService.getConversationWith(Profile.selectedProfile.userid);
             $state.go('main.messages');
+
             //MessageService.getMessageByuserid(UiState.selectedProfile.userid);
-            getConversation(Profile.selectedProfile.userid);
+            // getConversation(Profile.selectedProfile.userid);
           }
           else {
             closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
@@ -1819,14 +1920,22 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
         }
       }
 
-      var getConversation = function(userid){
-        // MessageService.getStaticMessageByuserid(userid, function(data){
-        //   $scope.conversation = data;
-        // });
-        MessageService.getMessageByuserid(userid, function(data){
+      $scope.$on('conversation-available', function(event, data){
+        console.log('conversation is available...');
+        console.log(data);
+        // $scope.$apply(function(){
           $scope.conversation = data;
-        });
-      }
+        // })
+      })
+
+      // var getConversation = function(userid){
+      //   // MessageService.getStaticMessageByuserid(userid, function(data){
+      //   //   $scope.conversation = data;
+      //   // });
+      //    MessageService.getMessageByuserid(userid, function(data){
+      //     $scope.conversation = data;
+      //   });
+      // }
 
       $scope.showDetailedProfile = function(){
         // UiState.showDetailsPanel = true;

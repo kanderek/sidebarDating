@@ -39,6 +39,7 @@
         "lib/angular-file-upload.js",
         "lib/d3.v3.min.js",
         "lib/socket.io.js",
+        "lib/moment.min.js",
         "content.js"
       ]
     }
