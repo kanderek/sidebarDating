@@ -1781,8 +1781,8 @@ appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiSta
 /*******************************************************************************************************
 TopMenuCtrl Controller  */
 
-appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$timeout', 'UiState', 'Socket', 'Profile', 'NotificationService', 'DancecardService',
-  function($rootScope, $scope, $state, $timeout, UiState, Socket, Profile, NotificationService, DancecardService) {
+appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$timeout', '$http', 'UiState', 'Socket', 'Profile', 'NotificationService', 'DancecardService',
+  function($rootScope, $scope, $state, $timeout, $http, UiState, Socket, Profile, NotificationService, DancecardService) {
 
   $scope.username = Profile.selfProfile.username;
   $scope.ns = NotificationService;
@@ -1814,6 +1814,24 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
     // console.log('username is ready to render! ');
     $scope.username = Profile.selfProfile.username;
   });
+
+  $scope.logout = function(){
+      $http({
+          method: 'GET',
+          url: SERVER + '/logout'
+        }).
+        success(function(data, status, headers, config){
+          // callback(data);
+
+          Profile.selfProfile = {};
+           $state.go('login');
+
+        }).
+        error(function(data, status, headers, config){
+          console.log('error logging out user');
+        });
+
+  }
 
   $scope.isSignedIn = function(){
     // console.log("is signed in...");
