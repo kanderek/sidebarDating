@@ -128,10 +128,11 @@ passport.use('local-login', new LocalStrategy({
   		// console.log(err);
   		// console.log(result);
       if (err) { return done(err); }
-      if (result.rows.length < 1) {
-        return done(null, false, { message: 'account already exists with that email.' });
-      }
+      // if (result.rows.length < 1) {
+      //   return done(null, false, { message: 'account already exists with that email.' });
+      // }
       else{
+      	console.log(result.rows);
       	console.log('create new user here');
       	return done(null, result.rows[0]);
       }
@@ -180,13 +181,13 @@ app.get('/', function(req, res){
 });
 
 app.post('/signup',
+	createNewUser,
+	createNewUserPref,
 	passport.authenticate('local-signup'),
 	function(req, req, next){
 		console.log('after local sign up');
 		next();
 	},
-	createNewUser,
-	createNewUserPref,
 	function(req, res){
 		console.log('posted signup form data');
 
