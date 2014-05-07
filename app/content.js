@@ -346,7 +346,10 @@ appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profil
       console.log(event.animationName);
       if(event.animationName == "openDetails"){
         console.log('should do something...');
-        $( "#select-indicator" ).removeClass('init-indicator').removeClass('remove-indicator').addClass('apply-indicator')
+        if(!$('#detailsContent').hasClass('dancecard')){
+         $( "#select-indicator" ).removeClass().addClass('apply-indicator');
+       }
+       $('#details.Content').removeClass();
       }
     }, false);
 
@@ -383,8 +386,12 @@ appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profil
   uiStateService.selectProfile = function(user, from){
     // uiStateService.selectTransition();
     // uiStateService.showShortProfile = false;
+    console.log('selected profile from...');
+    console.log(from);
    if( $('#select-indicator').hasClass('init-indicator') && uiStateService.showDetailsPanel){
-    uiStateService.resetSelectIndicator();
+    if(from == 'list'){
+     uiStateService.resetSelectIndicator();
+    }
    }
     return Profile.selectProfile(user,from);
   }
@@ -1971,6 +1978,7 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
             // getConversation(Profile.selectedProfile.userid);
           }
           else {
+             $( "#detailsContent" ).addClass('dancecard');
             closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
             $state.go('main.profileList');
           }
