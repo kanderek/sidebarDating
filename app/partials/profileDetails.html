@@ -134,16 +134,16 @@
         color: #00A1B5;
     }
 
- 
-    #detailsWrapper div, 
-    #detailsWrapper p, 
-    #detailsWrapper span, 
-    #detailsWrapper h1, 
-    #detailsWrapper h2, 
+
+    #detailsWrapper div,
+    #detailsWrapper p,
+    #detailsWrapper span,
+    #detailsWrapper h1,
+    #detailsWrapper h2,
     #detailsWrapper h3,
     #detailsWrapper h4,
     #detailsWrapper h5,
-    #detailsWrapper h6, 
+    #detailsWrapper h6,
     #detailsWrapper a {
         font-size: 100%;
         vertical-align: baseline;
@@ -154,8 +154,8 @@
     }
 
 
-    #detailsWrapper h1, 
-    #detailsWrapper h2, 
+    #detailsWrapper h1,
+    #detailsWrapper h2,
     #detailsWrapper h3,
     #detailsWrapper h4,
     #detailsWrapper h5,
@@ -239,7 +239,7 @@
     }
 
 
-    #detailsWrapper #profile-details .col-right button, 
+    #detailsWrapper #profile-details .col-right button,
     #detailsWrapper #profile-details .col-right a {
 
         position: relative;
@@ -544,19 +544,20 @@
 </style>
 
 <div id="profile-shared-interests" ng-hide="isSelf()">
-<h3>Something to talk about - Your mutual browsings</h3>
-<div id="wrapper">
-    <div id="columns">
+    <h3>Something to talk about - Your mutual browsings</h3>
+    <div id="wrapper">
+        <div id="columns">
             <div class="pin" ng-repeat='url in sharedInterestData'>
                 <a target="_blank" href="{{url.url}}"><img src="{{ url.primary_img_url }}" /></a>
                 <p>
                     <a target="_blank" href="{{url.url}}">{{ url.page_title}}</a>
                 </p>
             </div>
-
+        </div>
     </div>
 </div>
-</div>
+
+
 <!--         <div id="mutual-wrapper">
             <h4>Something to talk about - Your mutual browsings</h4>
             <div shared-interests data="sharedInterestData">

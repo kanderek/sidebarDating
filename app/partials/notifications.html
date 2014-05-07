@@ -5,16 +5,6 @@
 	padding-top:85px;
 }
 
-#sbe-sidebar .icon-placeholder {
-	height: 48px;
-	width: 48px;
-	background-color: blue;
-	position: relative;
-	float: left;
-	margin-right: 10px;
-	border-radius: 50%;
-}
-
 #sbe-sidebar .notification {
 	width: 100%;
 	height: 62px;
@@ -28,11 +18,11 @@
 
 #sbe-sidebar .notification p {
 	width: 100%;
-	color: #666666;
+	color: #aaa;
 }
 
 #sbe-sidebar .notificationRead {
-	background-color: gray;
+	background-color: inherit;
 }
 
 #sbe-sidebar .sidebar-notification {
@@ -41,6 +31,17 @@
 		box-sizing: border-box;
 		text-align: center;
 	}
+
+#sbe-sidebar .notification img {
+	width: 48px;
+	height: 48px;
+	position: relative;
+	float: left;
+	margin-right: 10px;
+	margin-left: 10px;
+	border-radius: 24px;
+}
+
 
 </style>
 
@@ -52,17 +53,23 @@
 		</div>
 	</div>
 
-	<div id="notificationList" >
+
+
+
 		<div class="notification"
 			ng-repeat="notification in notifications"
 			ng-mouseover="markRead($index)"
-			ng-click="followNotificationSender($index)"
-			ng-class="{'notificationRead': isRead($index)}">
-			<!-- <img ng-src="{{profile.smallimageurls[0]}}"/> -->
-			<div class="icon-placeholder">
-			</div>
-			<p>{{notification.message}}</p>
+			ng-click="followNotificationSender($index); "
+			ng-class="{'notificationRead': isRead($index)}"
+			ui-draggable="true"
+			drag="profile">
+
+			<img ng-src="{{notification.smallimage}}"/>
+			<p>
+				<span class="name">{{notification.message}}</span></br>
+			</p>
 		</div>
-	</div>
+
+
 </div>
 

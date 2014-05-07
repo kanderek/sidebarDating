@@ -506,10 +506,12 @@ app.get('/notifications/:userid',
 	function(req, res, next){
 		var userid = req.params.userid;
 
-		var queryString = "SELECT notificationid, about_userid, message, action_time, type, subtype, status " +
-							"FROM notifications " +
-							"WHERE userid=" + userid +
-							"ORDER BY action_time DESC";
+		var queryString = "select t0.*, u.smallimageurls from (SELECT n.notificationid, n.about_userid, n.message, n.action_time, n.type, n.subtype, n.status \
+							FROM notifications n \
+							WHERE n.userid=" + userid + " \
+							ORDER BY action_time DESC) as t0 \
+						join users u on t0.about_userid=u.userid \
+						";
 
 		//console.log(queryString);
 

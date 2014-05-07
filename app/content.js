@@ -467,8 +467,8 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
 
             if(sendtime1 != sendtime2){
              //  console.log('compared two times and were not the same...');
-             // console.log(moment(data[i-1].sendtime).fromNow()); 
-             // console.log(moment(data[i].sendtime).fromNow()); 
+             // console.log(moment(data[i-1].sendtime).fromNow());
+             // console.log(moment(data[i].sendtime).fromNow());
              data[i].relativeTimestamp = sendtime2;
            }
            else {
@@ -677,6 +677,11 @@ appServices.factory('NotificationService', ['$http', '$state', 'Profile',
         success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
                // callback(data);
+
+              for(var i=0; i<data.length; i++){
+                data[i].smallimage = SERVER + '/' + data[i].smallimageurls[0]
+              }
+
                console.log(data);
                notificationService.notifications = data;
                notificationService.getUnreadCount()
