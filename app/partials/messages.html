@@ -80,6 +80,7 @@
     margin-bottom: 5px;
     color: #ababab;
     font-size: .85em;
+    margin: 10px 0;
   }
 
   #sbe-sidebar #sbe-message-box {
@@ -104,13 +105,14 @@
 <div id="messageWrapper" ng-cloak>
 	<div id='messages'>
 		<div ng-repeat='message in conversation'>
+      <div class='sbe-message-timestamp'>
+<!--        {{message.sendtime}} <br> -->
+        {{message.relativeTimestamp}}
+      </div>
 			<div class='message' ng-class="{'sent': ifSentByUser($index), 'received': !ifSentByUser($index)}">
 				{{message.message}}
 			</div>
-			<div class='sbe-message-timestamp'>
-<!-- 				{{message.sendtime}} <br> -->
-        {{message.relativeTimestamp}}
-			</div>
+			
 		</div>
 	</div>
 	<form id='createMessage'>
