@@ -1846,6 +1846,7 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
             }, 1000);
           }
           else{
+            Profile.selfProfile = {};
             $state.go('login');
           }
 
