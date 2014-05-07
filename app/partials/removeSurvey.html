@@ -1,25 +1,26 @@
 <style>
-.survey-wrapper {
+#sbe-sidebar .survey-wrapper {
 	width: 100%;
+	padding-top:90px;
 }
 
-.survey-info {
+#sbe-sidebar .survey-info {
 	padding: 10px;
 	box-sizing: border-box;
 }
 
-.survey-info textarea {
+#sbe-sidebar .survey-info textarea {
 	width: 97%;
 	height: 100px;
 }
 
-.survey-info button {
+#sbe-sidebar .survey-info button {
 	width: 48%;
 	position: relative;
 	float: left;
 }
 
-.survey-info input[type='submit'] {
+#sbe-sidebar .survey-info input[type='submit'] {
 	width: 48%;
 	position: relative;
 	float: right;
@@ -76,7 +77,7 @@
 </style>
 <div class="survey-wrapper" ng-cloak>
 	<div class="survey-heading sidebar-visitorsTitle">
-		<h3>Why Didn't it Work Out?</h3>
+		<h3>Why Didn't {{name}} Work Out?</h3>
 		<div class="horizontal-line">
 		</div>
 	</div>
@@ -108,7 +109,7 @@
 		</div>
 
 		<label class="free-reasons-label" for="free-reasons">Want to elaborate?</label>
-		<textarea id="free-reasons" placeholder="This message will be sent to the other user!"></textarea>
+		<textarea id="free-reasons" placeholder="This message will be sent to the other user"></textarea>
 		
 		<button class="survey-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
 		<input type="submit" class="survey-submit-btn" value="Submit" ng-click="submitSurvey()"/>
