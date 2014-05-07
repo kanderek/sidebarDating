@@ -573,8 +573,13 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
         success(function(data, status, headers, config){
             // if(data.status != "logged_out"){
                // console.log(data);
-               data = updateRelativeTimestamps(data);
-               callback(data);
+               if(data){
+                  data = updateRelativeTimestamps(data);
+               }
+               else {
+                  //data received is empty...
+               }  
+                callback(data);
             // }
             // else{
             //   $state.go('sign-up-0');
@@ -1712,39 +1717,19 @@ Message Controller  */
 appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiState', 'Profile', 'MessageService', 'Socket',
   function($scope, $timeout, $state, UiState, Profile, MessageService, Socket) {
 
-    // Socket.on('new-message', function(data){
-    //   console.log('new messsage received...');
-    //   console.log(data);
-    //   $scope.conversation.push(data);
-    // });
-
-    $scope.messageThread = $scope.conversation;//inherited from DanceCardCtrl
-    // $scope.messageThread = MessageService.messages[Profile.selectedProfile.userid];
-    // MessageService.getConversationWith(Profile.selectedProfile.userid);
-
-    // $scope.$on('conversation-available', function(event, data){
-    //   console.log('conversation is available...');
-    //   console.log(data);
-    //   // $scope.$apply(function(){
-    //     $scope.messageThread = data;
-    //   // })
-    // })
+    // $scope.messageThread = $scope.conversation;//inherited from DanceCardCtrl
     $scope.newMessage;
+    UiState.showShortProfile = true;
 
-    // console.log($scope.messageThread);
+
+    $scope.$on('$destroy', function(event){
+      console.log('goodbye message controller..');
+      UiState.showShortProfile = false;
+    });
+
     $scope.ifSentByUser = function(i){
       return ($scope.conversation[i].senderid ==  Profile.selfProfile.userid)
-      // return ($scope.conversation[i].senderid ==  Profile.selfProfile.userid)
     }
-
-    // var getConversation = function(userid){
-    //   // MessageService.getStaticMessageByuserid(userid, function(data){
-    //   //   $scope.conversation = data;
-    //   // });
-    //    MessageService.getMessageByuserid(userid, function(data){
-    //     $scope.conversation = data;
-    //   });
-    // }
 
     $scope.sendMessage = function(){
 
