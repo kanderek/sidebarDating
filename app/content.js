@@ -361,6 +361,7 @@ appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profil
   var uiStateService = {};
 
   uiStateService.previousState;
+  uiStateService.currentState;
   uiStateService.showSidebar = true;
   uiStateService.showDetailsPanel = false;
   uiStateService.showShortProfile = false;
@@ -382,7 +383,7 @@ appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profil
 
   uiStateService.selectProfile = function(user, from){
     // uiStateService.selectTransition();
-    uiStateService.showShortProfile = false;
+    // uiStateService.showShortProfile = false;
    if( $('#select-indicator').hasClass('init-indicator') && uiStateService.showDetailsPanel){
     uiStateService.resetSelectIndicator();
    }
@@ -461,21 +462,26 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
       function updateRelativeTimestamps(data){
         var sendtime1;
         var sendtime2;
-        for(var i=1; i<data.length; i++){
-           sendtime1 = moment(data[i-1].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[i-1].sendtime).fromNow();
-           sendtime2 = moment(data[i].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[i].sendtime).fromNow();
 
-            if(sendtime1 != sendtime2){
-             //  console.log('compared two times and were not the same...');
-             // console.log(moment(data[i-1].sendtime).fromNow());
-             // console.log(moment(data[i].sendtime).fromNow());
-             data[i].relativeTimestamp = sendtime2;
-           }
-           else {
-             data[i].relativeTimestamp = "";
-           }
+        if(typeof data !== 'undefined' && data.length > 1){
+          for(var i=1; i<data.length; i++){
+             sendtime1 = moment(data[i-1].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[i-1].sendtime).fromNow();
+             sendtime2 = moment(data[i].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[i].sendtime).fromNow();
+
+              if(sendtime1 != sendtime2){
+               //  console.log('compared two times and were not the same...');
+               // console.log(moment(data[i-1].sendtime).fromNow()); 
+               // console.log(moment(data[i].sendtime).fromNow()); 
+               data[i].relativeTimestamp = sendtime2;
+             }
+             else {
+               data[i].relativeTimestamp = "";
+             }
          }
-           data[data.length-1].relativeTimestamp = moment(data[data.length-1].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[data.length-1].sendtime).fromNow()
+        }
+         if(typeof data !== 'undefined' && data[0]){ 
+            data[data.length-1].relativeTimestamp = moment(data[data.length-1].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[data.length-1].sendtime).fromNow()
+          }
         return data;
       }
 
@@ -1839,9 +1845,17 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
   }
 
   $scope.goToProfile = function(){
-
+      // console.log('opening personal profile in details panel, state? current and past');
+      // console.log(UiState.currentState);
+      // console.log(UiState.previousState);
+      console.log('show short profile state....');
+      console.log(UiState.showShortProfile);
+      if(UiState.currentState.name == 'main.messages'){
+        UiState.showShortProfile = true;
+      }
       UiState.selectProfile(Profile.selfProfile, 'self') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
-
+      console.log('show short profile state....');
+      console.log(UiState.showShortProfile); 
     }
 
   $scope.goToNotifications = function(){
@@ -1922,6 +1936,7 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
           if($scope.dancecard[i].mutual){
             UiState.showShortProfile = true;
             !closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
+            $scope.conversation = [];
             MessageService.getConversationWith(Profile.selectedProfile.userid);
             $state.go('main.messages');
 
@@ -2129,46 +2144,16 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
     var arrowRightIconURL = chrome.extension.getURL("icons/icon_22997/icon_22997.png");
 
     $scope.uiState = UiState;
-    // $scope.uiState.showSidebar = false;
-    // $scope.uiState.showDetailsPanel = false;
-
-    // $timeout(function(){
-    //   UiState.startup = true;
-    //   $scope.uiState.showSidebar = true;
-    //   $scope.uiState.showDetailsPanel = false;
-    //   // UiState.openSidebar();
-    //   // UiState.openDetailsPanel();
-    // }, 100);
 
     chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
       switch(message.type) {
         case "close-sidebar":
         console.log('close message received in app...');
-          // $scope.$apply(function(){
-          //   $scope.uiState.showSidebar = false;
-          //   $scope.uiState.showDetailsPanel = false;
-          //   $scope.uiState.startup = false;
-          // });
-          // if(UiState.showDetailsPanel){
-          //   UiState.closeDetailsPanel();
-          //   var details = document.getElementById('detailsWrapper');
-          //   details.addEventListener('webkitAnimationEnd',
-          //     function(e){
-          //       UiState.closeSidebar();
-          //     },false)
-          // }
-          // else{
-          //   UiState.closeSidebar();
-          // }
 
           UiState.shutdown();
           chrome.runtime.onMessage.removeListener(arguments.callee);
-          // UiState.startup = false;
-          // UiState.showDetailsPanel = false;
-          // UiState.showSidebar = false;
-          // UiState.closeDetailsPanel();
-          // UiState.closeSidebar();
+
           console.log($scope.uiState);
           break;
       }
@@ -2178,6 +2163,8 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
        //assign the "from" parameter to something
        // console.log('pervious state...');
        // console.log(from);
+       UiState.previousState = from;
+       UiState.currentState = to;
     });
 
     $scope.tabAction = function(){
