@@ -1219,7 +1219,7 @@ appServices.factory('SignupService', ['$http', 'Profile',
       $http({
         method: 'POST',
         url: SERVER + "/signup",
-        data: {user: signupService.user, pref: signupService.pref}
+        data: {email: signupService.user.email, password: signupService.user.password, user: signupService.user, pref: signupService.pref}
       }).
       success(function(data, status, headers, config){
         callback(data);

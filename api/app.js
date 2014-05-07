@@ -82,7 +82,7 @@ function listenForNotifications(req,res,next){
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
-passport.use(new LocalStrategy({
+passport.use('local-login', new LocalStrategy({
 		usernameField: 'email',//can be anything including email
 	    passwordField: 'password',
 	    passReqToCallback: true
@@ -106,6 +106,39 @@ passport.use(new LocalStrategy({
     });
   }
 ));
+
+// =========================================================================
+    // LOCAL SIGNUP ============================================================
+    // =========================================================================
+    // we are using named strategies since we have one for login and one for signup
+	// by default, if there was no name, it would just be called 'local'
+
+    passport.use('local-signup', new LocalStrategy({
+        // by default, local strategy uses username and password, we will override with email
+        usernameField : 'email',
+        passwordField : 'password',
+        passReqToCallback : true // allows us to pass back the entire request to the callback
+    },
+    function(req, email, password, done) {
+  	console.log(req.body);
+  	var queryString = "SELECT userid, password FROM users WHERE email='" + email + "'";
+
+  	console.log(queryString);
+  	req.db.client.query(queryString, function(err, result){
+  		// console.log(err);
+  		// console.log(result);
+      if (err) { return done(err); }
+      if (result.rows.length < 1) {
+        return done(null, false, { message: 'account already exists with that email.' });
+      }
+      else{
+      	console.log('create new user here');
+      	return done(null, result.rows[0]);
+      }
+    });
+  }
+));
+
 
 passport.serializeUser(function(user, done) {
 	// console.log('serialize user...')
@@ -147,23 +180,32 @@ app.get('/', function(req, res){
 });
 
 app.post('/signup',
+	passport.authenticate('local-signup'),
+	function(req, req, next){
+		console.log('after local sign up');
+		next();
+	},
 	createNewUser,
 	createNewUserPref,
 	function(req, res){
-	console.log('posted signup form data');
-	//console.log(req.body);
-	console.log(req.signupResult);
-	console.log(req.prefResult);
-	var age = calculateAge(req.signupResult.rows[0].dateofbirth);
-	req.signupResult.rows[0].age = age;
-	res.json({user: req.signupResult.rows[0], pref: req.prefResult.rows[0]});
-});
+		console.log('posted signup form data');
 
+			console.log('authenticating user...on signup');
+			//console.log(req.body);
+			console.log(req.signupResult);
+			console.log(req.prefResult);
+			var age = calculateAge(req.signupResult.rows[0].dateofbirth);
+			req.signupResult.rows[0].age = age;
+			res.json({user: req.signupResult.rows[0], pref: req.prefResult.rows[0]});
+		});
 
 function createNewUser(req, res, next){
+
+	console.log('im in createnewuser');
 	var user = req.body.user;
 	user.dateofbirth = moment([user.dob_year, user.dob_month, user.dob_day]).format('YYYY-MM-DD');//'1982-11-27'
 
+	console.log('creating new uers...');
 	console.log(user);
 
 	var urls = "'{";
@@ -213,11 +255,13 @@ function createNewUser(req, res, next){
 							   				 medurls + "," +
 							   				 smallurls + ") " +
 								"RETURNING *";
-		// console.log(queryString);
+		console.log(queryString);
 
 		req.db.client.query(queryString, function(err, result){
 
 			if(err){
+				console.log(err);
+				console.log('error inserting users...');
 				res.send(500);
 			}
 			else{
@@ -243,6 +287,7 @@ function replaceAll(find,replace,str){
 }
 
 function createNewUserPref(req, res, next){
+	console.log('im in createnewuserpref');
 	var pref = req.body.pref;
 	var queryString = "INSERT INTO userprefs " +
 								"(userid," +
@@ -371,7 +416,7 @@ app.post('/upload',
 
 app.post('/login',
 	//connectToDb,
-	passport.authenticate('local'),
+	passport.authenticate('local-login'),
 	function(req, res){
 		console.log(req.body);
 		console.log("user authenticated!...");
