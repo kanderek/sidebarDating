@@ -2028,6 +2028,7 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
   function($scope, $state, Profile, UiState, DancecardService) {
 
     $scope.survey;
+    $scope.username = Profile.selectedForRemoval.username;
 
     $scope.cancel = function(){
       // UiState.showDetailsPanel = false;
