@@ -14,61 +14,88 @@
 	    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 	}
 */
-	#messageWrapper {
+	#sbe-sidebar #messageWrapper {
 		position: absolute;
-		width: 220px;
-		height: 575px;
-    margin: 5px;
-    margin-left: 15px;
+		width: 232px;
+    height: 200px; /*temporary fix*/
+		/*height: 575px;*/
+    margin: 200px 15px 0 15px;
+    box-sizing: border-box;
 	}
 
-	#messages {
+	#sbe-sidebar #messages {
       width: 100%;
-      height: 500px;
-      /*background-color: rgba(255,255,255,0.5);*/
+      height: 100%;
       margin-top: 10px;
       overflow: scroll;
     }
 
-    #bottom {
-    	position: absolute;
-    	bottom: 0px;
-    }
+  #sbe-sidebar #bottom {
+  	position: absolute;
+  	bottom: 0px;
+  }
 
-    #createMessage {
-      width: 100%;
-/*      position: absolute;
-      bottom: 0px;
-      margin: 0px;*/
-    }
+  #sbe-sidebar #createMessage {
+    width: 100%;
+/*  position: absolute;
+    bottom: 0px;
+    margin: 0px;*/
+  }
 
-    .message {
-      position: relative;
-      padding: 5px;
-      margin-bottom: 5px;
-      width: 100%;
-      border-radius: 10px;
-    }
+  #sbe-sidebar .message {
+    position: relative;
+    margin-bottom: 5px;
+    width: 90%;
+    border-radius: 5px;
+    color: white;
+     padding: 10px;
+     box-sizing: border-box;
+  }
 
-    .sent {
-      color: white;
-      float: right;
-      background-color: #404242;
-    }
+  #sbe-sidebar .sent {
+    float: right;
+    background-color: #00B768;
+    /*border: 1px solid ;*/
+    border-bottom-right-radius: 0;
+  }
 
-    .received {
-      color: white;
-      float: left;
-      background-color: #008C9E;
-    }
+  #sbe-sidebar .received {
+    float: left;
+    /*border: 1px solid #71A500;*/
+    /*background-color: #444444;*/
+    background-color: #505050;
+    border-bottom-left-radius: 0;
+  }
 
-    .sbe-message-timestamp {
-      width: 100%;
-      position: relative;
-      float: left;
-      text-align: center;
-      margin-bottom: 5px;
-    }
+  #sbe-sidebar .sent,
+  #sbe-sidebar .received {
+
+  }
+
+  #sbe-sidebar .sbe-message-timestamp {
+    width: 100%;
+    position: relative;
+    float: left;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #ababab;
+    font-size: .85em;
+  }
+
+  #sbe-sidebar #sbe-message-box {
+    width: 75%;
+    padding: 5px;
+    box-sizing: border-box;
+    outline: none;
+    display: inline-block;
+  }
+
+  #sbe-sidebar .sbe-sendMsgBtn {
+    width: 21%;
+    display: inline-block;
+    margin-left: 5px;
+    padding: 6px;
+  }
 
 </style>
 
@@ -87,7 +114,7 @@
 		</div>
 	</div>
 	<form id='createMessage'>
-		<input type='textarea' ng-model='newMessage' placeholder='type something...'>
-    <button type="button" ng-click="sendMessage()">Send</button>
+		<input type='textarea' id='sbe-message-box' ng-model='newMessage' placeholder='Type Something....'>
+    <button type="button" ng-click="sendMessage()" class="sbe-sendMsgBtn">Send</button>
 	</form>
 </div>
