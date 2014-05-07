@@ -357,7 +357,6 @@ appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profil
       $('#detailsContent').css('opacity', 1.0);
     },false);
 
-
   var uiStateService = {};
 
   uiStateService.previousState;
@@ -393,33 +392,36 @@ appServices.factory('UiState', ['$timeout', 'Profile', function($timeout, Profil
   uiStateService.openDetailsPanel = function(){
     console.log('opendetailspanel called');
     uiStateService.showDetailsPanel = true;
-    dom.details.removeClass('initDetails').removeClass('closeDetails').addClass('openDetails');
+    dom.details.removeClass().addClass('openDetails');
   }
 
 uiStateService.closeDetailsPanel = function(){
 console.log('closedetailspanel called');
+  console.log('select indicator...');
+
     uiStateService.showDetailsPanel = false;
    var select = $('#select-indicator');
-   if(select[0]){
+     console.log(select);
+   if(select.hasClass('apply-indicator')){
      select.removeClass('apply-indicator').addClass('remove-indicator');
    }
    else{
-     dom.details.removeClass('openDetails').addClass('closeDetails');
+     dom.details.removeClass().addClass('closeDetails');
    }
   }
 
   uiStateService.openSidebar = function(){
     console.log('show sidebar');
     uiStateService.showSidebar = true;
-    dom.sidebar.removeClass('initPanel').removeClass('closePanel').addClass('openPanel');
-    dom.details.removeClass('tuckDetails').addClass('revealDetails');
+    dom.sidebar.removeClass().addClass('openPanel');
+    dom.details.removeClass().addClass('revealDetails');
   }
 
   uiStateService.closeSidebar = function(){
     console.log('close sidebar');
     uiStateService.showSidebar = false;
-    dom.sidebar.removeClass('initPanel').removeClass('openPanel').addClass('closePanel');
-    dom.details.removeClass('initDetails').removeClass('closeDetails').removeClass('revealDetails').addClass('tuckDetails');
+    dom.sidebar.removeClass().addClass('closePanel');
+    dom.details.removeClass().addClass('tuckDetails');
   }
 
 

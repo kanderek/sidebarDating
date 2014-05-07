@@ -223,7 +223,7 @@
 	#injected-wrapper button,
 	#injected-wrapper input[type='button'],
 	#injected-wrapper form   {
-		    animation                  : "none";
+	/*animation                  : "none";	
     animation-delay            : "0";
     animation-direction        : "normal";
     animation-duration         : "0";
@@ -231,7 +231,7 @@
     animation-iteration-count  : "1";
     animation-name             : "none";
     animation-play-state       : "running";
-    animation-timing-function  : "ease";
+    animation-timing-function  : "ease";*/
     backface-visibility        : "visible";
     background                 : "0";
     background-attachment      : "scroll";
@@ -341,7 +341,7 @@
     perspective                : "none";
     perspective-origin         : "50% 50%";
     position                   : "static";
-    ; May need to alter quotes for different locales (e.g fr);
+  /*  ; May need to alter quotes for different locales (e.g fr);*/
     quotes                     : "'\201C' '\201D' '\2018' '\2019'";
     right                      : "auto";
     tab-size                   : "8";
@@ -356,13 +356,13 @@
     text-shadow                : "none";
     text-transform             : "none";
     top                        : "auto";
-    transform                  : "none";
+/*    transform                  : "none";
     transform-style            : "flat";
     transition                 : "none";
     transition-delay           : "0s";
     transition-duration        : "0s";
     transition-property        : "none";
-    transition-timing-function : "ease";
+    transition-timing-function : "ease";*/
     unicode-bidi               : "normal";
     vertical-align             : "baseline";
     visibility                 : "visible";
@@ -371,7 +371,7 @@
     width                      : "auto";
     word-spacing               : "normal";
     z-index                    : "auto";
-    -webkit-animation                  : "none";
+    /*-webkit-animation                  : "none";
 	-webkit-animation-delay            : "0";
 	-webkit-animation-direction        : "normal";
 	-webkit-animation-duration         : "0";
@@ -379,7 +379,7 @@
 	-webkit-animation-iteration-count  : "1";
 	-webkit-animation-name             : "none";
 	-webkit-animation-play-state       : "running";
-	-webkit-animation-timing-function  : "ease";
+	-webkit-animation-timing-function  : "ease";*/
 	-webkit-backface-visibility        : "visible";
 	-webkit-background                 : "0";
 	-webkit-background-attachment      : "scroll";
@@ -489,7 +489,7 @@
 	-webkit-perspective                : "none";
 	-webkit-perspective-origin         : "50% 50%";
 	-webkit-position                   : "static";
-	-webkit-; May need to alter quotes for different locales (e.g fr);
+/*	-webkit-; May need to alter quotes for different locales (e.g fr);*/
 	-webkit-quotes                     : "'\201C' '\201D' '\2018' '\2019'";
 	-webkit-right                      : "auto";
 	-webkit-tab-size                   : "8";
@@ -504,13 +504,13 @@
 	-webkit-text-shadow                : "none";
 	-webkit-text-transform             : "none";
 	-webkit-top                        : "auto";
-	-webkit-transform                  : "none";
+/*	-webkit-transform                  : "none";
 	-webkit-transform-style            : "flat";
 	-webkit-transition                 : "none";
 	-webkit-transition-delay           : "0s";
 	-webkit-transition-duration        : "0s";
 	-webkit-transition-property        : "none";
-	-webkit-transition-timing-function : "ease";
+	-webkit-transition-timing-function : "ease";*/
 	-webkit-unicode-bidi               : "normal";
 	-webkit-vertical-align             : "baseline";
 	-webkit-visibility                 : "visible";
@@ -585,45 +585,16 @@
 		-webkit-animation:closePanel 1s 1;
 	}
 
-	.shutdownPanel {
-		/*-webkit-transform: 780px;
-		-webkit-animation:closePanel 0.5s 1;*/
-		right: 0px;
-	}
-
-/*	@-webkit-keyframes initPanel{
-/*	  from{right:260px;}
-	  to{right:-240px;}*/
-/*	  from{-webkit-transform:translateX(780px);}
-	  to{-webkit-transform: translateX(520px);}
-	}*/
 
 	@-webkit-keyframes openPanel{
 		from{-webkit-transform: translateX(780px);}
 		to{-webkit-transform: translateX(520px);}
-/*		from{-webkit-transform: translate3d(780px,0,0);}
-		to{-webkit-transform: translate3d(520px,0,0);}*/
 	}
 
 	@-webkit-keyframes closePanel{
 		from{-webkit-transform: translateX(520px);}
 		to{-webkit-transform: translateX(780px);}
-/*		from{-webkit-transform: translate3d(520px,0,0);}
-		to{-webkit-transform: translate3d(780px,0,0);}*/
 	}
-
-	.show-sidebar {
-		/*right: 0px;*/
-		-webkit-transform: translateX(520px);
-		/*-webkit-animation: openPanel 1s 1;*/
-		/*width: 260px;*/
-	}
-
-	.tuck-sidebar {
-		right: -261px;
-		/*width: 0px;*/
-	}
-
 
 	#arrow-icon {
 		display: block;
@@ -1181,15 +1152,7 @@
 
 	<div id="sbe-sidebar"
 		 class="openPanel" >
-		 <!-- ng-class="{'show-sidebar': uiState.showSidebar, 'tuck-sidebar': !uiState.showSidebar}" > -->
 
-		<!-- <div id="close-action">
-			<img id="close-icon" />
-		</div>
-
-		<div id="home-action">
-			<a ui-sref='main.profileList'><img id="home-icon" /></a>
-		</div> -->
 		<div id="top-menu" ng-show="isSignedIn()" ng-controller="TopMenuCtrl">
 			<a ng-click="goBack()" class="sidebar-back"></a>
 			<a ng-click="goToProfile()" class="sidebar-mainUserName" > {{username}}</a>
