@@ -238,6 +238,14 @@
         overflow: auto;
     }
 
+    #detailsWrapper #profile-details .profile-actions img {
+        width: auto;
+         height: auto; 
+         position: auto; 
+         top: 3px;
+         margin-right:3px;
+    }
+
 
     #detailsWrapper #profile-details .col-right button,
     #detailsWrapper #profile-details .col-right a {
@@ -300,7 +308,7 @@
     #detailsWrapper #mutual-wrapper {
 
         width: 100%;
-        /*height: 300px;*/
+        /*height: 300px;
         background-color: rgba(255,255,255,1);
         margin: 5px 0px 5px 0px;
         overflow: hidden;
@@ -372,6 +380,19 @@
         margin: 5px 0px 0px 5px;
         font-family: sans-serif;
     }
+
+    #detailsWrapper .msg-icon {
+        width: 13px;
+        height: 13px;
+        margin-top: 3px;
+        background: #434747 url('http://www.microcake.org/sidebardating/message.png') no-repeat 0 0;
+        display: inline-block;
+    }
+
+    #detailsWrapper .msg-icon:hover {
+        background: #434747 url('http://www.microcake.org/sidebardating/message.png') no-repeat 0 -13px;
+    }
+
 	</style>
 
         <ul style="margin-bottom: 10px" rn-carousel  rn-carousel-indicator rn-carousel-control class="my-slider ng-cloak">
@@ -386,7 +407,7 @@
  		 <div id="profile-details">
             <div class="col-left">
                 <h3>{{profile.selectedProfile.username}}</h3>
-                <a ng-show="showMessageButton()" ui-sref="main.messages"><img ng-src="http://localhost:3000/message/message.png" /></a>
+                <a ng-show="showMessageButton()" ui-sref="main.messages" class="msg-icon"><!-- <img ng-src="http://localhost:3000/message/message.png" /> --></a>
                 <p id="age-location">{{profile.selectedProfile.age}}, {{profile.selectedProfile.location_city}}, {{profile.selectedProfile.location_state}}</p>
     	 		<p>{{profile.selectedProfile.personal_blurb}}</p>
             </div>
@@ -394,11 +415,11 @@
                 <div class="profile-actions">
                      <button type="button"
                         ng-show="showAddButton()"
-                        ng-click="updateDancecard(profile.selectedProfile, 'added')">Add to Card</button>
+                        ng-click="updateDancecard(profile.selectedProfile, 'added')"><img src="http://www.microcake.org/sidebardating/add.png">Add to Card</button>
 
                     <button type="button"
                             ng-show="showRemoveButton()"
-                            ng-click="updateDancecard(profile.selectedProfile, 'removed')">Remove From Card</button>
+                            ng-click="updateDancecard(profile.selectedProfile, 'removed')"><img src="http://www.microcake.org/sidebardating/remove.png">Remove From Card</button>
 
                     <a ng-show="isSelf()"
                         ui-sref='main.detailsPanel'>Edit</a>
