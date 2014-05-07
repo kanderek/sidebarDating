@@ -607,8 +607,11 @@ END $$ LANGUAGE 'plpgsql';
 
 CREATE FUNCTION notify_trigger() RETURNS trigger AS $$
 DECLARE
+
+    imageurl varchar(100); 
 BEGIN
   -- PERFORM pg_notify('watchers', TG_TABLE_NAME || ',userid,' || NEW.userid );
+  SELECT INTO imageurl smallimageurls[1] FROM users WHERE userid=NEW.about_userid; 
 
   PERFORM pg_notify('watchers', NEW.userid || ',' ||
                                 NEW.notificationid || ',' ||
@@ -617,7 +620,8 @@ BEGIN
                                 NEW.action_time || ',' ||
                                 NEW.type || ',' ||
                                 NEW.subtype || ',' ||
-                                NEW.status);
+                                NEW.status || ',' || 
+                                imageurl);
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

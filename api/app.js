@@ -1295,7 +1295,8 @@ io.sockets.on('connection', function(socket){
     		action_time: fields[4],
     		type: fields[5],
     		subtype: fields[6],
-    		status: fields[7]
+    		status: fields[7],
+    		imgurl: fields[8],
     	};
 
     	if(users[userid]){

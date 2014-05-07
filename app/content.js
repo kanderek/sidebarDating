@@ -626,18 +626,20 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
 /*******************************************************************************************************
 Notification Service  */
 
-appServices.factory('NotificationService', ['$http', '$state', 'Profile',
-  function($http, $state, Profile){
+appServices.factory('NotificationService', ['$http', '$interval', '$state', 'Profile',
+  function($http, $interval, $state, Profile){
+
+      function refreshTimestamps(){
+         $interval(function(){
+          for(var i=0; i< notificationService.notifications.length; i++){
+            notificationService.notifications[i].relativeTimestamp = moment(notificationService.notifications[i].action_time).fromNow();
+          }
+          console.log('refreshing timestamps for notifications....');
+        }
+          , 60000);
+      }
 
   var notificationService = {};
-      /*
-            notificationid  SERIAL,
-            userid      int REFERENCES users (userid) ON DELETE CASCADE,
-            message     varchar(140) NOT NULL,
-            action_time   timestamp,
-            type      varchar(50),--message/dancecard
-            status      varchar(50),--read/unread/ignore
-      */
 
       notificationService.notifications = [];
       notificationService.unreadCount = 0;
@@ -667,12 +669,15 @@ appServices.factory('NotificationService', ['$http', '$state', 'Profile',
       }
 
       notificationService.addNotification = function(notification){
+          notification.relativeTimestamp = moment(notification.action_time).fromNow();
+          notification.smallimage = SERVER + '/' + notification.imgurl;
           notificationService.notifications.unshift(notification);
           notificationService.unreadCount++;
       }
 
       notificationService.initializeNotifications = function(userid){
         notificationService.getNotifications(userid);
+        refreshTimestamps();
       }
 
       notificationService.getNotifications = function(userid){
@@ -685,6 +690,7 @@ appServices.factory('NotificationService', ['$http', '$state', 'Profile',
                // callback(data);
 
               for(var i=0; i<data.length; i++){
+                data[i].relativeTimestamp = moment(data[i].action_time).fromNow();
                 data[i].smallimage = SERVER + '/' + data[i].smallimageurls[0]
               }
 
