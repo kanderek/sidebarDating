@@ -1822,9 +1822,11 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
         }).
         success(function(data, status, headers, config){
           // callback(data);
-
-          Profile.selfProfile = {};
-           $state.go('login');
+          UiState.closeDetailsPanel();
+          $timeout(function(){
+            Profile.selfProfile = {};
+             $state.go('login');
+          }, 1000);
 
         }).
         error(function(data, status, headers, config){
