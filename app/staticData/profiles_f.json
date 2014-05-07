@@ -1,0 +1,82 @@
+[
+	{
+		"userid": 1,
+		"username": "Shelly",
+		"age": 26,
+		"location_city": "Oakland",
+		"location_state": "CA",
+		"personal_blurb": "I love art and culture! On fridays I like hanging out with friends, staying in with a movie or going out to art murmur.",
+		"relevance": 1,
+		"smallimageurls": ["/small_tutorial8f.jpg"]
+	},
+	{
+		"userid": 2,
+		"username": "Adrianne",
+		"age": 28,
+		"smallimageurls": ["/small_tutorial5f.jpg"],
+		"location_city": "Emeryville",
+		"location_state": "CA",
+		"personal_blurb": "I love eating and traveling. I guess you could call me a foodie...but who isn't one!",
+		"relevance": 1
+	},
+	{
+		"userid": 3,
+		"username": "Sally",
+		"age": 29,
+		"smallimageurls": ["/small_tutorial4f.jpg"],
+		"location_city": "San Francisco",
+		"location_state": "CA",
+		"personal_blurb": "I love my work and am a cofident woman. When I'm not working I loving working on myself. I go to the gym and recently discovered rock climbing, which I love!",
+		"relevance": 1
+	},
+	{
+		"userid": 4,
+		"username": "Jane",
+		"age": 25,
+		"smallimageurls": ["/small_tutorial7f.jpg"],
+		"location_city": "San Francisco",
+		"location_state": "CA",
+		"personal_blurb": "I bake cookies, cakes, muffins breads, you name it! I love making delectable treats to share. Making people smile makes me happy.",
+		"relevance": 1
+	},
+	{
+		"userid": 5,
+		"username": "Charlene",
+		"age": 27,
+		"smallimageurls": ["/small_tutorial6f.jpg"],
+		"location_city": "Berkeley",
+		"location_state": "CA",
+		"personal_blurb": "I'm a journalist and am insatiably curious. I love adventures and a good scoop.",
+		"relevance": 1
+	},
+	{
+		"userid": 6,
+		"username": "Jennifer",
+		"age": 22,
+		"smallimageurls": ["/small_tutorial1f.jpg"],
+		"location_city": "Mountainview",
+		"location_state": "CA",
+		"personal_blurb": "I just graduated and am figuring out my life. I'm so excited for the future. I am a writing and I spend most of my days woking on my craft. I hope to be a published author one day.",
+		"relevance": 2
+	},
+	{
+		"userid": 7,
+		"username": "Joan",
+		"age": 35,
+		"smallimageurls": ["/small_tutorial2f.jpg"],
+		"location_city": "San Jose",
+		"location_state": "CA",
+		"personal_blurb": "What a strange place...I wonder who else uses this thing. Anyways, I'm fun, hip and wise. I love evenings in with a good glass of wine but I also like to get out and shake it.",
+		"relevance": 2
+	},
+	{
+		"userid": 8,
+		"username": "Ashley",
+		"age": 18,
+		"smallimageurls": ["/small_tutorial3f.jpg"],
+		"location_city": "Dublin",
+		"location_state": "CA",
+		"personal_blurb": "Born and raised in the bay area. I hope to move to San Franicsco really soon!",
+		"relevance": 2
+	}
+]

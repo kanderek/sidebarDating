@@ -960,6 +960,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     profileFactory.pageProfiles = [];
     profileFactory.selectedProfile = {};
     profileFactory.selfProfile = {};
+    profileFactory.selfPref = {};
     profileFactory.selectedForRemoval = {};
     profileFactory.previousProfile = {};
 
@@ -972,7 +973,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
         return data;
     }
 
-    profileFactory.initializeProfile = function(user, url){
+    profileFactory.initializeProfile = function(user, pref, url){
       console.log('initilize Profile');
       console.log(user);
       if(typeof(user) == 'object'){
@@ -980,8 +981,12 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
         console.log(user);
         profileFactory.selfProfile = user;
         profileFactory.selectedProfile = user;
+        profileFactory.selfPref = pref;
         // profileFactory.getProfilesByPage(url, user.userid);
-        profileFactory.getStaticProfileList();
+        console.log(profileFactory.selfPref);
+        var gender = profileFactory.selfPref.male ? 'm' : '';
+        gender += profileFactory.selfPref.female ? 'f' : '';
+        profileFactory.getStaticProfileList(gender);
         $rootScope.$broadcast('profile-selected');
         $rootScope.$broadcast('user-data-available');
       }
@@ -1045,12 +1050,15 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
       profileFactory.pageProfiles = [];
     }
 
-    profileFactory.getStaticProfileList = function(callback){
+    profileFactory.getStaticProfileList = function(gender, callback){
       $http({
         method: 'GET',
-        url: chrome.extension.getURL("staticData/profiles.json")
+        url: chrome.extension.getURL("staticData/profiles_" + gender + ".json")
       }).
       success(function(data, status, headers, config){
+        for(var i=0; i<data.length; i++){
+          data[i].smallimageurls[0] = SERVER + data[i].smallimageurls[0];
+        }
         profileFactory.pageProfiles = data;
         $rootScope.$broadcast('page-profiles-available');
         // callback(data);
@@ -1247,9 +1255,8 @@ appServices.factory('SignupService', ['$http', 'Profile',
       }).
       success(function(data, status, headers, config){
         callback(data);
-        console.log('self profile');
-        console.log(data);
-        Profile.selfProfile = data.user;
+        signupService.user = {};
+        signupService.pref = {};
       }).
       error(function(data, status, headers, config){
         console.log('error signing up user: sending data to server failed');
@@ -1362,9 +1369,9 @@ appServices.factory('InitService', ['$rootScope', 'UiState','Profile','Dancecard
 
          var initService = {};
 
-         initService.initializeData = function(user){
+         initService.initializeData = function(user, pref){
 
-            Profile.initializeProfile(user, "someurl");
+            Profile.initializeProfile(user, pref, "someurl");
             var newUser = typeof(user) == 'object' ? true : false;
             var userid = newUser ? user.userid : user;
 
@@ -1594,6 +1601,11 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
     // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
   };
 
+    $scope.goBack = function(){
+    console.log('go back button clicked');
+      $state.go(UiState.previousState.name);
+    }
+
     $scope.beginSignup = function(){
         $state.go('sign-up-1');
         SignupService.requestInfoFromBackground('YO Yo Yo, background!');
@@ -1614,7 +1626,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
        SignupService.signupUser(function(data){
           console.log('Signing up user...');
           console.log(data);
-          InitService.initializeData(data.user);
+          InitService.initializeData(data.user, data.pref);
           // Profile.getStaticProfileList(function(data){
 
           // });
@@ -1826,11 +1838,16 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
         }).
         success(function(data, status, headers, config){
           // callback(data);
-          UiState.closeDetailsPanel();
-          $timeout(function(){
-            Profile.selfProfile = {};
-             $state.go('login');
-          }, 1000);
+          if(UiState.showDetailsPanel){
+            UiState.closeDetailsPanel();
+            $timeout(function(){
+              Profile.selfProfile = {};
+               $state.go('login');
+            }, 1000);
+          }
+          else{
+            $state.go('login');
+          }
 
         }).
         error(function(data, status, headers, config){
@@ -1850,6 +1867,7 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
   $scope.goBack = function(){
     UiState.showShortProfile = false;
     $state.go('main.profileList');
+    // $state.go(UiState.previousState.name);
   }
 
   $scope.goToProfile = function(){
@@ -2061,6 +2079,7 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
     $scope.profile;
     $scope.treemapData;
     $scope.sharedInterestData;
+    $scope.slideIndex;
 
     $scope.$on('profile-selected', function(event){
 
@@ -2069,6 +2088,7 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
       // console.log($scope.profile.selectedProfile.userid);
       // console.log(Profile);
       // console.log(Profile.selectProfile);
+       slideIndex = 0;
        InterestService.usersTreemap(Profile.selectedProfile.userid, function(data){
            $scope.treemapData = data;
         });
@@ -2078,6 +2098,13 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
         });
 
     });
+
+    $scope.prev = function() {
+        $scope.slideIndex--;
+    }
+    $scope.next = function() {
+        $scope.slideIndex++;
+    }
 
     //  $scope.$on('treemap-data-available', function(event){
 

@@ -216,7 +216,8 @@
 	#injected-wrapper h4,
 	#injected-wrapper h5,
 	#injected-wrapper h6,
-	#injected-wrapper a ,
+	#injected-wrapper a,
+	#injected-wrapper label,
 	#injected-wrapper input,
 	#injected-wrapper input[type='textarea'],
 	#injected-wrapper textarea,
@@ -557,7 +558,8 @@
 	#injected-wrapper h3,
 	#injected-wrapper h4,
 	#injected-wrapper h5,
-	#injected-wrapper h6 {
+	#injected-wrapper h6,
+	#injected-wrapper label {
 		font-family: "Open Sans", Helvetica, Arial, sans-serif;
 	}
 
@@ -664,15 +666,6 @@
 		position: absolute;
 		left: 15px;
 		cursor: pointer;
-	}
-
-
-	.show-sidebar {
-		right: 0px;
-	}
-
-	.tuck-sidebar {
-		right: -240px;
 	}
 
 	#sbe-sidebar #top-menu {
@@ -849,6 +842,7 @@
    	padding: 15px 0;
    	box-sizing: border-box;
    	border-bottom: 1px solid #555555;
+   	pointer-events: auto;
    }
 
    #sbe-sidebar .signup-heading h4 {
@@ -872,6 +866,10 @@
    #sbe-sidebar #signup-photo-preview img {
    		border-radius: 50%;
    }
+
+   #sbe-sidebar label, #sbe-sidebar input[type='file'] {
+  	 color: #BCBCBC;
+  	}
 
    #sbe-sidebar .signup-info,
    #sbe-sidebar .login-form {
@@ -1034,7 +1032,7 @@
 	}
 	#sbe-tutorial-step2 {
 		position: relative;
-		height: 416px;
+		height: 354px;
 		width: 100%;
 		/*background-color:  rgba(0,100,100,0.4);*/
 	}
@@ -1079,17 +1077,19 @@
 		height: 100%;
 	}
 
+	/*62px*/
+
 	.sbe-tutorial-overlay {
 		background-color:  rgb(0,0,0);
 		opacity: 0.5;
 	}
 
 	.sbe-top-menu-overlay {
-		height: 33%;
+		height: 30px;
 	}
 
 	.sbe-dancecard-overlay {
-		height: 67%;
+		height: 56px;
 	}
 
 	.sbe-heading-overlay {
@@ -1097,7 +1097,7 @@
 	}
 
 	.sbe-profile-list-overlay {
-		height: 374px;
+		height: 312px;
 	}
 
 	#sbe-sidebar .sbe-deactivated {
