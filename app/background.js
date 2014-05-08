@@ -55,7 +55,7 @@ var setBrowserActionIcon = function(status){
     chrome.browserAction.setIcon({path: "./images/19x19blue.png"});
   }
   else{
-    chrome.browserAction.setIcon({path: "./icons/19x19grey.png"});
+    chrome.browserAction.setIcon({path: "./images/19x19grey.png"});
   }
 }
 

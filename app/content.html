@@ -1021,11 +1021,13 @@
 	}
 
 	#sbe-tutorial-wrapper {
+		pointer-events: none;
 		position: absolute;
 		top: 0px;
 		right: 0px;
 		width: 540px;
 		height: 100%;
+		z-index: 2147483647;
 	}
 
 	#sbe-tutorial-step1 {
@@ -1059,7 +1061,8 @@
 		background-color: white;
 		box-shadow: -1px 3px 20px 1px #888888;
 		color: black;
-		border-radius: 2px
+		border-radius: 2px;
+		pointer-events: auto;
 	}
 
 	#sbe-sidebar .sbe-tutorial-text > p{
@@ -1079,6 +1082,7 @@
 		float: right;
 		width: 260px;
 		height: 100%;
+		pointer-events: auto;
 	}
 
 	/*62px*/
@@ -1147,7 +1151,7 @@
 
 		<div id="detailsPanel" >
 		 	<div id="detailsContent" > 
-		 		<div ui-view="detailsPanel">
+		 		<div ui-view="detailsPanel" ng-cloak>
 		 		</div>
 			</div>
 		</div>
@@ -1165,7 +1169,7 @@
 			<a ng-click="goToNotifications()" class="sidebar-notif">{{ns.unreadCount}} </a>
 		</div>
 
-		<div ui-view="sidebar" id="sbe-bodyContent">
+		<div ui-view="sidebar" id="sbe-bodyContent" ng-cloak>
 		</div>
 
 		<div ng-controller="TutorialCtrl">
