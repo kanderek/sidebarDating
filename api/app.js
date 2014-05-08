@@ -420,7 +420,7 @@ app.post('/login',
 	passport.authenticate('local-login'),
 	function(req, res, next){
 		var queryString = "UPDATE users " +
-								"SET logged_in = 't'" +   
+								"SET logged_in = 't'" +
 									" WHERE userid = " + req.user.userid;
 		//console.log(queryString);
 
@@ -439,12 +439,12 @@ app.post('/login',
 		res.json({userid: req.user.userid});
 	});
 
-app.get('/logout', 
+app.get('/logout',
 	function(req, res, next){
 
 		if(req.user){
 			var queryString = "UPDATE users " +
-									"SET logged_in = 'f'" +   
+									"SET logged_in = 'f'" +
 										" WHERE userid = " + req.user.userid;
 			console.log(queryString);
 
@@ -970,7 +970,7 @@ app.get('/shared-interest/:userid/:userid2', function(req, res){
 	var userid2 = req.params.userid2;
 
 	var queryString = "select urls.urlid, urls.url, urls.page_title, \
-	urls.primary_img_url from \
+	urls.primary_img_url, urls.embed_url, urls.embed_attr from \
 	(select urlid from user_history where userid = '" + userid + "') as t0 \
 	join (select urlid from user_history where userid = '" + userid2 + "') as t1 \
 	on t0.urlid = t1.urlid join urls on t0.urlid = urls.urlid \

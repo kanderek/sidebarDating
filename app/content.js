@@ -479,8 +479,8 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
 
               if(sendtime1 != sendtime2){
                //  console.log('compared two times and were not the same...');
-               // console.log(moment(data[i-1].sendtime).fromNow()); 
-               // console.log(moment(data[i].sendtime).fromNow()); 
+               // console.log(moment(data[i-1].sendtime).fromNow());
+               // console.log(moment(data[i].sendtime).fromNow());
                data[i].relativeTimestamp = sendtime2;
              }
              else {
@@ -488,7 +488,7 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
              }
          }
         }
-         if(typeof data !== 'undefined' && data[0]){ 
+         if(typeof data !== 'undefined' && data[0]){
             data[data.length-1].relativeTimestamp = moment(data[data.length-1].sendtime).fromNow() == 'a few seconds ago' ? 'just now' : moment(data[data.length-1].sendtime).fromNow()
           }
         return data;
@@ -593,7 +593,7 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
                }
                else {
                   //data received is empty...
-               }  
+               }
                 callback(data);
             // }
             // else{
@@ -1225,8 +1225,8 @@ appServices.factory('SharedInterestService', ['$http', '$rootScope', 'Profile',
           url: SERVER + '/shared-interest/' + userid + '/' + Profile.selfProfile.userid
         }).
         success(function(data, status, headers, config) {
-            console.log('shared-interest success!');
-            console.log(data);
+            // console.log('shared-interest success!');
+            // console.log(data);
             callback(data);
         }).
         error(function(data, status, headers, config) {
@@ -1894,7 +1894,7 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
       }
       UiState.selectProfile(Profile.selfProfile, 'self') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
       console.log('show short profile state....');
-      console.log(UiState.showShortProfile); 
+      console.log(UiState.showShortProfile);
     }
 
   $scope.goToNotifications = function(){
@@ -2102,15 +2102,44 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
       // console.log($scope.profile.selectedProfile.userid);
       // console.log(Profile);
       // console.log(Profile.selectProfile);
-       slideIndex = 0;
-       InterestService.usersTreemap(Profile.selectedProfile.userid, function(data){
-           $scope.treemapData = data;
-        });
+      slideIndex = 0;
+      InterestService.usersTreemap(Profile.selectedProfile.userid, function(data){
+          $scope.treemapData = data;
+      });
 
-       SharedInterestService.sharedInterests(Profile.selectedProfile.userid, function(data){
-           $scope.sharedInterestData = data;
-        });
-
+      SharedInterestService.sharedInterests(Profile.selectedProfile.userid, function(data){
+        $scope.sharedInterestData = data;
+        for(var i=0; i<data.length; i++){
+          var embedURL = data[i].embed_url,
+              embedTag,
+              embedAttrs;
+          if(embedURL) {
+            embedAttrs = {"src": embedURL};
+            embedAttrs = $.extend(embedAttrs, angular.fromJson(data[i].embed_attr));
+            embedTag = $('<iframe/>', embedAttrs)[0].outerHTML;
+          }
+          else {
+            tagDiv = $('<div/>');
+            tagImg = $('<img/>', {
+              src: data[i].primary_img_url
+            });
+            tagA1 = $('<a/>', {
+              href: data[i].url,
+              target: "_blank"
+            });
+            tagP = $('<p/>');
+            tagA2 = $('<a/>', {
+              href: data[i].url,
+              target: "_blank",
+              text: data[i].page_title}
+            );
+            tagA1.html(tagImg).appendTo(tagDiv);
+            tagP.html(tagA2).appendTo(tagDiv);
+            embedTag = tagDiv[0].outerHTML
+          }
+          data[i].embed_tag = embedTag;
+        }
+      });
     });
 
     $scope.prev = function() {

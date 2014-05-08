@@ -246,8 +246,8 @@
 
     #detailsWrapper #profile-details .profile-actions img {
         width: auto;
-         height: auto; 
-         position: auto; 
+         height: auto;
+         position: auto;
          top: 0px;
          margin-right:6px;
     }
@@ -576,10 +576,7 @@
     <div id="wrapper">
         <div id="columns">
             <div class="pin" ng-repeat='url in sharedInterestData'>
-                <a target="_blank" href="{{url.url}}"><img src="{{ url.primary_img_url }}" /></a>
-                <p>
-                    <a target="_blank" href="{{url.url}}">{{ url.page_title}}</a>
-                </p>
+                <div ng-bind-html="url.embed_tag"></div>
             </div>
         </div>
     </div>
@@ -631,6 +628,8 @@
                 <div class="mutual-item mutual-item-video-wide">
                     <iframe src="http://embed.ted.com/talks/james_patten_the_best_computer_interface_maybe_your_hands.html" width="235" height="132" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
                 </div>
+
+                <iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/99095518&amp;auto_play=false&amp;hide_related=false&amp;visual=true"></iframe>
  		</div>  -->
 
 
