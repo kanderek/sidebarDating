@@ -141,7 +141,9 @@
 		 	 draggable-data="{userid: {{profile.userid}}, index: $index}" -->
 		 	 		 	 <!-- effect-allowed="copy" 
 		 	 
- -->			<img ng-src="{{profile.smallimageurls[0]}}"/>
+ -->			<img ng-src="{{profile.smallimageurls[0]}}"
+ 					 ng-class="{'sbe-is-online': profile.logged_in}"
+ 				/>
 			<p>
 				<span class="name">{{profile.username}}</span></br>
 				<span class="personal-blurb">{{profile.personal_blurb}}</span>

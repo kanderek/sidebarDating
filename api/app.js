@@ -170,7 +170,7 @@ app.configure(function(){
   // app.use(flash());
   app.use(connectToDb);
   app.use(listenForNotifications);
-  app.use(express.session({ secret: 'so secret' }));
+  app.use(express.session({ secret: 'so secret'}));
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(app.router);
@@ -242,7 +242,7 @@ function createNewUser(req, res, next){
 									  "personal_blurb," +
 									  "imageurls," +
 									  "medimageurls," +
-									  "smallimageurls) " +
+									  "smallimageurls, logged_in) " +
 							   "VALUES ('" + user.username  + "','" +
 							   				 user.email + "','" +
 							   				 user.password + "','" +
@@ -254,7 +254,7 @@ function createNewUser(req, res, next){
 							   				 replaceAll("'", "''", user.personal_blurb) + "'," +
 							   				 urls + "," +
 							   				 medurls + "," +
-							   				 smallurls + ") " +
+							   				 smallurls + " , 't') " +
 								"RETURNING *";
 		console.log(queryString);
 
@@ -418,6 +418,20 @@ app.post('/upload',
 app.post('/login',
 	//connectToDb,
 	passport.authenticate('local-login'),
+	function(req, res, next){
+		var queryString = "UPDATE users " +
+								"SET logged_in = 't'" +   
+									" WHERE userid = " + req.user.userid;
+		//console.log(queryString);
+
+		req.db.client.query(queryString, function(err, result){
+			// console.log('result: ');
+			// console.log(result);
+			// console.log('err: ');
+			// console.log(err);
+			next();
+		});
+	},
 	function(req, res){
 		console.log(req.body);
 		console.log("user authenticated!...");
@@ -425,10 +439,30 @@ app.post('/login',
 		res.json({userid: req.user.userid});
 	});
 
-app.get('/logout', function(req, res){
-  req.logout();
-  res.send(200);
-});
+app.get('/logout', 
+	function(req, res, next){
+
+		if(req.user){
+			var queryString = "UPDATE users " +
+									"SET logged_in = 'f'" +   
+										" WHERE userid = " + req.user.userid;
+			console.log(queryString);
+
+			req.db.client.query(queryString, function(err, result){
+				// console.log('result: ');
+				// console.log(result);
+				// console.log('err: ');
+				// console.log(err);
+				next();
+			});
+		}
+		next();
+	},
+	function(req, res){
+
+	  req.logout();
+	  res.send(200);
+	});
 
 app.get('/authentication_status', function(req, res){
 	console.log(req.user);
@@ -494,7 +528,7 @@ app.post('/message',
 			// console.log(result);
 			// console.log('err: ');
 			// console.log(err);
-			ee.emit('someEvent', result.rows[0]);
+			ee.emit('message-added', result.rows[0]);
 			next();
 		});
 	},
@@ -618,6 +652,7 @@ function getDancecardById(req, res, next){
 									"users.imageurls,"+
 									"users.medimageurls,"+
 									"users.smallimageurls,"+
+									"users.logged_in,"+
 									"danceCard.mutual "+
 							"FROM users,"+
 								 "danceCard "+
@@ -738,7 +773,7 @@ app.get('/profile/:userid',
 
 		var queryString = "SELECT userid, username, dateofbirth," +
 							"location_city, location_state, personal_blurb, "+
-							"imageurls, medimageurls, smallimageurls, (SELECT count(*) from dancecard where userid=" + userid + " AND status='added') AS dancecard_count "+
+							"imageurls, medimageurls, smallimageurls, (SELECT count(*) from dancecard where userid=" + userid + " AND status='added') AS dancecard_count, logged_in "+
 							"FROM users "+
 							"WHERE userid=" + userid;
 		req.db.client.query(queryString, function(err, result){
@@ -833,7 +868,7 @@ function getPeopleOnPage(req,res,next) {
 	var queryString = "SELECT  u.userid, u.username, u.dateofbirth, " +
 						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
 						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
-						"1 AS relevance " +
+						"1 AS relevance, u.logged_in " +
 						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%" + req.url + "%') AND ("  + whereClause +
 						  ") LIMIT " + req.limit;
 
@@ -856,12 +891,12 @@ function getPeopleOnPage(req,res,next) {
 	var queryString = "SELECT  u.userid, u.username, u.dateofbirth, " +
 						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
 						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
-						"2 AS relevance " +
+						"2 AS relevance, u.logged_in " +
 						  "FROM getSecondaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%" + req.url + "%') AND ("  + req.whereClause +
 						  ") LIMIT " + newLimit;
 
-		// console.log('*********************** GETTING SECONDARY USERS ***************************');
-		// console.log(queryString);
+		console.log('*********************** GETTING SECONDARY USERS ***************************');
+		console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error
 			console.log(result);
@@ -896,12 +931,12 @@ function getPrimaryPeopleOnPage(req,res,next) {
 	var queryString = "SELECT  u.userid, u.username, u.dateofbirth, " +
 						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
 						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
-						"1 AS relevance " +
+						"1 AS relevance, u.logged_in " +
 						  "FROM getPrimaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%" + req.url + "%') AND ("  + whereClause +
 						  ") LIMIT " + primaryLimit;
 
-		// console.log('*********************** GETTING PRIMARY USERS ***************************');
-		// console.log(queryString);
+		console.log('*********************** GETTING PRIMARY USERS ***************************');
+		console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error
 			console.log(result);
@@ -1339,7 +1374,7 @@ io.sockets.on('connection', function(socket){
 
 });
 
-	ee.on("someEvent", function (data) {
+	ee.on("message-added", function (data) {
     	console.log("event has occured: ");
     	console.log(data);
     	if(users[data.receiverid]){

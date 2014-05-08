@@ -12,59 +12,59 @@
 
 --user preferences...
 
-SELECT u.userid, u.username FROM users u, userprefs p WHERE u.userid=p.userid AND CASE WHEN p.male THEN 'm'='f' WHEN p.female THEN 'f'='f' END;
+-- SELECT u.userid, u.username FROM users u, userprefs p WHERE u.userid=p.userid AND CASE WHEN p.male THEN 'm'='f' WHEN p.female THEN 'f'='f' END;
 
-SELECT users.userid, username FROM (SELECT *, CASE WHEN male='t' THEN 'm' END AS men, CASE WHEN female='t' THEN 'f' END AS women  FROM userprefs, users WHERE userprefs.userid=users.userid) AS temp WHERE men=(SELECT gender FROM users WHERE userid=23) AND female=(SELECT gender FROM users WHERE userid=23);
+-- SELECT users.userid, username FROM (SELECT *, CASE WHEN male='t' THEN 'm' END AS men, CASE WHEN female='t' THEN 'f' END AS women  FROM userprefs, users WHERE userprefs.userid=users.userid) AS temp WHERE men=(SELECT gender FROM users WHERE userid=23) AND female=(SELECT gender FROM users WHERE userid=23);
 
-CREATE FUNCTION youMatchTheirPreferences(userid int) 
-	RETURNS  TABLE (
-		userid			Integer, 
-		username		varchar(30),
-		gender			char(1),
-		dateofbirth		date,
-		location_city	varchar(30),
-		location_state	varchar(30),
-		zipCode			char(5),
-		personal_blurb	varchar(300),
-		imageurls		varchar(100) ARRAY,
-		medimageurls	varchar(100) ARRAY,
-		smallimageurls	varchar(100) ARRAY
+-- CREATE FUNCTION youMatchTheirPreferences(userid int) 
+-- 	RETURNS  TABLE (
+-- 		userid			Integer, 
+-- 		username		varchar(30),
+-- 		gender			char(1),
+-- 		dateofbirth		date,
+-- 		location_city	varchar(30),
+-- 		location_state	varchar(30),
+-- 		zipCode			char(5),
+-- 		personal_blurb	varchar(300),
+-- 		imageurls		varchar(100) ARRAY,
+-- 		medimageurls	varchar(100) ARRAY,
+-- 		smallimageurls	varchar(100) ARRAY
 
-		) AS $$
-DECLARE 
-	genderToCheck char(1);
-	ageToCheck Integer;
-BEGIN
+-- 		) AS $$
+-- DECLARE 
+-- 	genderToCheck char(1);
+-- 	ageToCheck Integer;
+-- BEGIN
 
-	SELECT INTO genderToCheck gender FROM users WHERE (userid = $1);
-	SELECT INTO ageToCheck EXTRACT(YEAR FROM (SELECT age(dateofbirth) FROM users WHERE userid = $1));
+-- 	SELECT INTO genderToCheck gender FROM users WHERE (userid = $1);
+-- 	SELECT INTO ageToCheck EXTRACT(YEAR FROM (SELECT age(dateofbirth) FROM users WHERE userid = $1));
 
-	SELECT u.userid, u.username FROM users u, userprefs p WHERE u.userid=p.userid AND CASE WHEN p.male THEN 'm'='m' WHEN p.female THEN 'f'='m' END;
+-- 	SELECT u.userid, u.username FROM users u, userprefs p WHERE u.userid=p.userid AND CASE WHEN p.male THEN 'm'='m' WHEN p.female THEN 'f'='m' END;
 
-	RETURN QUERY
-	SELECT u.userid, 
-	       u.username, 
-	       u.gender, 
-	       u.dateofbirth, 
-	       u.location_city, 
-	       u.location_state,
-	       u.zipCode,
-	       u.personal_blurb,
-	       u.imageurls,
-	       u.medimageurls,
-	       u.smallimageurls
+-- 	RETURN QUERY
+-- 	SELECT u.userid, 
+-- 	       u.username, 
+-- 	       u.gender, 
+-- 	       u.dateofbirth, 
+-- 	       u.location_city, 
+-- 	       u.location_state,
+-- 	       u.zipCode,
+-- 	       u.personal_blurb,
+-- 	       u.imageurls,
+-- 	       u.medimageurls,
+-- 	       u.smallimageurls
 
-	FROM users u, userprefs p 
-	WHERE 
-		u.userid=p.userid AND 
-		CASE WHEN p.male THEN 'm'=genderToCheck END AND
-		CASE WHEN p.female THEN 'f'=genderToCheck END AND 
-		p.age_min < ageToCheck AND 
-		p.age_max > ageToCheck;
+-- 	FROM users u, userprefs p 
+-- 	WHERE 
+-- 		u.userid=p.userid AND 
+-- 		CASE WHEN p.male THEN 'm'=genderToCheck END AND
+-- 		CASE WHEN p.female THEN 'f'=genderToCheck END AND 
+-- 		p.age_min < ageToCheck AND 
+-- 		p.age_max > ageToCheck;
 
 
-END;
-$$ LANGUAGE plpgsql;
+-- END;
+-- $$ LANGUAGE plpgsql;
 
 --return people whose preferences include your age and your gender (and distance from them) 
 --return people who's age is greater than your min age  preferance

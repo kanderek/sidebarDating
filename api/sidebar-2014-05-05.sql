@@ -35,7 +35,8 @@ CREATE TABLE "sidebar"."users" (
     "personal_blurb" varchar(300) DEFAULT 'I''m a blank essay'::character varying COLLATE "default",
     "imageurls" varchar(100)[] COLLATE "default",
     "medimageurls" varchar(100)[] COLLATE "default",
-    "smallimageurls" varchar(100)[] COLLATE "default"
+    "smallimageurls" varchar(100)[] COLLATE "default",
+    "logged_in" bool DEFAULT 'f'
 )
 WITH (OIDS=FALSE);
 ALTER TABLE "sidebar"."users" OWNER TO "sidebar";
@@ -44,29 +45,29 @@ ALTER TABLE "sidebar"."users" OWNER TO "sidebar";
 --  Records of users
 -- ----------------------------
 BEGIN;
-INSERT INTO "sidebar"."users" VALUES ('23', 'Christina', '1234', 'christina@gmail.com', 'f', '1986-01-01', '27', 'Berkeley', 'CA', '94704', 'Microcakes and stuff!', '{/scaled_23-1.jpg,/scaled_23-2.jpg,/scaled_23-3.jpg}', '{/med_23-1.jpg,/med_23-2.jpg,/med_23-3.jpg}', '{/small_23-1.jpg,/small_23-2.jpg,/small_23-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('1', 'Alex', '1234', 'alex@gmail.com', 'm', '1990-03-03', '24', 'San Mateo', 'CA', '94404', 'LA based Actor, originally SF Bay Area. Have 2 Feature films currently working on. I like Film/Theater. Family. Friends. Food. Wrestling.', '{/scaled_1-1.jpg,/scaled_1-2.jpg,/scaled_1-3.jpg}', '{/med_1-1.jpg,/med_1-2.jpg,/med_1-3.jpg}', '{/small_1-1.jpg,/small_1-2.jpg,/small_1-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('2', 'James', '1234', 'james@gmail.com', 'm', '1989-02-07', '25', 'Richmond', 'CA', '94084', 'Mellow, night owl, weekend hiker. Illustrator. Art, movie, and game enthusiast. Likes to do something out of the ordinary. Likes Animals.', '{/scaled_2-1.jpg,/scaled_2-2.jpg,/scaled_2-3.jpg}', '{/med_2-1.jpg,/med_2-2.jpg,/med_2-3.jpg}', '{/small_2-1.jpg,/small_2-2.jpg,/small_2-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('3', 'Hunter', '1234', 'hunter@gmail.com', 'm', '1991-10-06', '22', 'Oakland', 'CA', '94607', 'Looking for like minded chill people. Interested in clubs, parties, and meaningless shinnanigans.', '{/scaled_3-1.jpg,/scaled_3-2.jpg,/scaled_3-3.jpg}', '{/med_3-1.jpg,/med_3-2.jpg,/med_3-3.jpg}', '{/small_3-1.jpg,/small_3-2.jpg,/small_3-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('4', 'Joseph', '1234', 'joseph@gmail.com', 'm', '1984-01-30', '30', 'Fremont', 'CA', '94536', 'God, talking, playing basketball, cooking, beach, gym, smiles. I''ve no kids, but I want some. Don''t be shy.', '{/scaled_4-1.jpg,/scaled_4-2.jpg,/scaled_4-3.jpg}', '{/med_4-1.jpg,/med_4-2.jpg,/med_4-3.jpg}', '{/small_4-1.jpg,/small_4-2.jpg,/small_4-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('5', 'Robert', '1234', 'robert@gmail.com', 'm', '1991-01-01', '23', 'Daily City', 'CA', '94015', 'I am an urban farmer, so that''s pretty fun! Backpacking, climbing, running, biking, the works. I also write for a food politics journal!', '{/scaled_5-1.jpg,/scaled_5-2.jpg,/scaled_5-3.jpg}', '{/med_5-1.jpg,/med_5-2.jpg,/med_5-3.jpg}', '{/small_5-1.jpg,/small_5-2.jpg,/small_5-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('6', 'Kenny', '1234', 'kenny@gmail.com', 'm', '1990-06-05', '23', 'San Francisco', 'CA', '94111', 'I''ve always been a creator, but cinematography is my driving force. It''s what satisfies me. I shoot horrors, westerns, and thrillers.', '{/scaled_6-1.jpg,/scaled_6-2.jpg,/scaled_6-3.jpg}', '{/med_6-1.jpg,/med_6-2.jpg,/med_6-3.jpg}', '{/small_6-1.jpg,/small_6-2.jpg,/small_6-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('7', 'Jarod', '1234', 'jarod@gmail.com', 'm', '1990-10-25', '23', 'Daily City', 'CA', '94015', 'I love the idea of creating art for a living. I''m good at singing/songwriting/guitar/acting/improvisation/poker', '{/scaled_7-1.jpg,/scaled_7-2.jpg,/scaled_7-3.jpg}', '{/med_7-1.jpg,/med_7-2.jpg,/med_7-3.jpg}', '{/small_7-1.jpg,/small_7-2.jpg,/small_7-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('8', 'Daniel', '1234', 'daniel@gmail.com', 'm', '1989-05-13', '24', 'Berkeley', 'CA', '94704', 'Things I love... Dance, Guitar, Music in general, pursuing my passions, experiencing life and a lot more', '{/scaled_8-1.jpg,/scaled_8-2.jpg,/scaled_8-3.jpg}', '{/med_8-1.jpg,/med_8-2.jpg,/med_8-3.jpg}', '{/small_8-1.jpg,/small_8-2.jpg,/small_8-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('9', 'Evan', '1234', 'evan@gmail.com', 'm', '1984-07-04', '29', 'Daily City', 'CA', '94015', 'Things I could not live without: Food, exercise, sex, laughter, sports, friends', '{/scaled_9-1.jpg,/scaled_9-2.jpg,/scaled_9-3.jpg}', '{/med_9-1.jpg,/med_9-2.jpg,/med_9-3.jpg}', '{/small_9-1.jpg,/small_9-2.jpg,/small_9-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('10', 'Elijah', '1234', 'elijah@gmail.com', 'm', '1986-11-14', '27', 'Daily City', 'CA', '94015', 'Making the most out of my time. Kicking ass and having fun. I like to dance, giggle, wiggle, and work on my power moves while driving.', '{/scaled_10-1.jpg,/scaled_10-2.jpg,/scaled_10-3.jpg}', '{/med_10-1.jpg,/med_10-2.jpg,/med_10-3.jpg}', '{/small_10-1.jpg,/small_10-2.jpg,/small_10-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('11', 'Michael', '1234', 'michael@gmail.com', 'm', '1984-07-27', '29', 'Berkeley', 'CA', '94704', 'My interests and skills are acting, singing, swimming, running, soccer, and I love to hike and I am a gym fanatic as well.', '{/scaled_11-1.jpg,/scaled_11-2.jpg,/scaled_11-3.jpg}', '{/med_11-1.jpg,/med_11-2.jpg,/med_11-3.jpg}', '{/small_11-1.jpg,/small_11-2.jpg,/small_11-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('12', 'Benny', '1234', 'benny@gmail.com', 'm', '1990-06-28', '23', 'Berkeley', 'CA', '94704', 'Filmmaking, capoeira, oil paintings, and theatre are the aspirations on the table. Also love sunlight, food, vegetation, and chocolate', '{/scaled_12-1.jpg,/scaled_12-2.jpg,/scaled_12-3.jpg}', '{/med_12-1.jpg,/med_12-2.jpg,/med_12-3.jpg}', '{/small_12-1.jpg,/small_12-2.jpg,/small_12-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('13', 'Peter', '1234', 'peter@gmail.com', 'm', '1991-11-08', '22', 'Oakland', 'CA', '94607', 'The activities I most like to do are acting in my free times , spending time with my dog, and watching movies.', '{/scaled_13-1.jpg,/scaled_13-2.jpg,/scaled_13-3.jpg}', '{/med_13-1.jpg,/med_13-2.jpg,/med_13-3.jpg}', '{/small_13-1.jpg,/small_13-2.jpg,/small_13-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('14', 'Shane', '1234', 'shane@gmail.com', 'm', '1984-04-23', '30', 'Daily City', 'CA', '94015', 'I''m little bit all over the place i draw paint sing play guitar and do graphic design i love my two dogs tomatoe and ninja!', '{/scaled_14-1.jpg,/scaled_14-2.jpg,/scaled_14-3.jpg}', '{/med_14-1.jpg,/med_14-2.jpg,/med_14-3.jpg}', '{/small_14-1.jpg,/small_14-2.jpg,/small_14-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('15', 'Luke', '1234', 'luke@gmail.com', 'm', '1990-12-23', '23', 'Richmond', 'CA', '94084', 'Sports, Technology, Beer, Books, Fishing, Going out and having fun!', '{/scaled_15-1.jpg,/scaled_15-2.jpg,/scaled_15-3.jpg}', '{/med_15-1.jpg,/med_15-2.jpg,/med_15-3.jpg}', '{/small_15-1.jpg,/small_15-2.jpg,/small_15-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('16', 'Jackson', '1234', 'jackson@gmail.com', 'm', '1990-05-29', '23', 'Richmond', 'CA', '94084', 'Battling monsters, demons, and lethargy. Creating stuff from nowhere. Leaving footprints and taking pictures of the footprint', '{/scaled_16-1.jpg,/scaled_16-2.jpg,/scaled_16-3.jpg}', '{/med_16-1.jpg,/med_16-2.jpg,/med_16-3.jpg}', '{/small_16-1.jpg,/small_16-2.jpg,/small_16-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('17', 'Zane', '1234', 'zane@gmail.com', 'm', '1986-06-27', '27', 'Oakland', 'CA', '94607', 'I love to have fun, work out and play baseball. I''m quite the jokester- I''m sure I can make you laugh. ', '{/scaled_17-1.jpg,/scaled_17-2.jpg,/scaled_17-3.jpg}', '{/med_17-1.jpg,/med_17-2.jpg,/med_17-3.jpg}', '{/small_17-1.jpg,/small_17-2.jpg,/small_17-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('18', 'Brock', '1234', 'brock@gmail.com', 'm', '1988-08-06', '25', 'Oakland', 'CA', '94607', 'Writing, acting, kareoke(sometimes), making pizza, drinking(not too proud of that one) and negotiating', '{/scaled_18-1.jpg,/scaled_18-2.jpg,/scaled_18-3.jpg}', '{/med_18-1.jpg,/med_18-2.jpg,/med_18-3.jpg}', '{/small_18-1.jpg,/small_18-2.jpg,/small_18-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('19', 'Ryan', '1234', 'ryan@gmail.com', 'm', '1985-09-24', '28', 'Belmont', 'CA', '94002', 'Making moves, tshirt design, writing music and poetry, drawing, photography, living life how I define it', '{/scaled_19-1.jpg,/scaled_19-2.jpg,/scaled_19-3.jpg}', '{/med_19-1.jpg,/med_19-2.jpg,/med_19-3.jpg}', '{/small_19-1.jpg,/small_19-2.jpg,/small_19-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('20', 'Sebastian', '1234', 'sebastian@gmail.com', 'm', '1991-03-01', '23', 'Richmond', 'CA', '94084', 'Technology - Crafting - Video Games - Using Common Sense - Rubiks Cube - Managing - Writing - Guitar - Fixing burned out light bulbs', '{/scaled_20-1.jpg,/scaled_20-2.jpg,/scaled_20-3.jpg}', '{/med_20-1.jpg,/med_20-2.jpg,/med_20-3.jpg}', '{/small_20-1.jpg,/small_20-2.jpg,/small_20-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('21', 'David', '1234', 'david@gmail.com', 'm', '1984-04-05', '30', 'San Mateo', 'CA', '94404', 'Sports, jeopardy, chess, poker, family, friends, music, books', '{/scaled_21-1.jpg,/scaled_21-2.jpg,/scaled_21-3.jpg}', '{/med_21-1.jpg,/med_21-2.jpg,/med_21-3.jpg}', '{/small_21-1.jpg,/small_21-2.jpg,/small_21-3.jpg}');
-INSERT INTO "sidebar"."users" VALUES ('22', 'Andrew', '1234', 'andrew@gmail.com', 'm', '1985-12-15', '28', 'Berkeley', 'CA', '94704', 'I''ve never been beaten at MarioKart 64. Ever. I''m the best on Earth. It''s a curse', '{/scaled_22-1.jpg,/scaled_22-2.jpg,/scaled_22-3.jpg}', '{/med_22-1.jpg,/med_22-2.jpg,/med_22-3.jpg}', '{/small_22-1.jpg,/small_22-2.jpg,/small_22-3.jpg}');
+INSERT INTO "sidebar"."users" VALUES ('23', 'Christina', '1234', 'christina@gmail.com', 'f', '1986-01-01', '27', 'Berkeley', 'CA', '94704', 'Microcakes and stuff!', '{/scaled_23-1.jpg,/scaled_23-2.jpg,/scaled_23-3.jpg}', '{/med_23-1.jpg,/med_23-2.jpg,/med_23-3.jpg}', '{/small_23-1.jpg,/small_23-2.jpg,/small_23-3.jpg}', 't');
+INSERT INTO "sidebar"."users" VALUES ('1', 'Alex', '1234', 'alex@gmail.com', 'm', '1990-03-03', '24', 'San Mateo', 'CA', '94404', 'LA based Actor, originally SF Bay Area. Have 2 Feature films currently working on. I like Film/Theater. Family. Friends. Food. Wrestling.', '{/scaled_1-1.jpg,/scaled_1-2.jpg,/scaled_1-3.jpg}', '{/med_1-1.jpg,/med_1-2.jpg,/med_1-3.jpg}', '{/small_1-1.jpg,/small_1-2.jpg,/small_1-3.jpg}', 't');
+INSERT INTO "sidebar"."users" VALUES ('2', 'James', '1234', 'james@gmail.com', 'm', '1989-02-07', '25', 'Richmond', 'CA', '94084', 'Mellow, night owl, weekend hiker. Illustrator. Art, movie, and game enthusiast. Likes to do something out of the ordinary. Likes Animals.', '{/scaled_2-1.jpg,/scaled_2-2.jpg,/scaled_2-3.jpg}', '{/med_2-1.jpg,/med_2-2.jpg,/med_2-3.jpg}', '{/small_2-1.jpg,/small_2-2.jpg,/small_2-3.jpg}', 't');
+INSERT INTO "sidebar"."users" VALUES ('3', 'Hunter', '1234', 'hunter@gmail.com', 'm', '1991-10-06', '22', 'Oakland', 'CA', '94607', 'Looking for like minded chill people. Interested in clubs, parties, and meaningless shinnanigans.', '{/scaled_3-1.jpg,/scaled_3-2.jpg,/scaled_3-3.jpg}', '{/med_3-1.jpg,/med_3-2.jpg,/med_3-3.jpg}', '{/small_3-1.jpg,/small_3-2.jpg,/small_3-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('4', 'Joseph', '1234', 'joseph@gmail.com', 'm', '1984-01-30', '30', 'Fremont', 'CA', '94536', 'God, talking, playing basketball, cooking, beach, gym, smiles. I''ve no kids, but I want some. Don''t be shy.', '{/scaled_4-1.jpg,/scaled_4-2.jpg,/scaled_4-3.jpg}', '{/med_4-1.jpg,/med_4-2.jpg,/med_4-3.jpg}', '{/small_4-1.jpg,/small_4-2.jpg,/small_4-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('5', 'Robert', '1234', 'robert@gmail.com', 'm', '1991-01-01', '23', 'Daily City', 'CA', '94015', 'I am an urban farmer, so that''s pretty fun! Backpacking, climbing, running, biking, the works. I also write for a food politics journal!', '{/scaled_5-1.jpg,/scaled_5-2.jpg,/scaled_5-3.jpg}', '{/med_5-1.jpg,/med_5-2.jpg,/med_5-3.jpg}', '{/small_5-1.jpg,/small_5-2.jpg,/small_5-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('6', 'Kenny', '1234', 'kenny@gmail.com', 'm', '1990-06-05', '23', 'San Francisco', 'CA', '94111', 'I''ve always been a creator, but cinematography is my driving force. It''s what satisfies me. I shoot horrors, westerns, and thrillers.', '{/scaled_6-1.jpg,/scaled_6-2.jpg,/scaled_6-3.jpg}', '{/med_6-1.jpg,/med_6-2.jpg,/med_6-3.jpg}', '{/small_6-1.jpg,/small_6-2.jpg,/small_6-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('7', 'Jarod', '1234', 'jarod@gmail.com', 'm', '1990-10-25', '23', 'Daily City', 'CA', '94015', 'I love the idea of creating art for a living. I''m good at singing/songwriting/guitar/acting/improvisation/poker', '{/scaled_7-1.jpg,/scaled_7-2.jpg,/scaled_7-3.jpg}', '{/med_7-1.jpg,/med_7-2.jpg,/med_7-3.jpg}', '{/small_7-1.jpg,/small_7-2.jpg,/small_7-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('8', 'Daniel', '1234', 'daniel@gmail.com', 'm', '1989-05-13', '24', 'Berkeley', 'CA', '94704', 'Things I love... Dance, Guitar, Music in general, pursuing my passions, experiencing life and a lot more', '{/scaled_8-1.jpg,/scaled_8-2.jpg,/scaled_8-3.jpg}', '{/med_8-1.jpg,/med_8-2.jpg,/med_8-3.jpg}', '{/small_8-1.jpg,/small_8-2.jpg,/small_8-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('9', 'Evan', '1234', 'evan@gmail.com', 'm', '1984-07-04', '29', 'Daily City', 'CA', '94015', 'Things I could not live without: Food, exercise, sex, laughter, sports, friends', '{/scaled_9-1.jpg,/scaled_9-2.jpg,/scaled_9-3.jpg}', '{/med_9-1.jpg,/med_9-2.jpg,/med_9-3.jpg}', '{/small_9-1.jpg,/small_9-2.jpg,/small_9-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('10', 'Elijah', '1234', 'elijah@gmail.com', 'm', '1986-11-14', '27', 'Daily City', 'CA', '94015', 'Making the most out of my time. Kicking ass and having fun. I like to dance, giggle, wiggle, and work on my power moves while driving.', '{/scaled_10-1.jpg,/scaled_10-2.jpg,/scaled_10-3.jpg}', '{/med_10-1.jpg,/med_10-2.jpg,/med_10-3.jpg}', '{/small_10-1.jpg,/small_10-2.jpg,/small_10-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('11', 'Michael', '1234', 'michael@gmail.com', 'm', '1984-07-27', '29', 'Berkeley', 'CA', '94704', 'My interests and skills are acting, singing, swimming, running, soccer, and I love to hike and I am a gym fanatic as well.', '{/scaled_11-1.jpg,/scaled_11-2.jpg,/scaled_11-3.jpg}', '{/med_11-1.jpg,/med_11-2.jpg,/med_11-3.jpg}', '{/small_11-1.jpg,/small_11-2.jpg,/small_11-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('12', 'Benny', '1234', 'benny@gmail.com', 'm', '1990-06-28', '23', 'Berkeley', 'CA', '94704', 'Filmmaking, capoeira, oil paintings, and theatre are the aspirations on the table. Also love sunlight, food, vegetation, and chocolate', '{/scaled_12-1.jpg,/scaled_12-2.jpg,/scaled_12-3.jpg}', '{/med_12-1.jpg,/med_12-2.jpg,/med_12-3.jpg}', '{/small_12-1.jpg,/small_12-2.jpg,/small_12-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('13', 'Peter', '1234', 'peter@gmail.com', 'm', '1991-11-08', '22', 'Oakland', 'CA', '94607', 'The activities I most like to do are acting in my free times , spending time with my dog, and watching movies.', '{/scaled_13-1.jpg,/scaled_13-2.jpg,/scaled_13-3.jpg}', '{/med_13-1.jpg,/med_13-2.jpg,/med_13-3.jpg}', '{/small_13-1.jpg,/small_13-2.jpg,/small_13-3.jpg}', 't');
+INSERT INTO "sidebar"."users" VALUES ('14', 'Shane', '1234', 'shane@gmail.com', 'm', '1984-04-23', '30', 'Daily City', 'CA', '94015', 'I''m little bit all over the place i draw paint sing play guitar and do graphic design i love my two dogs tomatoe and ninja!', '{/scaled_14-1.jpg,/scaled_14-2.jpg,/scaled_14-3.jpg}', '{/med_14-1.jpg,/med_14-2.jpg,/med_14-3.jpg}', '{/small_14-1.jpg,/small_14-2.jpg,/small_14-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('15', 'Luke', '1234', 'luke@gmail.com', 'm', '1990-12-23', '23', 'Richmond', 'CA', '94084', 'Sports, Technology, Beer, Books, Fishing, Going out and having fun!', '{/scaled_15-1.jpg,/scaled_15-2.jpg,/scaled_15-3.jpg}', '{/med_15-1.jpg,/med_15-2.jpg,/med_15-3.jpg}', '{/small_15-1.jpg,/small_15-2.jpg,/small_15-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('16', 'Jackson', '1234', 'jackson@gmail.com', 'm', '1990-05-29', '23', 'Richmond', 'CA', '94084', 'Battling monsters, demons, and lethargy. Creating stuff from nowhere. Leaving footprints and taking pictures of the footprint', '{/scaled_16-1.jpg,/scaled_16-2.jpg,/scaled_16-3.jpg}', '{/med_16-1.jpg,/med_16-2.jpg,/med_16-3.jpg}', '{/small_16-1.jpg,/small_16-2.jpg,/small_16-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('17', 'Zane', '1234', 'zane@gmail.com', 'm', '1986-06-27', '27', 'Oakland', 'CA', '94607', 'I love to have fun, work out and play baseball. I''m quite the jokester- I''m sure I can make you laugh. ', '{/scaled_17-1.jpg,/scaled_17-2.jpg,/scaled_17-3.jpg}', '{/med_17-1.jpg,/med_17-2.jpg,/med_17-3.jpg}', '{/small_17-1.jpg,/small_17-2.jpg,/small_17-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('18', 'Brock', '1234', 'brock@gmail.com', 'm', '1988-08-06', '25', 'Oakland', 'CA', '94607', 'Writing, acting, kareoke(sometimes), making pizza, drinking(not too proud of that one) and negotiating', '{/scaled_18-1.jpg,/scaled_18-2.jpg,/scaled_18-3.jpg}', '{/med_18-1.jpg,/med_18-2.jpg,/med_18-3.jpg}', '{/small_18-1.jpg,/small_18-2.jpg,/small_18-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('19', 'Ryan', '1234', 'ryan@gmail.com', 'm', '1985-09-24', '28', 'Belmont', 'CA', '94002', 'Making moves, tshirt design, writing music and poetry, drawing, photography, living life how I define it', '{/scaled_19-1.jpg,/scaled_19-2.jpg,/scaled_19-3.jpg}', '{/med_19-1.jpg,/med_19-2.jpg,/med_19-3.jpg}', '{/small_19-1.jpg,/small_19-2.jpg,/small_19-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('20', 'Sebastian', '1234', 'sebastian@gmail.com', 'm', '1991-03-01', '23', 'Richmond', 'CA', '94084', 'Technology - Crafting - Video Games - Using Common Sense - Rubiks Cube - Managing - Writing - Guitar - Fixing burned out light bulbs', '{/scaled_20-1.jpg,/scaled_20-2.jpg,/scaled_20-3.jpg}', '{/med_20-1.jpg,/med_20-2.jpg,/med_20-3.jpg}', '{/small_20-1.jpg,/small_20-2.jpg,/small_20-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('21', 'David', '1234', 'david@gmail.com', 'm', '1984-04-05', '30', 'San Mateo', 'CA', '94404', 'Sports, jeopardy, chess, poker, family, friends, music, books', '{/scaled_21-1.jpg,/scaled_21-2.jpg,/scaled_21-3.jpg}', '{/med_21-1.jpg,/med_21-2.jpg,/med_21-3.jpg}', '{/small_21-1.jpg,/small_21-2.jpg,/small_21-3.jpg}', 'f');
+INSERT INTO "sidebar"."users" VALUES ('22', 'Andrew', '1234', 'andrew@gmail.com', 'm', '1985-12-15', '28', 'Berkeley', 'CA', '94704', 'I''ve never been beaten at MarioKart 64. Ever. I''m the best on Earth. It''s a curse', '{/scaled_22-1.jpg,/scaled_22-2.jpg,/scaled_22-3.jpg}', '{/med_22-1.jpg,/med_22-2.jpg,/med_22-3.jpg}', '{/small_22-1.jpg,/small_22-2.jpg,/small_22-3.jpg}', 'f');
 COMMIT;
 
 
@@ -537,6 +538,10 @@ DROP FUNCTION IF EXISTS dancecard_notification();
 DROP FUNCTION IF EXISTS message_notification();
 DROP FUNCTION IF EXISTS notify_trigger();
 DROP FUNCTION IF EXISTS check_mutual(userid1 int, userid2 int);
+DROP FUNCTION IF EXISTS youMatchTheirPreferences(int);
+DROP FUNCTION IF EXISTS theyMatchYourPreferences(useridToTest int);
+DROP FUNCTION IF EXISTS getPrimaryUsers(useridToTest int);
+DROP FUNCTION IF EXISTS getSecondaryUsers(useridToTest int);
 
 CREATE FUNCTION dancecard_notification() RETURNS TRIGGER AS $$
 DECLARE
@@ -638,6 +643,175 @@ BEGIN
     ELSE
         RETURN 'false';
     END IF;
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION getPrimaryUsers(useridToTest int) 
+    RETURNS  TABLE (
+        userid          Integer, 
+        username        varchar(30),
+        gender          char(1),
+        dateofbirth     date,
+        location_city   varchar(30),
+        location_state  varchar(30),
+        zipCode         char(5),
+        personal_blurb  varchar(300),
+        imageurls       varchar(100) ARRAY,
+        medimageurls    varchar(100) ARRAY,
+        smallimageurls  varchar(100) ARRAY,
+        logged_in       bool
+
+        ) AS $$
+DECLARE 
+BEGIN
+    
+    RETURN QUERY
+    SELECT * FROM youMatchTheirPreferences($1) INTERSECT SELECT * FROM theyMatchYourPreferences($1);
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION getSecondaryUsers(useridToTest int) 
+    RETURNS  TABLE (
+        userid          Integer, 
+        username        varchar(30),
+        gender          char(1),
+        dateofbirth     date,
+        location_city   varchar(30),
+        location_state  varchar(30),
+        zipCode         char(5),
+        personal_blurb  varchar(300),
+        imageurls       varchar(100) ARRAY,
+        medimageurls    varchar(100) ARRAY,
+        smallimageurls  varchar(100) ARRAY,
+        logged_in       bool
+
+        ) AS $$
+DECLARE 
+BEGIN
+    
+    RETURN QUERY
+    SELECT * FROM youMatchTheirPreferences($1) EXCEPT SELECT *  FROM theyMatchYourPreferences($1);
+
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION youMatchTheirPreferences(useridToTest int) 
+    RETURNS  TABLE (
+        userid          Integer, 
+        username        varchar(30),
+        gender          char(1),
+        dateofbirth     date,
+        location_city   varchar(30),
+        location_state  varchar(30),
+        zipCode         char(5),
+        personal_blurb  varchar(300),
+        imageurls       varchar(100) ARRAY,
+        medimageurls    varchar(100) ARRAY,
+        smallimageurls  varchar(100) ARRAY,
+        logged_in       bool
+
+        ) AS $$
+DECLARE 
+    genderToCheck char(1);
+    ageToCheck Integer;
+BEGIN
+
+    SELECT INTO genderToCheck u.gender FROM users u WHERE (u.userid = $1);
+    SELECT INTO ageToCheck EXTRACT(YEAR FROM (SELECT age(u.dateofbirth) FROM users u WHERE u.userid = $1));
+
+    RAISE NOTICE 'what is genderToCheck? , %', genderToCheck;
+    RAISE NOTICE 'what is ageToCheck? , %', ageToCheck;
+
+    RETURN QUERY
+    SELECT u.userid, 
+           u.username, 
+           u.gender, 
+           u.dateofbirth, 
+           u.location_city, 
+           u.location_state,
+           u.zipCode,
+           u.personal_blurb,
+           u.imageurls,
+           u.medimageurls,
+           u.smallimageurls,
+           u.logged_in
+
+    FROM users u, userprefs p 
+    WHERE 
+        u.userid=p.userid AND 
+        (CASE WHEN p.male THEN 'm'=genderToCheck END OR
+        CASE WHEN p.female THEN 'f'=genderToCheck END) AND 
+        p.age_min <= ageToCheck AND 
+        p.age_max >= ageToCheck;
+
+
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION theyMatchYourPreferences(useridToTest int) 
+    RETURNS  TABLE (
+        userid          Integer, 
+        username        varchar(30),
+        gender          char(1),
+        dateofbirth     date,
+        location_city   varchar(30),
+        location_state  varchar(30),
+        zipCode         char(5),
+        personal_blurb  varchar(300),
+        imageurls       varchar(100) ARRAY,
+        medimageurls    varchar(100) ARRAY,
+        smallimageurls  varchar(100) ARRAY,
+        logged_in       bool
+
+        ) AS $$
+DECLARE 
+    acceptsMale char(1);
+    acceptsFemale char(1);
+    minAgeToCheck Integer;
+    maxAgeToCheck Integer;
+BEGIN
+
+    SELECT INTO minAgeToCheck, maxAgeToCheck, acceptsMale, acceptsFemale 
+                p.age_min, p.age_max, CASE p.male WHEN 't' THEN 'm' END AS men, CASE p.female WHEN 't' THEN 'f' END AS women 
+                FROM userprefs p WHERE p.userid=$1;
+
+-- SELECT userid FROM (SELECT userid, extract(YEAR from age(dateofbirth)) AS acceptable  FROM users) AS temp where acceptable>24 AND acceptable < 30;
+    RETURN QUERY
+    SELECT temp.userid, 
+           temp.username, 
+           temp.gender, 
+           temp.dateofbirth, 
+           temp.location_city, 
+           temp.location_state,
+           temp.zipCode,
+           temp.personal_blurb,
+           temp.imageurls,
+           temp.medimageurls,
+           temp.smallimageurls,
+           temp.logged_in
+
+    FROM  (SELECT u.userid,
+                  u.username,
+                  u.gender,
+                  u.dateofbirth,
+                  u.location_city,
+                  u.location_state,
+                  u.zipCode,
+                  u.personal_blurb,
+                  u.imageurls,
+                  u.medimageurls,
+                  u.smallimageurls,
+                  u.logged_in,
+                  extract(YEAR from age(u.dateofbirth)) AS acceptable  FROM users u) AS temp
+    WHERE 
+        acceptable >= minAgeToCheck AND 
+        acceptable <= maxAgeToCheck AND
+        (temp.gender=acceptsMale OR temp.gender=acceptsFemale);
+
 
 END;
 $$ LANGUAGE plpgsql;

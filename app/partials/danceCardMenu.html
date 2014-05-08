@@ -94,7 +94,9 @@
 			
 			<div class='mutual' ng-hide="isMutual($index)">
 			</div>
-				<img ng-src="{{person.smallimageurls[0]}}" />
+				<img ng-src="{{person.smallimageurls[0]}}" 
+					 ng-class="{'sbe-is-online': person.logged_in}"
+				/>
 		</div>
 
 		<div class="profile sbe-userDetails" 

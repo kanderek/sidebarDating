@@ -867,6 +867,8 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
                data = Profile.makeFullImageUrl(data);
                dancecardService.dancecard = data;
                fillBlankDancecardSpots();
+               console.log('...gettinng dancecard...');
+               console.log(data);
                $rootScope.$broadcast('dancecard-available');
                //callback(data);
 
