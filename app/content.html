@@ -1016,6 +1016,10 @@
 		text-decoration: none;
 		line-height: 20px;
 	}
+    #sbe-sidebar .sidebar-notif-unread {
+        background-color: #00B768;
+        color: #fff;
+    }
 
 	#sbe-sidebar .sidebar-notif:hover {
 		text-decoration: none;
@@ -1173,7 +1177,7 @@
 			<a ng-click="goToProfile()" class="sidebar-mainUserName" > {{username}}</a>
 			<a class="sidebar-settings" ng-click="logout()"></a>
 			<!-- <a ng-click="goToHistory()" >History </a> -->
-			<a ng-click="goToNotifications()" class="sidebar-notif">{{ns.unreadCount}} </a>
+			<a ng-click="goToNotifications()" ng-class="{'sidebar-notif': true, 'sidebar-notif-unread': ns.unreadCount}">{{ns.unreadCount}} </a>
 		</div>
 
 		<div ui-view="sidebar" id="sbe-bodyContent" ng-cloak>

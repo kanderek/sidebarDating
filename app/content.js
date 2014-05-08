@@ -1737,7 +1737,7 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
     $scope.followNotificationSender = function(i){
       console.log($scope.notifications[i]);
       var notification = $scope.notifications[i];
-      if(notification.type == "dancecard" && notification.subtype == "added"){
+      if(notification.type == "dancecard" && (notification.subtype == "added" || notification.subtype == "removed") ){
         //go to profile in details panel
         Profile.getProfileById(notification.about_userid, function(data){
           console.log('getting user from notifications...');
