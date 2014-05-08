@@ -28,19 +28,42 @@ angular.module("ngDragDrop",[])
                     var sendData = angular.toJson(dragData);
                     var sendChannel = attrs.dragChannel || "defaultchannel";
                     var dragImage = attrs.dragImage || null;
+                    console.log('in drag and drop...');
+                    console.log(dragImage);
+                    console.log(attrs);
                     if (dragImage) {
                         var dragImageFn = $parse(attrs.dragImage);
+                        console.log(dragImageFn);
                         scope.$apply(function() {
                             var dragImageParameters = dragImageFn(scope, {$event: e});
+                            console.log(dragImageParameters);
                             if (dragImageParameters && dragImageParameters.image) {
+                                var dragIcon = document.createElement('img');//.style.zIndex="2147483647";
+                                // dragIcon.src = "http://jhsdigital.weebly.com/uploads/1/2/7/2/12727281/8706388_orig.jpg";//
+                                // dragIcon.src = "http://www.microcake.org/sidebardating/add.png";//
+                                dragIcon.sr = dragImageParameters.image;
+                                dragIcon.width = 100;
+                                dragIcon.height = 100;
+                                dragIcon.backgroundColor = "white";
+                                //style.borderRadius = '50%';
+                                // dragIcon.height = 300;
+                                // dragIcon.style.zIndex = "2147483647";
+                                // dragIcon.setAttribute('id', 'customDragImage');
+                                // document.body.appendChild(dragIcon);
+
+                                console.log(dragIcon);
                                 var xOffset = dragImageParameters.xOffset || 0,
                                     yOffset = dragImageParameters.yOffset || 0;
-                                e.dataTransfer.setDragImage(dragImageParameters.image, xOffset, yOffset);
+                                e.dataTransfer.setDragImage(dragIcon/*dragImageParameters.image*/, xOffset, yOffset);
                             }
                         });
                     }
 
                     e.dataTransfer.setData("Text", sendData);
+                    // var dragIcon = document.createElement('img');
+                    // dragIcon.src = 'logo.png';
+                    // dragIcon.width = 100;
+                    // e.dataTransfer.setDragImage(dragIcon, -10, -10);
                     $rootScope.$broadcast("ANGULAR_DRAG_START", sendChannel);
 
                 });
