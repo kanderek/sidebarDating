@@ -122,6 +122,10 @@
 
 	}
 
+	#sbe-sidebar .sbe-fringes {
+		opacity: 0.4;
+	}
+
 </style>
 
 <div class="meeting-space" ng-cloak>
@@ -144,7 +148,7 @@
 		<div class="profile" 
 			ng-repeat="profile in profiles" 
 			ng-click="selectOnly($index)"
-			ng-class="{'isSelected': ifSelected($index)}"
+			ng-class="{'isSelected': ifSelected($index), 'sbe-fringes': profile.relevance == 2}"
 			 ui-draggable="true"
 			 drag="profile"
 			 drag-image="{image: profile.smallimageurls[0]}"
