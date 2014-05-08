@@ -3,12 +3,11 @@
   "version": "0.0.3",
   "manifest_version": 2,
   "description" : "Meet people through the browser...",
-  "icons": { "16": "icons/16x16_heart.png", "48": "icons/48x48_heart.png", "128": "icons/128x128_heart.png" },
 
   "browser_action": {
     "default_icon": {
-      "19": "icons/19x19_heart_idle.png",
-      "38": "icons/38x38_heart_idle.png"
+      "19": "images/19x19grey.png",
+      "38": "images/38x38grey.png"
     },
     "default_title": ""
   },

@@ -52,10 +52,10 @@ var toggleTabStatus = function(tab){
 var setBrowserActionIcon = function(status){
   console.log(tabStatus);
   if(status){
-    chrome.browserAction.setIcon({path: "./icons/19x19_heart.png"});
+    chrome.browserAction.setIcon({path: "./images/19x19blue.png"});
   }
   else{
-    chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
+    chrome.browserAction.setIcon({path: "./icons/19x19grey.png"});
   }
 }
 
