@@ -67,8 +67,8 @@ var sidebarApp = angular.module('sidebarDatingExt',[
 ]);
 
 
-sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
-  function($sceDelegateProvider, $stateProvider, $sceProvider) {
+sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider', '$provide',
+  function($sceDelegateProvider, $stateProvider, $sceProvider, $provide) {
 
     $sceProvider.enabled(false);
     $sceDelegateProvider.resourceUrlWhitelist([
@@ -77,6 +77,17 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
       // Allow loading from outer templates domain.
       'chrome-extension://*/partials/**'
     ]);
+
+    $provide.decorator('$state', function($delegate, $stateParams) {
+        $delegate.forceReload = function() {
+            return $delegate.go($delegate.current, $stateParams, {
+                reload: true,
+                inherit: false,
+                notify: true
+            });
+        };
+        return $delegate;
+    });
 
     $stateProvider
 
@@ -183,12 +194,6 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
             controller: 'ProfileListCtrl'
             })
 
-        .state('main.removeSurvey', {
-          url: '',
-          templateUrl: chrome.extension.getURL('partials/removeSurvey.html'),
-            controller: 'RemoveSurveyCtrl'
-            })
-
         .state('main.messages', {
               url: '',
           templateUrl: chrome.extension.getURL('partials/messages.html') ,
@@ -199,6 +204,12 @@ sidebarApp.config(['$sceDelegateProvider', '$stateProvider', '$sceProvider',
                 url: '',
               controller: '',
               templateUrl: chrome.extension.getURL('partials/profileSelf.html')
+        })
+
+        .state('main.removeSurvey', {
+          url: '',
+          templateUrl: chrome.extension.getURL('partials/removeSurvey.html'),
+            controller: 'RemoveSurveyCtrl'
         });
 
 
@@ -2045,12 +2056,13 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
 /*******************************************************************************************************
 Profile List Controller  */
 
-appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', '$timeout', 'Profile', 'UiState',
-  function($scope, $rootScope, $timeout, Profile, UiState) {
+appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', '$timeout', '$state','Profile', 'UiState',
+  function($scope, $rootScope, $timeout, $state, Profile, UiState) {
 
     $scope.profiles = Profile.pageProfiles;
 
     $scope.$on('page-profiles-available', function(event){
+      // $state.go('main.profileList');
       $scope.profiles = Profile.pageProfiles;
     });
 
