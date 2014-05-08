@@ -9,6 +9,14 @@ DROP FUNCTION IF EXISTS getSecondaryUsers(useridToTest int);
 --GIVES people out of your preferences that have you inside theirs
 --SELECT userid, username  FROM youMatchTheirPreferences(1) EXCEPT SELECT userid, username  FROM theyMatchYourPreferences(1);
 
+-- SELECT  u.userid, u.username, u.dateofbirth, u.location_city, u.location_state, u.zipcode, 
+-- 	     u.personal_blurb, u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count 
+-- FROM getPrimaryUsers(23) u, user_history h 
+-- WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%wwww.google.com%';
+
+-- SELECT  u.userid, u.username, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, 1 AS relevance
+-- FROM getPrimaryUsers(23) u, user_history h 
+-- WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%wwww.google.com%');
 
 CREATE OR REPLACE FUNCTION getPrimaryUsers(useridToTest int) 
 	RETURNS  TABLE (

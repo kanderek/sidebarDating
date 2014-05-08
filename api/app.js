@@ -777,7 +777,9 @@ app.get('/crowd/',
 		// console.log('get request /crowd/' + url);
 	},
 	getDancecardRecord,
-	getPeopleOnPage,
+	// getPeopleOnPage,
+	getPrimaryPeopleOnPage,
+	getSecondaryPeopleOnPage,
 	function (req, res) {
 		//console.log(req.queryResult);
 		if(req.pagePeople){
@@ -830,10 +832,75 @@ function getPeopleOnPage(req,res,next) {
 	// WHERE userhistory.urlid = (SELECT urlid FROM urls WHERE url=req.url)
 	var queryString = "SELECT  u.userid, u.username, u.dateofbirth, " +
 						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
-						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count "+
-						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url='" + req.url + "') AND ("  + whereClause +
+						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
+						"1 AS relevance " +
+						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%" + req.url + "%') AND ("  + whereClause +
 						  ") LIMIT " + req.limit;
 
+		// console.log(queryString);
+		req.db.client.query(queryString, function(err, result){
+			//deal with error
+			console.log(result);
+			if(!err){
+				req.pagePeople = result.rows;
+			}
+			next();
+		});
+	};
+
+	function getSecondaryPeopleOnPage(req,res,next) {
+
+	var newLimit = req.limit - req.pagePeople.length;
+	// By URL
+	// WHERE userhistory.urlid = (SELECT urlid FROM urls WHERE url=req.url)
+	var queryString = "SELECT  u.userid, u.username, u.dateofbirth, " +
+						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
+						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
+						"2 AS relevance " +
+						  "FROM getSecondaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%" + req.url + "%') AND ("  + req.whereClause +
+						  ") LIMIT " + newLimit;
+
+		// console.log('*********************** GETTING SECONDARY USERS ***************************');
+		// console.log(queryString);
+		req.db.client.query(queryString, function(err, result){
+			//deal with error
+			console.log(result);
+			if(!err){
+				req.pagePeople = req.pagePeople.concat(result.rows);
+			}
+			next();
+		});
+	};
+
+function getPrimaryPeopleOnPage(req,res,next) {
+
+	var whereClause = " u.userid != " + req.userid;
+	var primaryLimit = Math.round(req.limit*0.7);
+
+	// console.log(req.userid);
+	// console.log('result of querying dancecard record...');
+	// console.log(req.queryResult);
+	for(var i=0; i<req.excludeUser.length; i++){
+		whereClause += " AND u.userid !=" + req.excludeUser[i].userid;
+	}
+
+	if(req.pageProfiles){
+		for(var i=0; i<req.pageProfiles.length; i++){
+			whereClause += " AND u.userid !=" + req.pageProfiles[i];
+		}
+	};
+
+	req.whereClause = whereClause;
+	// By URL
+	// WHERE userhistory.urlid = (SELECT urlid FROM urls WHERE url=req.url)
+	var queryString = "SELECT  u.userid, u.username, u.dateofbirth, " +
+						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
+						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
+						"1 AS relevance " +
+						  "FROM getPrimaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%" + req.url + "%') AND ("  + whereClause +
+						  ") LIMIT " + primaryLimit;
+
+		// console.log('*********************** GETTING PRIMARY USERS ***************************');
 		// console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error

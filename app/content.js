@@ -1133,6 +1133,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
           // }
 
           profileFactory.pageProfiles = profileFactory.pageProfiles.concat(data);
+          console.log(profileFactory.pageProfiles);
           $rootScope.$broadcast('page-profiles-available');
         // }
         // else{
