@@ -87,12 +87,13 @@
 
 	#sbe-sidebar .profile:hover {
 		background-color: #404242;
+		cursor: pointer;
 	}
 
-	#sbe-sidebar .profile {
+/*	#sbe-sidebar .profile:active {
 		cursor: -webkit-grabbing;
-		/*cursor: -webkit-grab;*/
-	}
+		cursor: -webkit-grab;
+	}*/
 
 	#sbe-sidebar .name {
 		font-size: 1.1em;
@@ -127,7 +128,20 @@
 	}
 
 	#sbe-sidebar .sbe-fringes {
-		opacity: 0.4;
+		cursor: pointer;
+	}
+
+	#sbe-sidebar .sbe-fringes img {
+		opacity: 0.5;
+	}
+
+	#sbe-sidebar .sbe-fringes span,
+	#sbe-sidebar .sbe-fringes p {
+		color: #777;
+	}
+
+	#sbe-sidebar .sbe-fringes:hover {
+		background-color: #3D3E3F;
 	}
 
 </style>
