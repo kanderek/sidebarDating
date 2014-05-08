@@ -657,10 +657,14 @@
 		border-bottom: 4px solid #007786;
 	}
 
-	#sbe-sidebar button:active {
-		background-color: #00AABF;
-		border-bottom: 4px solid #007786;
-	}
+	/*#sbe-sidebar button:active {
+		position: relative;
+		top: 4px;
+		background-color: #005F6B;
+		border-bottom: 0px;
+	}*/
+
+
 
 	#sbe-sidebar .back {
 		position: absolute;
@@ -988,8 +992,13 @@
 		width: 13px;
 		height: 13px;
 		display: inline-block;
+<<<<<<< Updated upstream
 		background: #2B2E2E url('http://www.microcake.org/sidebardating/settings.png') no-repeat 0 0;
 		margin: 4px 0 -2px 2px;
+=======
+		margin-top: 3px;
+		background: #2B2E2E url('http://www.microcake.org/sidebardating/settings.png') no-repeat 0 0;
+>>>>>>> Stashed changes
 	}
 
 	#sbe-sidebar .sidebar-settings:hover {
@@ -1007,9 +1016,10 @@
 		float: right;
 		margin-right: 10px;
 		font-size: .8em;
-		color: white;
+		color: #888;
 		margin-top: 2px;
 		text-decoration: none;
+		line-height: 20px;
 	}
 
 	#sbe-sidebar .sidebar-notif:hover {
@@ -1166,7 +1176,11 @@
 		<div id="top-menu" ng-show="isSignedIn()" ng-controller="TopMenuCtrl">
 			<a ng-click="goBack()" class="sidebar-back"></a>
 			<a ng-click="goToProfile()" class="sidebar-mainUserName" > {{username}}</a>
+<<<<<<< Updated upstream
 			<a class="sidebar-settings" ng-click="logout()"></a>
+=======
+			<a class="sidebar-settings"></a>
+>>>>>>> Stashed changes
 			<!-- <a ng-click="goToHistory()" >History </a> -->
 			<a ng-click="goToNotifications()" class="sidebar-notif">{{ns.unreadCount}} </a>
 		</div>

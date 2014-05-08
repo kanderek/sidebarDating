@@ -187,9 +187,11 @@ SELECT setval('notifications_notificationid_seq', 1, false);
 DROP TABLE IF EXISTS "sidebar"."urls" CASCADE;
 CREATE TABLE "sidebar"."urls" (
     "urlid" SERIAL,
-    "url" varchar(300) COLLATE "default",
+    "url" varchar(1000) COLLATE "default",
     "page_title" varchar(140) COLLATE "default",
-    "primary_img_url" varchar(140) COLLATE "default"
+    "primary_img_url" varchar(1000) COLLATE "default",
+    "embed_url" varchar(1000) COLLATE "default",
+    "embed_attr" varchar(1000) COLLATE "default"
 )
 WITH (OIDS=FALSE);
 ALTER TABLE "sidebar"."urls" OWNER TO "sidebar";
@@ -198,51 +200,51 @@ ALTER TABLE "sidebar"."urls" OWNER TO "sidebar";
 --  Records of urls
 -- ----------------------------
 BEGIN;
-INSERT INTO "sidebar"."urls" VALUES ('8', 'http://www.webmd.com/women/guide/essential-vitamins-for-women-at-every-age', 'Essential Vitamins for Women at Every Age', null);
-INSERT INTO "sidebar"."urls" VALUES ('13', 'https://wwws.mint.com/login.event', 'Mint.com', null);
-INSERT INTO "sidebar"."urls" VALUES ('14', 'https://chaseonline.chase.com/', 'Chase Online - Logon', null);
-INSERT INTO "sidebar"."urls" VALUES ('16', 'http://www.adamwaaramaa.com/fundraising/writing-your-pitch-deck/', 'How To Write A Killer Pitch Deck In 10 Slides | Adam Waaramaa On Entrepreneurship', null);
-INSERT INTO "sidebar"."urls" VALUES ('18', 'http://www.thewhir.com/web-hosting-news/hackers-find-cloud-account-credentials-github-leading-72-hour-cryptocurrency-mining-spree', 'Hackers Find Cloud Account Credentials on GitHub Leading to 72-Hour Cryptocurrency Mining Spree - Web Host Industry Review', null);
-INSERT INTO "sidebar"."urls" VALUES ('20', 'http://www.netflix.com/WiPlayer?movieid=70267239&trkid=13462260&tctx=0%2C0%2C4c7eecbf-d697-4cef-a100-83ed8e72f3e8-693061', 'Netflix', null);
-INSERT INTO "sidebar"."urls" VALUES ('25', 'https://www.netflix.com/?locale=en-US', 'Netflix - Watch TV Shows Online, Watch Movies Online', null);
-INSERT INTO "sidebar"."urls" VALUES ('27', 'http://assorted-experience.blogspot.com/2014/05/doctesting-python-command-line-scripts.html', 'Assorted Experience: Doctesting Python command line scripts', null);
-INSERT INTO "sidebar"."urls" VALUES ('36', 'https://news.ycombinator.com/newest', 'New Links | Hacker News', null);
-INSERT INTO "sidebar"."urls" VALUES ('43', 'https://www.comixology.com/top-rated', 'Top Rated Comics - Comics by comiXology', null);
-INSERT INTO "sidebar"."urls" VALUES ('1', 'http://techcrunch.com/2014/05/05/facebook-acqusition-helped-oculus/', 'Oculus CEO Says Selling To Facebook Convinced Big Developers To Build For It | TechCrunch', 'http://tctechcrunch2011.files.wordpress.com/2014/05/brendan-iribe-oculus12.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('3', 'https://vine.co/lists/20-explosive-moments-when-the-beat-drops', 'https://vine.co/lists/20-explosive-moments-when-the-beat-drops', 'https://vine.co/assets/images/meta/vine_screencap.png');
-INSERT INTO "sidebar"."urls" VALUES ('5', 'http://mashable.com/2014/05/05/doge-vine/', 'Much Doge on Vine. So Wow.', 'http://rack.1.mshcdn.com/media/ZgkyMDE0LzA1LzA1L2ExL0RvZ2VWaW5lLjdkNGY5LmpwZwpwCXRodW1iCTk1MHg1MzQjCmUJanBn/43950e8a/c33/Doge-Vine.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('2', 'http://techcrunch.com/', 'TechCrunch - The latest technology news and information on startups', 'http://s1.wp.com/wp-content/themes/vip/techcrunch-2013/assets/images/logo-large.png?m=1391183173g');
-INSERT INTO "sidebar"."urls" VALUES ('4', 'https://vine.co/lists/12-bizzare-moments-that-are-totally-unrelatable', 'https://vine.co/lists/12-bizzare-moments-that-are-totally-unrelatable', 'https://vine.co/assets/images/meta/vine_screencap.png');
-INSERT INTO "sidebar"."urls" VALUES ('6', 'http://mashable.com/2014/05/05/automattic-funding/', 'WordPress.com Creator Automattic Raises $160 Million', 'http://rack.2.mshcdn.com/media/ZgkyMDE0LzA1LzA1LzcwL211bGxlbndlZzEuYmEwM2QuanBnCnAJdGh1bWIJOTUweDUzNCMKZQlqcGc/b8478ee1/b93/mullenweg1.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('9', 'https://www.etsy.com/', 'Etsy - Your place to buy and sell all things handmade, vintage, and supplies', 'http://www.etsy.com/images/logo_no_border.gif');
-INSERT INTO "sidebar"."urls" VALUES ('7', 'http://www.pinterest.com/pin/182395853631827993/', 'Pin by Evelyn Poeppelmeier on Style and Beauty: Dresses (Gowns and Re…', 'http://media-cache-ec0.pinimg.com/736x/66/75/a7/6675a752e2d18c4398ad722f3dd21324.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('11', 'http://americanfood.about.com/od/classicchowdersandstews/r/beefstew.htm', 'Old Fashioned Beef Stew Recipe - How to Make Old Fashioned Beef Stew', 'http://0.tqn.com/d/americanfood/1/0/v/-/-/-/beefstew.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('12', 'https://github.com/', 'GitHub', 'https://github.global.ssl.fastly.net/images/modules/open_graph/github-logo.png');
-INSERT INTO "sidebar"."urls" VALUES ('15', 'http://www.iftf.org/what-we-do/who-we-are/staff/marina-gorbis/', 'IFTF: Marina Gorbis', 'http://www.iftf.org/uploads/RTEmagicC_picture-43.gif.gif');
-INSERT INTO "sidebar"."urls" VALUES ('17', 'http://www.infoworld.com/d/security/github-bans-weak-passwords-after-brute-force-attack-results-in-compromised-accounts-231273', 'GitHub bans weak passwords after brute-force attack results in compromised accounts | Security - InfoWorld', 'http://computerworld.com.edgesuite.net/ifw/IFW.png');
-INSERT INTO "sidebar"."urls" VALUES ('19', 'http://hbr.org/2014/01/how-netflix-reinvented-hr/ar/1', 'How Netflix Reinvented HR - Harvard Business Review', 'http://static.hbr.org/hbrg-main/resources/images/hbr_opengraph_360x185.png');
-INSERT INTO "sidebar"."urls" VALUES ('23', 'https://www.youtube.com/watch?v=wo8aSo5Tv1E', 'Air - Moon Safari [Full Album] - YouTube', 'https://i1.ytimg.com/vi/wo8aSo5Tv1E/maxresdefault.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('10', 'http://www.ultimate-guitar.com/', 'ULTIMATE GUITAR TABS. 800,000 songs catalog with free Chords, Guitar Tabs, Bass Tabs, Ukulele Chords and Guitar Pro Tabs!', 'http://www.ultimate-guitar.com/tv/images/16168_r182858_thumbnail_small.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('21', 'https://www.ischool.berkeley.edu/about', 'About | School of Information', 'http://www.ischool.berkeley.edu/files/imagecache/og/i_square.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('26', 'http://www.nbcnews.com/storyline/missing-jet/boeing-rolls-royce-face-bill-over-hunt-flight-mh370-n97011', 'Boeing, Rolls-Royce to Face Bill Over Hunt for Flight MH370 - NBC News.com', 'http://media3.s-nbcnews.com/i/newscms/2014_18/418316/tdy_jet-comp_140503_df28c0aa38fb70472c7b9a055ada9805.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('28', 'https://medium.com/editors-picks/ad3d3c5e3c65', 'Forget 140 characters: Here’s How to Go to Jail for 10 Months for One ‘k’ — Editor’s Picks — Medium', 'https://d262ilb51hltx0.cloudfront.net/max/800/desat/multiply/red/overlay/red/1*lWDlFbAzgqwW_RCf9FGaiQ.jpeg');
-INSERT INTO "sidebar"."urls" VALUES ('24', 'http://www.slate.com/articles/podcasts/culturegabfest.html', 'Culture Gabfest', 'http://www.slate.com/etc/designs/slate/images/slate_facebook_icon.png');
-INSERT INTO "sidebar"."urls" VALUES ('22', 'http://www.nytimes.com/', 'The New York Times - Breaking News, World News & Multimedia', 'http://i1.nyt.com/images/2014/05/06/health/POLIO/POLIO-largeHorizontal375.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('32', 'https://play.spotify.com/artist/1yAwtBaoHLEDWAnWR87hBT', 'Spotify Web Player', 'https://play.spotify.edgekey.net/site/00898f3/images/download.png');
-INSERT INTO "sidebar"."urls" VALUES ('33', 'https://play.spotify.com/browse', 'Spotify Web Player', 'https://play.spotify.edgekey.net/site/00898f3/images/download.png');
-INSERT INTO "sidebar"."urls" VALUES ('34', 'https://play.spotify.com/album/2okCg9scHue9GNELoB8U9g', 'Spotify Web Player', 'https://play.spotify.edgekey.net/site/00898f3/images/download.png');
-INSERT INTO "sidebar"."urls" VALUES ('35', 'https://play.spotify.com/radio/artist/3TVXtAsR1Inumwj472S9r4', 'Spotify Web Player', 'https://play.spotify.edgekey.net/site/00898f3/images/download.png');
-INSERT INTO "sidebar"."urls" VALUES ('37', 'https://www.youtube.com/watch?v=IgKWPdJWuBQ', 'Elon Musk: The mind behind Tesla, SpaceX, SolarCity ... - YouTube', 'https://i1.ytimg.com/vi/IgKWPdJWuBQ/maxresdefault.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('38', 'https://www.youtube.com/watch?v=6ycn5VmBUYY', '100 Days of Dance - YouTube', 'https://i1.ytimg.com/vi/6ycn5VmBUYY/maxresdefault.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('40', 'http://www.imdb.com/chart/top', 'IMDb Top 250 - IMDb', 'http://ia.media-imdb.com/images/G/01/imdb/images/logos/imdb_fb_logo-1730868325._V379391653_.png');
-INSERT INTO "sidebar"."urls" VALUES ('42', 'http://www.nytimes.com/pages/opinion/index.html', 'Editorials, Columns, Op-Ed, Letters, Opinionator and More Opinion - The New York Times', 'http://graphics8.nytimes.com/images/2014/05/05/opinion/0503OPEDisland/0503OPEDisland-sfSpan-v2.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('39', 'https://www.youtube.com/watch?v=zRlpIkH3b5I', 'Photoshopping Real Women Into Cover Models - YouTube', 'https://i1.ytimg.com/vi/zRlpIkH3b5I/hqdefault.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('29', 'https://medium.com/editors-picks/a26385113bf0', 'Cold War Coloring Book Taught A-10 Pilots to Kill Soviet Tanks — Editor’s Picks — Medium', 'https://d262ilb51hltx0.cloudfront.net/max/800/desat/multiply/blue/overlay/blue/1*t6gtNb-DAEXHHo1NZ3IPCQ.jpeg');
-INSERT INTO "sidebar"."urls" VALUES ('30', 'https://medium.com/editors-picks/1bd6f5e75763', 'What Everyone Could Be Missing About the Kurt Cobain ‘Bitch With Zits’ Letter  — Editor’s Picks — Medium', 'https://d262ilb51hltx0.cloudfront.net/max/800/desat/multiply/yellow/overlay/yellow/1*0n_-k5-MxIu3uXBcTVg1Xg.jpeg');
-INSERT INTO "sidebar"."urls" VALUES ('31', 'https://medium.com/editors-picks/646320568f9d', 'When a Kidnapped Journalist Is a Freelancer — Editor’s Picks — Medium', 'https://d262ilb51hltx0.cloudfront.net/max/800/desat/multiply/red/overlay/red/1*ltkYYkHx6CHF5TzMqTO4hw.jpeg');
-INSERT INTO "sidebar"."urls" VALUES ('41', 'http://www.nytimes.com/roomfordebate/2014/05/04/how-should-electronic-cigarretes-be-regulated', 'How Should Electronic Cigarretes Be Regulated? - Room for Debate - NYTimes.com', 'http://graphics8.nytimes.com/images/2014/04/29/opinion/rfdvaping/rfdvaping-thumbWide.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('44', 'http://www.pinterest.com/all/humor/', 'Humor on Pinterest - funny pictures, quotes and memes', 'http://media-cache-ak0.pinimg.com/236x/62/e5/83/62e5835df7b7c13edbdc1aeead3a3273.jpg');
-INSERT INTO "sidebar"."urls" VALUES ('45', 'https://www.google.com/', 'Google Home Page', null);
+INSERT INTO "sidebar"."urls" VALUES ('8', 'http://www.webmd.com/women/guide/essential-vitamins-for-women-at-every-age', 'Essential Vitamins for Women at Every Age', null, null, null);
+INSERT INTO "sidebar"."urls" VALUES ('13', 'https://wwws.mint.com/login.event', 'Mint.com', null, null, null);
+INSERT INTO "sidebar"."urls" VALUES ('14', 'https://chaseonline.chase.com/', 'Chase Online - Logon', null, null, null);
+INSERT INTO "sidebar"."urls" VALUES ('16', 'http://www.adamwaaramaa.com/fundraising/writing-your-pitch-deck/', 'How To Write A Killer Pitch Deck In 10 Slides | Adam Waaramaa On Entrepreneurship', null, null, null);
+INSERT INTO "sidebar"."urls" VALUES ('18', 'http://www.thewhir.com/web-hosting-news/hackers-find-cloud-account-credentials-github-leading-72-hour-cryptocurrency-mining-spree', 'Hackers Find Cloud Account Credentials on GitHub Leading to 72-Hour Cryptocurrency Mining Spree - Web Host Industry Review', null, null, null);
+INSERT INTO "sidebar"."urls" VALUES ('27', 'http://assorted-experience.blogspot.com/2014/05/doctesting-python-command-line-scripts.html', 'Assorted Experience: Doctesting Python command line scripts', null, null, null);
+INSERT INTO "sidebar"."urls" VALUES ('36', 'https://news.ycombinator.com/newest', 'New Links | Hacker News', null, null, null);
+INSERT INTO "sidebar"."urls" VALUES ('43', 'https://www.comixology.com/top-rated', 'Top Rated Comics - Comics by comiXology', null, null, null);
+INSERT INTO "sidebar"."urls" VALUES ('1', 'http://techcrunch.com/2014/05/05/facebook-acqusition-helped-oculus/', 'Oculus CEO Says Selling To Facebook Convinced Big Developers To Build For It | TechCrunch', 'http://tctechcrunch2011.files.wordpress.com/2014/05/brendan-iribe-oculus12.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('3', 'https://vine.co/lists/20-explosive-moments-when-the-beat-drops', 'https://vine.co/lists/20-explosive-moments-when-the-beat-drops', 'https://vine.co/assets/images/meta/vine_screencap.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('5', 'http://mashable.com/2014/05/05/doge-vine/', 'Much Doge on Vine. So Wow.', 'http://rack.1.mshcdn.com/media/ZgkyMDE0LzA1LzA1L2ExL0RvZ2VWaW5lLjdkNGY5LmpwZwpwCXRodW1iCTk1MHg1MzQjCmUJanBn/43950e8a/c33/Doge-Vine.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('2', 'http://techcrunch.com/', 'TechCrunch - The latest technology news and information on startups', 'http://s1.wp.com/wp-content/themes/vip/techcrunch-2013/assets/images/logo-large.png?m=1391183173g', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('4', 'https://vine.co/lists/12-bizzare-moments-that-are-totally-unrelatable', 'https://vine.co/lists/12-bizzare-moments-that-are-totally-unrelatable', 'https://vine.co/assets/images/meta/vine_screencap.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('6', 'http://mashable.com/2014/05/05/automattic-funding/', 'WordPress.com Creator Automattic Raises $160 Million', 'http://rack.2.mshcdn.com/media/ZgkyMDE0LzA1LzA1LzcwL211bGxlbndlZzEuYmEwM2QuanBnCnAJdGh1bWIJOTUweDUzNCMKZQlqcGc/b8478ee1/b93/mullenweg1.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('9', 'https://www.etsy.com/', 'Etsy - Your place to buy and sell all things handmade, vintage, and supplies', 'http://www.etsy.com/images/logo_no_border.gif', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('7', 'http://www.pinterest.com/pin/182395853631827993/', 'Pin by Evelyn Poeppelmeier on Style and Beauty: Dresses (Gowns and Re…', 'http://media-cache-ec0.pinimg.com/736x/66/75/a7/6675a752e2d18c4398ad722f3dd21324.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('11', 'http://americanfood.about.com/od/classicchowdersandstews/r/beefstew.htm', 'Old Fashioned Beef Stew Recipe - How to Make Old Fashioned Beef Stew', 'http://0.tqn.com/d/americanfood/1/0/v/-/-/-/beefstew.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('15', 'http://www.iftf.org/what-we-do/who-we-are/staff/marina-gorbis/', 'IFTF: Marina Gorbis', 'http://www.iftf.org/uploads/RTEmagicC_picture-43.gif.gif', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('17', 'http://www.infoworld.com/d/security/github-bans-weak-passwords-after-brute-force-attack-results-in-compromised-accounts-231273', 'GitHub bans weak passwords after brute-force attack results in compromised accounts | Security - InfoWorld', 'http://computerworld.com.edgesuite.net/ifw/IFW.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('19', 'http://hbr.org/2014/01/how-netflix-reinvented-hr/ar/1', 'How Netflix Reinvented HR - Harvard Business Review', 'http://static.hbr.org/hbrg-main/resources/images/hbr_opengraph_360x185.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('10', 'http://www.ultimate-guitar.com/', 'ULTIMATE GUITAR TABS. 800,000 songs catalog with free Chords, Guitar Tabs, Bass Tabs, Ukulele Chords and Guitar Pro Tabs!', 'http://www.ultimate-guitar.com/tv/images/16168_r182858_thumbnail_small.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('21', 'https://www.ischool.berkeley.edu/about', 'About | School of Information', 'http://www.ischool.berkeley.edu/files/imagecache/og/i_square.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('26', 'http://www.nbcnews.com/storyline/missing-jet/boeing-rolls-royce-face-bill-over-hunt-flight-mh370-n97011', 'Boeing, Rolls-Royce to Face Bill Over Hunt for Flight MH370 - NBC News.com', 'http://media3.s-nbcnews.com/i/newscms/2014_18/418316/tdy_jet-comp_140503_df28c0aa38fb70472c7b9a055ada9805.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('28', 'https://medium.com/editors-picks/ad3d3c5e3c65', 'Forget 140 characters: Here’s How to Go to Jail for 10 Months for One ‘k’ — Editor’s Picks — Medium', 'https://d262ilb51hltx0.cloudfront.net/max/800/desat/multiply/red/overlay/red/1*lWDlFbAzgqwW_RCf9FGaiQ.jpeg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('24', 'http://www.slate.com/articles/podcasts/culturegabfest.html', 'Culture Gabfest', 'http://www.slate.com/etc/designs/slate/images/slate_facebook_icon.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('22', 'http://www.nytimes.com/', 'The New York Times - Breaking News, World News & Multimedia', 'http://i1.nyt.com/images/2014/05/06/health/POLIO/POLIO-largeHorizontal375.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('34', 'https://play.spotify.com/album/2okCg9scHue9GNELoB8U9g', 'Spotify Web Player', 'https://play.spotify.edgekey.net/site/00898f3/images/download.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('35', 'https://play.spotify.com/radio/artist/3TVXtAsR1Inumwj472S9r4', 'Spotify Web Player', 'https://play.spotify.edgekey.net/site/00898f3/images/download.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('37', 'https://www.youtube.com/watch?v=IgKWPdJWuBQ', 'Elon Musk: The mind behind Tesla, SpaceX, SolarCity ... - YouTube', 'https://i1.ytimg.com/vi/IgKWPdJWuBQ/maxresdefault.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('38', 'https://www.youtube.com/watch?v=6ycn5VmBUYY', '100 Days of Dance - YouTube', 'https://i1.ytimg.com/vi/6ycn5VmBUYY/maxresdefault.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('40', 'http://www.imdb.com/chart/top', 'IMDb Top 250 - IMDb', 'http://ia.media-imdb.com/images/G/01/imdb/images/logos/imdb_fb_logo-1730868325._V379391653_.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('42', 'http://www.nytimes.com/pages/opinion/index.html', 'Editorials, Columns, Op-Ed, Letters, Opinionator and More Opinion - The New York Times', 'http://graphics8.nytimes.com/images/2014/05/05/opinion/0503OPEDisland/0503OPEDisland-sfSpan-v2.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('39', 'https://www.youtube.com/watch?v=zRlpIkH3b5I', 'Photoshopping Real Women Into Cover Models - YouTube', 'https://i1.ytimg.com/vi/zRlpIkH3b5I/hqdefault.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('29', 'https://medium.com/editors-picks/a26385113bf0', 'Cold War Coloring Book Taught A-10 Pilots to Kill Soviet Tanks — Editor’s Picks — Medium', 'https://d262ilb51hltx0.cloudfront.net/max/800/desat/multiply/blue/overlay/blue/1*t6gtNb-DAEXHHo1NZ3IPCQ.jpeg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('25', 'https://www.netflix.com/?locale=en-US', 'Netflix - Watch TV Shows Online, Watch Movies Online', 'http://blogs-images.forbes.com/merrillbarr/files/2014/04/netflix-logo.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('12', 'https://github.com/', 'GitHub', 'http://blog.busyflow.com/files/2012/02/github-logo1.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('20', 'http://www.netflix.com/WiPlayer?movieid=70267239&trkid=13462260&tctx=0%2C0%2C4c7eecbf-d697-4cef-a100-83ed8e72f3e8-693061', 'Netflix | Don Jon', 'http://blogs-images.forbes.com/merrillbarr/files/2014/04/netflix-logo.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('30', 'https://medium.com/editors-picks/1bd6f5e75763', 'What Everyone Could Be Missing About the Kurt Cobain ‘Bitch With Zits’ Letter  — Editor’s Picks — Medium', 'https://d262ilb51hltx0.cloudfront.net/max/800/desat/multiply/yellow/overlay/yellow/1*0n_-k5-MxIu3uXBcTVg1Xg.jpeg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('31', 'https://medium.com/editors-picks/646320568f9d', 'When a Kidnapped Journalist Is a Freelancer — Editor’s Picks — Medium', 'https://d262ilb51hltx0.cloudfront.net/max/800/desat/multiply/red/overlay/red/1*ltkYYkHx6CHF5TzMqTO4hw.jpeg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('41', 'http://www.nytimes.com/roomfordebate/2014/05/04/how-should-electronic-cigarretes-be-regulated', 'How Should Electronic Cigarretes Be Regulated? - Room for Debate - NYTimes.com', 'http://graphics8.nytimes.com/images/2014/04/29/opinion/rfdvaping/rfdvaping-thumbWide.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('44', 'http://www.pinterest.com/all/humor/', 'Humor on Pinterest - funny pictures, quotes and memes', 'http://media-cache-ak0.pinimg.com/236x/62/e5/83/62e5835df7b7c13edbdc1aeead3a3273.jpg', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('45', 'https://www.google.com/', 'Google Home Page', 'https://www.google.com/images/srpr/logo11w.png', null, null);
+INSERT INTO "sidebar"."urls" VALUES ('32', 'https://play.spotify.com/artist/1yAwtBaoHLEDWAnWR87hBT', 'Spotify Web Player', 'https://play.spotify.edgekey.net/site/00898f3/images/download.png', '//embed.spotify.com/?uri=spotify:track:72DTGt2tVAL6ATVhzVjvkk&theme=white&view=coverart', '{"class": "mutual-item-song", "frameborder": "0", "allowtransparency": "true"}');
+INSERT INTO "sidebar"."urls" VALUES ('23', 'https://www.youtube.com/watch?v=wo8aSo5Tv1E', 'Air - Moon Safari [Full Album] - YouTube', 'https://i1.ytimg.com/vi/wo8aSo5Tv1E/maxresdefault.jpg', '//www.youtube.com/embed/wo8aSo5Tv1E', '{"frameborder": "0", "allowfullscreen": "true", "width": "100"}');
+INSERT INTO "sidebar"."urls" VALUES ('33', 'https://soundcloud.com/luckycriminal/vessel', 'Soundcloud - Vessel ', '', '//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/99095518&amp;auto_play=false&amp;hide_related=false&amp;visual=true', '{"frameborder": "0", "scrolling": "no", "allowfullscreen": "allowfullscreen", "width": "100%"}');
 COMMIT;
 
 SELECT setval('urls_urlid_seq', 46, false);
@@ -445,6 +447,19 @@ INSERT INTO "sidebar"."user_history" VALUES ('19', '4', '3', null);
 INSERT INTO "sidebar"."user_history" VALUES ('20', '5', '3', null);
 INSERT INTO "sidebar"."user_history" VALUES ('21', '6', '3', null);
 INSERT INTO "sidebar"."user_history" VALUES ('22', '7', '3', null);
+INSERT INTO "sidebar"."user_history" VALUES ('23', '32', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('2', '32', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('20', '32', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('2', '23', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('23', '23', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('20', '23', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('23', '29', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('20', '29', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('2', '29', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('23', '20', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('2', '20', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('23', '33', '1', null);
+INSERT INTO "sidebar"."user_history" VALUES ('2', '33', '1', null);
 COMMIT;
 
 
@@ -613,10 +628,10 @@ END $$ LANGUAGE 'plpgsql';
 CREATE FUNCTION notify_trigger() RETURNS trigger AS $$
 DECLARE
 
-    imageurl varchar(100); 
+    imageurl varchar(100);
 BEGIN
   -- PERFORM pg_notify('watchers', TG_TABLE_NAME || ',userid,' || NEW.userid );
-  SELECT INTO imageurl smallimageurls[1] FROM users WHERE userid=NEW.about_userid; 
+  SELECT INTO imageurl smallimageurls[1] FROM users WHERE userid=NEW.about_userid;
 
   PERFORM pg_notify('watchers', NEW.userid || ',' ||
                                 NEW.notificationid || ',' ||
@@ -625,7 +640,7 @@ BEGIN
                                 NEW.action_time || ',' ||
                                 NEW.type || ',' ||
                                 NEW.subtype || ',' ||
-                                NEW.status || ',' || 
+                                NEW.status || ',' ||
                                 imageurl);
   RETURN NEW;
 END;
@@ -648,9 +663,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION getPrimaryUsers(useridToTest int) 
+CREATE OR REPLACE FUNCTION getPrimaryUsers(useridToTest int)
     RETURNS  TABLE (
-        userid          Integer, 
+        userid          Integer,
         username        varchar(30),
         gender          char(1),
         dateofbirth     date,
@@ -664,18 +679,18 @@ CREATE OR REPLACE FUNCTION getPrimaryUsers(useridToTest int)
         logged_in       bool
 
         ) AS $$
-DECLARE 
+DECLARE
 BEGIN
-    
+
     RETURN QUERY
     SELECT * FROM youMatchTheirPreferences($1) INTERSECT SELECT * FROM theyMatchYourPreferences($1);
 
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION getSecondaryUsers(useridToTest int) 
+CREATE OR REPLACE FUNCTION getSecondaryUsers(useridToTest int)
     RETURNS  TABLE (
-        userid          Integer, 
+        userid          Integer,
         username        varchar(30),
         gender          char(1),
         dateofbirth     date,
@@ -689,9 +704,9 @@ CREATE OR REPLACE FUNCTION getSecondaryUsers(useridToTest int)
         logged_in       bool
 
         ) AS $$
-DECLARE 
+DECLARE
 BEGIN
-    
+
     RETURN QUERY
     SELECT * FROM youMatchTheirPreferences($1) EXCEPT SELECT *  FROM theyMatchYourPreferences($1);
 
@@ -699,9 +714,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION youMatchTheirPreferences(useridToTest int) 
+CREATE OR REPLACE FUNCTION youMatchTheirPreferences(useridToTest int)
     RETURNS  TABLE (
-        userid          Integer, 
+        userid          Integer,
         username        varchar(30),
         gender          char(1),
         dateofbirth     date,
@@ -715,7 +730,7 @@ CREATE OR REPLACE FUNCTION youMatchTheirPreferences(useridToTest int)
         logged_in       bool
 
         ) AS $$
-DECLARE 
+DECLARE
     genderToCheck char(1);
     ageToCheck Integer;
 BEGIN
@@ -727,11 +742,11 @@ BEGIN
     RAISE NOTICE 'what is ageToCheck? , %', ageToCheck;
 
     RETURN QUERY
-    SELECT u.userid, 
-           u.username, 
-           u.gender, 
-           u.dateofbirth, 
-           u.location_city, 
+    SELECT u.userid,
+           u.username,
+           u.gender,
+           u.dateofbirth,
+           u.location_city,
            u.location_state,
            u.zipCode,
            u.personal_blurb,
@@ -740,21 +755,21 @@ BEGIN
            u.smallimageurls,
            u.logged_in
 
-    FROM users u, userprefs p 
-    WHERE 
-        u.userid=p.userid AND 
+    FROM users u, userprefs p
+    WHERE
+        u.userid=p.userid AND
         (CASE WHEN p.male THEN 'm'=genderToCheck END OR
-        CASE WHEN p.female THEN 'f'=genderToCheck END) AND 
-        p.age_min <= ageToCheck AND 
+        CASE WHEN p.female THEN 'f'=genderToCheck END) AND
+        p.age_min <= ageToCheck AND
         p.age_max >= ageToCheck;
 
 
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION theyMatchYourPreferences(useridToTest int) 
+CREATE OR REPLACE FUNCTION theyMatchYourPreferences(useridToTest int)
     RETURNS  TABLE (
-        userid          Integer, 
+        userid          Integer,
         username        varchar(30),
         gender          char(1),
         dateofbirth     date,
@@ -768,24 +783,24 @@ CREATE OR REPLACE FUNCTION theyMatchYourPreferences(useridToTest int)
         logged_in       bool
 
         ) AS $$
-DECLARE 
+DECLARE
     acceptsMale char(1);
     acceptsFemale char(1);
     minAgeToCheck Integer;
     maxAgeToCheck Integer;
 BEGIN
 
-    SELECT INTO minAgeToCheck, maxAgeToCheck, acceptsMale, acceptsFemale 
-                p.age_min, p.age_max, CASE p.male WHEN 't' THEN 'm' END AS men, CASE p.female WHEN 't' THEN 'f' END AS women 
+    SELECT INTO minAgeToCheck, maxAgeToCheck, acceptsMale, acceptsFemale
+                p.age_min, p.age_max, CASE p.male WHEN 't' THEN 'm' END AS men, CASE p.female WHEN 't' THEN 'f' END AS women
                 FROM userprefs p WHERE p.userid=$1;
 
 -- SELECT userid FROM (SELECT userid, extract(YEAR from age(dateofbirth)) AS acceptable  FROM users) AS temp where acceptable>24 AND acceptable < 30;
     RETURN QUERY
-    SELECT temp.userid, 
-           temp.username, 
-           temp.gender, 
-           temp.dateofbirth, 
-           temp.location_city, 
+    SELECT temp.userid,
+           temp.username,
+           temp.gender,
+           temp.dateofbirth,
+           temp.location_city,
            temp.location_state,
            temp.zipCode,
            temp.personal_blurb,
@@ -807,8 +822,8 @@ BEGIN
                   u.smallimageurls,
                   u.logged_in,
                   extract(YEAR from age(u.dateofbirth)) AS acceptable  FROM users u) AS temp
-    WHERE 
-        acceptable >= minAgeToCheck AND 
+    WHERE
+        acceptable >= minAgeToCheck AND
         acceptable <= maxAgeToCheck AND
         (temp.gender=acceptsMale OR temp.gender=acceptsFemale);
 
