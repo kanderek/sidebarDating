@@ -125,9 +125,17 @@
 		<div class="horizontal-line">
 		</div>
 	</div>
-	</div>
-	<div id="profileList" >
+</div>
 
+
+	<div id="profileList" ng-cloak>
+
+		<div id="sbe-profileList-empty-message"
+			ng-hide="profiles.length > 0">
+			<p>
+				Nobody is here :( 
+			</p>
+		</div>
 		<div class="profile" 
 			ng-repeat="profile in profiles" 
 			ng-click="selectOnly($index)"
@@ -148,6 +156,7 @@
 				<span class="name">{{profile.username}}</span></br>
 				<span class="personal-blurb">{{profile.personal_blurb}}</span>
 			</p>
+				
 		</div>
 
 		<div id="select-indicator-wrapper">
