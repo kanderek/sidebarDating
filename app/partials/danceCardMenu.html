@@ -1,11 +1,13 @@
 <style>
-	.mutual {
+/*	.mutual {
 		position: absolute;
 		background-color: rgba(200,200,200,0.5);
 		width: 36px;
 		height: 36px;
 		border-radius: 50%;
 	}
+*/
+
 
 	.drag-over-accept {
 		background-color: white;
@@ -70,36 +72,37 @@
 		font-weight: bold;
 	}
 
+	.sbe-mutual {
+		opacity: 0.4;
+	}
+
 </style>
 <div ng-cloak>
 	<!-- <div class="horizontal-line">
 	</div> -->
-	<div id="dance-card-preview" 
+	<div id="dance-card-preview"
 		 ui-on-drop="onDropAdd($event, $data)"
 		 drag-hover-class="drag-over-accept"
 	>
-<!-- 		 drop="onDropAdd($data, $event)" 
-		 drop-effect="move" 
-		 drop-accept="'json/custom-object'" 
+<!-- 		 drop="onDropAdd($data, $event)"
+		 drop-effect="move"
+		 drop-accept="'json/custom-object'"
 		 drag-over-class="drag-over-accept"> -->
 		<!--<h3>Your Dance Card</h3>-->
 
-		<div ng-repeat="person in dancecard" 
-			 class="dance-card-preview-img" 
+		<div ng-repeat="person in dancecard"
+			 class="dance-card-preview-img"
 			 ng-click="selectOnly($index)"
 			 ui-draggable="true"
 			 drag="person"
 			 drag-channel="remove-person"
 			 >
-			
-			<div class='mutual' ng-hide="isMutual($index)">
-			</div>
-				<img ng-src="{{person.smallimageurls[0]}}" 
-					 ng-class="{'sbe-is-online': person.logged_in}"
+				<img ng-src="{{person.smallimageurls[0]}}"
+					 ng-class="{'sbe-is-online': person.logged_in, 'sbe-mutual': !isMutual($index)}"
 				/>
 		</div>
 
-		<div class="profile sbe-userDetails" 
+		<div class="profile sbe-userDetails"
 			 ng-click="showDetailedProfile()"
 			 ng-show="uiState.showShortProfile"><!--
 			 ng-class="{'isSelected': ifSelected()}":> -->
