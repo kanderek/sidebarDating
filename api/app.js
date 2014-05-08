@@ -346,32 +346,32 @@ app.post('/upload',
 				 }
 				 else{
 
-				 	// im.resize({
-				 	// 	srcPath: newPath,
-				 	// 	dstPath: scaledPath,
-				 	// 	height: 300
-				 	// },function(err,stdout,stderr){
-				 	// 	if(err){
-				 	// 		console.log(err);
-				 	// 	}
-				 	// 	else{
-				 	// 		console.log("resized image to be 300 px tall");
+				 	im.resize({
+				 		srcPath: newPath,
+				 		dstPath: scaledPath,
+				 		height: 300
+				 	},function(err,stdout,stderr){
+				 		if(err){
+				 			console.log(err);
+				 		}
+				 		else{
+				 			console.log("resized image to be 300 px tall");
 
-		 			// 		// im.resize({
-						//  	im.crop({
-						// 	  srcPath: newPath,
-						// 	  dstPath: medPath,
-						// 	  width:   150,
-						// 	  height: 150,
-						// 	  quality: 100,
-						// 	  gravity: "Center"//default gravity is Center
-						// 	}, function(err, stdout, stderr){
-						// 	  if (err){
-						// 	  	console.log(err);
-						// 	  }
-						// 	  else{
-						// 	  	console.log('cropped image to fit within 200x200px');
-							  	// console.log('resizeed image to fit within 200x200px');
+		 					// im.resize({
+						 	im.crop({
+							  srcPath: newPath,
+							  dstPath: medPath,
+							  width:   150,
+							  height: 150,
+							  quality: 100,
+							  gravity: "Center"//default gravity is Center
+							}, function(err, stdout, stderr){
+							  if (err){
+							  	console.log(err);
+							  }
+							  else{
+							  	console.log('cropped image to fit within 200x200px');
+							  	console.log('resizeed image to fit within 200x200px');
 
 								im.crop({
 								  srcPath: newPath,
@@ -390,11 +390,11 @@ app.post('/upload',
 								  	// console.log('resizeed image to fit within 200x200px');
 								  }
 								});
-					// 	}
-					// });
+						}
+					});
 
-				 // 		}
-				 // 	});
+				 		}
+				 	});
 
 				 }
 			  });
