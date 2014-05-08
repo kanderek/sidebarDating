@@ -75,14 +75,14 @@
 }
 
 </style>
-<div class="survey-wrapper" ng-cloak>
+<div class="survey-wrapper">
 	<div class="survey-heading sidebar-visitorsTitle">
 		<h3>Why Didn't It Work Out With {{username}}?</h3>
 		<div class="horizontal-line">
 		</div>
 	</div>
 
-	<form class="survey-info">
+	<form class="survey-info" >
 		<div class="checkbox-row">
 			<input id="no-chemisty" type="checkbox" ng-model="survey.chemistry" />
 			<label for="no-chemistry">No Chemistry</label>
@@ -103,15 +103,11 @@
 			<input id="different" type="checkbox" ng-model="survey.different" />
 			<label for="different">Different in Person</label>	
 		</div>
-		<div class="checkbox-row">
-			<input id="different" type="checkbox" ng-model="survey.different" />
-			<label for="different">Didn't Add Back</label>	
-		</div>
 
 		<label class="free-reasons-label" for="free-reasons">Want to elaborate?</label>
 		<textarea id="free-reasons" placeholder="This message will be sent to the other user"></textarea>
 		
-		<button class="survey-cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-		<input type="submit" class="survey-submit-btn" value="Submit" ng-click="submitSurvey()"/>
+		<button class="survey-cancel-btn" type="button" ng-click="cancel()" ng-hide="hideButtons">Cancel</button>
+		<input type="submit" class="survey-submit-btn" value="Submit" ng-click="submitSurvey()" ng-hide="hideButtons"/>
 	</form>
 </div>

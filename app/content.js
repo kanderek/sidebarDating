@@ -883,6 +883,9 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
       // dancecardService.updateDancecard = function(postData, profileData, callback){
         dancecardService.updateDancecard = function(postData, profileData){
 
+            console.log('in update dancecard service ....');
+            console.log(postData);
+            console.log(profileData);
         for(var i=0; i<5; i++){
           if(postData.status == 'added'){
             if(dancecardService.dancecard[i].userid == -1){
@@ -903,6 +906,7 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
           }
 
           if(postData.status == 'removed'){
+            console.log('...removing dancecard in dancecarservice...');
             if(dancecardService.dancecard[i].userid == profileData.userid){
               dancecardService.dancecard.splice(i,1);
               dancecardService.dancecard.push({smallimageurls: [SERVER + '/user/user.png'], userid: -1});
@@ -1931,14 +1935,14 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
       console.log(event);
 
       Profile.selectedProfile = data;
-      updateDancecard(data.userid, 'added');
+      updateDancecard(data, 'added');
 
     }
 
-    function updateDancecard(userid, status){
+    function updateDancecard(user, status){
       var data = {
         userid: Profile.selfProfile.userid,
-        partnerid: userid,
+        partnerid: user.userid,
         status: status
       }
 
@@ -1951,8 +1955,14 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
 
       if(status == 'removed'){
             UiState.showDetailsPanel = false;
-            // $state.go('main.profileList');
-            $state.go('main.removeSurvey');
+            if(user.mutual){
+                $state.go('main.removeSurvey');
+            }
+            else{
+                DancecardService.updateDancecard(data, user);
+                $state.go('main.profileList');
+            }
+
       }
     };
 
@@ -2063,10 +2073,16 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
 
     $scope.survey;
     $scope.username = Profile.selectedForRemoval.username;
+    $scope.hideButtons = false;
 
     $scope.cancel = function(){
       // UiState.showDetailsPanel = false;
-      $state.go('main.profileList');
+      $scope.hideButtons = true;
+      $state.go('main.profileList', {
+          reload: true,
+          inherit: false,
+          notify: true
+      });
     }
 
 
@@ -2076,9 +2092,11 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
         partnerid: Profile.selectedForRemoval.userid,
         status: 'removed'
       };
-      DancecardService.updateDancecard(data, Profile.selectedForRemoval);
-      // UiState.showDetailsPanel = false;
-      $state.go('main.profileList');
+
+        DancecardService.updateDancecard(data, Profile.selectedForRemoval);
+        // UiState.showDetailsPanel = false;
+        $state.go('main.profileList');
+
     }
 
     }]);
@@ -2208,8 +2226,14 @@ appControllers.controller('ProfileDetailCtrl', ['$rootScope', '$scope', '$state'
       if(status == 'removed'){
             Profile.selectedForRemoval = user;
             UiState.showDetailsPanel = false;
-            // $state.go('main.profileList');
-            $state.go('main.removeSurvey');
+            if(user.mutual){
+              // $state.go('main.profileList');
+              $state.go('main.removeSurvey');
+            }
+            else{
+                DancecardService.updateDancecard(data, user);
+                $state.go('main.profileList');
+            }
       }
     };
   }]);
@@ -2310,9 +2334,21 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
         if(Profile.selectedProfile.userid == user.userid){
             UiState.showDetailsPanel = false;
         }
-              // $state.go('main.profileList');
-        Profile.selectedForRemoval = user;
-         $state.go('main.removeSurvey');
+        console.log(Profile.selectedForRemoval);
+        Profile.selectedForRemoval = user;  
+        if(Profile.selectedForRemoval.mutual){
+           $state.go('main.removeSurvey');
+        }
+        else{
+            var data = {
+              userid: Profile.selfProfile.userid,
+              partnerid: user.userid,
+              status: 'removed'
+            }
+
+            DancecardService.updateDancecard(data, user);
+            $state.go('main.profileList');
+        }
        }
        else{
         console.log('cannot remove placeholder user...');
