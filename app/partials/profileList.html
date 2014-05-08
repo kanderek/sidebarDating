@@ -89,6 +89,11 @@
 		background-color: #404242;
 	}
 
+	#sbe-sidebar .profile {
+		cursor: -webkit-grabbing;
+		/*cursor: -webkit-grab;*/
+	}
+
 	#sbe-sidebar .name {
 		font-size: 1.1em;
 		margin-bottom: 10px;
@@ -142,6 +147,7 @@
 			ng-class="{'isSelected': ifSelected($index)}"
 			 ui-draggable="true"
 			 drag="profile"
+			 drag-image="{image: profile.smallimageurls[0]}"
 			 >
 
 		<!-- 	 draggable="true" 
@@ -178,6 +184,11 @@
             $('#detailsWrapper').removeClass('openDetails').addClass('closeDetails');
           }
       }, false);
+
+  //     var dragIcon = document.createElement('img');
+		// dragIcon.src = 'logo.png';
+		// dragIcon.width = 100;
+		// e.dataTransfer.setDragImage(dragIcon, -10, -10);
     
 </script>
 

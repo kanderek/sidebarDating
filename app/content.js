@@ -1,5 +1,5 @@
-var SERVER = "http://sidebar-dating.herokuapp.com";
-// var SERVER = "http://localhost:3000";
+// var SERVER = "http://sidebar-dating.herokuapp.com";
+var SERVER = "http://localhost:3000";
 var url_info = {};
 
 /***************************************************************************
@@ -58,8 +58,6 @@ var SELECT_ANIMATION = 500;
 var sidebarApp = angular.module('sidebarDatingExt',[
   'vr.directives.slider',
   'angular-carousel',
-  'ngAnimate',
-  'draganddrop',
   'ngDragDrop',
   'angularFileUpload',
   'ui.router',
@@ -1974,7 +1972,7 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
           closeDetails = UiState.selectProfile($scope.dancecard[i], 'dancecard');
           if($scope.dancecard[i].mutual){
             UiState.showShortProfile = true;
-            !closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
+            closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
             $scope.conversation = [];
             MessageService.getConversationWith(Profile.selectedProfile.userid);
             $state.go('main.messages');
@@ -2009,7 +2007,9 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
 
       $scope.showDetailedProfile = function(){
         // UiState.showDetailsPanel = true;
-        UiState.openDetailsPanel();
+        var closeDetails;
+        closeDetails = UiState.selectProfile(Profile.selectedProfile, 'dancecard');
+        closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
       }
 
       $scope.ifSelected = function(i){
