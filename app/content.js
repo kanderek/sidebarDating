@@ -1553,6 +1553,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
     $scope.user.mediumImageUrl;
     $scope.user.smallImageUrl;
     $scope.user.originalImageUrl;
+    $scope.displayImage;
 
     $scope.pref = SignupService.pref;
     $scope.pref.male = false;
@@ -1592,6 +1593,7 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
         if(!$scope.user.smallImageUrl){
           $scope.user.smallImageUrl = [];
         }
+        $scope.displayImage = SERVER + data.medImageUrl;
         $scope.user.originalImageUrl.push(data.origImageUrl);
         $scope.user.mediumImageUrl.push(data.medImageUrl);
         $scope.user.smallImageUrl.push(data.smallImageUrl);
