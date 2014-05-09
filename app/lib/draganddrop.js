@@ -28,15 +28,15 @@ angular.module("ngDragDrop",[])
                     var sendData = angular.toJson(dragData);
                     var sendChannel = attrs.dragChannel || "defaultchannel";
                     var dragImage = attrs.dragImage || null;
-                    console.log('in drag and drop...');
-                    console.log(dragImage);
-                    console.log(attrs);
+                    // console.log('in drag and drop...');
+                    // console.log(dragImage);
+                    // console.log(attrs);
                     if (dragImage) {
                         var dragImageFn = $parse(attrs.dragImage);
-                        console.log(dragImageFn);
+                        // console.log(dragImageFn);
                         scope.$apply(function() {
                             var dragImageParameters = dragImageFn(scope, {$event: e});
-                            console.log(dragImageParameters);
+                            // console.log(dragImageParameters);
                             if (dragImageParameters && dragImageParameters.image) {
                                 var dragIcon = document.createElement('img');//.style.zIndex="2147483647";
                                 // dragIcon.src = "http://jhsdigital.weebly.com/uploads/1/2/7/2/12727281/8706388_orig.jpg";//
@@ -51,7 +51,7 @@ angular.module("ngDragDrop",[])
                                 // dragIcon.setAttribute('id', 'customDragImage');
                                 // document.body.appendChild(dragIcon);
 
-                                console.log(dragIcon);
+                                // console.log(dragIcon);
                                 var xOffset = dragImageParameters.xOffset || 0,
                                     yOffset = dragImageParameters.yOffset || 0;
                                 e.dataTransfer.setDragImage(dragIcon/*dragImageParameters.image*/, xOffset, yOffset);

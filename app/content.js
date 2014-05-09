@@ -507,7 +507,7 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
         if(messageService.messages[Profile.selectedProfile.userid]){
          $interval(function(){
           updateRelativeTimestamps(messageService.messages[Profile.selectedProfile.userid])
-          console.log('refreshing timestamps....');
+          // console.log('refreshing timestamps....');
 
         }
           , 60000);
@@ -519,12 +519,12 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
       messageService.messages = {};
 
       messageService.getConversationWith = function(userid){
-        console.log('getting conversation with.... ' + userid);
-        console.log('RETEIVING:  message service messages!!!');
-        console.log(messageService.messages);
+        // console.log('getting conversation with.... ' + userid);
+        // console.log('RETEIVING:  message service messages!!!');
+        // console.log(messageService.messages);
         if(messageService[userid]){
           messageService[userid] = updateRelativeTimestamps(messageService[userid]);
-          console.log(messageService.messages[userid]);
+          // console.log(messageService.messages[userid]);
           refreshTimestamps();
            $rootScope.$broadcast('conversation-available', messageService[userid]);
           // return messageService[userid];
@@ -533,7 +533,7 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
           messageService.getMessageByuserid(userid, function(data){
             messageService.messages[userid] = data;
             refreshTimestamps();
-            console.log(messageService.messages);
+            // console.log(messageService.messages);
             // return data;
 
             $rootScope.$broadcast('conversation-available', data);
@@ -542,8 +542,8 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
       }
 
       messageService.updateConversationWith = function(userid, message){
-        console.log('UPDATE: message service messages!!!');
-        console.log(messageService.messages);
+        // console.log('UPDATE: message service messages!!!');
+        // console.log(messageService.messages);ß
         //message.relativeTimestamp = 'just now';//moment(message.sendtime).fromNow();
         if(messageService.messages[userid]){
           messageService.messages[userid].push(message);
@@ -652,7 +652,7 @@ appServices.factory('NotificationService', ['$http', '$interval', '$state', 'Pro
           for(var i=0; i< notificationService.notifications.length; i++){
             notificationService.notifications[i].relativeTimestamp = moment(notificationService.notifications[i].action_time).fromNow();
           }
-          console.log('refreshing timestamps for notifications....');
+          // console.log('refreshing timestamps for notifications....');
         }
           , 60000);
       }
@@ -687,6 +687,7 @@ appServices.factory('NotificationService', ['$http', '$interval', '$state', 'Pro
       }
 
       notificationService.addNotification = function(notification){
+          console.log(notification);
           notification.relativeTimestamp = moment(notification.action_time).fromNow();
           notification.smallimage = SERVER + '/' + notification.imgurl;
           notificationService.notifications.unshift(notification);
@@ -748,8 +749,8 @@ appServices.factory('NotificationService', ['$http', '$interval', '$state', 'Pro
 /*******************************************************************************************************
 Dancecard Service  */
 
-appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
-  function($rootScope, $http, Profile){
+appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile', 'SurveyService',
+  function($rootScope, $http, Profile, SurveyService){
 
   function fillBlankDancecardSpots(){
      var curDancecardLength = dancecardService.dancecard.length;
@@ -927,8 +928,10 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
               }
               Profile.selectedForRemoval = {};
               dancecardService.postDancecardUpdate(postData, function(data){
-                //
-              })
+                  //dancecard updated...
+                SurveyService.submitSurvey(postData, function(){
+                });
+              });
               break;
             }
           }
@@ -937,6 +940,8 @@ appServices.factory('DancecardService', ['$rootScope', '$http', 'Profile',
 
         dancecardService.postDancecardUpdate = function(postData, callback){
 
+          console.log('posting dancecard update....');
+          console.log(postData);
           $http({
             method: 'POST',
             url: SERVER + "/dancecard",
@@ -1329,6 +1334,39 @@ appServices.factory('HistoryService', ['$http', 'Profile',
     }
 
     return historyService;
+
+  }]);
+
+
+/*******************************************************************************************************
+SurveyService  */
+
+appServices.factory('SurveyService', ['$http', 
+  function($http){
+
+    var surveyService = {};
+
+    surveyService.surveyResponse = {};
+
+    surveyService.submitSurvey = function(dancecardAction, callback){
+      console.log('.....submitting survey to server....');
+      console.log(surveyService.surveyResponse);
+
+      $http({
+        method: 'POST',
+        url: SERVER + "/survey",
+        data: {survey: surveyService.surveyResponse, dancecard: dancecardAction}
+      }).
+      success(function(data, status, headers, config){
+        callback(data);
+
+      }).
+      error(function(data, status, headers, config){
+        console.log('error submitting survey');
+      });
+    }
+
+    return surveyService;
 
   }]);
 
@@ -1730,10 +1768,20 @@ appControllers.controller('LoginCtrl', ['$scope', '$state', 'LoginService', 'Ini
 /*******************************************************************************************************
 NotificationCtrl Controller  */
 
-appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 'UiState', 'NotificationService', 'Profile',
-  function($rootScope, $scope, $state, UiState, NotificationService, Profile) {
+appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 'UiState', 'NotificationService', 'Profile', 'MessageService',
+  function($rootScope, $scope, $state, UiState, NotificationService, Profile, MessageService) {
 
     $scope.notifications = NotificationService.notifications;
+    $scope.showExtraMessage = {};
+    var previousIndex = -1;
+
+    function resetShowExtra(i){
+      for(key in $scope.showExtraMessage){
+        if(key != i ){
+         $scope.showExtraMessage[key] = false;
+       }
+      }
+    }
 
     $scope.markRead = function(index) {
       // console.log('mark this (' + index + ') notification read');
@@ -1745,26 +1793,63 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
       return (NotificationService.notifications[index].status == 'read');
     }
 
+    $scope.hasExtraMessage = function(index){
+      console.log('in has extra message');
+      console.log(NotificationService.notifications[index].extar_message);
+      return (NotificationService.notifications[index].extra_message);
+    }
+
+    $scope.showExtra = function(index){
+      return ($scope.showExtraMessage[index]) ? true : false;
+    }
+
     $scope.followNotificationSender = function(i){
       console.log($scope.notifications[i]);
       var notification = $scope.notifications[i];
       if(notification.type == "dancecard" && (notification.subtype == "added" || notification.subtype == "removed") ){
         //go to profile in details panel
+        if(notification.subtype == 'removed'){
+          if(!notification.extra_message){
+            notification.extra_message = "They had nothing to say...";
+          }
+          resetShowExtra(i);
+          $scope.showExtraMessage[i] =  $scope.showExtraMessage[i] ? false : true;
+          // if($scope.previousIndex != -1){
+          //   $scope.showExtraMessage[$scope.previousIndex] = false;
+          // }
+          console.log('notification removeal clicked ...should show extra message');
+          console.log($scope.showExtraMessage[i]);
+          console.log($scope.showExtraMessage);
+         
+        }
         Profile.getProfileById(notification.about_userid, function(data){
           console.log('getting user from notifications...');
           console.log(data);
           Profile.selectedProfile = data[0];
-          UiState.openDetailsPanel();
+           if(previousIndex != i){ 
+              UiState.openDetailsPanel();
+              previousIndex = i;
+           }
+           else {
+            UiState.closeDetailsPanel();
+            previousIndex = -1;
+           }
+
         })
-      }
-
-      if(notification.type == "message"){
-        //go to message view for user
 
       }
-
+      if(notification.subtype == 'mutual' || notification.type == 'message'){
+        Profile.getProfileById(notification.about_userid, function(data){
+          console.log('getting user from notifications...');
+          console.log(data);
+          Profile.selectedProfile = data[0];
+          $rootScope.$broadcast('profile-selected-notification');
+          console.log(Profile.selectedProfile);
+          MessageService.getConversationWith(Profile.selectedProfile.userid);
+          $state.go('main.messages');
+      });
     }
-
+  }
 }]);
 
 /*******************************************************************************************************
@@ -2009,6 +2094,10 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
         }
       }
 
+      $scope.$on('profile-selected-notification', function(event){
+        $scope.selectedProfile = Profile.selectedProfile;
+      });
+
       $scope.$on('conversation-available', function(event, data){
         console.log('conversation is available...');
         console.log(data);
@@ -2049,7 +2138,7 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
 
     $scope.conversation = [];
     $scope.uiState = UiState;
-    $scope.selectedProfile = {}
+    $scope.selectedProfile = Profile.selectedProfile;
 
   }]);
 
@@ -2080,10 +2169,10 @@ appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', '$timeout'
 /*******************************************************************************************************
 Remove surveyController  */
 
-appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'UiState', 'DancecardService',
-  function($scope, $state, Profile, UiState, DancecardService) {
+appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'UiState', 'DancecardService', 'SurveyService',
+  function($scope, $state, Profile, UiState, DancecardService, SurveyService) {
 
-    $scope.survey;
+    $scope.survey = {goals: false, personality: false, different: false, conversation: false, chemistry: false, textReason: ''};
     $scope.username = Profile.selectedForRemoval.username;
     $scope.hideButtons = false;
 
@@ -2102,14 +2191,19 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
       var data = {
         userid: Profile.selfProfile.userid,
         partnerid: Profile.selectedForRemoval.userid,
+        user_reason: $scope.survey.textReason,
         status: 'removed'
       };
-
+        SurveyService.surveyResponse = $scope.survey;
         DancecardService.updateDancecard(data, Profile.selectedForRemoval);
         // UiState.showDetailsPanel = false;
         $state.go('main.profileList');
-
     }
+
+    // $scope.$on('dancecard-removed', function(event){
+    //   console.log('received message that dancecard was removed successfullly');
+     
+    // });
 
     }]);
 

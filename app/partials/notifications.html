@@ -9,7 +9,7 @@
 	width: 100%;
 	height: 62px;
 	overflow: hidden;
-	padding: 7px 0 7px 10px;
+	padding: 7px 0px 7px 0px;
 	-webkit-box-shadow: inset 0px -1px 0px 0px #464949;
 	box-shadow: inset 0px -1px 0px 0px #464949;
 	cursor: pointer;
@@ -17,8 +17,28 @@
 }
 
 #sbe-sidebar .notification p {
-	width: 100%;
+	/*width: 100%;*/
+	width: 185px;
 	color: #aaa;
+	float: left;
+	margin: 0px 0px 20px 0px;
+}
+
+#sbe-sidebar .notificationExtra {
+	height: auto;
+}
+
+#sbe-sidebar .sbe-something-extra {
+	text-align: center;
+	margin: auto;
+	width: 90%;
+	border-top: 1px solid #464949;
+	overflow: auto;
+}
+
+#sbe-sidebar .sbe-something-extra > p{
+	width: 100%;
+	margin: 10px 0 10px 0;
 }
 
 #sbe-sidebar .notificationRead {
@@ -43,6 +63,22 @@
 }
 
 
+#sbe-sidebar .notification > p > span {
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	display: block;
+}
+
+#sbe-sidebar .sbe-timestamp {
+}
+
+#sbe-sidebar .sbe-name {
+
+}
+
+
 </style>
 
 <div class="notification-center" ng-cloak>
@@ -53,23 +89,24 @@
 		</div>
 	</div>
 
-
-
-
 		<div class="notification"
 			ng-repeat="notification in notifications"
 			ng-mouseover="markRead($index)"
 			ng-click="followNotificationSender($index); "
-			ng-class="{'notificationRead': isRead($index)}"
+			ng-class="{'notificationRead': isRead($index), 'notificationExtra': showExtraMessage[$index]}"
 			ui-draggable="true"
 			drag="profile">
 
 			<img ng-src="{{notification.smallimage}}"/>
 			<p>
-				<span class="timestamp">{{notification.relativeTimestamp}}</span>
-				<span class="name">{{notification.message}}</span></br>
-				
+				<span class="sbe-name">{{notification.message}}</span>
+				<span class="sbe-timestamp">{{notification.relativeTimestamp}}</span>
 			</p>
+			<div class="sbe-something-extra">
+				<p>
+					{{notification.extra_message}}
+				</p>
+			</div>
 		</div>
 
 

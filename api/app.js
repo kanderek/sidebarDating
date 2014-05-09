@@ -540,14 +540,13 @@ app.get('/notifications/:userid',
 	function(req, res, next){
 		var userid = req.params.userid;
 
-		var queryString = "select t0.*, u.smallimageurls from (SELECT n.notificationid, n.about_userid, n.message, n.action_time, n.type, n.subtype, n.status \
-							FROM notifications n \
-							WHERE n.userid=" + userid + " \
-							ORDER BY action_time DESC) as t0 \
-						join users u on t0.about_userid=u.userid \
-						";
+		var queryString = "select t0.*, u.smallimageurls from (SELECT n.notificationid, n.about_userid, n.message, n.extra_message,  n.action_time, n.type, n.subtype, n.status " +
+							"FROM notifications n " +
+							"WHERE n.userid=" + userid +  
+							"ORDER BY action_time DESC) as t0 "+
+						"join users u on t0.about_userid=u.userid ORDER BY action_time DESC";
 
-		//console.log(queryString);
+		console.log(queryString);
 
 		req.db.client.query(queryString, function(err, result){
 			req.queryResult = result;
@@ -572,7 +571,7 @@ app.post('/notifications',
 		var queryString = "UPDATE notifications " +
 								"SET status = '" + req.body.notification.status + "'," +
 									"action_time = '" + actionTime +
-									"' WHERE notificationid = " + req.body.notification.notificationid;
+									"' WHERE notificationid = " + req.body.notification.notificationid ;
 		//console.log(queryString);
 
 		req.db.client.query(queryString, function(err, result){
@@ -587,6 +586,41 @@ app.post('/notifications',
 		res.send(200);
 	});
 
+    // -- "userid" int4 NOT NULL,
+    // -- "recipientid" int4 NOT NULL,
+    // -- "chemistry" bool,
+    // -- "conversation" bool,
+    // -- "goals" bool,
+    // -- "personality" bool,
+    // -- "text_reason" varchar(140)
+
+app.post('/survey',
+	function(req, res, next){
+
+		console.log(req.body);
+
+		var queryString = "INSERT INTO removesurvey (userid, recipientid, chemistry, conversation, goals, personality, different, text_reason) " +
+								"VALUES ("+ req.body.dancecard.userid +"," + 
+											req.body.dancecard.partnerid + ",'" + 
+											req.body.survey.chemistry + "','" + 
+											req.body.survey.conversation + "','" +
+											req.body.survey.goals + "','" +
+											req.body.survey.personality + "','" +
+											req.body.survey.different + "','" +
+											replaceAll("'", "''", req.body.survey.textReason) + "')";
+		console.log(queryString);
+
+		req.db.client.query(queryString, function(err, result){
+			console.log('result: ');
+			console.log(result);
+			console.log('err: ');
+			console.log(err);
+			next();
+		});
+	},
+	function(req, res){
+		res.send(200);
+	});
 
 app.get('/dancecard/:userId',
 	//connectToDb,
@@ -606,8 +640,8 @@ app.get('/dancecard/:userId',
 		next();
 	},
 	function(req, res){
-		console.log('dancecard data...');
-		console.log(req.queryResult.rows);
+		// console.log('dancecard data...');
+		// console.log(req.queryResult.rows);
 		res.json(req.queryResult.rows);
 	});
 
@@ -621,8 +655,8 @@ app.get('/dancecard/interested/:userId',
 	},
 	getInterestedPeopleById,
 	function(req, res){
-		console.log('Your on these folds dancecard... data...');
-		console.log(req.queryResult.rows);
+		// console.log('Your on these folds dancecard... data...');
+		// console.log(req.queryResult.rows);
 		res.json(req.queryResult.rows);
 	});
 
@@ -707,13 +741,15 @@ app.post('/dancecard',
 function addToDanceCard(req,res,next) {
 	var addTime = moment().format('YYYY-MM-DD HH:mm:ss');
 	var queryString = "INSERT INTO danceCard "+
-						  "(userId, partnerId, status, updatetime) " +
+						  "(userId, partnerId, status, user_reason, updatetime) " +
 					   "VALUES (" + req.dancecard.userid + "," +
 					   				req.dancecard.partnerid  + ",'" +
-					   				req.dancecard.status + "','" +
+					   				req.dancecard.status + "'," +
+					   				"'','" + 
 					   				addTime + "')";
 
-		// console.log(queryString);
+		console.log('*********** adding user to dancecard ... *********************');
+		console.log(queryString);
 		req.db.client.query(queryString, function(err, result){
 			//deal with error
 			req.update = err ? true : false;
@@ -723,15 +759,18 @@ function addToDanceCard(req,res,next) {
 
 function updateDanceCardStatus(req,res,next) {
 		if(req.update){
+			var user_reason = req.dancecard.user_reason ? replaceAll("'", "''", req.dancecard.user_reason) : '';
 			var updateTime = moment().format('YYYY-MM-DD HH:mm:ss');
 			var queryString = "UPDATE danceCard "+
 								  "SET status = '"+ req.dancecard.status +"'," +
-								  		"updatetime = '" + updateTime +
+								  		"updatetime = '" + updateTime + "' ," +
+								  		"user_reason = '" + user_reason +
 								  "' WHERE userid = " + req.dancecard.userid +
 								  " AND partnerid = " + req.dancecard.partnerid;
-				// console.log(queryString);
+				console.log(queryString);
 				req.db.client.query(queryString, function(err, result){
 					//deal with error
+					console.log(err);
 					next();
 				});
 		}
@@ -1360,6 +1399,7 @@ io.sockets.on('connection', function(socket){
 
 	socket.on('register-user', function(data){
 		// users[data.userid] = {socket: socket.id};
+		console.log('registering...user...');
 		if(users[data.userid]){
 			delete users[data.userid];
 		}
@@ -1388,19 +1428,24 @@ io.sockets.on('connection', function(socket){
   //   	console.log("new_notification event has occured: ");
   //   	console.log(data);
     	var fields = data.payload.split(',');
-    	// console.log(fields)
+    	console.log(fields)
     	var userid = fields[0];
     	var notification = {
     		notificationid: fields[1],
     		about_userid: fields[2],
     		message: fields[3],
-    		action_time: fields[4],
-    		type: fields[5],
-    		subtype: fields[6],
-    		status: fields[7],
-    		imgurl: fields[8],
+    		extra_message: fields[4],
+    		action_time: fields[5],
+    		type: fields[6],
+    		subtype: fields[7],
+    		status: fields[8],
+    		imgurl: fields[9],
     	};
 
+    	console.log('in socket io message...event new_notification');
+    	console.log('users[userid] = ' + users[userid] );
+    	console.log(users[userid]);
+    	console.log(users);
     	if(users[userid]){
     		console.log('all systems go...sending message off to sbe..');
     		io.sockets.socket(users[userid].socket).emit('new-notification', notification);

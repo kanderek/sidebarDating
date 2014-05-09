@@ -126,6 +126,7 @@ CREATE TABLE "sidebar"."dancecard" (
     "userid" int4 NOT NULL,
     "partnerid" int4 NOT NULL,
     "status" varchar(10) COLLATE "default",
+    "user_reason" varchar(140), 
     "mutual" bool DEFAULT false,
     "updatetime" timestamp(6) NULL
 )
@@ -136,10 +137,29 @@ ALTER TABLE "sidebar"."dancecard" OWNER TO "sidebar";
 --  Records of dancecard
 -- ----------------------------
 BEGIN;
-INSERT INTO "sidebar"."dancecard" VALUES ('11', '23', 'added', 't', '2014-05-05 19:48:47');
-INSERT INTO "sidebar"."dancecard" VALUES ('23', '11', 'added', 't', '2014-05-05 17:54:10');
-INSERT INTO "sidebar"."dancecard" VALUES ('23', '2', 'added', 'f', '2014-05-05 17:58:51');
+INSERT INTO "sidebar"."dancecard" VALUES ('11', '23', 'added', '' ,'t', '2014-05-05 19:48:47');
+INSERT INTO "sidebar"."dancecard" VALUES ('23', '11', 'added', '','t', '2014-05-05 17:54:10');
+INSERT INTO "sidebar"."dancecard" VALUES ('23', '2', 'added', '','f', '2014-05-05 17:58:51');
 COMMIT;
+
+
+-- ----------------------------
+--  Table structure for removesurvey
+-- ----------------------------
+DROP TABLE IF EXISTS "sidebar"."removesurvey";
+CREATE TABLE "sidebar"."removesurvey" (
+    "userid" int4 NOT NULL,
+    "recipientid" int4 NOT NULL,
+    "chemistry" bool,
+    "conversation" bool,
+    "goals" bool,
+    "personality" bool,
+    "different" bool,
+    "text_reason" varchar(140)
+)
+WITH (OIDS=FALSE);
+ALTER TABLE "sidebar"."dancecard" OWNER TO "sidebar";
+
 
 -- ----------------------------
 --  Table structure for messages
@@ -171,6 +191,7 @@ CREATE TABLE "sidebar"."notifications" (
     "userid" int4,
     "about_userid" int4,
     "message" varchar(140) NOT NULL COLLATE "default",
+    "extra_message" varchar(200),
     "action_time" timestamp(6) NULL,
     "type" varchar(10) COLLATE "default",
     "subtype" varchar(10) COLLATE "default",
@@ -557,6 +578,7 @@ DROP FUNCTION IF EXISTS youMatchTheirPreferences(int);
 DROP FUNCTION IF EXISTS theyMatchYourPreferences(useridToTest int);
 DROP FUNCTION IF EXISTS getPrimaryUsers(useridToTest int);
 DROP FUNCTION IF EXISTS getSecondaryUsers(useridToTest int);
+DROP FUNCTION IF EXISTS constructRemovalMessage(userid1 int, userid2 int);
 
 CREATE FUNCTION dancecard_notification() RETURNS TRIGGER AS $$
 DECLARE
@@ -573,6 +595,7 @@ BEGIN
     SELECT INTO self_name username FROM users WHERE userid = NEW.userid;
     SELECT INTO partner_name username FROM users WHERE userid = NEW.partnerid;
     SELECT INTO status_check status FROM dancecard WHERE userid = NEW.partnerid AND partnerid = NEW.userid;
+    -- SELECT INTO removal_message constructRemovalMessage(NEW.userid, NEW.partnerid);
 
     IF (status_check = 'added' AND NEW.status = 'added') THEN
         mutualVar := 'true';
@@ -595,7 +618,7 @@ BEGIN
             subTypeVar := 'mutual';
         ELSE
             partner_message := self_name || ' added you to their dancecard';
-            self_message := 'You have added ' || partner_name || ' to your dancecard';
+            self_message := 'You added ' || partner_name || ' to your dancecard';
             subTypeVar := 'added';
         END IF;
     END IF;
@@ -606,11 +629,11 @@ BEGIN
         subTypeVar := 'removed';
     END IF;
 
-    INSERT INTO notifications (userid, about_userid, message, action_time, type, subtype)
-        VALUES (NEW.userid, NEW.partnerid, self_message, CURRENT_TIMESTAMP, 'dancecard', subTypeVar);
+    INSERT INTO notifications (userid, about_userid, message, extra_message, action_time, type, subtype)
+        VALUES (NEW.userid, NEW.partnerid, self_message, '', CURRENT_TIMESTAMP, 'dancecard', subTypeVar);
 
-    INSERT INTO notifications (userid, about_userid, message, action_time, type, subtype)
-        VALUES (NEW.partnerid, NEW.userid, partner_message ,CURRENT_TIMESTAMP, 'dancecard', subTypeVar);
+    INSERT INTO notifications (userid, about_userid, message, extra_message, action_time, type, subtype)
+        VALUES (NEW.partnerid, NEW.userid, partner_message , NEW.user_reason , CURRENT_TIMESTAMP, 'dancecard', subTypeVar);
 
     RETURN NEW;
 END $$ LANGUAGE 'plpgsql';
@@ -636,16 +659,17 @@ END $$ LANGUAGE 'plpgsql';
 
 CREATE FUNCTION notify_trigger() RETURNS trigger AS $$
 DECLARE
-
     imageurl varchar(100);
 BEGIN
   -- PERFORM pg_notify('watchers', TG_TABLE_NAME || ',userid,' || NEW.userid );
   SELECT INTO imageurl smallimageurls[1] FROM users WHERE userid=NEW.about_userid;
 
+
   PERFORM pg_notify('watchers', NEW.userid || ',' ||
                                 NEW.notificationid || ',' ||
                                 NEW.about_userid || ',' ||
                                 NEW.message || ',' ||
+                                NEW.extra_message || ',' ||
                                 NEW.action_time || ',' ||
                                 NEW.type || ',' ||
                                 NEW.subtype || ',' ||
@@ -654,6 +678,52 @@ BEGIN
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+CREATE FUNCTION constructRemovalMessage(userid1 int, userid2 int) RETURNS varchar AS $$
+DECLARE
+    chemistry2 boolean;
+    conversation2 boolean;
+    goals2 boolean;
+    personality2 boolean;
+    text_reason2 varchar(140);
+    message varchar(200);
+BEGIN
+
+    message := 'They selected ';
+
+    SELECT INTO chemistry2, conversation2, goals2, personality2, text_reason2 chemistry, conversation, goals, personality, text_reason2 
+        FROM removesurvey WHERE (userid=$1 AND recipientid=$1);
+
+    IF (chemistry2) THEN
+        message := message || ' chemistry,';
+    END IF;
+
+    IF (conversation2) THEN
+        message := message || ' conversation,';
+    END IF;
+
+    IF (goals2) THEN
+        message := message || ' goals,';
+    END IF;
+
+    IF (personality2) THEN
+        message := message || ' personality,';
+    END IF;
+
+    IF (text_reason2) THEN 
+        message := message || ' and say ' || text_reason;
+    ELSE 
+        message := message || ' and had nothing more to say';
+    END IF;
+
+    RAISE NOTICE 'what is the message? , %', message;
+    RETURN message;
+
+END;
+$$ LANGUAGE plpgsql;
+
 
 CREATE FUNCTION check_mutual(userid1 int, userid2 int) RETURNS boolean AS $$
 DECLARE

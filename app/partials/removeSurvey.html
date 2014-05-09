@@ -84,7 +84,7 @@
 
 	<form class="survey-info" >
 		<div class="checkbox-row">
-			<input id="no-chemisty" type="checkbox" ng-model="survey.chemistry" />
+			<input id="no-chemisty" type="checkbox" ng-model="survey.chemistry"/>
 			<label for="no-chemistry">No Chemistry</label>
 		</div>
 		<div class="checkbox-row">
@@ -100,12 +100,12 @@
 			<label for="conversation">Poor Conversation</label>	
 		</div>
 		<div class="checkbox-row">
-			<input id="different" type="checkbox" ng-model="survey.different" />
+			<input id="different" type="checkbox" ng-model="survey.different"/>
 			<label for="different">Different in Person</label>	
 		</div>
 
 		<label class="free-reasons-label" for="free-reasons">Want to elaborate?</label>
-		<textarea id="free-reasons" placeholder="This message will be sent to the other user"></textarea>
+		<textarea id="free-reasons" ng-model="survey.textReason" placeholder="This message will be sent to the other user"></textarea>
 		
 		<button class="survey-cancel-btn" type="button" ng-click="cancel()" ng-hide="hideButtons">Cancel</button>
 		<input type="submit" class="survey-submit-btn" value="Submit" ng-click="submitSurvey()" ng-hide="hideButtons"/>
