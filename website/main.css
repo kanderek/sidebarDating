@@ -1,0 +1,182 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+
+
+* {
+	margin: 0;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	background-color: #DEDEDE;
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	color: #333333;
+	line-height: 1.9em;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+p {
+	margin-bottom: 20px;
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
+	font-size: 1.2em;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+#navigation {
+	color: #888888;
+	font-size: .9em;
+	width: 100%;
+	height: 100px;
+	background-color: #363f45;
+	position: fixed;
+}
+
+#logo {
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+}
+
+#links {
+	width: 55%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#links ul {
+	width: 100%;
+	margin: 0 auto;
+	padding: 0;
+	display: inline-block;
+}
+
+#links li {
+	margin: 0 45px;
+	list-style-type: none;
+	display: inline-block;
+	font-size: 1.5em;
+}
+
+
+.pic, 
+.info {
+	display: inline-block;
+	height: 100%;
+	vertical-align: top;
+}
+
+.pic {
+	width: 34%;
+}
+
+.info {
+	width: 64%;
+}
+
+#content {
+	width: 100%;
+	background-color: #CCC;
+	box-sizing: border-box;
+}
+
+#content h1 {
+	font-size: 1.5em;
+	font-weight: normal;
+	text-align: center;
+	margin: 10px 0 30px 0;
+	text-transform: uppercase;
+}
+
+#about,
+#home, 
+#footer {
+	padding: 30px 50px;
+	width: 100%;
+	background-color: #FAFAFA;
+	box-sizing: border-box;
+}
+
+#interfaces,
+#games,
+#illustration {
+	color: #FBFBFB;
+	padding: 30px 50px;
+	box-sizing: border-box;
+}
+
+#interfaces ul,
+#games ul,
+#illustration ul {
+	margin: 0 auto;
+	padding: 0;
+}
+
+#interfaces li,
+#games li,
+#illustration li {
+	list-style-type: none;
+	display: inline-block;
+	margin: 10px;
+	vertical-align: top;
+}
+
+#interfaces li div,
+#games li div,
+#illustration li div {
+	width: 150px;
+	height: 150px;
+	border: 1px solid white;
+	text-align: center;
+	line-height: 1.3em;
+	cursor: pointer;
+}
+
+#interfaces div,
+#games div,
+#illustration div {
+	text-align: center;
+}
+
+#home {
+	background-color: #008C9E;
+	color: #066f8f;
+	text-align: center;
+	font-size: 3em;
+	text-transform: uppercase;
+}
+
+#interfaces {
+	background-color: #8dc6c9;
+}
+
+#games {
+	background-color: #dd7676;
+}
+
+#illustration {
+	background-color: #826fbc;
+}
+
+#footer {
+	height: 200px;
+}
+

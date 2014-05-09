@@ -70,8 +70,31 @@
   .rn-carousel-control.rn-carousel-control-prev {
     left: 0.5em; }
     .rn-carousel-control.rn-carousel-control-prev:before {
-      content: "<"; }
+      content: ""; 
+      display: inline-block;
+      width: 30px;
+      height: 43px;
+      background-image: url('http://microcake.org/sidebardating/carousel-back.png');
+      background-repeat: no-repeat;
+    }
+
+    .rn-carousel-control.rn-carousel-control-prev:hover:before {
+      background-position: 0 -43px;
+    }
+
   .rn-carousel-control.rn-carousel-control-next {
-    right: 0.5em; }
+    right: 0.5em; 
+  }
+
     .rn-carousel-control.rn-carousel-control-next:before {
-      content: ">"; }
+      content: ""; 
+      display: inline-block;
+      width: 30px;
+      height: 43px;
+      background-image: url('http://microcake.org/sidebardating/carousel-next.png');
+      background-repeat: no-repeat;
+    }
+
+    .rn-carousel-control.rn-carousel-control-next:hover:before {
+      background-position: 0 -43px;
+    }
