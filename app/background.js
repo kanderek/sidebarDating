@@ -1,51 +1,58 @@
 
-var tabStatus = [/*{tabID: 0, status: false}*/];
+var tabStatus = {/* tabid: false*/};
+var previousTab;
 var isAnimating = false;
 
 var initializeTabStatus = function(tabID){
-  return tabStatus.push({tabID: tabID, status: false}) - 1;
+  tabStatus[tabID] = false;
+  // return tabStatus.push({tabID: tabID, status: false}) - 1;
 
+}
+
+var tabNotLogged = function(tabID){
+  return typeof(tabStatus[tabID]) == 'undefined';
 }
 
 var removeTabStatus = function(tabID){
-  var index = getTabStatusIndex(tabID);
-  tabStatus.splice(index,1);
+  // var index = getTabStatusIndex(tabID);
+  // tabStatus.splice(index,1);
+  delete tabStatus[tabID];
 }
 
-var getTabStatusIndex = function(tabID){
-  for(var i=0; i<tabStatus.length; i++){
-    if(tabID == tabStatus[i].tabID){
-      return i;
-    }
-  }
-  return -1;
-}
+// var getTabStatusIndex = function(tabID){
+//   for(var i=0; i<tabStatus.length; i++){
+//     if(tabID == tabStatus[i].tabID){
+//       return i;
+//     }
+//   }
+//   return -1;
+// }
 
 var resetTabStatus = function(tabID){
-  var index = getTabStatusIndex(tabID);
-  tabStatus[index].status = false;
-  return index;
+  // var index = getTabStatusIndex(tabID);
+  tabStatus[tabID] = false;
+  // return index;
 }
 
 var toggleTabStatus = function(tab){
   if(!isAnimating){
-    var index = getTabStatusIndex(tab.id);
-    console.log(index);
-
-    if(index == -1){
-      index = initializeTabStatus(tab.id);
+    // var index = getTabStatusIndex(tab.id);
+    // console.log(index);
+    if(tabNotLogged(tab.id)){
+      // index = initializeTabStatus(tab.id);
+      initializeTabStatus(tab.id);
     }
-
-    if(tabStatus[index].status){
-      tabStatus[index].status = false;
+        // var status = tabStatus[tab.id];
+    if(tabStatus[tab.id]){
+      tabStatus[tab.id] = false;
       // chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
     }
     else{
-      tabStatus[index].status = true;
+      tabStatus[tab.id] = true;
     }
 
-    setBrowserActionIcon(tabStatus[index].status);
-    callBrowserAction(tab, tabStatus[index].status);
+    setBrowserActionIcon(tabStatus[tab.id]);
+    callBrowserAction(tab, tabStatus[tab.id]);
   }
 }
 
@@ -62,14 +69,10 @@ var setBrowserActionIcon = function(status){
 var callBrowserAction = function(tab, status){
     waitForAnimation();
     if(status){
-      // waitForAnimation(openSidebar, tab);
       openSidebar(tab);
-      // chrome.browserAction.setIcon({path: "./icons/19x19_heart.png"});
     }
     else{
-      // waitForAnimation(closeSidebar, tab);
       closeSidebar(tab);
-      // chrome.browserAction.setIcon({path: "./icons/19x19_heart_idle.png"});
     }
 }
 
@@ -81,13 +84,14 @@ var waitForAnimation = function(){
 }
 
 var isBrowserActionActive = function(tabID){
-  var index = getTabStatusIndex(tabID);
-  if(index == -1){
-    return false;
-  }
-  else{
-    return true;
-  }
+  // var index = getTabStatusIndex(tabID);
+  // if(index == -1){
+  //   return false;
+  // }
+  // else{
+  //   return true;
+  // }
+  return tabStatus[tabID];
 }
 
 
@@ -102,17 +106,21 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 chrome.tabs.onCreated.addListener(function (tab){
 	console.log("tab created: " + tab.id);
 	//console.log(tab);
+  // var index = initializeTabStatus(tab.id);
   initializeTabStatus(tab.id);
+  // tabStatus[tab.id] = tabStatus[previousTab];
 });
 
 
 chrome.tabs.onActivated.addListener(function (activeInfo){
   console.log('tab activated: ' + activeInfo.tabId);
-  var index = getTabStatusIndex(activeInfo.tabId);
-  if(index == -1){
-    index = initializeTabStatus(activeInfo.tabId);
+  // var index = getTabStatusIndex(activeInfo.tabId);
+  if(tabNotLogged(activeInfo.tabId)){
+    // index = initializeTabStatus(activeInfo.tabId);
+     initializeTabStatus(activeInfo.tabId);
   }
-  setBrowserActionIcon(tabStatus[index].status);
+  // previousTab should be set here but how??
+  setBrowserActionIcon(tabStatus[activeInfo.tabId]);
 });
 
 
@@ -126,21 +134,23 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
   console.log('tab updated: ' + tabId);
   console.log(changeInfo);
 
-  var index = getTabStatusIndex(tabId);
+  // var index = getTabStatusIndex(tabId);
 	if(changeInfo.status == "complete"){
-    console.log('index on updated complete: ' + index);
-    if(index == -1){
-      index = initializeTabStatus(tabId);
+    // console.log('index on updated complete: ' + index);
+    if(tabNotLogged(tabId)){
+      // index = initializeTabStatus(tabId);
+      initializeTabStatus(tabId);
     }
 
     // copy previous tab's sidebar status to current tab, activate if true
-    tabStatus[index].status = tabStatus.length > 1 ? tabStatus[index-1].status : false;
+    // tabStatus[index].status = tabStatus.length > 1 ? tabStatus[index-1].status : false;
+    // tabStatus[tabId] = tabNotLogged(previousTab) ? tabStatus[previousTab] :  
     console.log('previous tab: ');
-    console.log(tabStatus[index-1]);
+    console.log(previousTab);
 
-    if (tabStatus[index].status) {
-      setBrowserActionIcon(tabStatus[index].status);
-      callBrowserAction(tab, tabStatus[index].status);
+    if (tabStatus[tabId]) {
+      setBrowserActionIcon(tabStatus[tabId]);
+      callBrowserAction(tab, tabStatus[tabId]);
     }
 
 
@@ -148,9 +158,11 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
   else if(changeInfo.status == "loading" && changeInfo.url){
     // resetTabStatus(tabId);
     // setBrowserActionIcon(tabStatus[index].status);
+
   }
   else if(changeInfo.status == "loading"){
     // setBrowserActionIcon(tabStatus[index].status);
+
   }
 });
 
