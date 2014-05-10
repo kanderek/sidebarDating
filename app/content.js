@@ -1821,12 +1821,14 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
           if(!notification.extra_message){
             console.log('this user id for notification...');
             console.log(notification.userid);
-            if(notification.userid != Profile.selfProfile.userid){
+
              notification.extra_message = "They had nothing to say...";
-             }
+             
           }
-          resetShowExtra(i);
-          $scope.showExtraMessage[i] =  $scope.showExtraMessage[i] ? false : true;
+          if(notification.userid != Profile.selfProfile.userid){
+            resetShowExtra(i);
+            $scope.showExtraMessage[i] =  $scope.showExtraMessage[i] ? false : true;
+          }
           // if($scope.previousIndex != -1){
           //   $scope.showExtraMessage[$scope.previousIndex] = false;
           // }
