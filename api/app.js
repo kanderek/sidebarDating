@@ -53,7 +53,7 @@ if(process.env.DATABASE_URL){
     }
 });
 
-
+var DEMO = true;
 var pgConnectionString = process.env.DATABASE_URL || "postgres://sidebar:5432@localhost/sidebar";
 
 //"postgres:// dvybsfqqxhtvlt :ep3gKsF6uWa7qmnWKbM1_wWRIk @ec2-54-83-43-49.compute-1.amazonaws.com: 5432 /d5ct0tand6bndq"
@@ -181,6 +181,7 @@ app.get('/', function(req, res){
 });
 
 app.post('/signup',
+	demoSignup, 
 	createNewUser,
 	createNewUserPref,
 	passport.authenticate('local-signup'),
@@ -195,88 +196,125 @@ app.post('/signup',
 			//console.log(req.body);
 			console.log(req.signupResult);
 			console.log(req.prefResult);
-			var age = calculateAge(req.signupResult.rows[0].dateofbirth);
-			req.signupResult.rows[0].age = age;
-			res.json({user: req.signupResult.rows[0], pref: req.prefResult.rows[0]});
+			var age = calculateAge(req.signupResult.dateofbirth);
+			req.signupResult.age = age;
+			res.json({user: req.signupResult, pref: req.prefResult});
 		});
 
-function createNewUser(req, res, next){
+function demoSignup(req, res, next){
+	console.log("DEMO MODE? " + DEMO);
+	if(DEMO){
+		var queryString = "SELECT * FROM users, userprefs WHERE users.userid = userprefs.userid AND email='" + req.body.user.email + "' AND password='" + req.body.user.password + "'";
 
-	console.log('im in createnewuser');
-	var user = req.body.user;
-	user.dateofbirth = moment([user.dob_year, user.dob_month, user.dob_day]).format('YYYY-MM-DD');//'1982-11-27'
-
-	console.log('creating new uers...');
-	console.log(user);
-
-	var urls = "'{";
-	var medurls = urls;
-	var smallurls = urls;
-	if(user.originalImageUrl){
-		for(var i=0; i<user.originalImageUrl.length; i++){
-			urls += '"' + user.originalImageUrl[i] + '"';
-			medurls += '"' + user.mediumImageUrl[i] + '"';
-			smallurls += '"' + user.smallImageUrl[i] + '"';
-			if(i != user.originalImageUrl.length - 1){
-				urls += ",";
-				medurls += ",";
-				smallurls += ",";
-			}
-		}
-	}
-	urls += "}'";
-	medurls += "}'";
-	smallurls += "}'";
-
-	getCityStateFromZipcode(user.zipcode, function(location){
-
-		var queryString = "INSERT INTO users " +
-									"(username," +
-									  "email," +
-									  "password," +
-									  "gender," +
-									  "dateofbirth," +
-									  "zipcode," +
-									  "location_city," +
-									  "location_state," +
-									  "personal_blurb," +
-									  "imageurls," +
-									  "medimageurls," +
-									  "smallimageurls, logged_in) " +
-							   "VALUES ('" + user.username  + "','" +
-							   				 user.email + "','" +
-							   				 user.password + "','" +
-							   				 user.gender + "','" +
-							   				 user.dateofbirth + "','" +
-							   				 user.zipcode + "','" +
-							   				 location.city + "','" +
-							   				 location.state + "','" +
-							   				 replaceAll("'", "''", user.personal_blurb) + "'," +
-							   				 urls + "," +
-							   				 medurls + "," +
-							   				 smallurls + " , 't') " +
-								"RETURNING *";
 		console.log(queryString);
-
-		req.db.client.query(queryString, function(err, result){
+		 req.db.client.query(queryString, function(err, result){
 
 			if(err){
 				console.log(err);
-				console.log('error inserting users...');
+				console.log('error selecting user on demo signup...');
 				res.send(500);
 			}
 			else{
-				req.signupResult = result;
-				 console.log("result of inserting user...");
-				console.log(result.rows[0].userid);
-				req.userid = result.rows[0].userid;
-				// console.log("Errors?...");
-				// console.log(err);
-				// console.log
-				next();
+				if(result.rows.length == 0){
+					req.skipSignup = false;
+					next();
+				}
+				else{
+					req.prefResult = result.rows[0];
+					req.signupResult = result.rows[0];
+					req.skipSignup = true;
+					next();
+				}
 			}
 		});
-	});
+	}
+	else{
+		next();
+	}
+}
+
+function createNewUser(req, res, next){
+
+	if(!req.skipSignup){
+		console.log('im in createnewuser');
+		var user = req.body.user;
+		user.dateofbirth = moment([user.dob_year, user.dob_month, user.dob_day]).format('YYYY-MM-DD');//'1982-11-27'
+
+		console.log('creating new uers...');
+		console.log(user);
+
+		var urls = "'{";
+		var medurls = urls;
+		var smallurls = urls;
+		if(user.originalImageUrl){
+			for(var i=0; i<user.originalImageUrl.length; i++){
+				urls += '"' + user.originalImageUrl[i] + '"';
+				medurls += '"' + user.mediumImageUrl[i] + '"';
+				smallurls += '"' + user.smallImageUrl[i] + '"';
+				if(i != user.originalImageUrl.length - 1){
+					urls += ",";
+					medurls += ",";
+					smallurls += ",";
+				}
+			}
+		}
+		urls += "}'";
+		medurls += "}'";
+		smallurls += "}'";
+
+		getCityStateFromZipcode(user.zipcode, function(location){
+
+			var queryString = "INSERT INTO users " +
+										"(username," +
+										  "email," +
+										  "password," +
+										  "gender," +
+										  "dateofbirth," +
+										  "zipcode," +
+										  "location_city," +
+										  "location_state," +
+										  "personal_blurb," +
+										  "imageurls," +
+										  "medimageurls," +
+										  "smallimageurls, logged_in) " +
+								   "VALUES ('" + user.username  + "','" +
+								   				 user.email + "','" +
+								   				 user.password + "','" +
+								   				 user.gender + "','" +
+								   				 user.dateofbirth + "','" +
+								   				 user.zipcode + "','" +
+								   				 location.city + "','" +
+								   				 location.state + "','" +
+								   				 replaceAll("'", "''", user.personal_blurb) + "'," +
+								   				 urls + "," +
+								   				 medurls + "," +
+								   				 smallurls + " , 't') " +
+									"RETURNING *";
+			console.log(queryString);
+
+			req.db.client.query(queryString, function(err, result){
+
+				if(err){
+					console.log(err);
+					console.log('error inserting users...');
+					res.send(500);
+				}
+				else{
+					req.signupResult = result.rows[0];
+					 console.log("result of inserting user...");
+					console.log(result.rows[0].userid);
+					req.userid = result.rows[0].userid;
+					// console.log("Errors?...");
+					// console.log(err);
+					// console.log
+					next();
+				}
+			});
+		});
+	}
+	else{
+		next();
+	}
 }
 
 function escapeRegExp(str) {
@@ -288,33 +326,38 @@ function replaceAll(find,replace,str){
 }
 
 function createNewUserPref(req, res, next){
-	console.log('im in createnewuserpref');
-	var pref = req.body.pref;
-	var queryString = "INSERT INTO userprefs " +
-								"(userid," +
-								  "male," +
-								  "female," +
-								  "age_min," +
-								  "age_max," +
-								  "distance_max) " +
-						   "VALUES (" + req.userid  + "," +
-						   				 pref.male + "," +
-						   				 pref.female + "," +
-						   				 pref.age_min + "," +
-						   				 pref.age_max + "," +
-						   				 pref.distance_max + ") " +
-						 "RETURNING *";
-	// console.log(queryString);
+	if(!req.skipSignup){
+		console.log('im in createnewuserpref');
+		var pref = req.body.pref;
+		var queryString = "INSERT INTO userprefs " +
+									"(userid," +
+									  "male," +
+									  "female," +
+									  "age_min," +
+									  "age_max," +
+									  "distance_max) " +
+							   "VALUES (" + req.userid  + "," +
+							   				 pref.male + "," +
+							   				 pref.female + "," +
+							   				 pref.age_min + "," +
+							   				 pref.age_max + "," +
+							   				 pref.distance_max + ") " +
+							 "RETURNING *";
+		// console.log(queryString);
 
-	req.db.client.query(queryString, function(err, result){
-		req.prefResult = result;
-		// console.log("result of inserting user preferences...");
-		// console.log(result);
-		// console.log("Errors?...");
-		// console.log(err);
-		// console.log
-		next();
-	});
+		req.db.client.query(queryString, function(err, result){
+			req.prefResult = result.rows[0];
+			// console.log("result of inserting user preferences...");
+			// console.log(result);
+			// console.log("Errors?...");
+			// console.log(err);
+			// console.log
+			next();
+		});
+	}else{
+		next();		
+	}
+
 }
 
 

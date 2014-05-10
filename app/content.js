@@ -992,11 +992,15 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     profileFactory.previousProfile = {};
 
     profileFactory.makeFullImageUrl = function(data){
+      console.log('making full image urls....before');
+      console.log(data);
       for(var i=0; i<data.length; i++){
           data[i].imageurls = processImageUrls(data[i].imageurls);
           data[i].medimageurls = processImageUrls(data[i].medimageurls);
           data[i].smallimageurls = processImageUrls(data[i].smallimageurls);
         }
+        console.log('making full image urls....after');
+        console.log(data);
         return data;
     }
 
@@ -1006,8 +1010,9 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
       if(typeof(user) == 'object'){
         console.log('initializing profile data on signup...');
         console.log(user);
-        profileFactory.selfProfile = user;
-        profileFactory.selectedProfile = user;
+        user = profileFactory.makeFullImageUrl([user]);
+        profileFactory.selfProfile = user[0];
+        profileFactory.selectedProfile = user[0];
         profileFactory.selfPref = pref;
         // profileFactory.getProfilesByPage(url, user.userid);
         console.log(profileFactory.selfPref);
@@ -1709,14 +1714,18 @@ appControllers.controller('TutorialCtrl', ['$scope', '$state', 'Profile',
 
 
     $scope.firstVisit = false;
+    $scope.step1 = true;
+    $scope.step2 = false;
+     $scope.step3 = false;
 
     $scope.$on('start-tutorial', function(event){
       $scope.firstVisit = true;
+      $scope.step1 = true;
+      $scope.step2 = false;
+      $scope.step3 = false;
     });
 
-    $scope.step1 = true;
-    $scope.step2 = false;
-    $scope.step3 = false;
+
 
     $scope.next = function(){
       if($scope.step1){
