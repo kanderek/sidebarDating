@@ -1474,6 +1474,7 @@ io.sockets.on('connection', function(socket){
     	console.log(fields)
     	var userid = fields[0];
     	var notification = {
+    		userid: userid,
     		notificationid: fields[1],
     		about_userid: fields[2],
     		message: fields[3],

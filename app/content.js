@@ -1,5 +1,5 @@
-// var SERVER = "http://sidebar-dating.herokuapp.com";
-var SERVER = "http://localhost:3000";
+var SERVER = "http://sidebar-dating.herokuapp.com";
+// var SERVER = "http://localhost:3000";
 var url_info = {};
 
 /***************************************************************************
@@ -1819,7 +1819,11 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
         //go to profile in details panel
         if(notification.subtype == 'removed'){
           if(!notification.extra_message){
-            notification.extra_message = "They had nothing to say...";
+            console.log('this user id for notification...');
+            console.log(notification.userid);
+            if(notification.userid != Profile.selfProfile.userid){
+             notification.extra_message = "They had nothing to say...";
+             }
           }
           resetShowExtra(i);
           $scope.showExtraMessage[i] =  $scope.showExtraMessage[i] ? false : true;
