@@ -19,6 +19,25 @@
 		margin-left: 0;
 	}
 
+	#sbe-sidebar #sbe-custom-file-input::-webkit-file-upload-button {
+	  	visibility: hidden;
+	}
+	#sbe-sidebar #sbe-custom-file-input::before {
+		content: 'Add your photos';
+		text-align: center;
+		display: inline-block;
+		background-color: #008C9E;
+		outline: none;
+		-webkit-user-select: none;
+		cursor: pointer;
+		background-color: #008C9E;
+		width: 100%;
+		color: white;
+		border: none;
+		border-bottom: 4px solid #005F6B;
+		padding: 10px 5px;
+		font-size: 1em;
+	}
 
 </style>
 <div class="signup-heading" ng-cloak>
@@ -31,19 +50,19 @@
 	<div id="signup-photo-preview">
 		<img ng-src="{{ user.displayImage }}" />
 	</div>
-	<div class="fileUpload">
-		<span>Upload a Photo</span>
-		<input type="file" ng-file-select="onFileSelect($files)" class="upload" multiple />
-	</div>
-	
-	<form class="signup-info">
+	<form class="signup-info" name="photoForm">
+	<input type="file" ng-file-select="onFileSelect($files)" id="sbe-custom-file-input" id="upload" multiple />
+	</form>
+
+
+	<form class="signup-info" name="userForm">
 		<input type="text" placeholder="First Name" ng-model="user.username" required/>
 		<input type="email" placeholder="Email Address" ng-model="user.email" required/>
 		<input type="password" placeholder="Password" ng-model="user.password" required/>
-		<input type="submit" value="Continue" ng-click="goToSignupStep2()"/>
+		<input type="submit" value="Continue" ng-click="goToSignupStep2(userForm)"/>
 	</form>
 
 <!-- 	{{user | json}}
 
 	{{pref | json}} -->
-</div> 
+</div>

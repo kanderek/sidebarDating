@@ -181,7 +181,7 @@ app.get('/', function(req, res){
 });
 
 app.post('/signup',
-	demoSignup, 
+	demoSignup,
 	createNewUser,
 	createNewUserPref,
 	passport.authenticate('local-signup'),
@@ -355,7 +355,7 @@ function createNewUserPref(req, res, next){
 			next();
 		});
 	}else{
-		next();		
+		next();
 	}
 
 }
@@ -585,7 +585,7 @@ app.get('/notifications/:userid',
 
 		var queryString = "select t0.*, u.smallimageurls from (SELECT n.notificationid, n.userid, n.about_userid, n.message, n.extra_message,  n.action_time, n.type, n.subtype, n.status " +
 							"FROM notifications n " +
-							"WHERE n.userid=" + userid +  
+							"WHERE n.userid=" + userid +
 							"ORDER BY action_time DESC) as t0 "+
 						"join users u on t0.about_userid=u.userid ORDER BY action_time DESC";
 
@@ -643,9 +643,9 @@ app.post('/survey',
 		console.log(req.body);
 
 		var queryString = "INSERT INTO removesurvey (userid, recipientid, chemistry, conversation, goals, personality, different, text_reason) " +
-								"VALUES ("+ req.body.dancecard.userid +"," + 
-											req.body.dancecard.partnerid + ",'" + 
-											req.body.survey.chemistry + "','" + 
+								"VALUES ("+ req.body.dancecard.userid +"," +
+											req.body.dancecard.partnerid + ",'" +
+											req.body.survey.chemistry + "','" +
 											req.body.survey.conversation + "','" +
 											req.body.survey.goals + "','" +
 											req.body.survey.personality + "','" +
@@ -788,7 +788,7 @@ function addToDanceCard(req,res,next) {
 					   "VALUES (" + req.dancecard.userid + "," +
 					   				req.dancecard.partnerid  + ",'" +
 					   				req.dancecard.status + "'," +
-					   				"'','" + 
+					   				"'','" +
 					   				addTime + "')";
 
 		console.log('*********** adding user to dancecard ... *********************');
