@@ -1825,7 +1825,7 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
              notification.extra_message = "They had nothing to say...";
              
           }
-          if(notification.userid != Profile.selfProfile.userid){
+          if(notification.message.substring(0,3).toLowerCase() !=  'you'){
             resetShowExtra(i);
             $scope.showExtraMessage[i] =  $scope.showExtraMessage[i] ? false : true;
           }

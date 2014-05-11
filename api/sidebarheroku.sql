@@ -165,7 +165,7 @@ CREATE TABLE "messages" (
     "senderid" int4 NOT NULL,
     "receiverid" int4 NOT NULL,
     "message" text NOT NULL COLLATE "default",
-    "sendtime" timestamp(6) NOT NULL
+    "sendtime" TIMESTAMP WITH TIME ZONE NOT NULL
 )
 WITH (OIDS=FALSE);
 
@@ -188,7 +188,7 @@ CREATE TABLE "notifications" (
     "about_userid" int4,
     "message" varchar(140) NOT NULL COLLATE "default",
     "extra_message" varchar(200),
-    "action_time" timestamp(6) NULL,
+    "action_time" TIMESTAMP WITH TIME ZONE NULL,
     "type" varchar(10) COLLATE "default",
     "subtype" varchar(10) COLLATE "default",
     "status" varchar(10) DEFAULT 'unread'::character varying COLLATE "default"
