@@ -58,7 +58,7 @@ var pgConnectionString = process.env.DATABASE_URL || "postgres://sidebar:5432@lo
 
 //"postgres:// dvybsfqqxhtvlt :ep3gKsF6uWa7qmnWKbM1_wWRIk @ec2-54-83-43-49.compute-1.amazonaws.com: 5432 /d5ct0tand6bndq"
 
-// console.log(process.env.DATABASE_URL);
+console.log(process.env.DATABASE_URL);
 // console.log(dbConfigObj);
 
 
@@ -951,7 +951,7 @@ function getPeopleOnPage(req,res,next) {
 						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
 						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
 						"1 AS relevance, u.logged_in " +
-						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%" + req.url + "%') AND ("  + whereClause +
+						  "FROM users u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url = '" + req.url + "') AND ("  + whereClause +
 						  ") LIMIT " + req.limit;
 
 		// console.log(queryString);
@@ -974,7 +974,7 @@ function getPeopleOnPage(req,res,next) {
 						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
 						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
 						"2 AS relevance, u.logged_in " +
-						  "FROM getSecondaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%" + req.url + "%') AND ("  + req.whereClause +
+						  "FROM getSecondaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url = '" + req.url + "') AND ("  + req.whereClause +
 						  ") LIMIT " + newLimit;
 
 		console.log('*********************** GETTING SECONDARY USERS ***************************');
@@ -1014,7 +1014,7 @@ function getPrimaryPeopleOnPage(req,res,next) {
 						"u.location_city, u.location_state, u.zipcode, u.personal_blurb, "+
 						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
 						"1 AS relevance, u.logged_in " +
-						  "FROM getPrimaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url LIKE '%" + req.url + "%') AND ("  + whereClause +
+						  "FROM getPrimaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url = '" + req.url + "') AND ("  + whereClause +
 						  ") LIMIT " + primaryLimit;
 
 		console.log('*********************** GETTING PRIMARY USERS ***************************');
