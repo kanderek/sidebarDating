@@ -59,7 +59,7 @@
 		<img ng-src="{{ user.displayImage }}" />
 	</div>
 			<h4 id="username-header" >{{user.username}}</h4>
-	<form class="signup-info" name="userForm">
+	<form class="signup-info" name="userForm" ng-submit="submit()">
 		<label for="dob">Birth Date</label>
 		<div id="select-dob">
 			<select id="dob-month" name="dob" ng-model="user.dob_month" ng-options="month for month in month_options">

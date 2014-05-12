@@ -1346,7 +1346,7 @@ appServices.factory('HistoryService', ['$http', 'Profile',
 /*******************************************************************************************************
 SurveyService  */
 
-appServices.factory('SurveyService', ['$http', 
+appServices.factory('SurveyService', ['$http',
   function($http){
 
     var surveyService = {};
@@ -1840,7 +1840,7 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
             console.log(notification.userid);
 
              notification.extra_message = "They had nothing to say...";
-             
+
           }
           if(notification.message.substring(0,3).toLowerCase() !=  'you'){
             resetShowExtra(i);
@@ -1852,13 +1852,13 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
           console.log('notification removeal clicked ...should show extra message');
           console.log($scope.showExtraMessage[i]);
           console.log($scope.showExtraMessage);
-         
+
         }
         Profile.getProfileById(notification.about_userid, function(data){
           console.log('getting user from notifications...');
           console.log(data);
           Profile.selectedProfile = data[0];
-           if(previousIndex != i){ 
+           if(previousIndex != i){
               UiState.openDetailsPanel();
               previousIndex = i;
            }
@@ -2234,7 +2234,7 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
 
     // $scope.$on('dancecard-removed', function(event){
     //   console.log('received message that dancecard was removed successfullly');
-     
+
     // });
 
     }]);
@@ -2473,7 +2473,7 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
             UiState.showDetailsPanel = false;
         }
         console.log(Profile.selectedForRemoval);
-        Profile.selectedForRemoval = user;  
+        Profile.selectedForRemoval = user;
         if(Profile.selectedForRemoval.mutual){
            $state.go('main.removeSurvey');
         }

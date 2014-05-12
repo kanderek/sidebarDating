@@ -55,7 +55,7 @@
 	</form>
 
 
-	<form class="signup-info" name="userForm">
+	<form class="signup-info" name="userForm" ng-submit="submit()">
 		<input type="text" placeholder="First Name" ng-model="user.username" required/>
 		<input type="email" placeholder="Email Address" ng-model="user.email" required/>
 		<input type="password" placeholder="Password" ng-model="user.password" required/>

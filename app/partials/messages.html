@@ -118,13 +118,13 @@
 			<div class='message' ng-class="{'sent': ifSentByUser($index), 'received': !ifSentByUser($index)}">
 				{{message.message}}
 			</div>
-			
+
 		</div>
 	</div>
   <div class="horizontal-line">
     </div>
-	<form id='createMessage'>
-		<input type='textarea' id='sbe-message-box' ng-model='newMessage' placeholder='Type Something....'>
+	<form id='createMessage' ng-submit="sendMessage()">
+		<input type='textarea' id='sbe-message-box' ng-model='newMessage' placeholder=' Type Something....'>
     <button type="button" ng-click="sendMessage()" class="sbe-sendMsgBtn">Send</button>
 	</form>
 </div>
