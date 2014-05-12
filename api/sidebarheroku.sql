@@ -13,6 +13,7 @@
  Date: 05/05/2014 22:54:13 PM
 */
 
+SET TIMEZONE TO 'America/Los_Angeles';
 
 -- ----------------------------
 --  Table structure for users

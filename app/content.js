@@ -1,5 +1,5 @@
-var SERVER = "http://sidebar-dating.herokuapp.com";
-// var SERVER = "http://localhost:3000";
+// var SERVER = "http://sidebar-dating.herokuapp.com";
+var SERVER = "http://localhost:3000";
 var url_info = {};
 
 /***************************************************************************
@@ -1126,6 +1126,15 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
     profileFactory.getProfilesByInterest = function(userid, callback){
     }
 
+      profileFactory.getIndexOfFirstOutsider = function(){
+        for(var i=0; i<profileFactory.pageProfiles; i++){
+          if(profileFactory.pageProfiles[i].relevance == 2){
+            return i;
+          }
+        }
+        return i;
+      }
+
     profileFactory.getProfilesByPage = function(url, limit){
        console.log('getting profiles by page...');
        console.log(url_info);
@@ -1156,9 +1165,14 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
           //   data[i].medimageurls = processImageUrls(data[i].medimageurls);
           //   data[i].smallimageurls = processImageUrls(data[i].smallimageurls);
           // }
-
-          profileFactory.pageProfiles = profileFactory.pageProfiles.concat(data);
-          console.log(profileFactory.pageProfiles);
+          if(limit == 1 && data.length == 1){
+            var index = profileFactory.getIndexOfFirstOutsider();
+            profileFactory.pageProfiles.splice(index, 0, data[0]);
+          }
+          else{
+            profileFactory.pageProfiles = profileFactory.pageProfiles.concat(data);
+          }
+            console.log(profileFactory.pageProfiles);
           $rootScope.$broadcast('page-profiles-available');
         // }
         // else{
@@ -1857,15 +1871,17 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
         Profile.getProfileById(notification.about_userid, function(data){
           console.log('getting user from notifications...');
           console.log(data);
-          Profile.selectedProfile = data[0];
-           if(previousIndex != i){
+
+          UiState.selectProfile(data[0], 'notifications');
+           // if(previousIndex != i){ 
+
               UiState.openDetailsPanel();
-              previousIndex = i;
-           }
-           else {
-            UiState.closeDetailsPanel();
-            previousIndex = -1;
-           }
+           //    previousIndex = i;
+           // }
+           // else {
+           //  UiState.closeDetailsPanel();
+           //  previousIndex = -1;
+           // }
 
         })
 
@@ -2022,7 +2038,8 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
       if(UiState.currentState.name == 'main.messages'){
         UiState.showShortProfile = true;
       }
-      UiState.selectProfile(Profile.selfProfile, 'self') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
+      UiState.selectProfile(Profile.selfProfile, 'self');// ? UiState.closeDetailsPanel() : 
+      UiState.openDetailsPanel();
       console.log('show short profile state....');
       console.log(UiState.showShortProfile);
     }
@@ -2104,13 +2121,15 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
 
     $scope.selectOnly = function(i){
 
-        var closeDetails;
+        // var closeDetails;
         if($scope.dancecard[i].userid != -1){
           $scope.selectedProfile = $scope.dancecard[i];
-          closeDetails = UiState.selectProfile($scope.dancecard[i], 'dancecard');
+          // closeDetails = 
+          UiState.selectProfile($scope.dancecard[i], 'dancecard');
           if($scope.dancecard[i].mutual){
             UiState.showShortProfile = true;
-            closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
+            // closeDetails ? UiState.closeDetailsPanel() : 
+            UiState.openDetailsPanel();
             $scope.conversation = [];
             MessageService.getConversationWith(Profile.selectedProfile.userid);
             $state.go('main.messages');
@@ -2120,7 +2139,8 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
           }
           else {
              $( "#detailsContent" ).addClass('dancecard');
-            closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
+            // closeDetails ? UiState.closeDetailsPanel() : 
+            UiState.openDetailsPanel();
             $state.go('main.profileList');
           }
         }
@@ -2149,9 +2169,11 @@ appControllers.controller('DanceCardCtrl', ['$rootScope','$scope', '$state', '$t
 
       $scope.showDetailedProfile = function(){
         // UiState.showDetailsPanel = true;
-        var closeDetails;
-        closeDetails = UiState.selectProfile(Profile.selectedProfile, 'dancecard');
-        closeDetails ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
+        // var closeDetails;
+        // closeDetails = 
+        UiState.selectProfile(Profile.selectedProfile, 'dancecard');
+        // closeDetails ? UiState.closeDetailsPanel() : 
+        UiState.openDetailsPanel();
       }
 
       $scope.ifSelected = function(i){
@@ -2192,8 +2214,8 @@ appControllers.controller('ProfileListCtrl', ['$scope', '$rootScope', '$timeout'
     }
 
     $scope.selectOnly = function(i){
-      UiState.selectProfile($scope.profiles[i], 'list') ? UiState.closeDetailsPanel() : UiState.openDetailsPanel();
-
+      UiState.selectProfile($scope.profiles[i], 'list');// ? UiState.closeDetailsPanel() : 
+      UiState.openDetailsPanel();
     }
 
   }]);
