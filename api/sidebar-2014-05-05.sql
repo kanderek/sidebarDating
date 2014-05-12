@@ -611,7 +611,7 @@ BEGIN
     RAISE NOTICE 'what is mutual? , %', mutualVar;
     RAISE NOTICE 'what is NEW? , %', NEW;
 
-    IF (TG_OP = 'INSERT') THEN
+    IF (TG_OP = 'INSERT' OR TG_OP = 'UPDATE' AND NEW.status = 'added') THEN
         IF (mutualVar) THEN
             partner_message := self_name || ' added you back';
             self_message := 'You have also added ' || partner_name || ' to your dancecard';
