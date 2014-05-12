@@ -517,11 +517,13 @@ appServices.factory('MessageService', ['$http', '$state', '$interval', '$rootSco
   var messageService = {};
 
       messageService.messages = {};
+      messageService.chattingWith;
 
       messageService.getConversationWith = function(userid){
         // console.log('getting conversation with.... ' + userid);
         // console.log('RETEIVING:  message service messages!!!');
         // console.log(messageService.messages);
+        messageService.chattingWith = userid;
         if(messageService[userid]){
           messageService[userid] = updateRelativeTimestamps(messageService[userid]);
           // console.log(messageService.messages[userid]);
@@ -1955,8 +1957,8 @@ appControllers.controller('MessageCtrl', ['$scope', '$timeout', '$state', 'UiSta
 /*******************************************************************************************************
 TopMenuCtrl Controller  */
 
-appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$timeout', '$http', 'UiState', 'Socket', 'Profile', 'NotificationService', 'DancecardService',
-  function($rootScope, $scope, $state, $timeout, $http, UiState, Socket, Profile, NotificationService, DancecardService) {
+appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$timeout', '$http', 'UiState', 'Socket', 'Profile', 'NotificationService', 'DancecardService', 'MessageService',
+  function($rootScope, $scope, $state, $timeout, $http, UiState, Socket, Profile, NotificationService, DancecardService, MessageService) {
 
   $scope.username = Profile.selfProfile.username;
   $scope.ns = NotificationService;
@@ -1979,6 +1981,9 @@ appControllers.controller('TopMenuCtrl', ['$rootScope','$scope', '$state', '$tim
         DancecardService.addInterestedPerson(data.about_userid);
       }
       else if(data.subtype == 'removed'){
+        if(UiState.currentState.name == 'main.messages' && MessageService.chattingWith == data.about_userid ){
+          $state.go('main.profileList');
+        }
         DancecardService.noLongerInterested(data.about_userid);
       }
     }
