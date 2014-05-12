@@ -1346,7 +1346,7 @@ appServices.factory('HistoryService', ['$http', 'Profile',
 /*******************************************************************************************************
 SurveyService  */
 
-appServices.factory('SurveyService', ['$http', 
+appServices.factory('SurveyService', ['$http',
   function($http){
 
     var surveyService = {};
@@ -1584,13 +1584,21 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
           return options;
     };
 
-    var ruleOfSeven = function(){
-      var now = new Date();
-      var then = new Date($scope.user.dob_year || 1980, $scope.user.dob_month-1 || 11, $scope.user.dob_day || 11);
-      var diff = now - then;
-      var age = Math.floor(diff/1000/60/60/8765.81)
-      $scope.pref.age_min = (age/2 + 7) >= 18 ? age/2 + 7 : 18;
-      $scope.pref.age_max = age + 7;
+    var ruleOfSeven = function(year, month, day){
+        if(year, month, day) {
+          var now = new Date();
+          var then = new Date(year || 1980, month - 1 || 11, day || 11);
+          var diff = now - then;
+          var age = Math.floor(diff/1000/60/60/8765.81)
+          var age_min = (age/2 + 7) >= 18 ? age/2 + 7 : 18;
+          var age_max = age + 7;
+        }
+        else {
+          age_min = $scope.age_floor;
+          age_max = $scope.age_ceil;
+        }
+        return [age_min, age_max]
+
     }
 
     $scope.gender_options = [{name: 'Female', value: 'f'},{name: 'Male', value: 'm'}];
@@ -1679,29 +1687,38 @@ appControllers.controller('SignupCtrl', ['$scope', '$rootScope', '$state', '$upl
         SignupService.requestInfoFromBackground('YO Yo Yo, background!');
     }
 
-    $scope.goToSignupStep2 = function(){
-        $state.go('sign-up-2');
+    $scope.goToSignupStep2 = function(user){
+        if (user.$valid) {
+          $state.go('sign-up-2');
+
+        }
     }
 
-    $scope.goToSignupStep3 = function(){
-        ruleOfSeven();
-        $state.go('sign-up-3');
+    $scope.goToSignupStep3 = function(user){
+        if (user.$valid) {
+          rule = ruleOfSeven($scope.user.dob_year, $scope.user.dob_month, $scope.user.dob_day);
+          $scope.pref.age_min = rule[0];
+          $scope.pref.age_max = rule[1];
+          $state.go('sign-up-3');
+        }
     }
 
-    $scope.createAccount = function(){
+    $scope.createAccount = function(user){
        // $state.go('main.profileList');
        console.log('create Account!!!');
-       SignupService.signupUser(function(data){
-          console.log('Signing up user...');
-          console.log(data);
-          InitService.initializeData(data.user, data.pref);
-          // Profile.getStaticProfileList(function(data){
+       if (user.$valid) {
+         SignupService.signupUser(function(data){
+            console.log('Signing up user...');
+            console.log(data);
+            InitService.initializeData(data.user, data.pref);
+            // Profile.getStaticProfileList(function(data){
 
-          // });
-       });
-       // SignupService.requestInfoFromBackground('YO Yo Yo, background!')
+            // });
+         });
+         // SignupService.requestInfoFromBackground('YO Yo Yo, background!')
           $rootScope.$broadcast('start-tutorial');
           $state.go('main.profileList', { reload: true, inherit: false, notify: false});
+      }
     }
 
 }]);
@@ -1823,7 +1840,7 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
             console.log(notification.userid);
 
              notification.extra_message = "They had nothing to say...";
-             
+
           }
           if(notification.message.substring(0,3).toLowerCase() !=  'you'){
             resetShowExtra(i);
@@ -1835,13 +1852,13 @@ appControllers.controller('NotificationCtrl', ['$rootScope','$scope', '$state', 
           console.log('notification removeal clicked ...should show extra message');
           console.log($scope.showExtraMessage[i]);
           console.log($scope.showExtraMessage);
-         
+
         }
         Profile.getProfileById(notification.about_userid, function(data){
           console.log('getting user from notifications...');
           console.log(data);
           Profile.selectedProfile = data[0];
-           if(previousIndex != i){ 
+           if(previousIndex != i){
               UiState.openDetailsPanel();
               previousIndex = i;
            }
@@ -2217,7 +2234,7 @@ appControllers.controller('RemoveSurveyCtrl', ['$scope', '$state', 'Profile', 'U
 
     // $scope.$on('dancecard-removed', function(event){
     //   console.log('received message that dancecard was removed successfullly');
-     
+
     // });
 
     }]);
@@ -2456,7 +2473,7 @@ appControllers.controller('uiCtrl', ['$rootScope', '$scope', '$timeout', '$state
             UiState.showDetailsPanel = false;
         }
         console.log(Profile.selectedForRemoval);
-        Profile.selectedForRemoval = user;  
+        Profile.selectedForRemoval = user;
         if(Profile.selectedForRemoval.mutual){
            $state.go('main.removeSurvey');
         }

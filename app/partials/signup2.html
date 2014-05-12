@@ -35,6 +35,18 @@
 		margin-left: 0;
 	}
 
+	#sbe-sidebar select {
+   		line-height: 1.4;
+		background-color: #008C9E;
+		color: white;
+		border: none;
+		padding: 10px 5px;
+		font-size: 14px;
+	}
+
+
+
+
 </style>
 <div class="signup-heading" ng-cloak>
 	<a class="back sidebar-back" ui-sref="sign-up-1"></a>
@@ -47,7 +59,7 @@
 		<img ng-src="{{ user.displayImage }}" />
 	</div>
 			<h4 id="username-header" >{{user.username}}</h4>
-	<form class="signup-info">
+	<form class="signup-info" name="userForm" ng-submit="submit()">
 		<label for="dob">Birth Date</label>
 		<div id="select-dob">
 			<select id="dob-month" name="dob" ng-model="user.dob_month" ng-options="month for month in month_options">
@@ -60,7 +72,7 @@
 				<option value="">YYYY</option>
 			</select>
 		</div>
-		<select ng-model="user.gender" ng-options="gender.value as gender.name for gender in gender_options">
+		<select ng-model="user.gender" ng-options="gender.value as gender.name for gender in gender_options" required>
 			<option value="">Gender</option>
 		</select>
 		<input id="sbe-zipcode" type="text" placeholder="Zipcode" ng-model="user.zipcode" required />
@@ -70,7 +82,7 @@
 		<textarea id="personal_blurb" placeholder="I'm interested in..." maxlength="140" minlength="1" required ng-model="user.personal_blurb" >
 		</textarea>
 		<label for="personal_blurb" class="blurb_length">{{ user.personal_blurb.length || '0' }}/140 Characters</label>
-		<input type="submit" value="Continue." ng-click="goToSignupStep3()"/>
+		<input type="submit" value="Continue." ng-click="goToSignupStep3(userForm)"/>
 	</form>
 
 <!-- 	{{user | json}}
@@ -86,5 +98,5 @@
         // Use the data...
         $('#sbe-location-preview').html(city + ", " + state + ', ' + country);
     });
-	
+
 </script>

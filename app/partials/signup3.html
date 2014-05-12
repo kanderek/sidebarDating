@@ -75,7 +75,7 @@
 	slider span.bubble.low, slider span.bubble.high, slider span.bubble.middle {
 		visibility: hidden;
 	}
-	
+
 
 	slider span.bubble.limit.ceiling, slider span.bubble.selection, slider span.bubble.limit.floor {
 		visibility: hidden;
@@ -124,14 +124,14 @@
 	<h4>What Are You Looking For?</h4>
 </div>
 <div class="signup-wrapper" ng-cloak>
-	<form class="signup-info">
+	<form class="signup-info" name="userForm" ng-submit="submit()">
 		<div class="checkbox-row">
 			<input id="male_pref" type="checkbox" ng-model="pref.male" />
 			<label for="male_pref">Male</label>
 		</div>
 		<div class="checkbox-row">
 			<input id="female_pref" type="checkbox" ng-model="pref.female" />
-			<label for="female_pref">Female</label>	
+			<label for="female_pref">Female</label>
 		</div>
 
 		<div class="sbe-sliders">
@@ -148,10 +148,10 @@
 			</div>
 		</div>
 
-		<input type="submit" value="Ready?" ng-click="createAccount()"/>
+		<input type="submit" value="Ready?" ng-click="createAccount(userForm)"/>
 	</form>
 	<p class="explain-signup">Based on this criteria and your browsing behavior, we'll show you like-minded people for you to connect with.</p>
-<!-- 
+<!--
 		{{user | json}}
 
 	{{pref | json}} -->
