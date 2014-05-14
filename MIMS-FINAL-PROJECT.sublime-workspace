@@ -1,0 +1,1391 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"pre",
+				"previousTab"
+			],
+			[
+				"is",
+				"tabIsLogged"
+			],
+			[
+				"in",
+				"initializeTabStatus"
+			],
+			[
+				"Message",
+				"MessageService"
+			],
+			[
+				"previous",
+				"previousIndex"
+			],
+			[
+				"mes",
+				"messages"
+			],
+			[
+				"extra",
+				"extra_message"
+			],
+			[
+				"remove",
+				"removesurvey"
+			],
+			[
+				"sur",
+				"surveyResponse"
+			],
+			[
+				"danc",
+				"dancecard-removed"
+			],
+			[
+				"profile",
+				"profileList"
+			],
+			[
+				"dragImage",
+				"dragImageParameters"
+			],
+			[
+				"message",
+				"message-added"
+			],
+			[
+				"getSec",
+				"getSecondaryPeopleOnPage"
+			],
+			[
+				"getPrim",
+				"getPrimaryPeopleOnPage"
+			],
+			[
+				"INT",
+				"Integer"
+			],
+			[
+				"select",
+				"select-indicator"
+			],
+			[
+				"show",
+				"showDetailsPanel"
+			],
+			[
+				"apply",
+				"apply-indicator"
+			],
+			[
+				"current",
+				"currentState"
+			],
+			[
+				"close",
+				"closeDetailsPanel"
+			],
+			[
+				"create",
+				"createNewUserPref"
+			],
+			[
+				"update",
+				"updateRelativeTimestamps"
+			],
+			[
+				"getMessa",
+				"getMessageFrom"
+			],
+			[
+				"sendMe",
+				"sendMessageTouserid"
+			],
+			[
+				"sbe-",
+				"sbe-heading-overlay"
+			],
+			[
+				"sbe-d",
+				"sbe-dancecard-overlay"
+			],
+			[
+				"gets",
+				"getStaticProfileList"
+			],
+			[
+				"page",
+				"pageProfiles"
+			],
+			[
+				"getSt",
+				"getStaticProfileList"
+			],
+			[
+				"selec",
+				"selectedProfile"
+			],
+			[
+				"get",
+				"getProfileById"
+			],
+			[
+				"open",
+				"openDetailsPanel"
+			],
+			[
+				"transl",
+				"translateZ"
+			],
+			[
+				"par",
+				"params"
+			],
+			[
+				"setUrl",
+				"setUrlsAndCategories"
+			],
+			[
+				"start",
+				"start-tutorial"
+			],
+			[
+				"sbe-pos-",
+				"sbe-pos-step2"
+			],
+			[
+				"backgr",
+				"background-color"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"sel",
+				"select-indicator"
+			],
+			[
+				"proc",
+				"processImageUrls"
+			],
+			[
+				"db",
+				"dbConfig"
+			],
+			[
+				"D",
+				"DATABASE_URL"
+			],
+			[
+				"clos",
+				"closeDetails"
+			],
+			[
+				"sele",
+				"selectedProfile"
+			],
+			[
+				"pro",
+				"profileList"
+			],
+			[
+				"det",
+				"details"
+			],
+			[
+				"uiState",
+				"uiStateService"
+			],
+			[
+				"prev",
+				"previousIndex"
+			],
+			[
+				"re",
+				"remove-indicator"
+			],
+			[
+				"indic",
+				"indicatorOut"
+			],
+			[
+				"visi",
+				"visibility"
+			],
+			[
+				"app",
+				"apply-indicator"
+			],
+			[
+				"closee",
+				"closeDetailsPanel"
+			],
+			[
+				"wa",
+				"waitForAnimation"
+			],
+			[
+				"uiSa",
+				"uiStateService"
+			],
+			[
+				"DE",
+				"DETAILS_ANIMATION"
+			],
+			[
+				"all",
+				"all-profiles"
+			],
+			[
+				"dance",
+				"dancecard"
+			],
+			[
+				"selected",
+				"selectedProfile"
+			],
+			[
+				"tuck",
+				"tuck-detailsPanel"
+			],
+			[
+				"self",
+				"selfProfile"
+			],
+			[
+				"da",
+				"dancecard"
+			],
+			[
+				"user",
+				"usersTreemap"
+			],
+			[
+				"interes",
+				"interestService"
+			],
+			[
+				"intere",
+				"interest_score"
+			],
+			[
+				"inter",
+				"interest_score"
+			],
+			[
+				"deta",
+				"detailsPanel"
+			],
+			[
+				"setU",
+				"setUrlCategories"
+			],
+			[
+				"add",
+				"addImageToUrls"
+			],
+			[
+				"histor",
+				"history-test"
+			],
+			[
+				"History",
+				"HistoryService"
+			],
+			[
+				"Histo",
+				"HistoryService"
+			],
+			[
+				"req",
+				"requestInfoFromBackground"
+			],
+			[
+				"mut",
+				"mutual-item"
+			],
+			[
+				"Login",
+				"LoginServiceMock"
+			],
+			[
+				"dan",
+				"dancecardService"
+			],
+			[
+				"inte",
+				"interestedPeople"
+			],
+			[
+				"pe",
+				"interestedPeople"
+			],
+			[
+				"Dancecard",
+				"DancecardService"
+			],
+			[
+				"check",
+				"checkMutualDancecard"
+			],
+			[
+				"not",
+				"notificationid"
+			],
+			[
+				"noti",
+				"notifications"
+			],
+			[
+				"up",
+				"updateNotificationStatus"
+			],
+			[
+				"notif",
+				"notificationService"
+			],
+			[
+				"Notification",
+				"NotificationService"
+			],
+			[
+				"initial",
+				"initializeNotifications"
+			],
+			[
+				"Notifi",
+				"NotificationService"
+			],
+			[
+				"notifi",
+				"notifications"
+			],
+			[
+				"Notifcation",
+				"NotificationService"
+			],
+			[
+				"top",
+				"top-menu"
+			],
+			[
+				"Dancecar",
+				"DancecardService"
+			],
+			[
+				"pag",
+				"page-profiles-available"
+			],
+			[
+				"initi",
+				"initializePageProfiles"
+			],
+			[
+				"ini",
+				"initializeProfile"
+			],
+			[
+				"Dance",
+				"DancecardService"
+			],
+			[
+				"initialize",
+				"initializeSelfProfile"
+			],
+			[
+				"fill",
+				"fillBlankDancecardSpots"
+			],
+			[
+				"cal",
+				"calculateAge"
+			],
+			[
+				"se",
+				"selfProfile"
+			],
+			[
+				"Init",
+				"InitService"
+			],
+			[
+				"file",
+				"file-upload-test-wrapper"
+			],
+			[
+				"con",
+				"conversation"
+			],
+			[
+				"init",
+				"initializeData"
+			],
+			[
+				"sign",
+				"sign-up-0"
+			],
+			[
+				"userid",
+				"userid"
+			],
+			[
+				"signup",
+				"signup-info"
+			],
+			[
+				"f",
+				"font-size"
+			],
+			[
+				"signup-",
+				"sign-up-1"
+			],
+			[
+				"sho",
+				"showDetailsPanel"
+			],
+			[
+				"getP",
+				"getProfileById"
+			],
+			[
+				"Danc",
+				"DancecardService"
+			],
+			[
+				"que",
+				"queryString"
+			],
+			[
+				"ge",
+				"getStaticDancecard"
+			],
+			[
+				"getSta",
+				"getStaticMessageByuserid"
+			],
+			[
+				"border",
+				"border-radius"
+			],
+			[
+				"messag",
+				"messageThread"
+			],
+			[
+				"Messa",
+				"MessageService"
+			],
+			[
+				"Mes",
+				"MessageService"
+			],
+			[
+				"ui",
+				"uiStateService"
+			],
+			[
+				"UiState",
+				"UiState"
+			],
+			[
+				"bord",
+				"border-radius"
+			],
+			[
+				"time",
+				"timestamp"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"ca",
+				"carousel-indicators"
+			],
+			[
+				"angul",
+				"angular-resource"
+			],
+			[
+				"side",
+				"sidebarDatingExt"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/manifest.json",
+			"settings":
+			{
+				"buffer_size": 1540,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/content.html",
+			"settings":
+			{
+				"buffer_size": 34284,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/profileDetails.html",
+			"settings":
+			{
+				"buffer_size": 18382,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "api/app.js",
+			"settings":
+			{
+				"buffer_size": 44223,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/content.js",
+			"settings":
+			{
+				"buffer_size": 85735,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/background.js",
+			"settings":
+			{
+				"buffer_size": 11343,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/lib/angular-carousel.js",
+			"settings":
+			{
+				"buffer_size": 23749,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/danceCardMenu.html",
+			"settings":
+			{
+				"buffer_size": 2454,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/profileList.html",
+			"settings":
+			{
+				"buffer_size": 4895,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "api/sidebar-2014-05-05.sql",
+			"settings":
+			{
+				"buffer_size": 63684,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "api/sidebarheroku.sql",
+			"settings":
+			{
+				"buffer_size": 59939,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/notifications.html",
+			"settings":
+			{
+				"buffer_size": 2102,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/derekkan/Dev/sidebarDating/api/herokusqlpatch.sql",
+		"/Users/derekkan/Dev/angular-slider-master/example.html",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/removeSurvey.html",
+		"/Users/derekkan/Dev/sidebarDating/app/lib/draganddrop.js",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/profileList.html",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/signup2.html",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/signup1.html",
+		"/Users/derekkan/Dev/sidebarDating/api/sidebar.sql",
+		"/Users/derekkan/Dev/sidebarHeroku.sql",
+		"/Users/derekkan/Dev/sidebarDating/api/sidebar-2014-05-05.sql",
+		"/Users/derekkan/Dev/sidebarDating/app/lib/angular-draganddrop.js",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/signup0.html",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/signup3.html",
+		"/Users/derekkan/Dev/sidebarDating/api/test.sql",
+		"/Users/derekkan/Dev/sidebarDating/app/staticData/profiles_f.json",
+		"/Users/derekkan/Dev/sidebarDating/app/staticData/profiles_mf.json",
+		"/Users/derekkan/Dev/sidebarDating/app/staticData/profiles_m.json",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/notifications.html",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/messages.html",
+		"/Users/derekkan/Dev/sidebarDating/.gitignore",
+		"/Users/derekkan/Dev/sidebarDating/app/lib/moment2.min.js",
+		"/Users/derekkan/Dev/sidebarDating/app/lib/moment.min.js",
+		"/Users/derekkan/Dev/sidebarDating/app/test-animate.html",
+		"/Users/derekkan/Dev/sidebarDating/app/lib/angular-slider.js",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/danceCardMenu.html",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/login.html",
+		"/Users/derekkan/Dev/showHistory/typedUrls.js",
+		"/Users/derekkan/Dev/sidebarDating/api/mockHistory.json",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/onboard.html",
+		"/Users/derekkan/Dev/sidebarDating/package.json",
+		"/Users/derekkan/Dev/sidebarDating/Procfile",
+		"/Users/derekkan/Dev/sidebarDating/app/manifest.json",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/slideSelectIndicator.html",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/historyTest.html",
+		"/Users/derekkan/Dev/alchemyapi_node/app.js",
+		"/Users/derekkan/Dev/sidebarDating/app/mydata.json",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/test.html",
+		"/Users/derekkan/Dev/sidebarDating/app/content.js",
+		"/Users/derekkan/Dev/sidebarDating/app/test/unit/controllers.spec.js",
+		"/Users/derekkan/Dev/sidebarDating/app/js/controllers.js",
+		"/Users/derekkan/Dev/sidebarDating/app/js/services.js",
+		"/Users/derekkan/Dev/sidebarDating/app/test/unit/services.spec.js",
+		"/Users/derekkan/Dev/sidebarDating/app/test/unit/hello.spec.js",
+		"/Users/derekkan/Dev/sidebarDating/karma.conf.js",
+		"/Users/derekkan/Dev/sidebarDating/app/js/app.js",
+		"/Users/derekkan/Dev/sidebarDating/Gruntfile.js",
+		"/Users/derekkan/Dev/sidebarDating/.travis.yml",
+		"/Users/derekkan/Dev/angular-seed-master/app/js/controllers.js",
+		"/Users/derekkan/Dev/angular-seed-master/app/js/app.js",
+		"/Users/derekkan/Dev/sidebarDating/api/app.js",
+		"/Users/derekkan/Dev/sidebarDating/app/content.html",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/profileDetails.html",
+		"/Users/derekkan/Dev/sidebarDating/app/test/unit/test.spec.js",
+		"/Users/derekkan/Dev/sidebarDating/app/testCntl.js",
+		"/Users/derekkan/Dev/angular-seed-master/app/js/services.js",
+		"/Users/derekkan/Dev/sidebarDating/api/calculator.js",
+		"/Users/derekkan/Dev/sidebarDating/api/spec/app-spec.js",
+		"/Users/derekkan/Dev/sidebarDating/app/lib/angular-mocks.js",
+		"/Users/derekkan/Dev/sidebarDating/app/background.js",
+		"/Users/derekkan/Dev/sidebarDating/README.md",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/fileUploadTest.html",
+		"/Users/derekkan/Dev/sidebarDating/app/css/angular-carousel.css",
+		"/Users/derekkan/Dev/sidebarDating/app/lib/angular-file-upload.js",
+		"/Users/derekkan/Dev/angular-socket-io-im/public/js/controllers.js",
+		"/Users/derekkan/Dev/sidebarDating/app/lib/socket.io.js",
+		"/Users/derekkan/Dev/angular-socket-io-im/routes/socket.js",
+		"/Users/derekkan/Dev/angular-socket-io-im/app.js",
+		"/Users/derekkan/Dev/socket.io-chat-demo/public/index.html",
+		"/Users/derekkan/Dev/socket.io-chat-demo/public/js/app.js",
+		"/Users/derekkan/Dev/socket.io-chat-demo/server.js",
+		"/Users/derekkan/Dev/playTestNode/src/server.js",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/checkStatus.html",
+		"/Users/derekkan/Dev/sidebarDating/app/app.js",
+		"/Users/derekkan/Dev/sidebarDating/api/userprefs.txt",
+		"/Users/derekkan/Dev/sidebarDating/api/users.txt",
+		"/Users/derekkan/Dev/prajwalkman-angular-slider-177bcf0/README.md",
+		"/Users/derekkan/Dev/sidebarDating/api/dancecard.txt",
+		"/Users/derekkan/Dev/sidebarDating/api/messages.txt",
+		"/Users/derekkan/Dev/sidebarDating/api/static/messages.txt",
+		"/Users/derekkan/Dev/sidebarDating/app/staticData/dancecard.json",
+		"/Users/derekkan/Dev/sidebarDating/app/staticData/message_user15.json",
+		"/Users/derekkan/Dev/sidebarDating/app/staticData/message_user25.json",
+		"/Users/derekkan/Dev/sidebarDating/app/staticData/message_user35.json",
+		"/Users/derekkan/Dev/sidebarDating/app/staticData/message_user45.json",
+		"/Users/derekkan/Dev/sidebarDating/app/staticData/message_user55.json",
+		"/Users/derekkan/Dev/sidebarDating/app/profiles/profiles.json",
+		"/Users/derekkan/Dev/sidebarDating/app/message_user15.json",
+		"/Users/derekkan/Dev/sidebarDating/app/profiles/messages.json",
+		"/Users/derekkan/Dev/angular-seed-master/test/karma.conf.js",
+		"/Users/derekkan/Dev/angular-seed-master/package.json",
+		"/Users/derekkan/Dev/angular-seed-master/test/unit/controllersSpec.js",
+		"/Users/derekkan/Dev/sidebarDating/app/test/calcSpec.js",
+		"/Users/derekkan/Dev/sidebarDating/app/calculator.js",
+		"/Users/derekkan/Dev/sidebarDating/app/test/test_test.js",
+		"/Users/derekkan/Dev/sidebarDating/config/karma.conf.js",
+		"/Users/derekkan/Dev/sidebarDating/app/spec/messageCtrl-spec.js",
+		"/Users/derekkan/Dev/dvdrental/restore.sql",
+		"/Users/derekkan/Dev/sidebarDating/jasmine-standalone-2.0.0/SpecRunner.html",
+		"/Users/derekkan/Dev/sidebarDating/api/spec/calculator-spec.js",
+		"/Users/derekkan/Dev/sidebarDating/travis.yml",
+		"/Users/derekkan/Dev/sidebarDating/app/test/lib/angular/angular-mocks.js",
+		"/Users/derekkan/Dev/sidebarDating/api/package.json",
+		"/Users/derekkan/Dev/sidebarDating/app/index.html",
+		"/Users/derekkan/Dev/sidebarDating/content.html",
+		"/Users/derekkan/Dev/sidebarDating/manifest.json",
+		"/Applications/MAMP/htdocs/d3-treemap/simple-treemap.html",
+		"/Users/derekkan/Dev/sidebarDating/partials/profileDetails.html",
+		"/Applications/MAMP/htdocs/d3-treemap/mike-treemap.html",
+		"/Users/derekkan/Dev/sidebarDating/profiles/profiles.json",
+		"/Users/derekkan/Dev/sidebarDating/partials/profileList.html",
+		"/Users/derekkan/Dev/sidebarDating/partials/profileSelf.html",
+		"/Users/derekkan/Dev/sidebarDating/test/e2e/scenarios.js",
+		"/Users/derekkan/Dev/sidebarDating/test/unit/controllersSpec.js",
+		"/Users/derekkan/Dev/sidebarDating/test/unit/filtersSpec.js",
+		"/Users/derekkan/Dev/sidebarDating/test/unit/servicesSpec.js",
+		"/Users/derekkan/Dev/sidebarDating/content.js",
+		"/Users/derekkan/Dev/sidebarDating/background.js",
+		"/Users/derekkan/Dev/sidebarDating/partials/messages.html",
+		"/Users/derekkan/Dev/sidebarDating/partials/danceCardMenu.html",
+		"/Users/derekkan/Dev/angular-test/test.html",
+		"/Users/derekkan/Dev/angular-test/index.html",
+		"/Users/derekkan/Dev/angular-test/treemap-d3-test.html",
+		"/Users/derekkan/Dev/angular-test/flare.json",
+		"/Users/derekkan/Dev/angular-test/mike-treempa.html",
+		"/Users/derekkan/Dev/sidebarDating/app.js",
+		"/Users/derekkan/Dev/angular-test/partials/messages.html",
+		"/Users/derekkan/Dev/sidebarDating/lib/angular-route.min.js",
+		"/Users/derekkan/Dev/sidebarDating/partials/profileList"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"",
+			"/Users/derekkan/Documents/Arduino/libraries/Adafruit_CC3000",
+			"/Users/derekkan/Documents/Arduino/libraries/SD",
+			"/Users/derekkan/Documents/Arduino/libraries/SimpleSDAudio",
+			"/Users/derekkan/Documents/MIMS 2014/Fall 2013/CS 294 - IDD/idd-examples/web/nodeServerSerialSocket",
+			"selection",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"add_dancecard_not",
+			"messageService.",
+			"messageService",
+			"messageCtrl",
+			"updateDa",
+			"updateDac",
+			"notificationctrl",
+			"notificationsctrl",
+			"notificationctrl",
+			"selectprofile",
+			"notificationctrl",
+			"profileDetails",
+			"selectProfile",
+			"profileList",
+			"interest",
+			"selectProfile",
+			"added",
+			"timestamp",
+			"TIMEZONE",
+			"notifications",
+			"NotificationService",
+			"tabIslogged",
+			"notification",
+			"\"sidebar\".",
+			"''",
+			"\"sidebar\".",
+			"ALTER TABLE",
+			"initService.init",
+			"dancecardCtrl",
+			"notificationCtrl",
+			"openPanel",
+			"openPane",
+			"}\n",
+			" ;",
+			"notification",
+			"notificationService",
+			"dancecard/",
+			"dancecard",
+			"new_not",
+			"register-",
+			"survey",
+			"new_notification",
+			"notification",
+			"submitsurve",
+			"surveyse",
+			"removeSurvey",
+			"url_cate",
+			"urlcate",
+			"DancecardService",
+			"removesurv",
+			"dancecardService",
+			"timestamps",
+			"removesurvey",
+			"dancecardservice.up",
+			"removeSurvey",
+			"survey",
+			"dancecardCtrl",
+			"dancecardctrl",
+			"dancecard",
+			"dancecardctrl",
+			"survey",
+			"dancecardctrl",
+			"dancecardCtrl",
+			"\"sidebar\".",
+			"owner",
+			"dancecardctrl",
+			"openDetailsPanel",
+			"dancecardctrl",
+			"signupctrl",
+			"signinctrl",
+			"signupctrl",
+			"label",
+			"color:",
+			"label",
+			"getstaticprofilelist",
+			"m\"]",
+			"f\"]",
+			"initilizeData",
+			"initializedata",
+			"initservice",
+			"initializeprofile",
+			"initializeProfile",
+			"initializeprofil",
+			"getstaticprofilelist",
+			"getstaticpfo",
+			"profiledetailCtrl",
+			"animation",
+			"initPanel",
+			"notificationser",
+			"notificationservice",
+			"new_notification",
+			"stash",
+			"conflict",
+			"openDetailsPanel",
+			"UiState.showShort",
+			"selectProfile",
+			"signupService",
+			"signupctrl",
+			"loginctrl",
+			"new_notification",
+			"sendmessageto",
+			"updateConversat",
+			"$scope.$apply",
+			"getconversationwith",
+			"rootScope.$bro",
+			"messageSer",
+			"$scope.$on",
+			"getMessagefrom",
+			"now",
+			"messageser",
+			"timeago",
+			"messageSer",
+			"getprofilesbyp",
+			"getprog",
+			"signupCt",
+			"signupCtrl",
+			"Profilefact",
+			"notification",
+			"notificationCtrl",
+			"34561",
+			"dancecard",
+			"sidebar",
+			"revealDetails",
+			"req.para",
+			"res.json",
+			"url:",
+			"visitCount:",
+			"typedCount:"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"tabNotLogged",
+			"",
+			"''",
+			"",
+			"m.jpg\"]",
+			"f.jpg\"]",
+			"\"url\":",
+			"\"visitCount\":",
+			"\"typedCount\":",
+			"\"title\":",
+			"\"lastVisitTime\":",
+			"\"id\":",
+			"",
+			"SERVER",
+			"SERVER + \"",
+			"user-data-available",
+			"selfProfile.userid",
+			"selfUserId",
+			"username",
+			"userid",
+			"username",
+			"userid",
+			"36/36",
+			"appServices",
+			"appControllers",
+			"48/48",
+			"36/36",
+			"%26",
+			"itter",
+			"450",
+			"450xY.gif",
+			"450x450.gif",
+			"450",
+			".",
+			"$week[$i]",
+			"week[$i]",
+			"1600px",
+			"1500px",
+			"z_store.append([item [n][1], item[n][5] , z_count])",
+			"item[n][1] , item[n][5]",
+			"render_findApt_form",
+			"\"\"",
+			"_min_out",
+			"_out",
+			"min",
+			"'",
+			"POST",
+			"Operation",
+			"_cleaned.json",
+			"",
+			".txt",
+			".json\",",
+			"#"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 10,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/manifest.json",
+					"settings":
+					{
+						"buffer_size": 1540,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1229,
+								1229
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/content.html",
+					"settings":
+					{
+						"buffer_size": 34284,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								18843,
+								18851
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 6465.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/partials/profileDetails.html",
+					"settings":
+					{
+						"buffer_size": 18382,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6889,
+								6889
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3298.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "api/app.js",
+					"settings":
+					{
+						"buffer_size": 44223,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/content.js",
+					"settings":
+					{
+						"buffer_size": 85735,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								68023,
+								68023
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 23262.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/background.js",
+					"settings":
+					{
+						"buffer_size": 11343,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3825,
+								3825
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 15.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/lib/angular-carousel.js",
+					"settings":
+					{
+						"buffer_size": 23749,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								763,
+								763
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 5.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/partials/danceCardMenu.html",
+					"settings":
+					{
+						"buffer_size": 2454,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1644,
+								1644
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 679.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "app/partials/profileList.html",
+					"settings":
+					{
+						"buffer_size": 4895,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1971,
+								1971
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 787.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "api/sidebar-2014-05-05.sql",
+					"settings":
+					{
+						"buffer_size": 63684,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								63171,
+								63171
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 10195.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "api/sidebarheroku.sql",
+					"settings":
+					{
+						"buffer_size": 59939,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								48635,
+								48586
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6590.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "app/partials/notifications.html",
+					"settings":
+					{
+						"buffer_size": 2102,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1786,
+								1786
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 568.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 29.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"websocket",
+				"node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/lib/WebSocket.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 271.0,
+	"status_bar_visible": true
+}
