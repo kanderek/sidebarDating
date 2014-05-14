@@ -975,7 +975,7 @@ function getPeopleOnPage(req,res,next) {
 						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
 						"2 AS relevance, u.logged_in " +
 						  "FROM getSecondaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url = '" + req.url + "') AND ("  + req.whereClause +
-						  ") LIMIT " + newLimit;
+						  ") ORDER BY u.userid DESC LIMIT " + newLimit;
 
 		console.log('*********************** GETTING SECONDARY USERS ***************************');
 		console.log(queryString);
@@ -1015,7 +1015,7 @@ function getPrimaryPeopleOnPage(req,res,next) {
 						"u.imageurls, u.medimageurls, u.smallimageurls, (SELECT count(*) from dancecard where userid=u.userid AND status='added') AS dancecard_count, "+
 						"1 AS relevance, u.logged_in " +
 						  "FROM getPrimaryUsers(" + req.userid + ") u, user_history h WHERE u.userid = h.userid AND h.urlid = (SELECT urlid FROM urls WHERE url = '" + req.url + "') AND ("  + whereClause +
-						  ") LIMIT " + primaryLimit;
+						  ") ORDER BY u.userid DESC LIMIT " + primaryLimit;
 
 		console.log('*********************** GETTING PRIMARY USERS ***************************');
 		console.log(queryString);
