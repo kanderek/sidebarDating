@@ -58,4 +58,4 @@ BEGIN
     RETURN NEW;
 END $$ LANGUAGE 'plpgsql';
 
-CREATE TRIGGER add_dancecard_notification AFTER INSERT OR UPDATE OF status ON "sidebar"."dancecard" FOR EACH ROW EXECUTE PROCEDURE dancecard_notification();
+CREATE TRIGGER add_dancecard_notification AFTER INSERT OR UPDATE OF status ON "dancecard" FOR EACH ROW EXECUTE PROCEDURE dancecard_notification();

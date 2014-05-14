@@ -1,5 +1,5 @@
-// var SERVER = "http://sidebar-dating.herokuapp.com";
-var SERVER = "http://localhost:3000";
+var SERVER = "http://sidebar-dating.herokuapp.com";
+// var SERVER = "http://localhost:3000";
 var url_info = {};
 
 /***************************************************************************
@@ -1172,7 +1172,7 @@ appServices.factory('Profile', ['$rootScope', '$http', '$state',
             profileFactory.pageProfiles.splice(index, 0, data[0]);
           }
           else{
-            profileFactory.pageProfiles = profileFactory.pageProfiles.concat(data);
+            profileFactory.pageProfiles = data;
           }
             console.log(profileFactory.pageProfiles);
           $rootScope.$broadcast('page-profiles-available');
