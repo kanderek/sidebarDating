@@ -531,7 +531,7 @@
 			"file": "app/content.html",
 			"settings":
 			{
-				"buffer_size": 34284,
+				"buffer_size": 34285,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +547,7 @@
 			"file": "api/app.js",
 			"settings":
 			{
-				"buffer_size": 44223,
+				"buffer_size": 44269,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,7 +555,7 @@
 			"file": "app/content.js",
 			"settings":
 			{
-				"buffer_size": 85735,
+				"buffer_size": 85699,
 				"line_ending": "Windows"
 			}
 		},
@@ -612,6 +612,14 @@
 			"settings":
 			{
 				"buffer_size": 2102,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "api/herokusqlpatch.sql",
+			"settings":
+			{
+				"buffer_size": 2777,
 				"line_ending": "Unix"
 			}
 		}
@@ -990,7 +998,7 @@
 	"groups":
 	[
 		{
-			"selected": 10,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -1026,15 +1034,15 @@
 					"file": "app/content.html",
 					"settings":
 					{
-						"buffer_size": 34284,
+						"buffer_size": 34285,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								18843,
-								18851
+								32180,
+								32180
 							]
 						],
 						"settings":
@@ -1042,7 +1050,7 @@
 							"syntax": "Packages/HTML/HTML.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 6465.0,
+						"translation.y": 14343.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1080,15 +1088,15 @@
 					"file": "api/app.js",
 					"settings":
 					{
-						"buffer_size": 44223,
+						"buffer_size": 44269,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								42970,
+								42970
 							]
 						],
 						"settings":
@@ -1107,15 +1115,15 @@
 					"file": "app/content.js",
 					"settings":
 					{
-						"buffer_size": 85735,
+						"buffer_size": 85699,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								68023,
-								68023
+								310,
+								310
 							]
 						],
 						"settings":
@@ -1125,7 +1133,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 23262.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1308,8 +1316,8 @@
 						"selection":
 						[
 							[
-								1786,
-								1786
+								1834,
+								1834
 							]
 						],
 						"settings":
@@ -1318,7 +1326,35 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 568.0,
+						"translation.y": 769.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "api/herokusqlpatch.sql",
+					"settings":
+					{
+						"buffer_size": 2777,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2016,
+								2016
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 121.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
