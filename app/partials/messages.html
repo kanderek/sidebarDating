@@ -28,8 +28,8 @@
 
 	#sbe-sidebar #messages {
       width: 100%;
-      height: 100%;
-      margin-top: 10px;
+      height: 85%;
+      margin-top: 35px;
       overflow: scroll;
       background-color: #414141;
       box-sizing: border-box;
@@ -50,7 +50,7 @@
 
   #sbe-sidebar .message {
     position: relative;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     width: 90%;
     border-radius: 5px;
     color: white;
@@ -86,20 +86,27 @@
     margin-bottom: 5px;
     color: #ababab;
     font-size: .85em;
-    margin: 10px 0;
+    margin-bottom: 10px;
   }
 
   #sbe-sidebar #sbe-message-box {
-    width: 65%;
+    /*width: 65%;*/
+    width: 240px;
+    height: 60px;
     padding: 7px 0 4px 0;
-    margin: 10px 5px 10px 10px;
+    margin: 10px 5px 5px 10px;
     box-sizing: border-box;
     outline: none;
-    display: inline-block;
+    resize: none;
+    border-radius: 0;
+    /*display: inline-block;*/
+
   }
 
   #sbe-sidebar .sbe-sendMsgBtn {
-    width: 21%;
+    /*width: 21%;*/
+    width: 240px;
+    margin: 0px 5px 0px 10px;
     display: inline-block;
     padding: 6px;
   }
@@ -111,7 +118,7 @@
 <div id="messageWrapper" ng-cloak>
 	<div id='messages'>
 		<div ng-repeat='message in conversation'>
-      <div class='sbe-message-timestamp'>
+      <div class='sbe-message-timestamp' ng-class="{'hide': message.relativeTimestamp == ''}">
 <!--        {{message.sendtime}} <br> -->
         {{message.relativeTimestamp}}
       </div>
@@ -124,7 +131,7 @@
   <div class="horizontal-line">
     </div>
 	<form id='createMessage' ng-submit="sendMessage()">
-		<input type='textarea' id='sbe-message-box' ng-model='newMessage' placeholder=' Type Something....'>
+		<textarea id='sbe-message-box' ng-model='newMessage' placeholder=" Don't forget to ask them out!"></textarea>
     <button type="button" ng-click="sendMessage()" class="sbe-sendMsgBtn">Send</button>
 	</form>
 </div>

@@ -136,14 +136,14 @@
 
 
 	#tabControl {
-		background-color: #CCC;
+		background-color: #b7bcbc;
 		width: 20px;
 		height: 40px;
 		position: relative;
 		float: left;
 		top: 65px;
-		border-top-left-radius: 10px;
-		border-bottom-left-radius: 10px;
+		border-top-left-radius: 14px;
+		border-bottom-left-radius: 14px;
 		/*box-shadow: 1px 4px 20px #333333;*/
 	}
 
@@ -223,6 +223,7 @@
 	#injected-wrapper textarea,
 	#injected-wrapper button,
 	#injected-wrapper input[type='button'],
+	#injected-wrapper input[type='submit'],
 	#injected-wrapper form   {
 	/*animation                  : "none";
     animation-delay            : "0";
@@ -642,19 +643,22 @@
 		width: 16px;
 	}
 
-	#sbe-sidebar button {
+	#sbe-sidebar button, #sbe-sidebar input[type='submit'] {
 		width: 100%;
 		background-color: #008C9E;
 		color: #DBDBDB;
-		border: none;
-		border-bottom: 4px solid #005F6B;
+		border: none !important;
+		border-bottom: 4px solid #005F6B !important;
+		border-radius: 0;
+		margin: 0em;
+		box-shadow: none;
 		padding: 10px 5px;
 		font-weight: normal;
 	}
 
-	#sbe-sidebar button:hover {
+	#sbe-sidebar button:hover, #sbe-sidebar input[type='submit']:hover {
 		background-color: #00AABF;
-		border-bottom: 4px solid #007786;
+		border-bottom: 4px solid #007786 !important;
 	}
 
 	/*#sbe-sidebar button:active {
@@ -733,13 +737,14 @@
 		padding-top: 85px;
 	}
 
-	#sbe-sidebar .sidebar-visitorsTitle {
+	#sbe-sidebar .sidebar-visitorsTitle  {
 		font-weight: bold;
 		font-size: 1.1em;
 		text-shadow: 0px 1px 0px #000;
 		color: #BCBCBC;
 		text-align: center;
         padding: 15px;
+        margin: 0;
 	}
 
 	/*******************************************
@@ -827,7 +832,8 @@
 
    #sbe-sidebar .signup-button,
    #sbe-sidebar .login-button,
-   #sbe-sidebar .submit-btn {
+   #sbe-sidebar .submit-btn,
+   #sbe-sidebar input[type='submit'] {
 
 		width: 100%;
 		background-color: #008C9E;
@@ -903,9 +909,10 @@
     padding: 5px;
     color: #333333;
     box-sizing: border-box;
+    border-radius: 0;
    }
 
-   #sbe-sidebar .signup-info input[type='checkbox'] {
+   #sbe-sidebar .signup-info input[type='checkbox'], #sbe-sidebar input[type='checkbox'] {
    	 position: relative;
    	 float: left;
    	 width: 15px;
@@ -917,6 +924,7 @@
    	width: 100%;
    	height: 25px;
    }
+
 
 	#sbe-sidebar .signup-info input,
 	#sbe-sidebar .signup-info textarea,
