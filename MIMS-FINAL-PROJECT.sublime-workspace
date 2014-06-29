@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"side",
+				"sidebar-content"
+			],
+			[
 				"pre",
 				"previousTab"
 			],
@@ -510,10 +514,6 @@
 			[
 				"angul",
 				"angular-resource"
-			],
-			[
-				"side",
-				"sidebarDatingExt"
 			]
 		]
 	},
@@ -531,23 +531,7 @@
 			"file": "app/content.html",
 			"settings":
 			{
-				"buffer_size": 34285,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/partials/profileDetails.html",
-			"settings":
-			{
-				"buffer_size": 18382,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "api/app.js",
-			"settings":
-			{
-				"buffer_size": 44269,
+				"buffer_size": 34634,
 				"line_ending": "Unix"
 			}
 		},
@@ -560,6 +544,22 @@
 			}
 		},
 		{
+			"file": "app/partials/profileDetails.html",
+			"settings":
+			{
+				"buffer_size": 18370,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "api/app.js",
+			"settings":
+			{
+				"buffer_size": 44269,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "app/background.js",
 			"settings":
 			{
@@ -568,18 +568,10 @@
 			}
 		},
 		{
-			"file": "app/lib/angular-carousel.js",
+			"file": "app/partials/removeSurvey.html",
 			"settings":
 			{
-				"buffer_size": 23749,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/partials/danceCardMenu.html",
-			"settings":
-			{
-				"buffer_size": 2454,
+				"buffer_size": 2988,
 				"line_ending": "Unix"
 			}
 		},
@@ -592,34 +584,26 @@
 			}
 		},
 		{
-			"file": "api/sidebar-2014-05-05.sql",
-			"settings":
-			{
-				"buffer_size": 63684,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "api/sidebarheroku.sql",
-			"settings":
-			{
-				"buffer_size": 59939,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "app/partials/notifications.html",
 			"settings":
 			{
-				"buffer_size": 2102,
+				"buffer_size": 2200,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "api/herokusqlpatch.sql",
+			"file": "app/partials/messages.html",
 			"settings":
 			{
-				"buffer_size": 2777,
+				"buffer_size": 3023,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/signup2.html",
+			"settings":
+			{
+				"buffer_size": 2657,
 				"line_ending": "Unix"
 			}
 		}
@@ -648,16 +632,24 @@
 	},
 	"file_history":
 	[
+		"/Users/derekkan/Dev/sidebarDating/app/main.html",
+		"/Users/derekkan/Dev/sidebarDating/app/main.js",
+		"/Users/derekkan/Dev/sidebarDating/app/app.js",
+		"/Users/derekkan/Dev/sidebarDating/app/sidebar.html",
 		"/Users/derekkan/Dev/sidebarDating/api/herokusqlpatch.sql",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/notifications.html",
+		"/Users/derekkan/Dev/sidebarDating/api/sidebarheroku.sql",
+		"/Users/derekkan/Dev/sidebarDating/api/sidebar-2014-05-05.sql",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/profileList.html",
+		"/Users/derekkan/Dev/sidebarDating/app/partials/danceCardMenu.html",
+		"/Users/derekkan/Dev/sidebarDating/app/lib/angular-carousel.js",
 		"/Users/derekkan/Dev/angular-slider-master/example.html",
 		"/Users/derekkan/Dev/sidebarDating/app/partials/removeSurvey.html",
 		"/Users/derekkan/Dev/sidebarDating/app/lib/draganddrop.js",
-		"/Users/derekkan/Dev/sidebarDating/app/partials/profileList.html",
 		"/Users/derekkan/Dev/sidebarDating/app/partials/signup2.html",
 		"/Users/derekkan/Dev/sidebarDating/app/partials/signup1.html",
 		"/Users/derekkan/Dev/sidebarDating/api/sidebar.sql",
 		"/Users/derekkan/Dev/sidebarHeroku.sql",
-		"/Users/derekkan/Dev/sidebarDating/api/sidebar-2014-05-05.sql",
 		"/Users/derekkan/Dev/sidebarDating/app/lib/angular-draganddrop.js",
 		"/Users/derekkan/Dev/sidebarDating/app/partials/signup0.html",
 		"/Users/derekkan/Dev/sidebarDating/app/partials/signup3.html",
@@ -665,14 +657,12 @@
 		"/Users/derekkan/Dev/sidebarDating/app/staticData/profiles_f.json",
 		"/Users/derekkan/Dev/sidebarDating/app/staticData/profiles_mf.json",
 		"/Users/derekkan/Dev/sidebarDating/app/staticData/profiles_m.json",
-		"/Users/derekkan/Dev/sidebarDating/app/partials/notifications.html",
 		"/Users/derekkan/Dev/sidebarDating/app/partials/messages.html",
 		"/Users/derekkan/Dev/sidebarDating/.gitignore",
 		"/Users/derekkan/Dev/sidebarDating/app/lib/moment2.min.js",
 		"/Users/derekkan/Dev/sidebarDating/app/lib/moment.min.js",
 		"/Users/derekkan/Dev/sidebarDating/app/test-animate.html",
 		"/Users/derekkan/Dev/sidebarDating/app/lib/angular-slider.js",
-		"/Users/derekkan/Dev/sidebarDating/app/partials/danceCardMenu.html",
 		"/Users/derekkan/Dev/sidebarDating/app/partials/login.html",
 		"/Users/derekkan/Dev/showHistory/typedUrls.js",
 		"/Users/derekkan/Dev/sidebarDating/api/mockHistory.json",
@@ -720,7 +710,6 @@
 		"/Users/derekkan/Dev/socket.io-chat-demo/server.js",
 		"/Users/derekkan/Dev/playTestNode/src/server.js",
 		"/Users/derekkan/Dev/sidebarDating/app/partials/checkStatus.html",
-		"/Users/derekkan/Dev/sidebarDating/app/app.js",
 		"/Users/derekkan/Dev/sidebarDating/api/userprefs.txt",
 		"/Users/derekkan/Dev/sidebarDating/api/users.txt",
 		"/Users/derekkan/Dev/prajwalkman-angular-slider-177bcf0/README.md",
@@ -770,12 +759,7 @@
 		"/Users/derekkan/Dev/angular-test/test.html",
 		"/Users/derekkan/Dev/angular-test/index.html",
 		"/Users/derekkan/Dev/angular-test/treemap-d3-test.html",
-		"/Users/derekkan/Dev/angular-test/flare.json",
-		"/Users/derekkan/Dev/angular-test/mike-treempa.html",
-		"/Users/derekkan/Dev/sidebarDating/app.js",
-		"/Users/derekkan/Dev/angular-test/partials/messages.html",
-		"/Users/derekkan/Dev/sidebarDating/lib/angular-route.min.js",
-		"/Users/derekkan/Dev/sidebarDating/partials/profileList"
+		"/Users/derekkan/Dev/angular-test/flare.json"
 	],
 	"find":
 	{
@@ -800,6 +784,21 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"tab",
+			"textar",
+			"submit",
+			"input",
+			"button",
+			"h3",
+			"label",
+			"h3",
+			"uistateser",
+			"href",
+			"#sbe-sidebar ",
+			"makeFull",
+			"signupCtrl",
+			"partials",
+			"chrome.extension.getURL(",
 			"add_dancecard_not",
 			"messageService.",
 			"messageService",
@@ -912,22 +911,7 @@
 			"messageser",
 			"timeago",
 			"messageSer",
-			"getprofilesbyp",
-			"getprog",
-			"signupCt",
-			"signupCtrl",
-			"Profilefact",
-			"notification",
-			"notificationCtrl",
-			"34561",
-			"dancecard",
-			"sidebar",
-			"revealDetails",
-			"req.para",
-			"res.json",
-			"url:",
-			"visitCount:",
-			"typedCount:"
+			"getprofilesbyp"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -935,6 +919,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"src",
+			"",
+			"./partials",
+			"",
 			"tabNotLogged",
 			"",
 			"''",
@@ -998,7 +986,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1013,8 +1001,8 @@
 						"selection":
 						[
 							[
-								1229,
-								1229
+								1148,
+								1148
 							]
 						],
 						"settings":
@@ -1024,7 +1012,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 107.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1034,15 +1022,15 @@
 					"file": "app/content.html",
 					"settings":
 					{
-						"buffer_size": 34285,
+						"buffer_size": 34634,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								32180,
-								32180
+								2866,
+								2866
 							]
 						],
 						"settings":
@@ -1050,68 +1038,13 @@
 							"syntax": "Packages/HTML/HTML.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 14343.0,
+						"translation.y": 1619.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "app/partials/profileDetails.html",
-					"settings":
-					{
-						"buffer_size": 18382,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6889,
-								6889
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3298.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "api/app.js",
-					"settings":
-					{
-						"buffer_size": 44269,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								42970,
-								42970
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "app/content.js",
 					"settings":
 					{
@@ -1122,8 +1055,8 @@
 						"selection":
 						[
 							[
-								310,
-								310
+								779,
+								779
 							]
 						],
 						"settings":
@@ -1131,6 +1064,61 @@
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/partials/profileDetails.html",
+					"settings":
+					{
+						"buffer_size": 18370,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5563,
+								5569
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3159.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "api/app.js",
+					"settings":
+					{
+						"buffer_size": 44269,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								576,
+								576
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1150,8 +1138,8 @@
 						"selection":
 						[
 							[
-								3825,
-								3825
+								123,
+								123
 							]
 						],
 						"settings":
@@ -1161,53 +1149,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 15.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/lib/angular-carousel.js",
-					"settings":
-					{
-						"buffer_size": 23749,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								763,
-								763
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 5.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "app/partials/danceCardMenu.html",
+					"buffer": 6,
+					"file": "app/partials/removeSurvey.html",
 					"settings":
 					{
-						"buffer_size": 2454,
+						"buffer_size": 2988,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1644,
-								1644
+								1731,
+								1731
 							]
 						],
 						"settings":
@@ -1216,13 +1176,13 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 679.0,
+						"translation.y": 209.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 7,
 					"file": "app/partials/profileList.html",
 					"settings":
 					{
@@ -1233,8 +1193,8 @@
 						"selection":
 						[
 							[
-								1971,
-								1971
+								1970,
+								1890
 							]
 						],
 						"settings":
@@ -1243,81 +1203,80 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 787.0,
+						"translation.y": 949.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "app/partials/notifications.html",
+					"settings":
+					{
+						"buffer_size": 2200,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								461,
+								461
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 9,
-					"file": "api/sidebar-2014-05-05.sql",
+					"file": "app/partials/messages.html",
 					"settings":
 					{
-						"buffer_size": 63684,
+						"buffer_size": 3023,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								63171,
-								63171
+								2099,
+								2099
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/SQL/SQL.tmLanguage",
-							"tab_size": 4,
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 10195.0,
+						"translation.y": 1112.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 10,
-					"file": "api/sidebarheroku.sql",
+					"file": "app/partials/signup2.html",
 					"settings":
 					{
-						"buffer_size": 59939,
+						"buffer_size": 2657,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								48635,
-								48586
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 6590.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "app/partials/notifications.html",
-					"settings":
-					{
-						"buffer_size": 2102,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1834,
-								1834
+								2094,
+								2094
 							]
 						],
 						"settings":
@@ -1326,35 +1285,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 769.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "api/herokusqlpatch.sql",
-					"settings":
-					{
-						"buffer_size": 2777,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2016,
-								2016
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 121.0,
+						"translation.y": 845.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
