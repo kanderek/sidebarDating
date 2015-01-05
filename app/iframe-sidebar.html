@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app="sidebarDatingExt">
+<head>
+	<meta charset="UTF-8"></meta>
+	<title>Iframe Sidebar</title>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<style>
+		body {
+			margin: 0;
+		}
+
+		.sidebar {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			/*background-color: red;*/
+			text-align: center;
+		}
+
+		.profile p {
+			color: white;
+			vertical-align: middle;
+		}
+	</style>
+
+	<script src="lib/jquery-1.11.0.min.js"></script>
+    <script src="lib/jquery.ziptastic.js"></script>
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-resource.min.js"></script> 
+    <script src="lib/angular-route.min.js"></script>
+    <script src="lib/angular-ui-router.min.js"></script>
+    <script src="lib/angular-animate.js"></script>
+    <script src="lib/angular-draganddrop.js"></script>
+    <script src="lib/draganddrop.js"></script>
+    <script src="lib/angular-touch.js"></script>
+    <script src="lib/rangeInputSupported.js"></script>
+    <script src="lib/angular-slider.js"></script>
+    <script src="lib/jquery.flexslider.js"></script>
+    <script src="lib/angular-carousel.js"></script>
+    <script src="lib/angular-file-upload.js"></script>
+    <script src="lib/d3.v3.min.js"></script>
+    <script src="lib/socket.io.js"></script>
+    <script src="lib/moment.min.js"></script>
+    <script src="sidebarApp.js"></script>
+
+</head>
+<body>
+	<div id="sbe-sidebar"
+		 class="sidebar openPanel" >
+
+		<div id="top-menu" ng-show="isSignedIn()" ng-controller="TopMenuCtrl">
+			<a ng-click="goBack()" class="sidebar-back"></a>
+			<a ng-click="goToProfile()" class="sidebar-mainUserName" > {{username}}</a>
+			<a class="sidebar-settings" ng-click="logout()"></a>
+			<!-- <a ng-click="goToHistory()" >History </a> -->
+			<a ng-click="goToNotifications()" ng-class="{'sidebar-notif': true, 'sidebar-notif-unread': ns.unreadCount}">{{ns.unreadCount}} </a>
+		</div>
+
+		<div ui-view="sidebar" id="sbe-bodyContent" ng-cloak>
+		</div>
+
+		<div class="remove-on-drag-area"
+			 ng-class="{'showRemoveArea': showRemove}"
+			  ui-on-drop="onDropRemove($event, $data)"
+		 	  drag-hover-class="drag-over-accept"
+		 	  drop-channel="remove-person"
+		>
+		<!-- {{showRemove}} -->
+		</div>
+
+	</div>
+
+</body>
+</html>

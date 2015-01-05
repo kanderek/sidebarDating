@@ -531,7 +531,7 @@
 			"file": "app/content.html",
 			"settings":
 			{
-				"buffer_size": 34634,
+				"buffer_size": 36722,
 				"line_ending": "Unix"
 			}
 		},
@@ -587,7 +587,7 @@
 			"file": "app/partials/notifications.html",
 			"settings":
 			{
-				"buffer_size": 2200,
+				"buffer_size": 2272,
 				"line_ending": "Unix"
 			}
 		},
@@ -595,7 +595,7 @@
 			"file": "app/partials/messages.html",
 			"settings":
 			{
-				"buffer_size": 3023,
+				"buffer_size": 3239,
 				"line_ending": "Unix"
 			}
 		},
@@ -604,6 +604,46 @@
 			"settings":
 			{
 				"buffer_size": 2657,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/danceCardMenu.html",
+			"settings":
+			{
+				"buffer_size": 2634,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/fileUploadTest.html",
+			"settings":
+			{
+				"buffer_size": 1627,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/historyTest.html",
+			"settings":
+			{
+				"buffer_size": 634,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/login.html",
+			"settings":
+			{
+				"buffer_size": 1118,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/partials/checkStatus.html",
+			"settings":
+			{
+				"buffer_size": 80,
 				"line_ending": "Unix"
 			}
 		}
@@ -986,7 +1026,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -1022,15 +1062,15 @@
 					"file": "app/content.html",
 					"settings":
 					{
-						"buffer_size": 34634,
+						"buffer_size": 36722,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2866,
-								2866
+								32030,
+								32030
 							]
 						],
 						"settings":
@@ -1038,7 +1078,7 @@
 							"syntax": "Packages/HTML/HTML.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1619.0,
+						"translation.y": 15999.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1065,8 +1105,8 @@
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": 95.0,
+						"translation.y": 21752.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1213,15 +1253,15 @@
 					"file": "app/partials/notifications.html",
 					"settings":
 					{
-						"buffer_size": 2200,
+						"buffer_size": 2272,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								461,
-								461
+								562,
+								562
 							]
 						],
 						"settings":
@@ -1240,15 +1280,15 @@
 					"file": "app/partials/messages.html",
 					"settings":
 					{
-						"buffer_size": 3023,
+						"buffer_size": 3239,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2099,
-								2099
+								2324,
+								2324
 							]
 						],
 						"settings":
@@ -1258,7 +1298,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1112.0,
+						"translation.y": 1243.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1286,6 +1326,139 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 845.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "app/partials/danceCardMenu.html",
+					"settings":
+					{
+						"buffer_size": 2634,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1463,
+								1463
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 594.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "app/partials/fileUploadTest.html",
+					"settings":
+					{
+						"buffer_size": 1627,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								616,
+								616
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 10.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "app/partials/historyTest.html",
+					"settings":
+					{
+						"buffer_size": 634,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								274,
+								274
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "app/partials/login.html",
+					"settings":
+					{
+						"buffer_size": 1118,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								333,
+								333
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "app/partials/checkStatus.html",
+					"settings":
+					{
+						"buffer_size": 80,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -24,12 +24,12 @@
 		src: url('http://www.microcake.org/sidebardating/Heavy.ttf');
 	}
 
-	#sbe-sidebar a {
+	#injected-content #sbe-sidebar a {
 		cursor: pointer;
 		color: #00A1B5;
 	}
 
-	#injected-wrapper {
+	#injected-content #injected-wrapper {
 		/*background-color: rgba(255,100,100, 0.5);*/
 		/*width: 300px;*/
 		height: 100%;
@@ -45,7 +45,7 @@
 		margin: 0px;
 	}
 
-	#detailsWrapper {
+	#injected-content #detailsWrapper {
 		pointer-events: auto;
 		height: 100%;
 		width: 520px;
@@ -64,37 +64,37 @@
 		-webkit-animation:tuckDetails 1s 1;
 	}*/
 
-	.tuckDetails {
+	#injected-content .tuckDetails {
 		/*right: -240px;*/
 	 	-webkit-transform: translateX(760px) translateZ(1px);
 	 	-webkit-animation:tuckDetails 1s 1;
 	}
 
-	.revealDetails {
+	#injected-content .revealDetails {
 		/*right: -240px;*/
 	 	-webkit-transform: translateX(500px) translateZ(1px);
 	 	-webkit-animation:revealDetails 1s 1;
 	}
 
-	.initDetails {
+	#injected-content .initDetails {
 		/*right: -240px;*/
 		-webkit-transform: translateX(500px) translateZ(1px);
 		-webkit-animation:initDetails 1s 1;
 	}
 
-	.openDetails {
+	#injected-content .openDetails {
 		/*right: 260px;*/
 		-webkit-transform: translateX(0px) translateZ(1px);
 		-webkit-animation:openDetails 1s 1;
 	}
 
-	.closeDetails {
+	#injected-content .closeDetails {
 		/*right: -240px;*/
 		-webkit-transform: translateX(500px) translateZ(1px);
 		-webkit-animation:closeDetails 1s 1;
 	}
 
-	.shutdownDetails {
+	#injected-content .shutdownDetails {
 		/*right: -20px;*/
 		-webkit-transform: translateX(780px) translateZ(1px);
 	}
@@ -135,7 +135,7 @@
 	}
 
 
-	#tabControl {
+	#injected-content #tabControl {
 		background-color: #b7bcbc;
 		width: 20px;
 		height: 40px;
@@ -147,18 +147,18 @@
 		/*box-shadow: 1px 4px 20px #333333;*/
 	}
 
-	.on {
+	#injected-content .on {
 		opacity: 1.0;
 		-webkit-animation:fadeIn 1s 1;
 
 	}
 
-	.off {
+	#injected-content .off {
 		opacity: 0.0;
 		-webkit-animation:fadeOut 1s 1;
 	}
 
-	.change {
+	#injected-content .change {
 		/*opacity: 1.0;*/
 		-webkit-animation:fadeOutIn 1s 1;
 	}
@@ -185,7 +185,7 @@
 
 /* PRIMARY SIDEBAR */
 
-	#sbe-sidebar {
+	#injected-content #sbe-sidebar {
 		pointer-events: auto;
 		color: #DBDBDB;
 		background-color: #343838;
@@ -571,7 +571,7 @@
 		-webkit-animation:initPanel 1s 1;
 	}*/
 
-	.openPanel {
+	#injected-content .openPanel {
 		/*right: 260px;*/
 		/*-webkit-transform: translateZ(10px);*/
 		-webkit-transform: translateX(520px) translateZ(10px);
@@ -580,7 +580,7 @@
 		-webkit-animation:openPanel 1s 1;
 	}
 
-	.closePanel {
+	#injected-content .closePanel {
 
 		/*right: -240px;*/
 		-webkit-transform: translateX(780px) translateZ(10px);
@@ -599,7 +599,7 @@
 		to{-webkit-transform: translateX(780px);}
 	}
 
-	#arrow-icon {
+	#injected-content #arrow-icon {
 		display: block;
 		height: 20px;
 		width: 20px;
@@ -609,7 +609,7 @@
 
 	}
 
-	#profile-icon {
+	#injected-content #profile-icon {
 		display: block;
 		height: 25px;
 		width: 25px;
@@ -617,7 +617,7 @@
 
 	}
 
-	#close-action {
+	#injected-content #close-action {
 		z-index: 10;
 		position: absolute;
 		right: 0px;
@@ -625,12 +625,12 @@
 		margin: 10px;
 	}
 
-	#close-icon {
+	#injected-content #close-icon {
 		height: 16px;
 		width: 16px;
 	}
 
-	#home-action {
+	#injected-content #home-action {
 		z-index: 10;
 		position: absolute;
 		left: 0px;
@@ -638,12 +638,12 @@
 		margin: 10px;
 	}
 
-	#home-icon {
+	#injected-content #home-icon {
 		height: 16px;
 		width: 16px;
 	}
 
-	#sbe-sidebar button, #sbe-sidebar input[type='submit'] {
+	#injected-content #sbe-sidebar button, #injected-content #sbe-sidebar input[type='submit'] {
 		width: 100%;
 		background-color: #008C9E;
 		color: #DBDBDB;
@@ -656,7 +656,7 @@
 		font-weight: normal;
 	}
 
-	#sbe-sidebar button:hover, #sbe-sidebar input[type='submit']:hover {
+	#injected-content #sbe-sidebar button:hover, #injected-content #sbe-sidebar input[type='submit']:hover {
 		background-color: #00AABF;
 		border-bottom: 4px solid #007786 !important;
 	}
@@ -670,13 +670,13 @@
 
 
 
-	#sbe-sidebar .back {
+	#injected-content #sbe-sidebar .back {
 		position: absolute;
 		left: 15px;
 		cursor: pointer;
 	}
 
-	#sbe-sidebar #top-menu {
+	#injected-content #sbe-sidebar #top-menu {
 		width: inherit;
 		text-align: center;
 		margin: 0;
@@ -697,7 +697,7 @@
 	*******************************************/
 
 
-	#sbe-sidebar .profile {
+	#injected-content #sbe-sidebar .profile {
 		width: 100%;
 		height: 62px;
 		overflow: hidden;
@@ -708,13 +708,13 @@
 		box-sizing: border-box;
 	}
 
-	#sbe-sidebar .isSelected {
+	#injected-content #sbe-sidebar .isSelected {
 		background-color: #404242;
 		border-right: 3px solid #00B768;
 		box-sizing: border-box;
 	}
 
-	#sbe-sidebar .profile img {
+	#injected-content #sbe-sidebar .profile img {
 		width: 48px;
 		height: 48px;
 		position: relative;
@@ -724,11 +724,11 @@
 		border-radius: 24px;
 	}
 
-	.sbe-is-online {
+	#injected-content .sbe-is-online {
 		border: 1px solid #00B768;
 	}
 
-	#sbe-sidebar .meeting-space {
+	#injected-content #sbe-sidebar .meeting-space {
 
 		width: 100%;
 		overflow-y: scroll;
@@ -737,7 +737,7 @@
 		padding-top: 85px;
 	}
 
-	#sbe-sidebar .sidebar-visitorsTitle  {
+	#injected-content #sbe-sidebar .sidebar-visitorsTitle  {
 		font-weight: bold;
 		font-size: 1.1em;
 		text-shadow: 0px 1px 0px #000;
@@ -753,7 +753,7 @@
 	*******************************************/
 
 
-	#sbe-sidebar .horizontal-line {
+	#injected-content #sbe-sidebar .horizontal-line {
 		width: 100%;
 		height: 1px;
 		background-color: #141616;
@@ -761,11 +761,11 @@
 		margin: auto;
 	}
 
-	.hide {
+	#injected-content .hide {
 		display: none;
 	}
 
-	.carousel-indicators {
+	#injected-content .carousel-indicators {
 		bottom: -5px;
 	}
 
@@ -774,8 +774,8 @@
 	// Signup Styles
 	//
 	*******************************************/
-    #sbe-sidebar .signup-wrapper,
-    #sbe-sidebar .login-wrapper {
+    #injected-content #sbe-sidebar .signup-wrapper,
+    #injected-content #sbe-sidebar .login-wrapper {
     	width: 100%;
 /*    	position: relative;
     	top: 50px;*/
@@ -783,40 +783,40 @@
     	box-sizing: border-box;
     }
 
-    #sbe-sidebar #logo-signup,
-    #sbe-sidebar #logo-login {
+    #injected-content #sbe-sidebar #logo-signup,
+    #injected-content #sbe-sidebar #logo-login {
     	height: auto;
     	width: 150px;
     	margin: 0 auto;
     }
 
-    #sbe-sidebar #logo-signup img,
-    #sbe-sidebar #logo-login img {
+    #injected-content #sbe-sidebar #logo-signup img,
+    #injected-content #sbe-sidebar #logo-login img {
     	width: 100%;
     	height: auto;
     }
 
 
-   #sbe-sidebar #sbe-profileList-empty-message,
-   #sbe-sidebar #tagline-signup,
-   #sbe-sidebar #tagline-login,
-   #sbe-sidebar #username-header {
+   #injected-content #sbe-sidebar #sbe-profileList-empty-message,
+   #injected-content #sbe-sidebar #tagline-signup,
+   #injected-content #sbe-sidebar #tagline-login,
+   #injected-content #sbe-sidebar #username-header {
    		color: #DBDBDB;
    		text-align: center;
    }
 
-   #sbe-sidebar #tagline-signup,
-   #sbe-sidebar #tagline-login {
+   #injected-content #sbe-sidebar #tagline-signup,
+   #injected-content #sbe-sidebar #tagline-login {
    		font-style: oblique;
    }
 
-   #sbe-sidebar .explain-signup,
-   #sbe-sidebar .explain-login {
+   #injected-content #sbe-sidebar .explain-signup,
+   #injected-content #sbe-sidebar .explain-login {
    		color: #BBB;
    		text-align: left;
    		margin: 10px 0;
    }
-   #sbe-sidebar .signup-wrapper button{
+   #injected-content #sbe-sidebar .signup-wrapper button{
    		width: 100%;
    		display: block;
    		position: relative;
@@ -824,16 +824,16 @@
    		margin-bottom: 10px;
    }
 
-   .login-toggle {
+   #injected-content .login-toggle {
    		text-align: center;
    		font-size: 12px;
    }
 
 
-   #sbe-sidebar .signup-button,
-   #sbe-sidebar .login-button,
-   #sbe-sidebar .submit-btn,
-   #sbe-sidebar input[type='submit'] {
+   #injected-content #sbe-sidebar .signup-button,
+   #injected-content #sbe-sidebar .login-button,
+   #injected-content #sbe-sidebar .submit-btn,
+   #injected-content #sbe-sidebar input[type='submit'] {
 
 		width: 100%;
 		background-color: #008C9E;
@@ -844,14 +844,14 @@
 		font-size: 1em;
 	}
 
-	#sbe-sidebar .submit-btn:hover {
+	#injected-content #sbe-sidebar .submit-btn:hover {
 		background-color: #00AABF;
 		border-bottom: 4px solid #007786;
 	}
 
 /*************** signup 1 *************************/
 
-   #sbe-sidebar .signup-heading {
+   #injected-content #sbe-sidebar .signup-heading {
    	width: 100%;
    	height: 45px;
    	background-color: #2B2E2E;
@@ -862,7 +862,7 @@
    	pointer-events: auto;
    }
 
-   #sbe-sidebar .signup-heading h4 {
+   #injected-content #sbe-sidebar .signup-heading h4 {
    	/*color: #44D6E2;*/
    	color: #DFDFDF;
    	margin: 0;
@@ -870,7 +870,7 @@
    	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
    }
 
-   #sbe-sidebar #signup-photo-preview {
+   #injected-content #sbe-sidebar #signup-photo-preview {
    		width: 150px;
    		height: 150px;
    		margin: auto;
@@ -880,39 +880,39 @@
    		border-radius: 50%;
    }
 
-   #sbe-sidebar #signup-photo-preview img {
+   #injected-content #sbe-sidebar #signup-photo-preview img {
    		border-radius: 50%;
    }
 
-   #sbe-sidebar label, #sbe-sidebar input[type='file'] {
+   #injected-content #sbe-sidebar label, #injected-content #sbe-sidebar input[type='file'] {
   	 color: #BCBCBC;
   	}
 
-   #sbe-sidebar .signup-info,
-   #sbe-sidebar .login-form {
+   #injected-content #sbe-sidebar .signup-info,
+   #injected-content #sbe-sidebar .login-form {
    	margin-top: 15px;
    	width: 100%;
    	height: 100%;
    }
 
-   #sbe-sidebar .signup-info input:focus,
-   #sbe-sidebar .login-form input:focus {
+   #injected-content #sbe-sidebar .signup-info input:focus,
+   #injected-content #sbe-sidebar .login-form input:focus {
    	outline: none;
    }
 
-   #sbe-sidebar .signup-info input[type='text'],
-   #sbe-sidebar .signup-info input[type='email'],
-   #sbe-sidebar .signup-info input[type='password'],
-   #sbe-sidebar .login-form input[type='text'],
-   #sbe-sidebar .login-form input[type='email'],
-   #sbe-sidebar .login-form input[type='password'] {
+   #injected-content #sbe-sidebar .signup-info input[type='text'],
+   #injected-content #sbe-sidebar .signup-info input[type='email'],
+   #injected-content #sbe-sidebar .signup-info input[type='password'],
+   #injected-content #sbe-sidebar .login-form input[type='text'],
+   #injected-content #sbe-sidebar .login-form input[type='email'],
+   #injected-content #sbe-sidebar .login-form input[type='password'] {
     padding: 5px;
     color: #333333;
     box-sizing: border-box;
     border-radius: 0;
    }
 
-   #sbe-sidebar .signup-info input[type='checkbox'], #sbe-sidebar input[type='checkbox'] {
+   #injected-content #sbe-sidebar .signup-info input[type='checkbox'], #sbe-sidebar input[type='checkbox'] {
    	 position: relative;
    	 float: left;
    	 width: 15px;
@@ -920,27 +920,27 @@
    	 margin: 2px 5px 0px 0px;
    }
 
-   #sbe-sidebar .checkbox-row {
+   #injected-content #sbe-sidebar .checkbox-row {
    	width: 100%;
    	height: 25px;
    }
 
 
-	#sbe-sidebar .signup-info input,
-	#sbe-sidebar .signup-info textarea,
-	#sbe-sidebar .signup-info select,
-	#sbe-sidebar .login-form input{
+	#injected-content #sbe-sidebar .signup-info input,
+	#injected-content #sbe-sidebar .signup-info textarea,
+	#injected-content #sbe-sidebar .signup-info select,
+	#injected-content #sbe-sidebar .login-form input{
 		display: block;
 		width: 100%;
 		margin-bottom: 10px;
 	}
 
-	#sbe-sidebar .signup-info textarea {
+	#injected-content #sbe-sidebar .signup-info textarea {
 		height: 80px;
 		resize: none;
 	}
 
-	#sbe-sidebar .slider {
+	#injected-content #sbe-sidebar .slider {
 		width: 100%;
 		height: 20px;
 		background-color: none;
@@ -948,27 +948,27 @@
 		margin-bottom: 20px;
 	}
 
-	#sbe-sidebar #select-dob {
+	#injected-content #sbe-sidebar #select-dob {
 		width: 100%;
 	}
 
-	#sbe-sidebar #select-dob select {
+	#injected-content #sbe-sidebar #select-dob select {
 		position: relative;
 		float: left;
 	}
 
-	#sbe-sidebar #dob-month, #sbe-sidebar #dob-day {
+	#injected-content #sbe-sidebar #dob-month, #injected-content #sbe-sidebar #dob-day {
 		width: 29%;
 		margin-right: 3.5%;
 	}
 
-	#sbe-sidebar #dob-year {
+	#injected-content #sbe-sidebar #dob-year {
 		width: 35%;
 		margin-right: 0px;
 	}
 
 
-	#sbe-sidebar .remove-on-drag-area {
+	#injected-content #sbe-sidebar .remove-on-drag-area {
 		width: 100%;
 		position: absolute;
 		height: 250px;
@@ -978,13 +978,13 @@
 		visibility: hidden;
 	}
 
-	#sbe-sidebar .showRemoveArea {
+	#injected-content #sbe-sidebar .showRemoveArea {
 		visibility: visible;
 
 		background: #007786 url('http://www.endlessicons.com/wp-content/uploads/2012/12/remove-icon-614x460.png') no-repeat center center;
 	}
 
-	#sbe-sidebar .sidebar-back {
+	#injected-content #sbe-sidebar .sidebar-back {
 		width: 13px;
 		height: 13px;
 		float: left;
@@ -993,11 +993,11 @@
 		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow.png') no-repeat 0 0;
 	}
 
-	#sbe-sidebar .sidebar-back:hover {
+	#injected-content #sbe-sidebar .sidebar-back:hover {
 		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow.png') no-repeat 0 -13px;
 	}
 
-	#sbe-sidebar .sidebar-settings {
+	#injected-content #sbe-sidebar .sidebar-settings {
 		width: 13px;
 		height: 13px;
 		display: inline-block;
@@ -1005,14 +1005,14 @@
 		background: #2B2E2E url('http://www.microcake.org/sidebardating/settings.png') no-repeat 0 0;
 	}
 
-	#sbe-sidebar .sidebar-settings:hover {
+	#injected-content #sbe-sidebar .sidebar-settings:hover {
 		width: 13px;
 		height: 13px;
 		display: inline-block;
 		background: #2B2E2E url('http://www.microcake.org/sidebardating/settings.png') no-repeat 0 -13px;
 	}
 
-	#sbe-sidebar .sidebar-notif {
+	#injected-content #sbe-sidebar .sidebar-notif {
 		width: 15px;
 		height: 15px;
 		border-radius: 20px;
@@ -1025,22 +1025,22 @@
 		text-decoration: none;
 		line-height: 15px;
 	}
-    #sbe-sidebar .sidebar-notif-unread {
+    #injected-content #sbe-sidebar .sidebar-notif-unread {
         background-color: #00B768;
         color: #fff;
     }
 
-	#sbe-sidebar .sidebar-notif:hover {
+	#injected-content #sbe-sidebar .sidebar-notif:hover {
 		text-decoration: none;
 	}
 
-	#sbe-sidebar .sidebar-mainUserName {
+	#injected-content #sbe-sidebar .sidebar-mainUserName {
 		color: #44D6E2;
 		font-weight: bold;
 		font-size: 1.1em;
 	}
 
-	#sbe-tutorial-wrapper {
+	#injected-content #sbe-tutorial-wrapper {
 		pointer-events: none;
 		position: absolute;
 		top: 0px;
@@ -1050,31 +1050,31 @@
 		z-index: 2147483647;
 	}
 
-	#sbe-tutorial-step1 {
+	#injected-content #sbe-tutorial-step1 {
 		position: relative;
 		height: 86px;
 		width: 100%;
 		/*background-color:  rgba(0,100,0,0.4);*/
 	}
-	#sbe-tutorial-step2 {
+	#injected-content #sbe-tutorial-step2 {
 		position: relative;
 		height: 354px;
 		width: 100%;
 		/*background-color:  rgba(0,100,100,0.4);*/
 	}
-	#sbe-tutorial-step3 {
+	#injected-content #sbe-tutorial-step3 {
 		position: relative;
 		height: 100%;
 		width: 100%;
 		/*background-color:  rgba(0,0,100,0.4);*/
 	}
 
-	#sbe-sidebar .sbe-tutorial {
+	#injected-content #sbe-sidebar .sbe-tutorial {
 /*		background-color: gray;
 		width: 200px;*/
 	}
 
-	#sbe-sidebar .sbe-tutorial-text {
+	#injected-content #sbe-sidebar .sbe-tutorial-text {
 		position: relative;
 		float: left;
 		width: 260px;
@@ -1085,18 +1085,18 @@
 		pointer-events: auto;
 	}
 
-	#sbe-sidebar .sbe-tutorial-text > p{
+	#injected-content #sbe-sidebar .sbe-tutorial-text > p{
 		margin: 8px;
 	}
 
-	#sbe-sidebar .sbe-tutorial-text > svg {
+	#injected-content #sbe-sidebar .sbe-tutorial-text > svg {
 		position: absolute;
 		top: 50%;
 		-webkit-transform: translateY(-50%) translateX(260px);
 	}
 
 
-	#sbe-sidebar .sbe-tutorial-overlay-wrapper {
+	#injected-content #sbe-sidebar .sbe-tutorial-overlay-wrapper {
 
 		position: relative;
 		float: right;
@@ -1107,28 +1107,28 @@
 
 	/*62px*/
 
-	.sbe-tutorial-overlay {
+	#injected-content .sbe-tutorial-overlay {
 		background-color:  rgb(0,0,0);
 		opacity: 0.5;
 	}
 
-	.sbe-top-menu-overlay {
+	#injected-content .sbe-top-menu-overlay {
 		height: 30px;
 	}
 
-	.sbe-dancecard-overlay {
+	#injected-content .sbe-dancecard-overlay {
 		height: 56px;
 	}
 
-	.sbe-heading-overlay {
+	#injected-content .sbe-heading-overlay {
 		height: 42px;
 	}
 
-	.sbe-profile-list-overlay {
+	#injected-content .sbe-profile-list-overlay {
 		height: 312px;
 	}
 
-	#sbe-sidebar .sbe-deactivated {
+	#injected-content #sbe-sidebar .sbe-deactivated {
 		opacity: 0;
 	}
 
@@ -1136,19 +1136,19 @@
 		opacity: 0;
 	}
 */
-	#sbe-sidebar .sbe-pos-step1 {
+	#injected-content #sbe-sidebar .sbe-pos-step1 {
 		-webkit-transform: translateY(20px);
 	}
 
-	#sbe-sidebar .sbe-pos-step2 {
+	#injected-content #sbe-sidebar .sbe-pos-step2 {
 		-webkit-transform: translateY(20px);
 	}
 
-	#sbe-sidebar .sbe-pos-step3 {
+	#injected-content #sbe-sidebar .sbe-pos-step3 {
 		-webkit-transform: translateY(20px);
 	}
 
-	#sbe-sidebar #sbe-bodyContent {
+	#injected-content #sbe-sidebar #sbe-bodyContent {
 		height: 100%;
 		overflow-y: auto;
 		box-sizing: border-box;

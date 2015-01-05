@@ -22,43 +22,17 @@
       "matches": ["http://*/*", "https://*/*"],
       "js": [
         "lib/jquery-1.11.0.min.js",
-        "lib/jquery.ziptastic.js", 
-        "lib/angular.min.js", 
-        "lib/angular-resource.min.js", 
-        "lib/angular-route.min.js",
-        "lib/angular-ui-router.min.js",
-        "lib/angular-animate.js",
-        "lib/angular-draganddrop.js",
-        "lib/draganddrop.js",
-        "lib/angular-touch.js",
-        "lib/rangeInputSupported.js",
-        "lib/angular-slider.js",
-        "lib/jquery.flexslider.js",
-        "lib/angular-carousel.js",
-        "lib/angular-file-upload.js",
-        "lib/d3.v3.min.js",
-        "lib/socket.io.js",
-        "lib/moment.min.js",
         "content.js"
       ]
     }
   ],
 
   "web_accessible_resources": [
-      "content.html",
+      "iframe-experiment.html",
       "icons/*",
-      "profiles/*",
-      "*.json",
-      "partials/*",
-      "lib/*",
-      "lib/*/*/*",
-      "lib/angular.min.js.map",
-      "lib/angular-resource.min.js.map",
-      "lib/angular-route.min.js.map",
-      "lib/angular-ui-router.min.js.map",
       "css/*"
   ],
 
-  "permissions": ["tabs", "history","http://*/*", "https://*/*"]
+  "permissions": ["tabs", "history", "http://*/*", "https://*/*"]
 
 }
