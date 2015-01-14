@@ -80,20 +80,20 @@
 	<div id="injected-content" class="content">
 		<div class="profile-container">
 			<div id="tabControl" class="tab">+</div>
-			<iframe id="profile" src="http://localhost:8000/iframe-profile.html" width="100%" height="100%"></iframe>
+			<iframe id="profile" scrolling="no" src="http://localhost:8000/iframe-profile.html" width="100%" height="100%"></iframe>
 		</div>
 		<div class="sidebar-container">
-			<iframe id="sidebar" src="http://localhost:8000/iframe-sidebar.html" width="100%" height="100%"></iframe>
+			<iframe id="sidebar" scrolling="no" src="http://localhost:8000/iframe-sidebar.html" width="100%" height="100%"></iframe>
 		</div>
 	</div>
 
 	<script>
-		var profileIframe = document.getElementById('profile');
-		var sidebarIframe = document.getElementById('sidebar');
+		// var profileIframe = document.getElementById('profile');
+		// var sidebarIframe = document.getElementById('sidebar');
 
-		window.addEventListener('message', function (event) {
-			profileIframe.contentWindow.postMessage(event.data, '*');
-		}, false);
+		// window.addEventListener('message', function (event) {
+		// 	profileIframe.contentWindow.postMessage(event.data, '*');
+		// }, false);
 
 	</script>
 <!-- </html> -->

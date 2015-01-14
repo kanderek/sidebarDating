@@ -406,7 +406,7 @@
  		 <div id="profile-details">
             <div class="col-left">
                 <h3>{{profile.selectedProfile.username}}</h3>
-                <a ng-show="showMessageButton()" ui-sref="main.messages" class="msg-icon"><!-- <img ng-src="http://localhost:3000/message/message.png" /> --></a>
+                <a ng-show="showMessageButton()" href ng-click="openMessages()" class="msg-icon"><!-- <img ng-src="http://localhost:3000/message/message.png" /> --></a>
                 <p id="age-location">{{profile.selectedProfile.age}}, {{profile.selectedProfile.location_city}}, {{profile.selectedProfile.location_state}}</p>
     	 		<p>{{profile.selectedProfile.personal_blurb}}</p>
             </div>
@@ -414,11 +414,11 @@
                 <div class="profile-actions">
                      <button type="button"
                         ng-show="showAddButton()"
-                        ng-click="updateDancecard(profile.selectedProfile, 'added')"><img src="http://www.microcake.org/sidebardating/add.png">Add to Card</button>
+                        ng-click="addToDancecard()"><img src="http://www.microcake.org/sidebardating/add.png">Add to Card</button>
 
                     <button type="button"
                             ng-show="showRemoveButton()"
-                            ng-click="updateDancecard(profile.selectedProfile, 'removed')"><img src="http://www.microcake.org/sidebardating/remove.png">Remove From Card</button>
+                            ng-click="removeFromDancecard()"><img src="http://www.microcake.org/sidebardating/remove.png">Remove From Card</button>
 
                     <a ng-show="isSelf()"
                         ui-sref='main.detailsPanel'>Edit</a>

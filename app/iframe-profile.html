@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="sidebarDatingExt">
+<html ng-app="sidebarProfile">
 <head>
 	<meta charset="UTF-8"></meta>
 	<title>Iframe Profile</title>
 	<link id="angular-carousel-css" rel="stylesheet" type="text/css" href="css/angular-carousel.css">
 	<style>
+
 		body {
 			margin: 0;
 		}
@@ -13,35 +14,27 @@
 			position: absolute;
 			width: 100%;
 			height: 100%;
-			/*background-color: blue;*/
-			text-align: center;
 		}
 
-		.profile p {
-			color: white;
-			vertical-align: middle;
-		}
 	</style>
 
 	<script src="lib/jquery-1.11.0.min.js"></script>
-    <script src="lib/jquery.ziptastic.js"></script>
     <script src="lib/angular.min.js"></script>
     <script src="lib/angular-resource.min.js"></script> 
     <script src="lib/angular-route.min.js"></script>
-    <script src="lib/angular-ui-router.min.js"></script>
-    <script src="lib/angular-animate.js"></script>
-    <script src="lib/angular-draganddrop.js"></script>
-    <script src="lib/draganddrop.js"></script>
     <script src="lib/angular-touch.js"></script>
-    <script src="lib/rangeInputSupported.js"></script>
-    <script src="lib/angular-slider.js"></script>
-    <script src="lib/jquery.flexslider.js"></script>
     <script src="lib/angular-carousel.js"></script>
-    <script src="lib/angular-file-upload.js"></script>
     <script src="lib/d3.v3.min.js"></script>
-    <script src="lib/socket.io.js"></script>
     <script src="lib/moment.min.js"></script>
-    <script src="profileApp.js"></script>
+
+    <script src="src/js/appConfig.js"></script>
+    <script src="src/js/profile/profileApp.js"></script>
+    <script src="src/js/profile/directives/treeMap.js"></script>
+    <script src="src/js/profile/services/iframe.js"></script>
+    <script src="src/js/profile/services/profile.js"></script>
+    <script src="src/js/profile/services/interest.js"></script>
+    <script src="src/js/profile/services/sharedInterest.js"></script>
+    <script src="src/js/profile/controllers/profileDetail.js"></script>
 
 </head>
 <body>
@@ -50,11 +43,12 @@
 	     class="initDetails profile" >
 
 		<div id="detailsPanel">
-		 	<div id="detailsContent" >
-		 		<div ui-view="detailsPanel" ng-cloak>
+		 	<div id="detailsContent">
+		 		<div ng-view="detailsPanel" ng-cloak>
 		 		</div>
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>

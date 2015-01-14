@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="sidebarDatingExt">
+<html ng-app="sidebarApp">
 <head>
 	<meta charset="UTF-8"></meta>
 	<title>Iframe Sidebar</title>
@@ -13,16 +13,11 @@
 			position: absolute;
 			width: 100%;
 			height: 100%;
-			/*background-color: red;*/
-			text-align: center;
 		}
 
-		.profile p {
-			color: white;
-			vertical-align: middle;
-		}
 	</style>
 
+	<script src="lib/underscore.js"></script>
 	<script src="lib/jquery-1.11.0.min.js"></script>
     <script src="lib/jquery.ziptastic.js"></script>
     <script src="lib/angular.min.js"></script>
@@ -41,7 +36,25 @@
     <script src="lib/d3.v3.min.js"></script>
     <script src="lib/socket.io.js"></script>
     <script src="lib/moment.min.js"></script>
-    <script src="sidebarApp.js"></script>
+
+    <script src="src/js/appConfig.js"></script>
+    <script src="src/js/sidebar/sidebarApp.js"></script>
+    <script src="src/js/sidebar/services/uiState.js"></script>
+    <script src="src/js/sidebar/services/iframe.js"></script>
+    <script src="src/js/sidebar/services/socket.js"></script>
+    <script src="src/js/sidebar/services/history.js"></script>
+    <script src="src/js/sidebar/services/survey.js"></script>
+    <script src="src/js/sidebar/services/chromeExtension.js"></script>
+    <script src="src/js/sidebar/services/profile.js"></script>
+    <script src="src/js/sidebar/services/signup.js"></script>
+    <script src="src/js/sidebar/services/auth.js"></script>
+
+	<script src="src/js/sidebar/controllers/history.js"></script>
+	<script src="src/js/sidebar/controllers/upload.js"></script>
+	<script src="src/js/sidebar/controllers/tutorial.js"></script>
+	<script src="src/js/sidebar/controllers/profileList.js"></script>
+	<script src="src/js/sidebar/controllers/removeSurvey.js"></script>
+    <script src="src/js/sidebar/controllers/ui.js"></script>
 
 </head>
 <body>
@@ -56,7 +69,7 @@
 			<a ng-click="goToNotifications()" ng-class="{'sidebar-notif': true, 'sidebar-notif-unread': ns.unreadCount}">{{ns.unreadCount}} </a>
 		</div>
 
-		<div ui-view="sidebar" id="sbe-bodyContent" ng-cloak>
+		<div ng-view="sidebar" id="sbe-bodyContent" ng-cloak>
 		</div>
 
 		<div class="remove-on-drag-area"
