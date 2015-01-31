@@ -20,7 +20,8 @@ var sidebarApp = angular.module('sidebarApp',[
   'angularFileUpload',
   'ui.router',
   'appControllers',
-  'appServices'
+  'appServices',
+  'appDirectives'
 ]);
 
 
@@ -62,6 +63,18 @@ sidebarApp.config([
       .when('/signup/step3', {
         templateUrl: 'partials/signup3.html',
         controller: 'SignupCtrl'
+      })
+      .when('/message', {
+        templateUrl: 'partials/new/messages.html',
+        controller: 'MessageCtrl'
+      })
+      .when('/message', {
+        templateUrl: 'partials/new/messages.html',
+        controller: ' NotificationCtrl'
+      })
+      .when('/survey', {
+        templateUrl: 'partials/new/removeSurvey.html',
+        controller: 'RemoveSurveyCtrl'
       });
 
     // $sceProvider.enabled(false);
@@ -202,6 +215,7 @@ sidebarApp.config([
 
 var appServices = angular.module('appServices', ['ngResource']);
 var appControllers = angular.module('appControllers', []);
+var appDirectives = angular.module('appDirectives', []);
 
 /********************************************************************************************************
 //
@@ -1242,7 +1256,7 @@ appControllers.controller('TopMenuCtrl',
       //   }
       // });
 
-      $scope.$on('user-data-available', function(event){
+      $scope.$on('user-data-available', function (event) {
         // console.log('username is ready to render! ');
         $scope.username = Profile.getSelfProfile() ? Profile.getSelfProfile().username : '';
       });

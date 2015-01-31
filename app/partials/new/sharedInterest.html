@@ -1,0 +1,157 @@
+<style>
+
+
+    @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+
+    #mutual-wrapper {
+
+        width: 100%;
+        /*height: 300px;
+        background-color: rgba(255,255,255,1);
+        margin: 5px 0px 5px 0px;
+        overflow: hidden;
+        /*height: 75px;*/
+    }
+
+    #mutual-content {
+        -webkit-column-count: 2;
+        -webkit-column-gap: 10px;
+        width: 100%;
+    }
+
+    .mutual-item {
+        /*border-radius: 37px; */
+        background-color: rgba(240,240,240,0.6);
+        /*margin: 5px;*/
+        /*position: relative;*/
+        /*float: left;*/
+        /*border-bottom: 2px solid gray;*/
+        /*width: 225px;*/
+        width: 100%;
+        margin-bottom: 10px;
+
+    }
+
+    .mutual-item-article, .mutual-item-song {
+        height: 80px;
+        width: 100%;
+    }
+
+    .mutual-item-video-normal {
+        height: 176px;
+        width: 100%;
+    }
+
+    .mutual-item-video-wide {
+        height: 132px;
+        width: 100%;
+    }
+
+    .horizontal-line {
+        width: 100%;
+        height: 1px;
+        background-color: #141616;
+        border-bottom: 1px solid #535959;
+        margin: 10px 0 0 0;
+    }
+
+    #wrapper {
+        width: 90%;
+        max-width: 460px;
+        min-width: 460px;
+    }
+
+    #columns {
+        -webkit-column-count: 3;
+        -webkit-column-gap: 10px;
+        -webkit-column-fill: auto;
+        -moz-column-count: 3;
+        -moz-column-gap: 10px;
+        -moz-column-fill: auto;
+        column-count: 3;
+        column-gap: 15px;
+        column-fill: auto;
+    }
+
+    /*#columns:hover .pin:not(:hover) {
+        opacity: 0.4;
+    }*/
+
+    #profile-shared-interests {
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        width: 100%;
+        background-color: #434747;
+        margin: 0px 0px 0px 0px;
+        overflow: auto;
+        color: #ababab;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+</style>
+
+<div id="profile-shared-interests" ng-hide="isSelf()">
+    <h3>Something to talk about - Your mutual browsings</h3>
+    
+    <div id="wrapper">
+
+        <div id="columns">
+            <interest-tile ng-repeat='interest in sic.interestData'
+                           interest-data="interest">
+            </interest-tile>
+        </div>
+
+    </div>
+</div>
+
+
+<!--         <div id="mutual-wrapper">
+            <h4>Something to talk about - Your mutual browsings</h4>
+            <div shared-interests data="sharedInterestData">
+                <div id="mutual-content">
+                    <div ng-repeat='url in sharedInterestData'>
+                        <div class='bg mutual-item mutual-item-article'>
+                            <h2><a href="{{url.url}}">{{url.page_title}}</a></h2>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+<!--  		<div id="mutual-wrapper">
+ 			<h4>Something to talk about - Your mutual browsings</h4>
+
+            <div id="mutual-content">
+                <div class="mutual-item mutual-item-article">
+                    Whisper CEO Michael Heyward To Join Us At Disrupt NY 2014
+                </div>
+                <div class="mutual-item">
+                    <iframe src="https://embed.spotify.com/?uri=spotify:track:72DTGt2tVAL6ATVhzVjvkk&theme=white&view=coverart" class="mutual-item-song" frameborder="0" allowtransparency="true"></iframe>
+                </div>
+
+     			<div class="mutual-item">
+                    <iframe src="https://embed.spotify.com/?uri=spotify:track:72DTGt2tVAL6ATVhzVjvkk&theme=white&view=coverart" width="235" height="310" frameborder="0" allowtransparency="true"></iframe>
+     			</div>
+     			<div class="mutual-item mutual-item-video-normal">
+                    <iframe class="mutual-item-video-normal" src="//www.youtube.com/embed/fNdO-hRQgqg" frameborder="0" allowfullscreen></iframe>
+     			</div>
+     			<div class="mutual-item">
+                    <iframe class="mutual-item-song" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe>
+     			</div>
+                <div class="mutual-item">
+                    <iframe width="235" height="235" src="https://rd.io/i/Rl5nGKIrUGz_EQ/" frameborder="0"></iframe>
+                </div>
+
+                <div class="mutual-item mutual-item-video-normal">
+                    <iframe src="//player.vimeo.com/video/40007369" class="mutual-item-video-normal" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                </div>
+
+                <div class="mutual-item mutual-item-video-wide">
+                    <iframe src="http://embed.ted.com/talks/james_patten_the_best_computer_interface_maybe_your_hands.html" width="235" height="132" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                </div>
+
+                <iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/99095518&amp;auto_play=false&amp;hide_related=false&amp;visual=true"></iframe>
+ 		</div>  -->
+
+

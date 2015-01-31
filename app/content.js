@@ -8,6 +8,56 @@ var url_info = {};
 /
 /***************************************************************************/
 
+  var pollForAppendComplete = null;
+  var sidebarWindow = null;
+  var profileWindow = null;
+
+  $.get(chrome.extension.getURL('/iframe-experiment.html'), function (injectedHtml) {
+      $('body').append(injectedHtml);
+  })
+    .then(function () {
+
+      pollForAppendComplete = setInterval(function () {
+          injectedContent = document.getElementById('injected-content');
+
+          if (injectedContent !== null) {
+              clearInterval(pollForAppendComplete);
+              console.log('*********** all injected ***********');
+
+              initializeState();
+              initialNudge();
+
+              setTimeout(function () {
+
+                initializeIframeChannel();
+                $('#tabControl').on('click', clickHandler);
+              }, 1000);
+          }
+
+      }, 200);
+
+    });
+
+function initializeIframeChannel() {
+  sidebarWindow = document.getElementById('sidebar').contentWindow;
+  profileWindow = document.getElementById('profile').contentWindow;
+
+  window.addEventListener('message', relayMessage, false);
+}
+
+function relayMessage(event) {
+
+    console.log('message being relayed...');
+    if (event.data.sender === 'sidebar') {
+      if (event.data.action === 'showProfile') {
+        openProfilePanel();
+      }
+      profileWindow.postMessage(event.data, '*');
+    } else if (event.data.sender === 'profile') {
+      sidebarWindow.postMessage(event.data, '*');
+    }
+}
+
 chrome.extension.onMessage.addListener(function(message, sender, sendResponse) {
   console.log("Message received in content script");
 });

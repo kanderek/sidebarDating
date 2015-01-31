@@ -1,10 +1,14 @@
-[{
-  "senderId": 0,
-  "message": "hello! Phillis",
-  "timeStamp": "2 days ago"
-},
-{
-  "senderId": 35,
-  "message": "hi",
-  "timeStamp": "2 days ago"
-}]
+[
+	{
+	  "senderId": 0,
+	  "message": "hello! Phillis",
+	  "relativeTimeStamp": "2 days ago",
+	  "sendTime": "2015-01-17T17:03:01-08:00"
+	},
+	{
+	  "senderId": 35,
+	  "message": "hi",
+	  "relativeTimeStamp": "2 days ago",
+	  "sendTime": "2015-01-17T17:03:01-08:00"
+	}
+]

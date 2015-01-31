@@ -1,10 +1,10 @@
 /*******************************************************************************************************
 Iframe Service  */
-appServices.factory('Iframe', ['$rootScope',
+angular.module('IframeModule', []).factory('Iframe', ['$rootScope',
   function($rootScope){
 
-    var profileIframe = window.parent.document.getElementById('profile');
-    var profileWindow = profileIframe ? profileIframe.contentWindow : null;
+    var profileIframe = null;//window.parent.document.getElementById('profile');
+    var profileWindow = window.parent; //null;//profileIframe ? profileIframe.contentWindow : null;
     var allowedFrames = '*';
 
     var actions = {};
@@ -18,6 +18,7 @@ appServices.factory('Iframe', ['$rootScope',
        console.log('sidebar iframe sent a message!');
        if (profileWindow) {
          profileWindow.postMessage({
+          sender: 'sidebar',
           action: action,
           data: data
         }, allowedFrames);
@@ -49,6 +50,10 @@ appServices.factory('Iframe', ['$rootScope',
     }
 
     receive();
+
+    // setInterval(function () {
+    //   send('action', 'some data');
+    // }, 3000);
 
     return {
       showProfile: showProfile,

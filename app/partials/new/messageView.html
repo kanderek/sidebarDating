@@ -1,0 +1,18 @@
+<top-menu username="{{userData.username}}" 
+		  notification-count="{{userData.unread_notifications}}" 
+		  notification-url="{{urls.notificationsUrl}}"
+		  settings-url="{{urls.settingsUrl}}">
+</top-menu>
+
+<my-dancecard selected="userData.selected_user"
+			  select-url="{{urls.messageUrl}}"
+			  userid="{{userData.userid}}">
+</my-dancecard>
+
+<short-description username="{{userData.selected_user.username}}" 
+				   short-blurb="{{userData.selected_user.personal_blurb}}">
+</short-description>
+
+<my-messages self-id="{{userData.userid}}" 
+			 user-id="{{userData.selected_user.userid}}">
+</my-messages>

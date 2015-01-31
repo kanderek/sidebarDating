@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html ng-app="Profile">
+
+<head>
+	<base href="/" />
+	<meta charset="UTF-8"></meta>
+	<title>Profile</title>
+	<link rel="stylesheet" type="text/css" href="css/main2.css">
+	<link rel="stylesheet" type="text/css" href="css/angular-carousel.css">
+	<style>
+
+		html, body {
+		    height: 100%;
+		    overflow: hidden;
+		    margin: 0;
+		    padding: 0;
+		}
+
+		.profile-main {
+			 background-color: #b7bcbc;
+			 overflow: auto;
+			 position: absolute;
+		     top: 0;
+		     bottom: 0;
+		     left: 0;
+		     right: 0;
+		}
+
+		.treemap-section {
+			padding-left: 15px;
+			background-color: #434747;
+		}
+
+	</style>
+
+	<script src="lib/underscore.js"></script>
+	<script src="lib/jquery-1.11.0.min.js"></script>
+    <!-- // <script src="lib/angular.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+    <script src="lib/angular-route.min.js"></script>
+    <script src="lib/moment.min.js"></script>
+	<script src="src/js/appConfig.js"></script>
+	<script src="lib/d3.v3.min.js"></script>
+
+	<script src="lib/angular-touch.js"></script>
+	<script src="lib/angular-carousel.js"></script>
+	<script src="src/js/profile/directives/imageCarousel.js"></script>
+
+    <script src="src/js/profile/directives/infoPanel.js"></script>
+    <script src="src/js/profile/directives/sharedInterest.js"></script>
+    <script src="src/js/profile/directives/treeMap.js"></script>
+
+	<script src="src/js/profile/services/interest.js"></script>
+    <script src="src/js/profile/services/iframe.js"></script>
+
+	<script>
+
+		angular.module('Profile', 
+			[
+				'ngRoute',
+				'InfoPanelDirective',
+				'SharedInterestDirective',
+				'ImageCarouselDirective',
+				'TreeMapDirective',
+				'IframeModule',
+				'InterestModule'
+			])
+			.config([
+			  '$routeProvider',
+			  '$locationProvider',
+			  
+			  function ($routeProvider, $locationProvider) {
+			  	
+			    $routeProvider.
+			      when('/', {
+			        templateUrl: 'partials/profileDetails.html',
+			        controller: 'appController'
+			      });
+
+			      $locationProvider.html5Mode(false).hashPrefix('!');
+
+		  	}])
+	  	    .run(function ($rootScope, $location) {
+
+		        var history = [];
+
+		        $rootScope.$on('$routeChangeSuccess', function() {
+		            history.push($location.url());
+		        });
+
+		        $rootScope.back = function () {
+		            var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
+		            $location.url(prevUrl);
+		        };
+
+		    })
+		  	.controller('appController', ['$scope', 'Iframe', 'InterestService', function ($scope, Iframe, InterestService) {
+
+	 			$scope.userData = {
+	 				origin: null,
+	 				userid: 2,
+	 				username: 'Bobby G.',
+	 				age: 27,
+	 				location_city: 'Oakland',
+	 				location_state: 'CA',
+	 				small_image_url: 'http://localhost:3000/small_tutorial5f.jpg',
+	 				profile_image_urls: [
+						"http://localhost:3000/scaled_18-1.jpg",
+						"http://localhost:3000/scaled_18-2.jpg",
+						"http://localhost:3000/scaled_18-3.jpg"
+						],
+	 				personal_blurb: 'What up cuties!',
+	 				dancecard_spots: 3,
+	 				in_dancecard: true,
+	 				mutual: true,
+	 				interested: false,
+	 				logged_in: false
+	 			};
+
+	 			$scope.treemapData = {};
+
+		  		Iframe.onMessage('showProfile', function (data) {
+		  			console.log('message received in profile iframe...');
+		  			console.log(data.imageurls);
+		  			$scope.userData.userid = data.userid;
+		  			$scope.userData.username = data.username;
+		  			$scope.userData.age = data.age;
+		  			$scope.userData.location_city = data.location_city;
+		  			$scope.userData.location_state = data.location_state;
+		  			$scope.userData.personal_blurb = data.personal_blurb;
+		  			$scope.userData.profile_image_urls = data.imageurls;
+
+		  			InterestService.getInterestTreemapByUserid(data.userid)
+		  				.then(function (treemapData) {
+		  					$scope.treemapData = treemapData; 
+		  				});
+		  		});
+
+
+		  	}]);
+
+	</script>
+</head>
+
+<body>
+
+	 <!-- <dancecard-indicator username="Bobby G." dancecard-spots="3" dancecard-max="5"></dancecard-indicator> -->
+
+	<div class="profile-main" ng-controller="appController">
+		<image-carousel images="userData.profile_image_urls"></image-carousel>
+		<info-panel user-data="userData"></info-panel>
+		<div class="treemap-section">
+        	<tree-map data="treemapData"></tree-map>
+        </div>
+		<shared-interests></shared-interests>
+		<!-- <interest-tile interest-data="interestData[0]"></interest-tile> -->
+	</div>
+	
+<!-- 	<div class="main-profile" ng-controller="appController">
+		<div ng-view id="sbe-bodyContent" ng-cloak>
+		</div>
+	</div> -->
+
+</body>
+
+</html>

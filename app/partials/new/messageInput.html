@@ -1,0 +1,34 @@
+<style>
+
+  #createMessage {
+    width: 100%;
+    height: 10.8%;
+    position: fixed;
+    bottom: 0px;
+    margin: 0px;
+  }
+
+  .sbe-message-box {
+  	width: 100%;
+  	height: 100%;
+  	/*height: 60px;*/
+  	box-sizing: border-box;
+  	z-index: 100;
+    position: fixed;
+  }
+
+  .sbe-sendMsgBtn {
+    /*width: 21%;*/
+    width: 240px;
+    margin: 0px 5px 0px 10px;
+    display: inline-block;
+    padding: 6px;
+  }
+
+</style>
+
+<form id='createMessage'>
+	<textarea class='sbe-message-box' ng-model='mic.newMessage' placeholder=" Don't forget to ask them out!"></textarea>
+	{{newMessage}}
+<!-- <button type="button" ng-click="sendMessage()" class="sbe-sendMsgBtn">Send</button> -->
+</form>

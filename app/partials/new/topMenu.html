@@ -1,0 +1,77 @@
+<style>
+	.top-menu {
+		width: 100%;
+		text-align: center;
+		margin: 0;
+		padding: 5px 0;
+		box-sizing: border-box;
+		background-color: #2B2E2E;
+		position: fixed;
+		top: 0;
+		z-index: 1000;
+	}
+
+ 	.sidebar-back {
+		width: 13px;
+		height: 13px;
+		float: left;
+		margin-left: 10px;
+		margin-top: 3px;
+		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow.png') no-repeat 0 0;
+	}
+
+	 .sidebar-back:hover {
+		background: #2B2E2E url('http://www.microcake.org/sidebardating/back-arrow.png') no-repeat 0 -13px;
+	}
+
+	 .sidebar-settings {
+		width: 13px;
+		height: 13px;
+		display: inline-block;
+        margin: 4px 0 -2px 2px;
+		background: #2B2E2E url('http://www.microcake.org/sidebardating/settings.png') no-repeat 0 0;
+	}
+
+	 .sidebar-settings:hover {
+		width: 13px;
+		height: 13px;
+		display: inline-block;
+		background: #2B2E2E url('http://www.microcake.org/sidebardating/settings.png') no-repeat 0 -13px;
+	}
+
+	 .sidebar-notif {
+		width: 15px;
+		height: 15px;
+		border-radius: 20px;
+		background-color: #3B3D3D;
+		float: right;
+		margin-right: 10px;
+		font-size: .8em;
+		color: #888;
+		margin-top: 2px;
+		text-decoration: none;
+		line-height: 15px;
+	}
+     .sidebar-notif-unread {
+        background-color: #00B768;
+        color: #fff;
+    }
+
+	 .sidebar-notif:hover {
+		text-decoration: none;
+	}
+
+	 .sidebar-mainUserName {
+		color: #44D6E2;
+		font-weight: bold;
+		font-size: 1.1em;
+	}
+</style>
+
+<div id="top-menu" class="top-menu">
+	<a id="back-button" class="sidebar-back"></a>
+	<a ng-click="goToProfile()" class="sidebar-mainUserName" > {{username}}</a>
+	<a class="sidebar-settings" ng-click="logout()"></a>
+	<!-- <a ng-click="goToHistory()" >History </a> -->
+	<a id="go-to-notifications" class=".notificationCount" ng-class="{'sidebar-notif': true, 'sidebar-notif-unread': stuff.hasUnreadNotifications}">{{notificationCount}} </a>
+</div>

@@ -1,10 +1,12 @@
 [{
 	"senderId": 0,
 	"message": "hello! Patty",
-	"timeStamp": "2 days ago"
+	"relativeTimeStamp": "2 days ago",
+	"sendTime": "2015-01-17T17:03:01-08:00"
 },
 {
 	"senderId": 45,
 	"message": "hi",
-	"timeStamp": "2 days ago"
+	"relativeTimeStamp": "2 days ago",
+	"sendTime": "2015-01-17T17:03:01-08:00"
 }]

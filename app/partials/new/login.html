@@ -1,0 +1,66 @@
+<style>
+
+	.login-form {
+		width: 100%;
+	}
+
+	.submit-btn, .login-input {
+		width: 100%;
+		padding: 10px 5px;
+		box-sizing: border-box;
+		margin-bottom: 10px;
+	}
+
+	.submit-btn {
+		background-color: #008C9E;
+		color: #FEFEFE;
+		border: none;
+		border-bottom: 4px solid #005F6B;
+	}
+
+	.submit-btn:hover {
+		background-color: #00AABF;
+		border-bottom: 4px solid #007786;
+	}
+
+	.login-wrapper {
+		position: relative;
+		width: 100%;
+		margin: 95px auto 0 auto; 
+	}
+
+	.logo-medium {
+		width: 100%;
+	}
+
+	.sidebar-info-header {
+		width: 60%;
+		margin: auto;
+	}
+
+</style>
+
+<div class="login-wrapper" ng-cloak>
+
+	<div class="sidebar-info-header">
+		<div id="logo-login">
+			<img class="logo-medium" src="http://www.microcake.org/sidebardating/sidebar-logo.png">
+		</div>
+		
+		<div id="tagline-login">
+			<p>Designed Serendipity for Meeting People </p>
+		</div>
+
+		<p class="explain-login">
+			Make the Internet your playground!<br> 
+			Join Sidebar now and meet people while you browse the Internet
+		</p>
+	</div>
+
+	<form class="login-form">
+		<input type="email" placeholder="Email Address" ng-model="lc.credentials.email" class="login-input" required/>
+		<input type="password" placeholder="Password" ng-model="lc.credentials.password" class="login-input"required/>
+		<button ng-click="login()" value="Log In" class="submit-btn">Log In</button>
+	</form>
+	<p class="login-toggle">Don't have an account? <a ng-click="signup()">Sign Up</a>
+</div>

@@ -7,6 +7,12 @@ var ziptastic = require('ziptastic');
 var im = require('imagemagick');
 var q = require('q');
 
+var https = require('https');
+var http = require('http');
+
+// http.createServer(app).listen(80);
+// https.createServer(options, app).listen(443);
+
 //Create the AlchemyAPI object
 var AlchemyAPI = require('./alchemyapi');
 var alchemyapi = new AlchemyAPI();
@@ -21,13 +27,26 @@ var events = require("events");
 var EventEmitter = require("events").EventEmitter;
 var ee = new EventEmitter();
 
+var pkey = fs.readFileSync('key.pem');
+var pcert = fs.readFileSync('cert.pem');
+
+var options = {
+    key: pkey,
+    cert: pcert
+};
+
 //For Socket.io
-var server = require('http').createServer(app);
+var server = http.createServer(app);
+var secureServer = https.createServer(options, app);
 // var io = require('socket.io').listen(server);
+
 
 // app.listen(3000);
 server.listen(process.env.PORT || 3000);
-console.log("listening at port 3000");
+secureServer.listen(8443);
+
+console.log("server listening at port 3000");
+console.log("secure server listening at port 8443");
 
 //postgres://{user}:{pass}@some-ec2-instance:{port}/{db}
 var dbConfigObj = {};
@@ -336,7 +355,7 @@ function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-function replaceAll(find,replace,str){
+function replaceAll(find, replace, str) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
 
@@ -577,7 +596,7 @@ app.post('/message',
         var message = req.body.message;
         var sendTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
-        //console.log(req.body);
+        console.log(req.body);
         var queryString = "INSERT INTO messages " +
                                 "(senderId, receiverId, message, sendTime) " +
                            "VALUES (" + senderId + "," + receiverId + ",'" + replaceAll("'", "''", message) + "','" + sendTime + "') " +
@@ -695,8 +714,9 @@ app.get('/dancecard/:userId',
     getDancecardById,
     function(req, res, next){
         for(var i=0; i<req.queryResult.rows.length; i++){
-            var age = calculateAge(req.queryResult.rows[i].dateofbirth);
+            var age = calculateAge(req.queryResult.rows[i].date_of_birth);
             req.queryResult.rows[i].age = age;
+            req.queryResult.rows[i].in_dancecard = true;
             // req.queryResult.rows[i].mutual = checkMutual(req, req.queryResult.rows[i].userid, req.userid);
         }
         next();
@@ -740,14 +760,14 @@ function getDancecardById(req, res, next){
 
         //gets full profile of all memebers in dancecard
         var queryString = "SELECT users.userId," +
-                                    "users.dateofbirth,"+
+                                    "users.dateofbirth as date_of_birth,"+
                                     "users.username,"+
                                     "users.location_city,"+
                                     "users.location_state,"+
                                     "users.personal_blurb,"+
-                                    "users.imageurls,"+
-                                    "users.medimageurls,"+
-                                    "users.smallimageurls,"+
+                                    // "users.imageurls,"+
+                                    // "users.medimageurls,"+
+                                    "users.smallimageurls[1] as image_url,"+
                                     "users.logged_in,"+
                                     "danceCard.mutual "+
                             "FROM users,"+

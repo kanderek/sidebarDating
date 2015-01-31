@@ -4,32 +4,38 @@
           {
             "senderId": 0,
             "message": "hello!",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           },
           {
             "senderId": 15,
             "message": "hi",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           },
           {
             "senderId": 15,
             "message": "how are you? Did you have a good day?",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           },
           {
             "senderId": 0,
             "message": "Yeah it was great. Do you want to get some coffee?",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           },
           {
             "senderId": 15,
             "message": "sure, Philz on 18th street?",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           },
           {
             "senderId": 0,
             "message": "sounds good, see you then",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           }
         ]
     },
@@ -39,12 +45,14 @@
           {
             "senderId": 0,
             "message": "hello! Sarah",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           },
           {
             "senderId": 25,
             "message": "hi",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           }
         ]
     },
@@ -54,12 +62,14 @@
           {
             "senderId": 0,
             "message": "hello! Phillis",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           },
           {
             "senderId": 35,
             "message": "hi",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           }
         ]
     },
@@ -69,12 +79,14 @@
           {
             "senderId": 0,
             "message": "hello! Patty",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           },
           {
             "senderId": 45,
             "message": "hi",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           }
         ]
     },
@@ -84,12 +96,14 @@
           {
             "senderId": 0,
             "message": "hello! Tilly",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           },
           {
             "senderId": 55,
             "message": "hi",
-            "timeStamp": "2 days ago"
+            "relativeTimeStamp": "2 days ago",
+            "sendTime": "2015-01-17T17:03:01-08:00"
           }
         ]
     }

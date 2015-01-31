@@ -1,0 +1,39 @@
+<style>
+
+    #user-dancecard-count {
+        position: relative;
+        bottom: 0px;
+        right: 0px;
+        width: 100%;
+    }
+
+    #user-dancecard-count .dancecard-indicator{
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        border: 1px solid gray;
+        display: inline-block;
+        position: relative;
+        float: right;
+        margin-left: 5px;
+    }
+
+    .sbe-dancecard-fill {
+        background-color: #2B2E2E;
+    }
+
+    #user-dancecard-count p {
+        text-align: right;
+        margin: 10px 0 5px 0;
+        color: #DBDBDB;
+    }
+
+</style>
+
+<div id="user-dancecard-count" >
+    <p>{{username}}'s Dance Card </p>
+    <div ng-repeat="spot in dic.dancecard"
+         class="dancecard-indicator"
+         ng-class="{'sbe-dancecard-fill': spot.fill}">
+    </div>
+</div>

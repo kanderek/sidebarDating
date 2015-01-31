@@ -1,0 +1,122 @@
+
+<style>
+
+	.profileList {
+		top: 138px;
+		width: 100%;
+		/*height: 400px;*/
+		overflow: visible;
+		position: relative;
+		color: #DBDBDB;
+		background-color: #343838;
+	}
+
+	.profile p {
+		margin: 0;
+		display: inline-block;
+	}
+
+	.profile img {
+		width: 36px;
+		height: 36px;
+		border-radius: 50%; 
+	}
+
+	.profile:hover {
+		background-color: #404242;
+		cursor: pointer;
+	}
+
+	.profile {
+		cursor: -webkit-grabbing;
+		/*cursor: -webkit-grab;*/
+	}
+	.name {
+		font-size: 1.1em;
+		margin-bottom: 10px;
+		/*color: #8AD9DD;*/
+		color: white;
+	}
+
+	.personal-blurb {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		width: 180px;
+		display: inline-block;
+		color: #ababab;
+	}
+
+	.sidebar-visitors {
+		width: 100%;
+		/*background-color: #9E9E9E;*/
+		box-sizing: border-box;
+		text-align: center;
+
+	}
+
+	.sbe-fringes {
+		cursor: pointer;
+	}
+
+	.sbe-fringes img {
+		opacity: 0.5;
+	}
+
+	.sbe-fringes span,
+	.sbe-fringes p {
+		color: #777;
+	}
+
+	.sbe-fringes:hover {
+		background-color: #3D3E3F;
+	}
+
+</style>
+
+<div class="profileList" ng-cloak>
+
+	<div class="meeting-space">
+		<div class="sidebar-visitors">
+			<h3 class="sidebar-visitors-title">People who also visited this page</h3>
+			<div class="horizontal-line">
+			</div>
+		</div>
+	</div>
+
+	<div class="profile" 
+		ng-repeat="profile in plc.profiles" 
+		ng-click="select()"
+		ng-class="{'isSelected': ifSelected(profile.userid)}"
+		ui-draggable="true"
+		drag-channel="add-to-dancecard"
+	    drag="profile">
+	 	 
+		<img ng-src="{{profile.small_image_url}}"
+			 ng-class="{'sbe-is-online': profile.logged_in}"/>
+		<p>
+			<span class="name">{{profile.username}}</span></br>
+			<span class="personal-blurb">{{profile.personal_blurb}}</span>
+		</p>
+	</div>
+
+	<div class="profile" 
+		ng-repeat="profile in plc.fringes" 
+		ng-click="select()"
+		ng-class="{'isSelected': ifSelected(profile.userid), 'sbe-fringes': true}"
+		ui-draggable="true"
+	    drag="profile">
+	 	 
+		<img ng-src="{{profile.small_image_url}}"
+			 ng-class="{'sbe-is-online': profile.logged_in}"/>
+		<p>
+			<span class="name">{{profile.username}}</span></br>
+			<span class="personal-blurb">{{profile.personal_blurb}}</span>
+		</p>
+	</div>
+
+</div>
+
+
+
+

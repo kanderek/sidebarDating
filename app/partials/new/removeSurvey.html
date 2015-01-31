@@ -1,0 +1,124 @@
+<style>
+	.survey-wrapper {
+		width: 100%;
+		padding-top:90px;
+	}
+
+	.survey-info {
+		padding: 10px;
+		box-sizing: border-box;
+	}
+
+	.survey-info textarea {
+		width: 97%;
+		height: 100px;
+	}
+
+	.survey-info button {
+		width: 48%;
+		position: relative;
+		float: left;
+	}
+
+	.survey-info input[type='submit'] {
+		width: 48%;
+		position: relative;
+		float: right;
+
+		background-color: #008C9E;
+		color: #DBDBDB;
+		border: none;
+		border-bottom: 4px solid #005F6B;
+		padding: 10px 5px;
+		font-weight: normal;
+	}
+
+	.survey-info input[type='submit']:hover {
+		background-color: #00AABF;
+		border-bottom: 4px solid #007786;
+	}
+
+	.survey-cancel-btn {
+		width: 48% !important;
+		background-color: #666666 !important;
+		border-bottom: 4px solid #444444 !important;
+	}
+
+	.survey-cancel-btn:hover {
+		width: 48% !important;
+		background-color: #797979 !important;
+		border-bottom: 4px solid #565656 !important;
+	}
+
+
+	.survey-heading {
+		width: 100%;
+		/*background-color: #9E9E9E;*/
+		box-sizing: border-box;
+		text-align: center;
+
+	}
+
+	/*.survey-heading {
+		font-weight: 700;
+		font-size: 1.1em;
+		text-shadow: 0px 1px 0px #000;
+		color: #BCBCBC;
+		box-sizing: border-box;
+		margin-bottom: 10px;
+	}
+	*/
+	/*.survey-heading h3 {
+		margin: 0;
+		padding: 10px;
+		text-align: center;
+	}*/
+
+	#free-reasons {
+		margin: 5px 0 15px 0;
+	}
+
+	.free-reasons-label {
+		margin: 15px 0 0 0 ;
+		display: block;
+	}
+
+</style>
+
+<div class="survey-wrapper">
+
+	<div class="survey-heading">
+		<h3 class="sidebar-visitorsTitle">Why Didn't It Work Out With {{rsc.username}}?</h3>
+		<div class="horizontal-line">
+		</div>
+	</div>
+
+	<form class="survey-info" ng-submit="submit()">
+		<div class="checkbox-row">
+			<input id="no-chemisty" type="checkbox" ng-model="survey.chemistry"/>
+			<label for="no-chemistry">No Chemistry</label>
+		</div>
+		<div class="checkbox-row">
+			<input id="goals" type="checkbox" ng-model="survey.goals" />
+			<label for="goals">Different Goals</label>
+		</div>
+		<div class="checkbox-row">
+			<input id="personality" type="checkbox" ng-model="survey.personality" />
+			<label for="personality">Personality</label>
+		</div>
+		<div class="checkbox-row">
+			<input id="conversation" type="checkbox" ng-model="survey.conversation" />
+			<label for="conversation">Poor Conversation</label>
+		</div>
+		<div class="checkbox-row">
+			<input id="different" type="checkbox" ng-model="survey.different"/>
+			<label for="different">Different in Person</label>
+		</div>
+
+		<label class="free-reasons-label" for="free-reasons">Want to elaborate?</label>
+		<textarea id="free-reasons" ng-model="survey.textReason" placeholder="This message will be sent to the other user"></textarea>
+
+		<button class="survey-cancel-btn" type="button" ng-click="cancel()" ng-hide="hideButtons">Cancel</button>
+		<input type="submit" class="survey-submit-btn" value="Submit" ng-click="submitSurvey()" ng-hide="hideButtons"/>
+	</form>
+</div>

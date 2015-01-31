@@ -1,0 +1,21 @@
+<form>
+  <h2>New Dance</h2>
+  <fieldset>
+    <label>
+      Image Url
+      <input ng-model="ctrl1.member.image">
+    <label>
+      First name
+      <input ng-model="ctrl1.member.username">
+    </label>
+    <label>
+      Last name
+      <input ng-model="ctrl1.member.personalBlurb">
+    </label>
+    <label>
+      Selected
+      <input ng-model="ctrl1.isSelected">
+    </label>
+    <button ng-click="ctrl1.save()">Save</button>
+  </fieldset>
+</form>

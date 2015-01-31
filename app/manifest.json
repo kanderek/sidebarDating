@@ -21,7 +21,9 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": [
+        "lib/underscore.js",
         "lib/jquery-1.11.0.min.js",
+        "src/js/openClose.js",
         "content.js"
       ]
     }
@@ -33,6 +35,11 @@
       "css/*"
   ],
 
-  "permissions": ["tabs", "history", "http://*/*", "https://*/*"]
+  "permissions": [
+    "tabs",
+    "history",
+    "http://*/*", 
+    "https://*/*"
+  ]
 
 }

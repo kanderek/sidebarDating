@@ -154,8 +154,7 @@
 <div class="meeting-space" ng-cloak>
 	<div class="sidebar-visitors">
 		<h3 class="sidebar-visitorsTitle">People who also visited this page</h3>
-		<div class="horizontal-line">
-		</div>
+		<div class="horizontal-line"></div>
 	</div>
 </div>
 
@@ -168,6 +167,7 @@
 				Nobody is here :( 
 			</p>
 		</div>
+		
 		<div class="profile" 
 			ng-repeat="profile in profiles" 
 			ng-click="selectOnly($index)"
@@ -183,8 +183,7 @@
 		 	 		 	 <!-- effect-allowed="copy" 
 		 	 
  -->			<img ng-src="{{profile.smallimageurls[0]}}"
- 					 ng-class="{'sbe-is-online': profile.logged_in}"
- 				/>
+ 					 ng-class="{'sbe-is-online': profile.logged_in}"/>
 			<p>
 				<span class="name">{{profile.username}}</span></br>
 				<span class="personal-blurb">{{profile.personal_blurb}}</span>

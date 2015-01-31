@@ -1,76 +1,37 @@
 /*******************************************************************************************************
 Interest Service  */
 
-appServices.factory('InterestService', ['$http', '$rootScope',
-  function($http, $rootScope){
+angular.module('InterestModule', []).factory('InterestService', ['$q', '$http',
+  function($q, $http){
 
-    interestService = {};
+    var userInterests = {};
 
-    interestService.userInterests = {};
+    function getInterestTreemapByUserid(userid){
+      var D = $q.defer();
 
-    interestService.usersTreemap = function (userid, callback){
-      if(interestService.userInterests[userid]){
-        // console.log(interestService.userInterests[userid]);
-        $rootScope.$broadcast('treemap-data-available');
-        callback(interestService.userInterests[userid]);
+      if (userInterests[userid]) {
+        D.resolve(userInterests[userid]);
+      } else {
+
+         $http({
+            method: 'GET',
+            url: SERVER + '/interest/' + userid
+          })
+            .success(function(data, status, headers, config) {
+                userInterests[userid] = data;
+                D.resolve(data);
+            })
+            .error(function(data, status, headers, config) {
+              console.log('failure getting user treemap');
+              D.reject();
+            });
       }
-      else{
-        // console.log('in users Treemap...');
-        // console.log(userid);
-        interestService.getInterestTreemapByUserid(userid, function(data){
-          // console.log(data);
-           $rootScope.$broadcast('treemap-data-available');
-          callback(data);
-        });
-      }
+      
+      return D.promise;
+    }
+
+    return {
+      getInterestTreemapByUserid: getInterestTreemapByUserid
     };
-
-    interestService.getInterestTreemapByUserid = function(userid, callback){
-
-       $http({
-          method: 'GET',
-          url: SERVER + '/interest/' + userid
-        }).
-        success(function(data, status, headers, config) {
-          // if(data.status != "logged_out"){
-             //callback(data);   // this callback will be called asynchronously when the response is available
-            // console.log(data);
-            interestService.userInterests[userid] = data;
-            callback(data);
-            // $rootScope.$broadcast('page-profiles-available');
-          // }
-          // else{
-          //   $state.go('sign-up-0');
-          // }
-        }).
-        error(function(data, status, headers, config) {
-          console.log('get people failure');
-        });
-    };
-
-      interestService.getInterestTreemapByUseridPromise = function(userid){
-
-       return $http({
-          method: 'GET',
-          url: SERVER + '/interest/' + userid
-        }).
-        success(function(data, status, headers, config) {
-          // if(data.status != "logged_out"){
-             //callback(data);   // this callback will be called asynchronously when the response is available
-            // console.log(data);
-            interestService.userInterests[userid] = data;
-            // callback(data);
-            // $rootScope.$broadcast('page-profiles-available');
-          // }
-          // else{
-          //   $state.go('sign-up-0');
-          // }
-        }).
-        error(function(data, status, headers, config) {
-          console.log('get people failure');
-        });
-    };
-
-    return interestService;
 
   }]);

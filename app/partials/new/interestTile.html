@@ -1,0 +1,40 @@
+
+<style>
+	
+	.interest-tile {
+		width: 100%;
+		background-color: gray;
+	}
+
+	.interest-tile img {
+		width: 100%;
+	}
+
+	.interest-tile h3 {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	.interest-tile h3, .interest-tile p {
+		margin: 0 0 0 5px;
+	}
+
+	.interest-metadata {
+		padding: 0 5px 10px 5px;
+	}
+
+</style>
+
+<a href="{{interestData.url}}" target="_blank">
+	<div class="interest-tile">
+		<img src="{{interestData.image_url}}"/>
+
+		<div class="interest-metadata">
+			<h3>{{interestData.title}}</h3>
+			<p>{{interestData.info}}</p>
+		</div>
+	</div>
+</a>
+
+<!-- <iframe src="{{url}}" ></iframe> -->

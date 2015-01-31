@@ -1,0 +1,16 @@
+
+<top-menu username="{{userData.username}}" 
+		  notification-count="{{userData.unread_notifications}}" 
+		  notification-url="{{urls.notificationsUrl}}"
+		  settings-url="{{urls.settingsUrl}}">
+</top-menu>
+
+<my-dancecard selected="userData.selected_user" 
+              select-url="{{urls.messageUrl}}"
+              userid="{{userData.userid}}">
+</my-dancecard>
+
+<profile-list selected="userData.selected_user" 
+			  userid="{{userData.userid}}">
+</profile-list>
+

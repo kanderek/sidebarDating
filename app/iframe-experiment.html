@@ -2,12 +2,15 @@
 <html>
 <head>
 	<meta charset="UTF-8"></meta>
-	<title>Iframe test</title>
- -->
+	<title>Iframe test</title> -->
+
 	<style>
 
-		body {
-			margin: 0;
+		html, body {
+		    height: 100%;
+		    /*overflow: hidden;*/
+		    overflow: auto;
+		    margin: 0;
 		}
 
 		#injected-content {
@@ -18,15 +21,31 @@
 			pointer-events: none;
 			z-index: 2147483647;
 			position: fixed;
+		    top: 0;
+		    bottom: 0;
+		    left: 0;
+		    right: 0;
+			
+			/*position: fixed;*/
 			overflow: hidden;
-			right: 0px;
-			top: 0px;
+			/*right: 0px;*/
+			/*top: 0px;*/
 			color: black;
 			text-align: left;
 			margin: 0px;
+			transition: transform 2s ease;
+		}
+
+		.injected-content-wrapper {
+			position: fixed;
+		    top: 0;
+		    bottom: 0;
+		    left: 0;
+		    right: 0;
 		}
 
 		#tabControl {
+			pointer-events: auto;
 			background-color: #b7bcbc;
 			width: 20px;
 			height: 40px;
@@ -45,12 +64,12 @@
 			background-color: gray;
 			color: white;
 		}
-
+/*
 		.content {
 			position: absolute;
 			width: 100%;
 			height: 100%;
-		}
+		}*/
 
 		.profile-container, .sidebar-container {
 			position: absolute;
@@ -61,6 +80,11 @@
 		.profile-container {
 			right: 300px;
 			width: 500px;
+			transition: transform 2s ease;
+		}
+
+		.profile-closed {
+			transform: translate3d(500px, 0, 0);
 		}
 
 		.sidebar-container {
@@ -68,7 +92,15 @@
 			width: 300px;
 		}
 
-		iframe {
+		.sidebar-closed {
+			transform: translate3d(300px, 0, 0);
+		}
+		
+		.out-of-sight {
+			transform: translate3d(350px, 0, 0);
+		}
+
+		#sidebar, #profile {
 			pointer-events: auto;
 			margin: 0;
 			padding: 0;
@@ -77,23 +109,25 @@
 	</style>
 <!-- </head>
 <body> -->
-	<div id="injected-content" class="content">
-		<div class="profile-container">
-			<div id="tabControl" class="tab">+</div>
-			<iframe id="profile" scrolling="no" src="http://localhost:8000/iframe-profile.html" width="100%" height="100%"></iframe>
-		</div>
-		<div class="sidebar-container">
-			<iframe id="sidebar" scrolling="no" src="http://localhost:8000/iframe-sidebar.html" width="100%" height="100%"></iframe>
+	<div id="injected-content" class="content out-of-sight">
+		<div class="injected-content-wrapper">
+			<div id="profile-panel" class="profile-container profile-closed">
+				<div id="tabControl" class="tab">+</div>
+				<iframe id="profile" src="https://localhost:4443/profile.html" width="100%" height="100%"></iframe>
+			</div>
+			<div id="sidebar-panel" class="sidebar-container">
+				<iframe id="sidebar" src="https://localhost:4443/sidebar.html#!/testing/home" width="100%" height="100%"></iframe>
+			</div>
 		</div>
 	</div>
 
+	<!--<script src="lib/jquery-1.11.0.min.js"></script>
+	<script src="src/js/openClose.js"></script>
 	<script>
-		// var profileIframe = document.getElementById('profile');
-		// var sidebarIframe = document.getElementById('sidebar');
+		$(function () {
 
-		// window.addEventListener('message', function (event) {
-		// 	profileIframe.contentWindow.postMessage(event.data, '*');
-		// }, false);
+			$('#tabControl').on('click', clickHandler);
+		});
 
-	</script>
+	</script>-->
 <!-- </html> -->

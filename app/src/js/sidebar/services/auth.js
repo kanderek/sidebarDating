@@ -1,92 +1,69 @@
 /*******************************************************************************************************
 Login Service  */
 
-appServices.factory('AuthService',
-  [
-    '$http',
-    '$q',
-    '$state',
-    '$timeout',
-    'Profile',
-    'UiState',
+angular.module('AuthModule', [])
+  .factory('AuthService',
+    [
+      '$http',
+      '$q',
 
-    function ($http, $q, $state, $timeout, Profile, UiState) {
+      function ($http, $q) {
 
-      var isLoggedIn = false;
-
-      function isUserLoggedIn() {
-        return isLoggedIn;
-      }
-
-      function loginUser(credentials) {
-
-        var loginDeferred = $q.defer();
+        function loginUser(credentials) {
+          var D = $q.defer();
 
           $http({
             method: 'POST',
             url: SERVER + "/login",
             data: credentials
-          }).
-          success(function(data, status, headers, config){
-            isLoggedIn = true;
-            loginDeferred.resolve(data);
+          })
+            .success(function(data, status, headers, config){
+              D.resolve(data);
+            })
+            .error(function(data, status, headers, config){
+              console.log('error logging in user');
+              D.reject();
+            });
 
-          }).
-          error(function(data, status, headers, config){
-            isLoggedIn = false;
-            console.log('error logging in user');
-            loginDeferred.reject();
-          });
+          return D.promise;
+        }
 
-          return loginDeferred.promise;
-      }
-
-      function logoutUser() {
+        function logoutUser() {
+          var D = $q.defer();
 
           $http({
               method: 'GET',
               url: SERVER + '/logout'
-            }).
-            success(function(data, status, headers, config){
-              // callback(data);
-              isLoggedIn = false;
-              if(UiState.showDetailsPanel){
-                // UiState.closeDetailsPanel();
-                $timeout(function(){
-                   Profile.selfProfile = {};
-                   $state.go('login');
-                }, 1000);
-              }
-              else{
-                Profile.selfProfile = {};
-                $state.go('login');
-              }
-
-            }).
-            error(function(data, status, headers, config){
+          })
+            .success(function(data, status, headers, config){
+              D.resolve(data);
+            })
+            .error(function(data, status, headers, config){
               console.log('error logging out user');
+              D.reject();
             });
+
+          return D.promise;
+        }
+
+        function checkUserStatus(callback) {
+          $http({
+            method: 'GET',
+            url: SERVER + "/authentication_status"
+          }).
+          success(function(data, status, headers, config){
+            callback(data);
+          }).
+          error(function(data, status, headers, config){
+            console.log('error logging in user');
+          });
+        }
+
+        return {
+          loginUser: loginUser,
+          logoutUser: logoutUser,
+          checkUserStatus: checkUserStatus
+        };
+
       }
-
-      function checkUserStatus(callback) {
-        $http({
-          method: 'GET',
-          url: SERVER + "/authentication_status"
-        }).
-        success(function(data, status, headers, config){
-          callback(data);
-        }).
-        error(function(data, status, headers, config){
-          console.log('error logging in user');
-        });
-      }
-
-      return {
-        loginUser: loginUser,
-        logoutUser: logoutUser,
-        isUserLoggedIn: isUserLoggedIn,
-        checkUserStatus: checkUserStatus
-      };
-
-    }
-  ]);
+    ]);

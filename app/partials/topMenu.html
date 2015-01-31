@@ -1,0 +1,7 @@
+<div id="top-menu">
+	<a ng-click="goBack()" class="sidebar-back"></a>
+	<a ng-click="goToProfile()" class="sidebar-mainUserName" > {{stuff.username}}</a>
+	<a class="sidebar-settings" ng-click="logout()"></a>
+	<!-- <a ng-click="goToHistory()" >History </a> -->
+	<a ng-click="reset()" class=".notificationCount" ng-class="{'sidebar-notif': true, 'sidebar-notif-unread': stuff.hasUnreadNotifications}">{{stuff.notificationCount}} </a>
+</div>

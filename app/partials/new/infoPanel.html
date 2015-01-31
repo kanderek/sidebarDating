@@ -1,0 +1,166 @@
+
+<style>
+
+    @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+
+    .info-panel {
+        color: #DBDBDB;
+        /*position: absolute;*/
+        /*height: inherit;*/
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.4em;
+    }
+
+    .info-panel {
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        width: 100%;
+        background-color: #434747;
+        margin: 0px 0px 0px 0px;
+        overflow: auto;
+        color: #ababab;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .info-panel h3 {
+        font-weight: 700;
+        font-size: 1.1em;
+        text-shadow: 0px 1px 0px #000;
+        color: #BCBCBC;
+        margin: 0 0 10px 0;
+    }
+
+    .info-panel h3 {
+        display: inline-block;
+        margin: 0px 5px 5px 0px;
+        /*color: #8AD9DD;*/
+        color: white;
+        font-size: 1.5em;
+        font-weight: 300;
+    }
+
+    .info-panel img {
+        width: 19px;
+        height: 19px;
+        position: relative;
+        top: 5px;
+    }
+
+    .info-panel .col-left {
+        position: relative;
+        /*float: left;*/
+        width: 60%;
+        margin-right: 5%;
+        height: 100%;
+        display: inline-block;
+    }
+
+    .info-panel .col-right {
+        position: relative;
+        /*float: right;*/
+        width: 34%;
+        height: 100%;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .info-panel .col-right button,
+    .info-panel .col-right a {
+
+        position: relative;
+        float: right;
+    }
+
+    .info-panel button[type="button"] {
+        width: auto;
+        background-color: #008C9E;
+        color: #FEFEFE;
+        border: none;
+        border-bottom: 4px solid #005F6B;
+        padding: 6px 8px;
+        cursor: pointer;
+    }
+
+    .info-panel button[type="button"]:hover {
+        background-color: #00AABF;
+        border-bottom: 4px solid #007786;
+        cursor: pointer;
+    }
+
+    .info-panel .profile-actions {
+        width: 100%;
+        overflow: auto;
+    }
+
+    .info-panel .profile-actions img {
+        width: auto;
+         height: auto;
+         position: auto;
+         top: 0px;
+         margin-right:6px;
+    }
+
+    .age-location {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #ababab;
+    }
+
+    .horizontal-line {
+        width: 100%;
+        height: 1px;
+        background-color: #141616;
+        border-bottom: 1px solid #535959;
+        margin: 10px 0 0 0;
+    }
+
+    .msg-icon {
+        width: 13px;
+        height: 13px;
+        margin-top: 3px;
+        background: #434747 url('http://www.microcake.org/sidebardating/message.png') no-repeat 0 0;
+        display: inline-block;
+    }
+
+    .msg-icon:hover {
+        background: #434747 url('http://www.microcake.org/sidebardating/message.png') no-repeat 0 -13px;
+    }
+
+</style>
+
+<div id="profile-details" class="info-panel">
+
+    <div class="col-left">
+        <h3>{{userData.username}}</h3>
+        <a ng-show="userData.mutual" href ng-click="openMessages()" class="msg-icon"><!-- <img ng-src="http://localhost:3000/message/message.png" /> --></a>
+        <p class="age-location">{{userData.age}}, {{userData.location_city}}, {{userData.location_state}}</p>
+ 		<p>{{userData.personal_blurb}}</p>
+    </div>
+
+    <div class="col-right">
+        <div class="profile-actions">
+             <button type="button"
+                ng-show="!userData.in_dancecard"
+                ng-click="addToDancecard()"><img src="http://www.microcake.org/sidebardating/add.png">Add to Card</button>
+
+            <button type="button"
+                    ng-show="userData.in_dancecard"
+                    ng-click="removeFromDancecard()"><img src="http://www.microcake.org/sidebardating/remove.png">Remove From Card</button>
+
+            <a ng-show="isSelf()"
+                ui-sref='main.detailsPanel'>Edit</a>
+        </div>
+
+        <dancecard-indicator username="{{userData.username}}" 
+                             dancecard-spots="{{userData.dancecard_spots}}"
+                             dancecard-max="{{ipc.dancecardMax}}">
+        </dancecard-indicator>
+    </div>
+
+    <div class="horizontal-line"></div>
+</div>
+
+
+

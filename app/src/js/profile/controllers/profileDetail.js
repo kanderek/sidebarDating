@@ -100,15 +100,15 @@ appControllers.controller('ProfileDetailCtrl',
 
       if (data) {
         for(var i=0; i<data.length; i++){
-          var embedURL = data[i].embed_url,
-              embedTag,
-              embedAttrs;
-          if(embedURL) {
+          var embedURL = data[i].embed_url;
+          var embedTag;
+          var embedAttrs;
+
+          if (embedURL) {
             embedAttrs = {"src": embedURL};
             embedAttrs = $.extend(embedAttrs, angular.fromJson(data[i].embed_attr));
             embedTag = $('<iframe/>', embedAttrs)[0].outerHTML;
-          }
-          else {
+          } else {
             tagDiv = $('<div/>');
             tagImg = $('<img/>', {
               src: data[i].primary_img_url
@@ -117,6 +117,7 @@ appControllers.controller('ProfileDetailCtrl',
               href: data[i].url,
               target: "_blank"
             });
+
             tagP = $('<p/>');
             tagA2 = $('<a/>', {
               href: data[i].url,
@@ -128,6 +129,13 @@ appControllers.controller('ProfileDetailCtrl',
             embedTag = tagDiv[0].outerHTML;
           }
           data[i].embed_tag = embedTag;
+
+          /*
+            <div>
+              <a href={{url}} target="_blank"><img src="{{image_url}}"/></a>
+              <p><a href={{url}} target="_blank">{{title}}</a></p>
+            </div>
+          */
         }
       }
     }
