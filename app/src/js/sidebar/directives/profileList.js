@@ -23,14 +23,19 @@ angular.module('profileListDirective', ['appServices2', 'ngDragDrop'])
 
       this.MAX_PROFILES = 7;
 
-      Profile.getProfilesByPage('https://www.google.com/', 8, $scope.userid)
+      Profile.getProfiles('https://www.google.com/', 8, $scope.userid)
         .then(function (profiles) {
 
-          profiles.forEach(function (profile) {
-            profile.small_image_url = profile.smallimageurls[0];
+          _this.profiles = profiles.primary;
+          _this.fringes = profiles.fringes;
+
+          _this.profiles.forEach(function (profile) {
+            profile.small_image_url = SERVER + profile.image_url;
           });
 
-          _this.profiles = profiles;
+          _this.fringes.forEach(function (profile) {
+            profile.small_image_url = SERVER + profile.image_url;
+          });
         });
 
       // Profile.getStaticProfileList('f')
@@ -42,6 +47,11 @@ angular.module('profileListDirective', ['appServices2', 'ngDragDrop'])
       //   .then(function (fringes) {
       //     _this.fringes = fringes;
       //   });
+
+      $scope.removeFromList = function (details) {
+        console.log('remove from list because they are in dancecard now...');
+        console.log(details);
+      };
 
       $scope.ifSelected = function (userid) {
         if ($scope.selected) {

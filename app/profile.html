@@ -110,9 +110,9 @@
 						"http://localhost:3000/scaled_18-3.jpg"
 						],
 	 				personal_blurb: 'What up cuties!',
-	 				dancecard_spots: 3,
+	 				dancecard_count: 3,
 	 				in_dancecard: true,
-	 				mutual: true,
+	 				mutual: false,
 	 				interested: false,
 	 				logged_in: false
 	 			};
@@ -121,15 +121,20 @@
 
 		  		Iframe.onMessage('showProfile', function (data) {
 		  			console.log('message received in profile iframe...');
-		  			console.log(data.imageurls);
-		  			$scope.userData.userid = data.userid;
-		  			$scope.userData.username = data.username;
-		  			$scope.userData.age = data.age;
-		  			$scope.userData.location_city = data.location_city;
-		  			$scope.userData.location_state = data.location_state;
-		  			$scope.userData.personal_blurb = data.personal_blurb;
-		  			$scope.userData.profile_image_urls = data.imageurls;
-
+		  			$scope.userData = {
+		  				userid: 			data.userid,
+			  			username: 			data.username,
+			  			age: 				data.age,
+			  			location_city:      data.location_city,
+			  			location_state:     data.location_state,
+			  			personal_blurb:     data.personal_blurb,
+			  			profile_image_urls: data.imageurls,
+			  			dancecard_count:    parseInt(data.dancecard_count, 10),
+			  			logged_in: 			data.logged_in,
+			  			in_dancecard: 		data.in_dancecard,
+			  			mutual: 			data.mutual
+		  			}
+		  			
 		  			InterestService.getInterestTreemapByUserid(data.userid)
 		  				.then(function (treemapData) {
 		  					$scope.treemapData = treemapData; 
@@ -144,8 +149,6 @@
 
 <body>
 
-	 <!-- <dancecard-indicator username="Bobby G." dancecard-spots="3" dancecard-max="5"></dancecard-indicator> -->
-
 	<div class="profile-main" ng-controller="appController">
 		<image-carousel images="userData.profile_image_urls"></image-carousel>
 		<info-panel user-data="userData"></info-panel>
@@ -153,13 +156,7 @@
         	<tree-map data="treemapData"></tree-map>
         </div>
 		<shared-interests></shared-interests>
-		<!-- <interest-tile interest-data="interestData[0]"></interest-tile> -->
 	</div>
-	
-<!-- 	<div class="main-profile" ng-controller="appController">
-		<div ng-view id="sbe-bodyContent" ng-cloak>
-		</div>
-	</div> -->
 
 </body>
 

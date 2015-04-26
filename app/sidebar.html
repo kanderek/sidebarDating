@@ -6,6 +6,8 @@
 	<meta charset="UTF-8"></meta>
 	<title>Sidebar</title>
 	<link rel="stylesheet" type="text/css" href="css/main2.css">
+	<link rel="stylesheet" type="text/css" href="css/angular-slider.css">
+
 	<style>
 
 		html, body {
@@ -24,6 +26,9 @@
     <script src="/lib/angular-route.min.js"></script>
     <script src="lib/moment.min.js"></script>
     <script src="lib/draganddrop.js"></script>
+    <script src="lib/angular-touch.js"></script>
+	<script src="lib/angular-slider.js"></script>
+	<script src="lib/angular-file-upload.js"></script>
 	<script src="src/js/appConfig.js"></script>
 
 	<script src="src/js/sidebar/services/iframe.js"></script>
@@ -32,6 +37,7 @@
 	<script src="src/js/sidebar/services/messages.js"></script>
 	<script src="src/js/sidebar/services/profile.js"></script>
 	<script src="src/js/sidebar/services/dancecard.js"></script>
+	<script src="src/js/sidebar/services/survey.js"></script>
 
     <script src="src/js/sidebar/directives/topMenu.js"></script>
     <script src="src/js/sidebar/directives/dancecard.js"></script>
@@ -41,6 +47,8 @@
     <script src="src/js/sidebar/directives/removeSurvey.js"></script>
     <script src="src/js/sidebar/directives/login.js"></script>
     <script src="src/js/sidebar/directives/shortDescription.js"></script>
+	<script src="src/js/sidebar/directives/dancecardRemove.js"></script>
+	<script src="src/js/sidebar/directives/signup.js"></script>
 
 	<script>
 
@@ -58,7 +66,13 @@
 				'RemoveSurveyDirective',
 				'LoginDirective',
 				'ShortDescriptionDirective',
-				'IframeModule'
+				'IframeModule',
+				'DancecardRemoveDirective',
+				'appServices',
+				'SignupDirective',
+				'ngTouch',
+				'vr.directives.slider',
+				'angularFileUpload'
 			])
 			.config([
 			  '$routeProvider',
@@ -67,27 +81,37 @@
 			  function ($routeProvider, $locationProvider) {
 			  	
 			    $routeProvider
-			      .when('/', {
-			        templateUrl: 'testTemplate.html'
-			        // controller: 'appController'
-			      })
 			      .when('/testing/home', {
 			        templateUrl: 'partials/new/homeView.html'
-			        // controller: 'appController'
 			      })
 			      .when('/testing/signup', {
-			        templateUrl: 'partials/signup0.html',
-			        controller: ''
+			        templateUrl: 'partials/new/signup0.html',
+			        controller: 'SignupController'
+
 			      })
-			      .when('/testing/message', {
+			      .when('/testing/signup/:step', {
+			        templateUrl: function (params) {
+			        	console.log('in signup route template function....');
+			        	console.log(params);
+			        	return 'partials/new/signup' + params.step + '.html';
+			        	// return 'partials/new/signupView.html'
+			        },
+			        controller: 'SignupController'
+			      })
+			      .when('/testing/login', {
+			      	templateUrl: 'partials/new/loginView.html'
+			      })
+			      .when('/testing/settings', {
+			      	templateUrl: 'partials/new/loginView.html'
+			      })
+  			      .when('/testing/message/', {
 			      	templateUrl: 'partials/new/messageView.html'
-			      	// controller: 'appController'
 			      })
 			      .when('/testing/notification', {
 			      	templateUrl: 'partials/new/notificationView.html'
 			      })
 			      .when('/testing/survey', {
-			      	templateUrl: 'partials/new/removeSurvey.html'
+			      	templateUrl: 'partials/new/surveyView.html'
 			      });
 
 			      $locationProvider.html5Mode(false).hashPrefix('!');
@@ -95,97 +119,110 @@
 		  	}])
 	  	    .run(function ($rootScope, $location) {
 
-		        var history = [];
+		        var history = ['/testing/home'];
 
 		        $rootScope.$on('$routeChangeSuccess', function() {
-		            history.push($location.url());
+		        	var newRoute = $location.url();
+
+		        	if (newRoute !== '/testing/survey' &&
+		        		newRoute !== '/testing/login' &&
+		        		newRoute !== '/testing/signup' &&
+		        		newRoute !== history[history.length-1]) {
+		            	history.push(newRoute);
+		            }
 		        });
 
 		        $rootScope.back = function () {
-		            var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
-		            $location.url(prevUrl);
+		            var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/testing/home";
+
+		            // if (prevUrl !== '/testing/login' && prevUrl.indexOf('/testing/signup/') !== -1) {
+		            	$location.url(prevUrl);
+		            // }
 		        };
 
 		    })
-		  	.controller('appController', ['$rootScope', '$scope', 'Iframe', function ($rootScope, $scope, Iframe) {
-		  		$scope.urls = {
-		  			signupUrl: '/testing/signup',
-		  			homeUrl: '/testing/home',
-		  			messageUrl: '/testing/message',
-		  			notificationsUrl: '/testing/notification',
-		  			settingsUrl: '/testing/settings'
-		  		};
+		  	.controller('appController',
+		  		[
+		  			'$rootScope',
+		  			'$scope',
+		  			'$location',
+		  			'Iframe',
+		  			'DancecardService',
 
-		  		$scope.userData = {
-		  			userid: 23,
-		  			username: 'some name',
-		 			unread_notifications: 26,
-		 			dancecard_spots: 0,
-		 			selected_user: {
-		 				origin: null,
-		 				userid: 2,
-		 				username: 'Bobby G.',
-		 				age: 27,
-		 				location_city: 'Oakland',
-		 				location_state: 'CA',
-		 				small_image_url: 'http://localhost:3000/small_tutorial5f.jpg',
-		 				profile_image_urls: [],
-		 				personal_blurb: 'What up cuties!',
-		 				dancecard_spots: 3,
-		 				in_dancecard: true,
-		 				mutual: true,
-		 				interested: false,
-		 				logged_in: false
-		 			}
-		  		};
+		  			function ($rootScope, $scope, $location, Iframe, DancecardService) {
 
-		  		// $scope.showRemove = true;
+				  		$scope.urls = {
+				  			signupUrl: '/testing/signup',
+				  			homeUrl: '/testing/home',
+				  			messageUrl: '/testing/message',
+				  			notificationsUrl: '/testing/notification',
+				  			settingsUrl: '/testing/login',
+				  			removeSurvey: '/testing/survey',
+				  			loginUrl: '/testing/login'
+				  		};
 
-		  		$rootScope.$on('ANGULAR_DRAG_START', function (event, channel) {
-		  			console.log('drag started on channel... ' + channel);
-		  			if (channel === 'remove-member') {
-		  				// $scope.showRemove = true;
-		  				$('#dancecard-remove-area').addClass('showRemoveArea');
-		  			}
-		  		});
+				  		$scope.userData = {
+				  			// userid: 23,
+				  		// 	username: 'some name',
+				 			// unread_notifications: 26,
+				 			// dancecard_spots: 0,
+				 			// selected_user: {
+				 			// 	origin: null,
+				 			// 	userid: 2,
+				 			// 	username: 'Bobby G.',
+				 			// 	age: 27,
+				 			// 	location_city: 'Oakland',
+				 			// 	location_state: 'CA',
+				 			// 	small_image_url: 'http://localhost:3000/small_tutorial5f.jpg',
+				 			// 	profile_image_urls: [],
+				 			// 	personal_blurb: 'What up cuties!',
+				 			// 	dancecard_spots: 3,
+				 			// 	in_dancecard: true,
+				 			// 	mutual: true,
+				 			// 	interested: false,
+				 			// 	logged_in: false
+				 			// }
+				  		};
 
-		  		$rootScope.$on('ANGULAR_DRAG_END', function (event, channel) {
-		  			console.log('drag ended for channel... ' + channel);
-		  			if (channel === 'remove-member') {
-		  				// $scope.showRemove = false;
-		  				$('#dancecard-remove-area').removeClass('showRemoveArea');
-		  			}
-		  		});
+				  		$rootScope.$on('user-logged-in', function (event, userData) {
+				  			$scope.userData = userData;
+				  		});
 
-		  		$scope.removeFromDancecard = function (event, data) {
-		  			console.log('removing from dancecard...');
-		  			console.log(event);
-		  			console.log(data);
-		  		};
+				  		$rootScope.$on('user-logged-out', function (event) {
+				  			$scope.userData = {};
+				  			// Clean up data
+				  				// dancecard?
+				  				// notificatoins?
+				  				// pageProfiles?
+				  		});
 
-		  		$scope.$watch(function($scope) {
-				  return $scope.userData.selected_user;
-				}, myHandler, true);
+				  		$scope.$watch(function ($scope) {
+						  	return $scope.userData.selected_user;
+						}, onUserSelected, true);
 
-
-				function myHandler(selectedUser) {
-					console.log('user changed...');
-					console.log(selectedUser);
-					Iframe.showProfile(selectedUser);
-
-					/*
-						profile expects the following data for now
-
-							{
-								userid1: the userid of the signed in user
-								userid2: the userid of the profile being browsed
-								mutualMatch: whether the user has reciprocated interest
-								userInDancecard: whether the user is in userid1's dancecard
-								danceCardFilled: whether userid1's dancecard is filled.
+						function onUserSelected(selectedUser) {
+							if (selectedUser && !_.isEmpty(selectedUser)) {
+								console.log('user changed... to ' + selectedUser.userid);
+								Iframe.showProfile(selectedUser);
 							}
-					*/
-				}
-		  	}]);
+						}
+
+						Iframe.onMessage('openMessages', function (userid) {
+							console.log('open messages with ' + userid);
+							$scope.$apply(function () {
+								$location.url($scope.urls.messageUrl);
+							});
+						});
+
+						Iframe.onMessage('addToDancecard', function (userid) {
+							console.log('add ' + userid + ' to dancecard');
+						});
+
+						Iframe.onMessage('removeFromDancecard', function (userid) {
+							console.log('remove ' + userid + ' from dancecard');
+						});
+				  	}
+			  	]);
 
 	</script>
 </head>
@@ -195,13 +232,8 @@
 	<div class="main-sidebar" ng-controller="appController">
 		<div ng-view id="sbe-bodyContent" ng-cloak>
 		</div>
-		<div id="dancecard-remove-area"
-		     class="remove-on-drag-area"
-			 ui-on-drop="removeFromDancecard($event, $data)"
-		 	 drag-hover-class="drag-over-accept"
-		 	 drop-channel="remove-member">
-		<!-- {{showRemove}} -->
-		</div>
+		<dancecard-remove remove-url="{{urls.removeSurvey}}">
+		</dancecard-remove>
 	</div>
 
 </body>

@@ -16,7 +16,14 @@ angular.module('messagesDirective', ['MessageModule'])
             controllerAs: 'mc'
         };
     }])
-    .controller('messagesController', ['$scope', '$interval', 'MessageService', function($scope, $interval, MessageService) {
+    .controller('messagesController',
+      [
+        '$scope',
+        '$interval',
+        '$routeParams',
+        'MessageService',
+
+        function ($scope, $interval, $routeParams, MessageService) {
 
       var _this = this;
       var refresh = null;
@@ -24,6 +31,8 @@ angular.module('messagesDirective', ['MessageModule'])
       var REFRESH_TIME = 60000; //milliseconds
 
       this.conversation = [];
+
+      console.log($routeParams);
 
       function initialize() {
         MessageService.getMessageByuserid($scope.userId, $scope.selfId)

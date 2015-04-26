@@ -47,13 +47,14 @@
 		#tabControl {
 			pointer-events: auto;
 			background-color: #b7bcbc;
-			width: 20px;
-			height: 40px;
+			width: 25px;
+			height: 47px;
 			position: absolute;
-			top: 65px;
-			left: -20px;
-			border-top-left-radius: 14px;
-			border-bottom-left-radius: 14px;
+			transform: translate3d(-20px, 87px, 0);
+			/*top: 65px;*/
+			/*left: -20px;*/
+			border-top-left-radius: 20px;
+			border-bottom-left-radius: 20px;
 			/*box-shadow: 1px 4px 20px #333333;*/
 		}
 
@@ -72,6 +73,7 @@
 		}*/
 
 		.profile-container, .sidebar-container {
+			-webkit-transform: translate3d(0px, 0px, 0px);
 			position: absolute;
 			height: 100%;
 			top: 0;
@@ -106,28 +108,41 @@
 			padding: 0;
 			border: 0;
 		}
+
+		#arrow-icon {
+			display: block;
+			height: 20px;
+			width: 20px;
+			margin: auto;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			background-size: 25px 25px;
+			background-repeat: no-repeat;
+			padding-right: 5px;
+		}
+
+		.arrow-left {
+			background-image: url('https://localhost:4443/icons/icon_22996/icon_22996.png');
+		}
+
+		.arrow-right {
+			background-image: url('https://localhost:4443/icons/icon_22997/icon_22997.png');
+		}
+
 	</style>
 <!-- </head>
 <body> -->
 	<div id="injected-content" class="content out-of-sight">
 		<div class="injected-content-wrapper">
 			<div id="profile-panel" class="profile-container profile-closed">
-				<div id="tabControl" class="tab">+</div>
+				<div id="tabControl" class="tab">
+					<div id="arrow-icon" class="arrow-left"></div>
+				</div>
 				<iframe id="profile" src="https://localhost:4443/profile.html" width="100%" height="100%"></iframe>
 			</div>
 			<div id="sidebar-panel" class="sidebar-container">
-				<iframe id="sidebar" src="https://localhost:4443/sidebar.html#!/testing/home" width="100%" height="100%"></iframe>
+				<iframe id="sidebar" src="https://localhost:4443/sidebar.html#!/testing/login" width="100%" height="100%"></iframe>
 			</div>
 		</div>
 	</div>
-
-	<!--<script src="lib/jquery-1.11.0.min.js"></script>
-	<script src="src/js/openClose.js"></script>
-	<script>
-		$(function () {
-
-			$('#tabControl').on('click', clickHandler);
-		});
-
-	</script>-->
 <!-- </html> -->

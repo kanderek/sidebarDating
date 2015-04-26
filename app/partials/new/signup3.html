@@ -1,0 +1,158 @@
+<style>
+
+	slider {
+		display:     block;
+		position:    relative;
+		height:      15px;
+		width:       100%;
+	}
+
+	slider span.bar {
+		height:     50%;
+		z-index:    0;
+		background: #eee;
+		left:       0;
+		top:        25%;
+		cursor:     pointer;
+		border-radius: 0px;
+	}
+
+	slider span.bar.selection, slider span.bar.unselected {
+	}
+
+	slider span.bar.selection {/* area between selection markers*/
+		/*background: #0a0;*/
+		background: #E39F00;
+		/*opacity:    0.5;*/
+	}
+
+	slider span.bar.unselected {
+		width:      auto;
+		background: #eee;
+		/*opacity:    0.5;*/
+	}
+
+	slider span.pointer { /*selection markers */
+		cursor:           pointer;
+		width:            15px;
+		height: 15px;
+		top:              0;
+		bottom:           0;
+		background-color: #fff;
+		border: solid 1px black;
+		border-radius: 50%;
+	}
+
+	slider span.pointer:hover {
+	}
+
+	slider span.pointer.active {
+	}
+
+	slider span.bubble {
+		font-size:   0.7em;
+		line-height: 1.4em;
+		font-family: sans-serif;
+		text-align:  center;
+		text-shadow: none;
+		top:         -1.3em;
+		cursor:      pointer;
+	}
+
+	slider span.bubble.selection, slider span.bubble.limit {
+		top: 25%;
+	}
+
+	slider span.bubble.selection {
+	}
+
+	slider span.bubble.selection.ng-binding {
+		display: none;
+	}
+
+	slider span.bubble.limit {
+	}
+
+	slider span.bubble.low, slider span.bubble.high, slider span.bubble.middle {
+		visibility: hidden;
+	}
+
+
+	slider span.bubble.limit.ceiling, slider span.bubble.selection, slider span.bubble.limit.floor {
+		visibility: hidden;
+	}
+
+	::-ms-tooltip {
+		display: none;
+	}
+
+	input[type='submit'] {
+		width: 100%;
+		background-color: #008C9E;
+		color: white;
+		border: none;
+		border-bottom: 4px solid #005F6B;
+		padding: 10px 5px;
+		font-size: 1em;
+	}
+
+	input[type='submit']:hover {
+		background-color: #00AABF;
+		border-bottom: 4px solid #007786;
+	}
+
+	#sbe-age-range, #sbe-distance {
+		position: relative;
+		float: right;
+	}
+
+	.sidebar-back {
+		margin-left: 0;
+	}
+
+	.signup-info {
+		margin-top: 0;
+	}
+
+	.sbe-sliders {
+		margin-top: 20px;
+	}
+
+</style>
+
+<div class="signup-heading" ng-cloak>
+	<a class="back sidebar-back" ng-click="back()"></a>
+	<h4>What Are You Looking For?</h4>
+</div>
+<div class="signup-wrapper" ng-cloak>
+	<form class="signup-info" name="userForm">
+		<div class="checkbox-row">
+			<input id="male_pref" type="checkbox" ng-model="signupData.pref.male" />
+			<label for="male_pref">Male</label>
+		</div>
+		<div class="checkbox-row">
+			<input id="female_pref" type="checkbox" ng-model="signupData.pref.female" />
+			<label for="female_pref">Female</label>
+		</div>
+
+		<div class="sbe-sliders">
+			<label for="age_pref">Age Range:</label><span id="sbe-age-range">{{signupData.pref.age_min}} - {{signupData.pref.age_max}}</span>
+			<div class="slider">
+				<slider floor='{{age_floor}}' ceiling='{{age_ceil}}' step='1' precision='0' buffer='' showSteps='false'
+		            stickiness='0.5' ng-model-low='signupData.pref.age_min' ng-model-high='signupData.pref.age_max'></slider>
+			</div>
+
+			<label for="location_pref">Within:</label><span id="sbe-distance">{{pref.distance_max}} miles</span>
+			<div class="slider" ng-model="pref.distance_max">
+				<slider floor='{{distance_floor}}' ceiling='{{distance_ceil}}' step='1' precision='0' stickiness='0.5'
+		            ng-model='pref.distance_max'></slider>
+			</div>
+		</div>
+
+		<input type="submit" value="Ready?" ng-click="finish()"/>
+	</form>
+	<p class="explain-signup">Based on this criteria and your browsing behavior, we'll show you like-minded people for you to connect with.</p>
+
+	{{signupData | json}}
+
+</div>

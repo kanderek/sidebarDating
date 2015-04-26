@@ -1,6 +1,6 @@
 <style>
 
-	#sbe-sidebar input[type='submit'] {
+	input[type='submit'] {
 		width: 100%;
 		background-color: #008C9E;
 		color: white;
@@ -10,19 +10,20 @@
 		font-size: 1em;
 	}
 
-	#sbe-sidebar input[type='submit']:hover {
+	input[type='submit']:hover {
 		background-color: #00AABF;
 		border-bottom: 4px solid #007786;
 	}
 
-	#sbe-sidebar .sidebar-back {
+	.sidebar-back {
 		margin-left: 0;
 	}
 
-	#sbe-sidebar #sbe-custom-file-input::-webkit-file-upload-button {
+	#sbe-custom-file-input::-webkit-file-upload-button {
 	  	visibility: hidden;
 	}
-	#sbe-sidebar #sbe-custom-file-input::before {
+
+	#sbe-custom-file-input::before {
 		content: 'Add your photos';
 		text-align: center;
 		display: inline-block;
@@ -42,28 +43,25 @@
 </style>
 
 <div class="signup-heading" ng-cloak>
-	<a class="back sidebar-back" ng-click="goBack()"></a><!-- ui-sref="sign-up-0"></a> -->
+	<a class="back sidebar-back" ng-click="back()"></a>
 	<h4>Introduce Yourself</h4>
 </div>
 
 <div class="signup-wrapper" ng-cloak>
 
 	<div id="signup-photo-preview">
-		<img ng-src="{{ user.displayImage }}" />
+		<img ng-src="{{ signupData.displayImage }}" />
 	</div>
 	<form class="signup-info" name="photoForm">
-	<input type="file" ng-file-select="onFileSelect($files)" id="sbe-custom-file-input" id="upload" multiple />
+		<input type="file" ng-file-select="onFileSelect($files)" id="sbe-custom-file-input" multiple/>
 	</form>
-
 
 	<form class="signup-info" name="userForm" ng-submit="submit()">
-		<input type="text" placeholder="First Name" ng-model="user.username" required/>
-		<input type="email" placeholder="Email Address" ng-model="user.email" required/>
-		<input type="password" placeholder="Password" ng-model="user.password" required/>
-		<input type="submit" value="Continue" ng-click="goToSignupStep2(userForm)"/>
+		<input type="text" placeholder="First Name" ng-model="signupData.username" required/>
+		<input type="email" placeholder="Email Address" ng-model="signupData.email" required/>
+		<input type="password" placeholder="Password" ng-model="signupData.password" required/>
+		<input type="submit" value="Continue" ng-click="next()"/>
 	</form>
-
-<!-- 	{{user | json}}
-
-	{{pref | json}} -->
 </div>
+
+{{ signupData | json }}

@@ -10,7 +10,6 @@ angular.module('LoginDirective', ['AuthModule'])
         return {
             restrict: 'E',
             templateUrl: '../../partials/new/login.html',
-            // transclude: true,
             scope: {
                 homeUrl: '@',
                 signupUrl: '@'
@@ -20,45 +19,51 @@ angular.module('LoginDirective', ['AuthModule'])
             controllerAs: 'lc'
         };
     }])
-    .controller('loginController', ['$scope', 'AuthService', '$location', function($scope, AuthService, $location) {
+    .controller('loginController',
+      [
+        '$rootScope',
+        '$scope',
+        '$timeout',
+        'AuthService',
+        '$location',
 
-        var _this = this;
+        function ($rootScope, $scope, $timeout, AuthService, $location) {
 
-        this.credentials = {
-          email: '',
-          password: ''
-        };
+          var _this = this;
 
-        this.loggedIn = false;
+          this.credentials = {
+            email: '',
+            password: ''
+          };
 
-        $scope.login = function () {
+          this.loggedIn = false;
 
-          console.log('Email entered: ' + _this.credentials.email);
-          console.log('Password entered: ' + _this.credentials.password);
-            AuthService.loginUser(_this.credentials)
-                .then(function(data){
-                  console.log('logged in!');
-                  console.log(data);
-                  clearCredentials();
-                  $location.url($scope.homeUrl);
-                },
-                function () {
-                  clearCredentials();
-                });
-       };
+          $scope.login = function () {
 
-       $scope.signup = function () {
-        console.log('signup called');
-        console.log($scope.signupUrl);
-        console.log($scope);
-          $location.url($scope.$parent.urls.signupUrl);
-       };
+              AuthService.loginUser(_this.credentials)
+                  .then(function(userData){
+                    console.log('logged in!');
+                    this.loggedIn = true;
+                    clearCredentials();
+                    userData.selected_user = {};
+                    $rootScope.$broadcast('user-logged-in', userData);
+                    $location.url($scope.homeUrl);
+                  },
+                  function () {
+                    this.loggedIn = false;
+                    clearCredentials();
+                  });
+          };
 
-       function clearCredentials() {
-          _this.credentials.email = '';
-          _this.credentials.password = '';
-       }
-      
-    }]);
+          $scope.signup = function () {
+              $location.url($scope.$parent.urls.signupUrl);
+          };
+
+          function clearCredentials() {
+              _this.credentials.email = '';
+              _this.credentials.password = '';
+          }
+        
+      }]);
 
 

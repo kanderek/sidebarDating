@@ -10,7 +10,6 @@ angular.module('myDancecardDirective', ['appServices', 'ngDragDrop'])
             templateUrl: '../../partials/new/dancecard.html',
             scope: {
               userid: '@',
-              // members: '?=',
               selected: '=',
               selectUrl: '@'
             },
@@ -19,55 +18,71 @@ angular.module('myDancecardDirective', ['appServices', 'ngDragDrop'])
             controllerAs: 'ctrl2'
         };
     }])
-    .controller('dancecardController', ['$scope', '$location', 'DancecardService', function($scope, $location, DancecardService) {
+    .controller('dancecardController',
+      [
+        '$rootScope',
+        '$scope',
+        '$location',
+        'DancecardService',
 
-      var placeholderImage = '';
-      var _this = this;
+        function ($rootScope, $scope, $location, DancecardService) {
 
-      this.MAX_MEMBERS = 5;
+            var placeholderImage = '';
+            var _this = this;
 
-      // DancecardService.getStaticDancecard()
-      //   .then(function (members) {
-      //     _this.members = members;
-      //     _this.updatePlaceholders();
-      //   });
+            this.MAX_MEMBERS = 5;
 
+            // DancecardService.getStaticDancecard()
+            //   .then(function (members) {
+            //     _this.members = members;
+            //     _this.updatePlaceholders();
+            //   });
 
-      DancecardService.getDancecardById($scope.userid)
-        .then(function (members) {
-          _this.members = members.map(function(member) {
-            member.image_url = SERVER + member.image_url;
-            return member;
-          });
-          _this.updatePlaceholders();
-        });
+            // $rootScope.$on('user-logged-in', function () {
+            //     initialize();
+            // });
 
-      this.updatePlaceholders = function () {
-        this.placeholders = [];
+            function initialize() {
+                DancecardService.getDancecardById($scope.userid)
+                .then(function (members) {
+                    _this.members = members;
+                    _this.updatePlaceholders();
+                });
+            }
 
-        for (var i=this.members.length; i < this.MAX_MEMBERS; i++) {
-          this.placeholders.push({image_url: ''});
-        }
-      };
+            this.updatePlaceholders = function () {
+              this.placeholders = [];
 
-      $scope.addToDancecard = function (event, data) {
-        console.log('item dropped...');
-        console.log(data);
-        console.log(event);
-      };
+              for (var i=this.members.length; i < this.MAX_MEMBERS; i++) {
+                this.placeholders.push({image_url: 'https://localhost:4443/icons/icon_15724/icon_15724.png'});
+              }
+            };
 
-      $scope.isSelected = function () {
-        return !!$scope.selected;
-      };
+            $scope.addToDancecard = function (event, data) {
+              console.log('user ' + data.userid + ' addedToDancecard');
+              DancecardService.addToDancecard($scope.userid, data.userid)
+                .then(function (dancecard) {
+                    _this.members = dancecard;
+                    _this.updatePlaceholders();
+                });
+            };
 
-      $scope.select = function () {
-        $scope.selected = this.member;
-        if ($location.url() !== $scope.selectUrl) {
-          $location.url($scope.selectUrl);
-        }
-      };
-      
-    }]);
+            $scope.isSelected = function () {
+              return !!$scope.selected;
+            };
+
+            $scope.select = function () {
+              $scope.selected = this.member;
+              if ($location.url() !== $scope.selectUrl && this.member.mutual) {
+                $location.url($scope.selectUrl);
+              } else if ($location.url() === '/testing/message' && !this.member.mutual) {
+                $rootScope.back();
+              }
+            };
+
+            initialize();
+            
+        }]);
 
 angular.module('dancecardEditorDirective', [])
   .directive('dancecardEditor', function() {

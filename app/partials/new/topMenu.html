@@ -69,9 +69,12 @@
 </style>
 
 <div id="top-menu" class="top-menu">
-	<a id="back-button" class="sidebar-back"></a>
-	<a ng-click="goToProfile()" class="sidebar-mainUserName" > {{username}}</a>
-	<a class="sidebar-settings" ng-click="logout()"></a>
+	<a id="back-button" class="sidebar-back" ng-click="back()"></a>
+	<a ng-click="goToProfile()" class="sidebar-mainUserName" > {{user.username}}</a>
+	<a id="settings-button" class="sidebar-settings" ng-click="logout()"></a>
 	<!-- <a ng-click="goToHistory()" >History </a> -->
-	<a id="go-to-notifications" class=".notificationCount" ng-class="{'sidebar-notif': true, 'sidebar-notif-unread': stuff.hasUnreadNotifications}">{{notificationCount}} </a>
+	<a id="go-to-notifications"
+	   ng-click="goToNotificationView()"
+	   class=".notificationCount"
+	   ng-class="{'sidebar-notif': true, 'sidebar-notif-unread': user.unread_notifications !== 0}">{{user.unread_notifications}} </a>
 </div>

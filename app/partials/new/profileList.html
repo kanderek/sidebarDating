@@ -90,7 +90,8 @@
 		ng-class="{'isSelected': ifSelected(profile.userid)}"
 		ui-draggable="true"
 		drag-channel="add-to-dancecard"
-	    drag="profile">
+	    drag="profile"
+	    ui-on-drop="removeFromList()">
 	 	 
 		<img ng-src="{{profile.small_image_url}}"
 			 ng-class="{'sbe-is-online': profile.logged_in}"/>
@@ -105,7 +106,9 @@
 		ng-click="select()"
 		ng-class="{'isSelected': ifSelected(profile.userid), 'sbe-fringes': true}"
 		ui-draggable="true"
-	    drag="profile">
+		drag-channel="add-to-dancecard"
+	    drag="profile"
+	    ui-on-drop="removeFromList()">
 	 	 
 		<img ng-src="{{profile.small_image_url}}"
 			 ng-class="{'sbe-is-online': profile.logged_in}"/>

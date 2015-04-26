@@ -28,12 +28,13 @@ angular.module('AuthModule', [])
           return D.promise;
         }
 
-        function logoutUser() {
+        function logoutUser(userid) {
           var D = $q.defer();
 
           $http({
-              method: 'GET',
-              url: SERVER + '/logout'
+              method: 'POST',
+              url: SERVER + '/logout',
+              data: {userid: userid}
           })
             .success(function(data, status, headers, config){
               D.resolve(data);

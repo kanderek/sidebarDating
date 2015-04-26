@@ -1,7 +1,7 @@
 /*******************************************************************************************************
 SurveyService  */
 
-appServices.factory('SurveyService',
+angular.module('SurveyModule', []).factory('SurveyService',
   [
     '$http',
 
@@ -9,17 +9,14 @@ appServices.factory('SurveyService',
 
     var surveyResponse = {};
 
-      function submitSurvey(dancecardAction, callback){
+      function submitSurvey(surveyResponse, callback){
         console.log('.....submitting survey to server....');
         console.log(surveyResponse);
 
         $http({
           method: 'POST',
           url: SERVER + "/survey",
-          data: {
-            survey: surveyResponse,
-            dancecard: dancecardAction
-          }
+          data: surveyResponse,
         }).
         success(function(data, status, headers, config){
           callback(data);

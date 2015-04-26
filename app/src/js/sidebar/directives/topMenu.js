@@ -2,53 +2,52 @@ angular.module('topMenuDirective', ['AuthModule'])
     .directive('topMenu', ['$interval', '$rootScope', '$location', function ($interval, $rootScope, $location) {
 
         function link(scope, element, attrs) {
-          console.log(scope.username);
-          console.log(scope.notificationCount);
 
-          element.on('click', function (event) {
-            var targetId = event.target.id;
-
-            console.log(targetId);
-
-            switch (targetId) {
-              case 'back-button':
-                scope.$apply(function () {
-                  $rootScope.back();
-                });
-                break;
-              case 'go-to-notifications':
-                scope.$apply(function () {
-                  console.log(scope);
-                  $location.url(scope.notificationUrl);
-                });
-                break;
-              default:
-                console.log('what happend?');
-            }
-          });
-
-          scope.$on('$destroy', function () {
-            element.off('click');
-          });
         }
 
         return {
             restrict: 'E',
             templateUrl: '../../partials/new/topMenu.html',
             scope: {
-                notificationCount: '@',
-                username: '@',
+                user: '=',
                 notificationUrl: '@',
                 settingsUrl: '@'
             },
+            controller: 'topMenuController',
+            controllerAs: 'tmc',
             link: link
-            // transclude: true
         };
     }])
-    .controller('topMenuController', ['$scope', '$location', 'AuthService', function($scope, $location, AuthService) {
+    .controller('topMenuController',
+      [
+        '$rootScope',
+        '$scope',
+        '$location',
+        'AuthService',
 
-      $scope.isSignedIn = function () {
-        return true;
-      };
-      
-    }]);
+        function ($rootScope, $scope, $location, AuthService) {
+
+          $scope.isSignedIn = function () {
+            return true;
+          };
+
+          $scope.logout = function () {
+            console.log('....trying to logout user...');
+            AuthService.logoutUser($scope.user.userid)
+              .then(function () {
+                  console.log('...user logged out successful');
+                  $rootScope.$broadcast('user-logged-out');
+                  $location.url($scope.settingsUrl);
+              });
+          };
+
+          $scope.goToNotificationView = function () {
+              $location.url($scope.notificationUrl);
+          };
+
+          $scope.back = function () {
+              console.log('going back...?');
+              $rootScope.back();
+          };
+        
+      }]);

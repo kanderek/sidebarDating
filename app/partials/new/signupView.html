@@ -1,0 +1,34 @@
+<div ng-controller="SignupController">
+	<signup-splash 
+		login-url="{{urls.loginUrl}}"
+		base-url="{{urls.signupUrl}}"
+		ng-show="{{signup.step === 0}}"
+		signup-step="signup.step"
+		signup-data="signup.data">
+	</signup-splash>
+
+	<signup-first-step 
+		base-url="{{urls.signupUrl}}"
+		ng-show="{{signup.step === 1}}"
+		signup-step="signup.step"
+		signup-data="signup.data">
+	</signup-first-step>
+
+	<signup-second-step
+		base-url="{{urls.signupUrl}}"
+		ng-show="{{signup.step === 2}}"
+		signup-step="signup.step"
+		signup-data="signup.data">
+	</signup-second-step>
+	
+	<signup-third-step
+		base-url="{{urls.signupUrl}}"
+		ng-show="{{signup.step === 3}}"
+		signup-step="signup.step"
+		signup-data="signup.data">
+	</signup-third-step>
+
+		{{signup.step}}
+
+		{{signup | json}}
+</div>

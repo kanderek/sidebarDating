@@ -5,6 +5,7 @@ var profilePanel = null;
 function initializeState() {
 	profilePanel = $('#profile-panel');
 	mainPanel = $('#injected-content');
+	arrowIcon = $('#arrow-icon');
 }
 
 function clickHandler(event) {
@@ -23,6 +24,7 @@ function initialNudge() {
 }
 
 function closeProfilePanel() {
+	arrowIcon.removeClass().addClass('arrow-right');
 	profilePanel.addClass('profile-closed');
 }
 
@@ -30,10 +32,12 @@ function closeSidebarPanel() {
 	if (profileIsOpen()) {
 		closeProfilePanel();
 	}
+	arrowIcon.removeClass().addClass('arrow-left');
 	mainPanel.addClass('sidebar-closed');
 }
 
 function openSidebarPanel() {
+	arrowIcon.removeClass().addClass('arrow-right');
 	mainPanel.removeClass('sidebar-closed');
 }
 
@@ -41,6 +45,7 @@ function openProfilePanel() {
 	if (!sidebarIsOpen()) {
 		openSidebarPanel();
 	}
+	arrowIcon.removeClass().addClass('arrow-right');
 	profilePanel.removeClass('profile-closed');
 }
 

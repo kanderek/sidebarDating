@@ -1,0 +1,26 @@
+<style>
+
+	 .remove-on-drag-area {
+		width: 100%;
+		position: absolute;
+		height: 250px;
+		bottom: 0px;
+		right: 0px;
+		/*background-color: green;*/
+		/*visibility: hidden;*/
+	}
+
+	 .showRemoveArea {
+		visibility: visible;
+
+		background: #007786 url('http://www.endlessicons.com/wp-content/uploads/2012/12/remove-icon-614x460.png') no-repeat center center;
+	}
+
+</style>
+
+<div id="dancecard-remove-area"
+     class="remove-on-drag-area"
+	 ui-on-drop="removeFromDancecard($event, $data)"
+ 	 drag-hover-class="drag-over-accept"
+ 	 drop-channel="remove-member">
+</div>
