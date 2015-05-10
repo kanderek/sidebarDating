@@ -367,14 +367,6 @@
 		resize: none;
 	}
 
-	.slider {
-		width: 100%;
-		height: 20px;
-		background-color: none;
-		margin-top: 10px;
-		margin-bottom: 20px;
-	}
-
 	#select-dob {
 		width: 100%;
 	}

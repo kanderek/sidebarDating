@@ -6,7 +6,7 @@
 
 angular.module('vr.directives.slider', ['ngTouch']).directive('slider',
 	['$timeout', '$document', '$interpolate', '$swipe', 
-	 	function($timeout, $document, $interpolate, $swipe) {
+		function($timeout, $document, $interpolate, $swipe) {
 
             /**
              * How sticky the knobs feel...ew

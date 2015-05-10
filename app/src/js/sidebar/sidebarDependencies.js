@@ -1,0 +1,21 @@
+var SIDEBAR_DEPENDENCIES = [
+	'ngRoute',
+	'ngDragDrop',
+	// 'ngTouch',
+	// 'vr.directives.slider',
+	'angularFileUpload',
+	'topMenuDirective',
+	'myDancecardDirective',
+	'dancecardEditorDirective',
+	'profileListDirective',
+	'messagesDirective',
+	'messageInputDirective',
+	'NotificationsDirective',
+	'RemoveSurveyDirective',
+	'LoginDirective',
+	'ShortDescriptionDirective',
+	'IframeModule',
+	'DancecardRemoveDirective',
+	'appServices',
+	'SignupDirective'
+];

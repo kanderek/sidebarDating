@@ -1,4 +1,8 @@
-angular.module('SignupDirective', [])
+angular.module('SignupDirective',
+  [
+    // 'ngTouch',
+    'vr.directives.slider'
+  ])
     .controller('SignupController',
       [
         '$scope',
@@ -10,11 +14,18 @@ angular.module('SignupDirective', [])
         
           $scope.baseUrl = '/testing/signup';
           $scope.loginUrl = '/testing/login';
+          $scope.home = '/testing/home';
 
           $scope.signupData = {
           };
 
           $scope.gender_options = ['M', 'F'];
+
+          $scope.distance_ceil = 100;
+          $scope.distance_floor = 1;
+
+          $scope.age_floor = 18;
+          $scope.age_ceil = 99;
 
           function enumerate(start, end) {
             var x = [];
@@ -103,6 +114,7 @@ angular.module('SignupDirective', [])
 
           $scope.finish = function () {
               SignupService.updateSignupData($scope.signupData);
+              $location.url($scope.home);
           };
 
           $scope.goToLogin = function () {
@@ -113,7 +125,15 @@ angular.module('SignupDirective', [])
 
     }])
   .factory('SignupService', ['$q', '$http', function ($q, $http) {
-      var signupData = {};
+      var signupData = {
+          pref: {
+              male: false,
+              female: false,
+              age_min: 30,
+              age_max: 40,
+              distance_max: 13
+            }
+      };
 
       function clear() {
           signupData = {};

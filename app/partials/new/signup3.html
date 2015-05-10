@@ -82,6 +82,14 @@
 		visibility: hidden;
 	}
 
+	.slider {
+		width: 100%;
+		height: 20px;
+		background-color: none;
+		margin-top: 10px;
+		margin-bottom: 20px;
+	}
+
 	::-ms-tooltip {
 		display: none;
 	}
@@ -136,16 +144,17 @@
 		</div>
 
 		<div class="sbe-sliders">
+
 			<label for="age_pref">Age Range:</label><span id="sbe-age-range">{{signupData.pref.age_min}} - {{signupData.pref.age_max}}</span>
 			<div class="slider">
 				<slider floor='{{age_floor}}' ceiling='{{age_ceil}}' step='1' precision='0' buffer='' showSteps='false'
 		            stickiness='0.5' ng-model-low='signupData.pref.age_min' ng-model-high='signupData.pref.age_max'></slider>
 			</div>
 
-			<label for="location_pref">Within:</label><span id="sbe-distance">{{pref.distance_max}} miles</span>
-			<div class="slider" ng-model="pref.distance_max">
+			<label for="location_pref">Within:</label><span id="sbe-distance">{{signupData.pref.distance_max}} miles</span>
+			<div class="slider">
 				<slider floor='{{distance_floor}}' ceiling='{{distance_ceil}}' step='1' precision='0' stickiness='0.5'
-		            ng-model='pref.distance_max'></slider>
+		            ng-model='signupData.pref.distance_max'></slider>
 			</div>
 		</div>
 
